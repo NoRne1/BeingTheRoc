@@ -1,0 +1,1 @@
+{"1":{"ID":1,"Name":"大红","MaxHP":300,"Strength":20,"Defense":20,"Dodge":0,"Accuracy":0,"Speed":100,"Mobility":2},"2":{"ID":2,"Name":"幻影","MaxHP":200,"Strength":25,"Defense":15,"Dodge":0,"Accuracy":0,"Speed":110,"Mobility":3},"3":{"ID":3,"Name":"迷彩","MaxHP":500,"Strength":15,"Defense":25,"Dodge":0,"Accuracy":0,"Speed":90,"Mobility":2}}
