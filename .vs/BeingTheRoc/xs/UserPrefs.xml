@@ -2,26 +2,27 @@
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="fef43bf9-a889-48b1-b47b-d99c76ac6807" />
   <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/norne/dev/BeingTheRoc/Assets/Scripts/UI/CharacterSelectPanel.cs" relfile="Assets/Scripts/UI/CharacterSelectPanel.cs" line="29" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/DataManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/LoadingManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Managers/DataManager.cs" Line="29" Column="34" />
+      <File FileName="Assets/Scripts/Managers/DataManager.cs" Line="23" Column="17" />
       <File FileName="Assets/Scripts/Defines/CharacterDefine.cs" />
-      <File FileName="Assets/Scripts/UI/CharacterSelectPanel.cs" Line="18" Column="30" />
+      <File FileName="Assets/Scripts/UI/CharacterSelectPanel.cs" Line="11" Column="27" />
+      <File FileName="Assets/Scripts/Managers/LoadingManager.cs" Line="46" Column="38" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="BeingTheRoc">
+          <Node name="BeingTheRoc" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
                 <Node name="Defines" expanded="True" />
-                <Node name="Managers" expanded="True" />
+                <Node name="Managers" expanded="True">
+                  <Node name="LoadingManager.cs" selected="True" />
+                </Node>
                 <Node name="UI" expanded="True" />
                 <Node name="Utilities" expanded="True" />
               </Node>
