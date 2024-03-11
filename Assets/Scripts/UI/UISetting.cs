@@ -23,7 +23,7 @@ class UISetting : UIWindow
     }
     public void OnClickSoundSetting()
     {
-        UIManager.Instance.Show<UISoundSetting>();
+        UIManager.Instance.Show<UIOptions>();
         this.Close();
     }
     public void OnClickExitGame()

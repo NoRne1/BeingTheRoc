@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Sound;
+﻿using System.Threading;
+using Assets.Scripts.Sound;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -13,17 +14,19 @@ public class SoundManager : MonoSingleton<SoundManager>
     public AudioSource soundAudioSource;
     const string MusicPath = "Music/";
     const string SoundPath = "Sound/";
-    private bool musicOn = true;
+    
     protected override void OnStart()
     {
     }
     public void Init()
     {
-        MusicVolume = Config.MusicVolume;
-        SoundVolume = Config.SoundVolume;
-        MusicOn = Config.MusicOn;
-        SoundOn = Config.SoundOn;
+        musicOn = Config.MusicOn;
+        soundOn = Config.SoundOn;
+        musicVolume = Config.MusicVolume;
+        soundVolume = Config.SoundVolume;
     }
+
+    private bool musicOn = true;
     public bool MusicOn
     {
         get { return musicOn; }
@@ -31,7 +34,7 @@ public class SoundManager : MonoSingleton<SoundManager>
         {
             this.musicOn = value;
             //禁音
-            this.MusicMute(!musicOn);
+            this.SetMusicOn(musicOn);
         }
     }
 
@@ -43,9 +46,10 @@ public class SoundManager : MonoSingleton<SoundManager>
         {
             this.soundOn = value;
             //禁音
-            this.SoundMute(!soundOn);
+            this.SetSoundOn(soundOn);
         }
     }
+
     private int musicVolume;
     public int MusicVolume
     {
@@ -55,10 +59,11 @@ public class SoundManager : MonoSingleton<SoundManager>
             if (musicVolume != value)
             {
                 musicVolume = value;
-                if (musicOn) this.SetVolume("MusicVolume", musicVolume);
+                this.SetMusicVolume(musicVolume);
             }
         }
     }
+
     private int soundVolume;
     public int SoundVolume
     {
@@ -68,17 +73,33 @@ public class SoundManager : MonoSingleton<SoundManager>
             if (soundVolume != value)
             {
                 soundVolume = value;
-                if (soundOn) this.SetVolume("SoundVolume", soundVolume);
+                this.SetSoundVolume(soundVolume);
             }
         }
     }
-    private void MusicMute(bool mute)
+    private void SetMusicOn(bool on)
     {
-        this.SetVolume("MusicVolume", mute ? 0 : musicVolume);
+        this.SetVolume("MusicVolume", !on ? 0 : musicVolume);
+        Config.MusicOn = on;
     }
-    private void SoundMute(bool mute)
+    private void SetSoundOn(bool on)
     {
-        this.SetVolume("SoundVolume", mute ? 0 : soundVolume);
+        this.SetVolume("SoundVolume", !on ? 0 : soundVolume);
+        Config.SoundOn = on;
+    }
+
+    private void SetMusicVolume(int vol)
+    {
+        this.SetVolume("MusicVolume", vol);
+        Config.MusicVolume = vol;
+        PlayTestSound();
+    }
+
+    private void SetSoundVolume(int vol)
+    {
+        this.SetVolume("SoundVolume", vol);
+        Config.SoundVolume = vol;
+        PlayTestSound();
     }
 
     private void SetVolume(string name, int value)
@@ -87,6 +108,7 @@ public class SoundManager : MonoSingleton<SoundManager>
         float volume = value * 0.5f - 50f;
         this.audioMixer.SetFloat(name, volume);
     }
+
     public void PlayMusic(string name)
     {
         AudioClip clip = Resloader.Load<AudioClip>(MusicPath + name);
@@ -103,6 +125,18 @@ public class SoundManager : MonoSingleton<SoundManager>
         //循环播放
         musicAudioSource.Play();
     }
+
+    float lastPlay = 0;
+    //每当调整完滑块,播放一次声音
+    private void PlayTestSound()
+    {
+        if (Time.realtimeSinceStartup - lastPlay > 0.1)
+        {
+            lastPlay = Time.realtimeSinceStartup;
+            this.PlaySound(SoundDefine.SFX_UI_Click);
+        }
+    }
+
     public void PlaySound(string name)
     {
         AudioClip clip = Resloader.Load<AudioClip>(SoundPath + name);

@@ -40,11 +40,11 @@ public class LoadingManager : MonoBehaviour
         //然后加载配置的数据
         yield return DataManager.Instance.LoadData();
 
-
+        SoundManager.Instance.Init();
         //第一次播放音乐
         SoundManager.Instance.PlayMusic(SoundDefine.Music_Login);
         //在此处初始化用户的自定义音量(不知道为什么,在播放音乐之前)
-        SoundManager.Instance.Init();
+        
 
 
         //假的进度条模拟器

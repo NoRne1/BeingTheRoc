@@ -12,8 +12,7 @@ namespace Assets.Scripts.Sound
             }
             set
             {
-                PlayerPrefs.SetInt("Music", value?1:0);
-                SoundManager.Instance.MusicOn = value;
+                PlayerPrefs.SetInt("Music", value ? 1 : 0);
             }
         }
         public static bool SoundOn
@@ -25,7 +24,6 @@ namespace Assets.Scripts.Sound
             set
             {
                 PlayerPrefs.SetInt("Sound", value ? 1 : 0);
-                SoundManager.Instance.SoundOn = value;
             }
         }
         public static int MusicVolume
@@ -37,7 +35,6 @@ namespace Assets.Scripts.Sound
             set
             {
                 PlayerPrefs.SetInt("MusicVolume", value);
-                SoundManager.Instance.MusicVolume = value;
             }
         }
         public static int SoundVolume
@@ -49,7 +46,6 @@ namespace Assets.Scripts.Sound
             set
             {
                 PlayerPrefs.SetInt("SoundVolume", value);
-                SoundManager.Instance.SoundVolume = value;
             }
         }
 

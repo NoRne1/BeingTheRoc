@@ -6,12 +6,18 @@
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/LoadingManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/UISetting.cs">
     <Files>
       <File FileName="Assets/Scripts/Managers/DataManager.cs" Line="23" Column="17" />
       <File FileName="Assets/Scripts/Defines/CharacterDefine.cs" />
       <File FileName="Assets/Scripts/UI/CharacterSelectPanel.cs" Line="11" Column="27" />
-      <File FileName="Assets/Scripts/Managers/LoadingManager.cs" Line="46" Column="38" />
+      <File FileName="Assets/Scripts/Sounds/SoundDefine.cs" Line="19" Column="6" />
+      <File FileName="Assets/Scripts/Sounds/SoundManager.cs" Line="22" Column="24" />
+      <File FileName="Assets/Scripts/UI/UISoundSetting.cs" Line="7" Column="7" />
+      <File FileName="Assets/Scripts/UI/UIWindow.cs" Line="10" Column="37" />
+      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="33" Column="14" />
+      <File FileName="Assets/Scripts/UI/UISetting.cs" Line="30" Column="6" />
+      <File FileName="Assets/Scripts/UI/UIStartGame.cs" Line="37" Column="28" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -20,10 +26,11 @@
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
                 <Node name="Defines" expanded="True" />
-                <Node name="Managers" expanded="True">
-                  <Node name="LoadingManager.cs" selected="True" />
+                <Node name="Managers" expanded="True" />
+                <Node name="Sounds" expanded="True" />
+                <Node name="UI" expanded="True">
+                  <Node name="UISetting.cs" selected="True" />
                 </Node>
-                <Node name="UI" expanded="True" />
                 <Node name="Utilities" expanded="True" />
               </Node>
             </Node>

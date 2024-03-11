@@ -21,7 +21,7 @@ public class UIManager: Singleton<UIManager>
 
     public UIManager()
     {
-        this.UIResources.Add(typeof(UISoundSetting), new UIElement() { Resource = "UI/UISoundSetting", Cache = false });
+        this.UIResources.Add(typeof(UIOptions), new UIElement() { Resource = "UI/UIOptions", Cache = false });
     }
 
     ~UIManager()
@@ -56,7 +56,8 @@ public class UIManager: Singleton<UIManager>
                     return default(T);
                 }
                 //创建资源实例
-                info.Instance = (GameObject)GameObject.Instantiate(prefab);
+                Transform canvas = GameObject.FindGameObjectWithTag("UICanvas").transform;
+                info.Instance = (GameObject)GameObject.Instantiate(prefab, canvas);
             }
             //返回资源脚本
             return info.Instance.GetComponent<T>();
