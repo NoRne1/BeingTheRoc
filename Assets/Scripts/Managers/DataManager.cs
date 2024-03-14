@@ -1,11 +1,11 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.Events;
-using System.Text;
+using System.Linq;
 using System;
 using System.IO;
 using Newtonsoft.Json;
+using UniRx;
 
 /// <summary>
 /// ���ݹ�����
@@ -14,17 +14,26 @@ public class DataManager : Singleton<DataManager>
 {
     public string DataPath;
     public Dictionary<int, CharacterDefine> Characters = null;
+    public Dictionary<String, String> Language = null;
+    public Dictionary<int, Dictionary<String, String>> LanguagesDic = null;
+
+    public BehaviorSubject<bool> DataLoaded = new BehaviorSubject<bool>(false);
+
     public DataManager()
     {
         this.DataPath = "Data/";
         Debug.LogFormat("DataManager > DataManager()");
     }
 
-    public void Load()
-    {
-        string json = File.ReadAllText(this.DataPath + "CharacterDefine.txt");
-        this.Characters = JsonConvert.DeserializeObject<Dictionary<int, CharacterDefine>>(json);
-    }
+    //public void Load()
+    //{
+    //    string json = File.ReadAllText(this.DataPath + "CharacterDefine.txt");
+    //    this.Characters = JsonConvert.DeserializeObject<Dictionary<int, CharacterDefine>>(json);
+
+    //    json = File.ReadAllText(this.DataPath + "MutiLanguage.txt");
+    //    this.LanguagesDic = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<String, String>>>(json);
+    //    Language = this.LanguagesDic[Config.Language];
+    //}
 
     public IEnumerator LoadData()
     {
@@ -33,10 +42,16 @@ public class DataManager : Singleton<DataManager>
 
         yield return null;
 
+        json = File.ReadAllText(this.DataPath + "MutiLanguage.txt");
+        this.LanguagesDic = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<String, String>>>(json);
+        Language = this.LanguagesDic[Config.Language];
+        yield return null;
+
         //json = File.ReadAllText(this.DataPath + "TeleporterDefine.txt");
         //this.Teleporters = JsonConvert.DeserializeObject<Dictionary<int, TeleporterDefine>>(json);
 
         //yield return null;
+        DataLoaded.OnNext(true);
     }
 
 //#if UNITY_EDITOR

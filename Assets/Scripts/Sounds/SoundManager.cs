@@ -20,10 +20,10 @@ public class SoundManager : MonoSingleton<SoundManager>
     }
     public void Init()
     {
-        musicOn = Config.MusicOn;
-        soundOn = Config.SoundOn;
-        musicVolume = Config.MusicVolume;
-        soundVolume = Config.SoundVolume;
+        MusicOn = Config.MusicOn;
+        SoundOn = Config.SoundOn;
+        MusicVolume = Config.MusicVolume;
+        SoundVolume = Config.SoundVolume;
     }
 
     private bool musicOn = true;
@@ -79,27 +79,41 @@ public class SoundManager : MonoSingleton<SoundManager>
     }
     private void SetMusicOn(bool on)
     {
-        this.SetVolume("MusicVolume", !on ? 0 : musicVolume);
+        this.SetVolume("MusicVolume", !on ? -100 : musicVolume);
         Config.MusicOn = on;
     }
     private void SetSoundOn(bool on)
     {
-        this.SetVolume("SoundVolume", !on ? 0 : soundVolume);
+        this.SetVolume("SoundVolume", !on ? -100 : soundVolume);
         Config.SoundOn = on;
     }
 
     private void SetMusicVolume(int vol)
     {
-        this.SetVolume("MusicVolume", vol);
-        Config.MusicVolume = vol;
-        PlayTestSound();
+        if (Config.MusicOn)
+        {
+            this.SetVolume("MusicVolume", vol);
+        }
+        if(Config.MusicVolume != vol) //避免init时播放testSound
+        {
+            Config.MusicVolume = vol;
+            PlayTestSound();
+        }
+
+        
     }
 
     private void SetSoundVolume(int vol)
     {
-        this.SetVolume("SoundVolume", vol);
-        Config.SoundVolume = vol;
-        PlayTestSound();
+        if(Config.SoundOn)
+        {
+            this.SetVolume("SoundVolume", vol);
+        }
+        if (Config.SoundVolume != vol) //避免init时播放testSound
+        {
+            Config.SoundVolume = vol;
+            PlayTestSound();
+        }
     }
 
     private void SetVolume(string name, int value)

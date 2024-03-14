@@ -1,5 +1,8 @@
-﻿using Assets.Scripts.Sound;
+﻿using System;
+using System.Collections.Generic;
+using Assets.Scripts.Sound;
 using Assets.Scripts.UI;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +17,12 @@ class UIOptions : UIWindow
     public Image soundToggleImage;
     public Sprite musicOnSprite;
     public Sprite musicMuteSprite;
+
+    public TMP_Dropdown languageSelect;
+
+    public TextMeshProUGUI music_title;
+    public TextMeshProUGUI sound_title;
+    public TextMeshProUGUI language_title;
 
     public bool MusicOn
     {
@@ -59,6 +68,23 @@ class UIOptions : UIWindow
         soundToggleImage.overrideSprite = Config.SoundOn ? musicOnSprite : musicMuteSprite;
         this.musicSlider.value = Config.MusicVolume;
         this.soundSlider.value = Config.SoundVolume;
+
+        //Dropdown init
+        List<string> dropOptions = new List<string> {};
+        foreach (KeyValuePair<int, Dictionary<String, String>> item in DataManager.Instance.LanguagesDic)
+        {
+            dropOptions.Add(item.Value["Name"]);
+        }
+        languageSelect.ClearOptions();
+        languageSelect.AddOptions(dropOptions);
+        languageSelect.value = Config.Language;
+        languageSelect.onValueChanged.AddListener(delegate {
+            DropdownValueChanged(languageSelect);
+        });
+
+        music_title.text = DataManager.Instance.Language["music"];
+        sound_title.text = DataManager.Instance.Language["sound"];
+        language_title.text = DataManager.Instance.Language["language"];
     }
 
     public override void OnCloseClick()
@@ -82,6 +108,11 @@ class UIOptions : UIWindow
         soundToggleImage.overrideSprite = on ? musicOnSprite : musicMuteSprite;
         //播放按钮点击音效
         SoundManager.Instance.PlaySound(SoundDefine.SFX_UI_Click);
+    }
+
+    void DropdownValueChanged(TMP_Dropdown change)
+    {
+        Config.Language = change.value;
     }
 
     public void CloseSelf()

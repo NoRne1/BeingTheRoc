@@ -13,6 +13,7 @@ using System.Text;
      * "Accuracy":0,
      * "Speed":100,
      * "Mobility":2
+     * "Energy":2
      * }...
     */
 /// </summary>
@@ -32,7 +33,7 @@ public class CharacterDefine
     /// <summary>
     /// 生命
     /// </summary>
-    public float MaxHP { get; set; }
+    public int MaxHP { get; set; }
 
     /// <summary>
     /// 力量成长
@@ -42,19 +43,19 @@ public class CharacterDefine
     /// <summary>
     /// 力量
     /// </summary>
-    public float Strength { get; set; }
+    public int Strength { get; set; }
     /// <summary>
     /// 防御
     /// </summary>
-    public float Defense { get; set; }
+    public int Defense { get; set; }
     /// <summary>
     /// 闪避
     /// </summary>
-    public float Dodge { get; set; }
+    public int Dodge { get; set; }
     /// <summary>
     /// 命中
     /// </summary>
-    public float Accuracy { get; set; }
+    public int Accuracy { get; set; }
     /// <summary>
     /// 角色行动速度
     /// </summary>
@@ -62,5 +63,9 @@ public class CharacterDefine
     /// <summary>
     /// 行动力
     /// </summary>
-    public float Mobility { get; set; }
+    public int Mobility { get; set; }
+    /// <summary>
+    /// 精力
+    /// </summary>
+    public int Energy { get; set; }
 }

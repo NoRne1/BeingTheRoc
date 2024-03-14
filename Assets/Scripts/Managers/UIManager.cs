@@ -2,7 +2,16 @@ using Assets.Scripts.Sound;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
+using static UnityEditor.PlayerSettings;
+
+public enum CanvasType
+{
+    ui = 0,
+    tooltip = 1
+}
 
 public class UIManager: Singleton<UIManager>
 {
@@ -22,6 +31,7 @@ public class UIManager: Singleton<UIManager>
     public UIManager()
     {
         this.UIResources.Add(typeof(UIOptions), new UIElement() { Resource = "UI/UIOptions", Cache = false });
+        this.UIResources.Add(typeof(UIDescHint), new UIElement() { Resource = "UI/UIDescHint", Cache = false });
     }
 
     ~UIManager()
@@ -29,8 +39,7 @@ public class UIManager: Singleton<UIManager>
 
     }
 
-    //显示UI
-    public T Show<T>()
+    public T Show<T>(CanvasType canvasType = CanvasType.ui)
     {
         //播放声音
         SoundManager.Instance.PlaySound(SoundDefine.SFX_UI_Win_Open);
@@ -55,8 +64,17 @@ public class UIManager: Singleton<UIManager>
                     //资源为空
                     return default(T);
                 }
+                Transform canvas = null;
+                switch (canvasType)
+                {
+                    case CanvasType.ui:
+                        canvas = GameObject.FindGameObjectWithTag("UICanvas").transform;
+                        break;
+                    case CanvasType.tooltip:
+                        canvas = GameObject.FindGameObjectWithTag("ToolTipCanvas").transform;
+                        break;
+                }
                 //创建资源实例
-                Transform canvas = GameObject.FindGameObjectWithTag("UICanvas").transform;
                 info.Instance = (GameObject)GameObject.Instantiate(prefab, canvas);
             }
             //返回资源脚本
@@ -72,7 +90,6 @@ public class UIManager: Singleton<UIManager>
     //关闭UI
     public void Close(Type type)
     {
-        SoundManager.Instance.PlaySound(SoundDefine.SFX_UI_Win_Close);
         if (this.UIResources.ContainsKey(type))
         {
             //存在资源就获取信息
@@ -87,6 +104,7 @@ public class UIManager: Singleton<UIManager>
                 //UI是不缓存的,销毁实例
                 GameObject.Destroy(info.Instance);
                 info.Instance = null;
+                SoundManager.Instance.PlaySound(SoundDefine.SFX_UI_Win_Close);
             }
         }
     }

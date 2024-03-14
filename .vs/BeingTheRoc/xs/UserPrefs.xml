@@ -1,40 +1,39 @@
 ﻿<Properties StartupConfiguration="{BBB342A2-6894-1B0E-77BF-1034E1720682}|">
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="fef43bf9-a889-48b1-b47b-d99c76ac6807" />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/UISetting.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/UIDescHint.cs">
     <Files>
-      <File FileName="Assets/Scripts/Managers/DataManager.cs" Line="23" Column="17" />
-      <File FileName="Assets/Scripts/Defines/CharacterDefine.cs" />
-      <File FileName="Assets/Scripts/UI/CharacterSelectPanel.cs" Line="11" Column="27" />
-      <File FileName="Assets/Scripts/Sounds/SoundDefine.cs" Line="19" Column="6" />
-      <File FileName="Assets/Scripts/Sounds/SoundManager.cs" Line="22" Column="24" />
-      <File FileName="Assets/Scripts/UI/UISoundSetting.cs" Line="7" Column="7" />
-      <File FileName="Assets/Scripts/UI/UIWindow.cs" Line="10" Column="37" />
-      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="33" Column="14" />
-      <File FileName="Assets/Scripts/UI/UISetting.cs" Line="30" Column="6" />
-      <File FileName="Assets/Scripts/UI/UIStartGame.cs" Line="37" Column="28" />
+      <File FileName="Assets/Scripts/Managers/DataManager.cs" Line="43" Column="27" />
+      <File FileName="Assets/Scripts/Managers/LoadingManager.cs" Line="58" Column="52" />
+      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="47" Column="31" />
+      <File FileName="Assets/Scripts/UI/UIDescHint.cs" Line="19" Column="58" />
+      <File FileName="Assets/Scripts/Utilities/DescHintComponent.cs" Line="31" Column="40" />
+      <File FileName="Assets/Scripts/UI/UIStartGame.cs" Line="37" Column="6" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="BeingTheRoc" expanded="True">
             <Node name="Assets" expanded="True">
+              <Node name="Plugins" expanded="True">
+                <Node name="UniRx" expanded="True">
+                  <Node name="Examples" expanded="True" />
+                  <Node name="Scripts" expanded="True">
+                    <Node name="Subjects" expanded="True" />
+                    <Node name="System" expanded="True" />
+                    <Node name="UnityEngineBridge" expanded="True">
+                      <Node name="Triggers" expanded="True" />
+                    </Node>
+                  </Node>
+                </Node>
+              </Node>
               <Node name="Scripts" expanded="True">
-                <Node name="Defines" expanded="True" />
                 <Node name="Managers" expanded="True" />
                 <Node name="Sounds" expanded="True" />
-                <Node name="UI" expanded="True">
-                  <Node name="UISetting.cs" selected="True" />
-                </Node>
+                <Node name="UI" expanded="True" />
                 <Node name="Utilities" expanded="True" />
               </Node>
             </Node>
-            <Node name="Packages" expanded="True" />
           </Node>
         </State>
       </Pad>
@@ -43,4 +42,9 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="f87dadd7-6118-41dd-a1fd-10724e7eb4dc" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
 </Properties>

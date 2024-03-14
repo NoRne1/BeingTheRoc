@@ -32,10 +32,10 @@ public class LoadingManager : MonoBehaviour
         UILoading.SetActive(false);
         UIMain.SetActive(false);
         //等待两秒显示加载界面
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         UILoading.SetActive(true);
         //等待一秒隐藏忠告界面
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         UITips.SetActive(false);
         //然后加载配置的数据
         yield return DataManager.Instance.LoadData();
@@ -44,18 +44,19 @@ public class LoadingManager : MonoBehaviour
         //第一次播放音乐
         SoundManager.Instance.PlayMusic(SoundDefine.Music_Login);
         //在此处初始化用户的自定义音量(不知道为什么,在播放音乐之前)
-        
 
 
         //假的进度条模拟器
         for (float i = 0; i < 100;)
         {
             i += Random.Range(0.1f, 1.5f);
+            i = Mathf.Min(i, 100);
             //改变进度条的值
             progressBar.value = i;
             //改变进度条上的进度显示文本
             progressNumber.text = ((int)i).ToString() + "%";
-            yield return new WaitForEndOfFrame();
+            //yield return new WaitForEndOfFrame();
+            yield return new WaitForSeconds(0.01f);
         }
         //进度条到100后隐藏加载界面,显示登陆界面
         UILoading.SetActive(false);
