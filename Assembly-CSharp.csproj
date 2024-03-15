@@ -61,12 +61,14 @@
     <Compile Include="Assets/Scripts/Managers/DataManager.cs" />
     <Compile Include="Assets/Scripts/UI/UIOptions.cs" />
     <Compile Include="Assets/Scripts/Defines/CharacterDefine.cs" />
+    <Compile Include="Assets/Scripts/Utilities/GlobalAccess.cs" />
+    <Compile Include="Assets/Scripts/Utilities/Config.cs" />
     <Compile Include="Assets/Scripts/UI/UILoadingPanel.cs" />
     <Compile Include="Assets/Scripts/Sounds/SoundDefine.cs" />
-    <Compile Include="Assets/Scripts/Sounds/Config.cs" />
     <Compile Include="Assets/Scripts/Utilities/Resloader.cs" />
     <Compile Include="Assets/Scripts/Utilities/FightText/FightTextInfo.cs" />
     <Compile Include="Assets/Scripts/UI/UIMainMenu.cs" />
+    <Compile Include="Assets/Scripts/UI/UITip.cs" />
     <Compile Include="Assets/Scripts/UI/UISetting.cs" />
     <Compile Include="Assets/Scripts/Managers/UIManager.cs" />
     <Compile Include="Assets/Scripts/Sounds/SoundManager.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="Assets/Scripts/UI/UIStartGame.cs" />
     <Compile Include="Assets/Scripts/UI/UICharacterSelectPanel.cs" />
     <Compile Include="Assets/Scripts/Utilities/GameUtil.cs" />
+    <Compile Include="Assets/Scripts/Managers/SceneManager.cs" />
     <Compile Include="Assets/Scripts/Utilities/FightText/FightTextManager.cs" />
     <Compile Include="Assets/Scripts/Utilities/DescHintComponent.cs" />
     <Compile Include="Assets/Scripts/Managers/LoadingManager.cs" />
