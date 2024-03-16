@@ -1,33 +1,31 @@
 ﻿<Properties StartupConfiguration="{BBB342A2-6894-1B0E-77BF-1034E1720682}|">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="530bc3cb-ba72-46b7-bec3-99a93b35680d" />
-  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Utilities/GlobalAccess.cs">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="de4e98a5-9e54-43da-ab84-881e67afe346" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/MapManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Managers/DataManager.cs" Line="24" Column="33" />
-      <File FileName="Assets/Scripts/Utilities/Config.cs" />
-      <File FileName="Assets/Scripts/Utilities/GlobalAccess.cs" Line="19" Column="10" />
+      <File FileName="Assets/Scripts/Managers/MapManager.cs" Line="82" Column="34" />
+      <File FileName="Assets/Scripts/UI/UITownNode.cs" Line="10" Column="15" />
+      <File FileName="Assets/Scripts/UI/UIDescHint.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="BeingTheRoc">
             <Node name="Assets" expanded="True">
-              <Node name="Plugins" expanded="True" />
               <Node name="Scripts" expanded="True">
                 <Node name="Managers" expanded="True" />
-                <Node name="Sounds" expanded="True" />
                 <Node name="UI" expanded="True" />
-                <Node name="Utilities" expanded="True">
-                  <Node name="GlobalAccess.cs" selected="True" />
-                </Node>
               </Node>
             </Node>
           </Node>
         </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
