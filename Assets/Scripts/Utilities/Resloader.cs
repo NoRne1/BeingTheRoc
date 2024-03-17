@@ -9,6 +9,6 @@ class Resloader
     //加载资源
     public static T Load<T>(string path) where T : UnityEngine.Object
     {
-        return Resources.Load<T>(path);
+        return Resources.Load<T>(path) as T;
     }
 }

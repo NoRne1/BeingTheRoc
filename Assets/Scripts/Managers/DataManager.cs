@@ -25,15 +25,17 @@ public class DataManager : Singleton<DataManager>
         Debug.LogFormat("DataManager > DataManager()");
     }
 
-    //public void Load()
-    //{
-    //    string json = File.ReadAllText(this.DataPath + "CharacterDefine.txt");
-    //    this.Characters = JsonConvert.DeserializeObject<Dictionary<int, CharacterDefine>>(json);
+    public void Load()
+    {
+        string json = File.ReadAllText(this.DataPath + "CharacterDefine.txt");
+        this.Characters = JsonConvert.DeserializeObject<Dictionary<int, CharacterDefine>>(json);
 
-    //    json = File.ReadAllText(this.DataPath + "MutiLanguage.txt");
-    //    this.LanguagesDic = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<String, String>>>(json);
-    //    Language = this.LanguagesDic[Config.Language];
-    //}
+        json = File.ReadAllText(this.DataPath + "MutiLanguage.txt");
+        this.LanguagesDic = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<String, String>>>(json);
+        Language = this.LanguagesDic[Config.Language];
+
+        DataLoaded.OnNext(true);
+    }
 
     public IEnumerator LoadData()
     {

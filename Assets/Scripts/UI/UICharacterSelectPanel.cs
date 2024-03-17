@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UICharacterSelectPanel : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class UICharacterSelectPanel : MonoBehaviour
 
     public TextMeshProUGUI Go_ahead_key;
 
+    public Image Character_icon;
     public TextMeshProUGUI MaxHP;
     public TextMeshProUGUI Strength;
     public TextMeshProUGUI Defense;
@@ -78,6 +80,7 @@ public class UICharacterSelectPanel : MonoBehaviour
             Speed.text = DataManager.Instance.Characters[id].Speed.ToString();
             Mobility.text = DataManager.Instance.Characters[id].Mobility.ToString();
             Energy.text = DataManager.Instance.Characters[id].Energy.ToString();
+            Character_icon.overrideSprite = Resloader.Load<Sprite>("Sprite/" + DataManager.Instance.Characters[id].Resource);
             this.SelectedCharacterId = id;
             please_select_tip.gameObject.SetActive(false);
             character_info_panel.SetActive(true);

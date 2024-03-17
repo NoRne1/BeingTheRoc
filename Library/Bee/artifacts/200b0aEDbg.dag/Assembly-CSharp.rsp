@@ -395,6 +395,7 @@
 "Assets/Scripts/UI/UIWindow.cs"
 "Assets/Scripts/Utilities/Config.cs"
 "Assets/Scripts/Utilities/DescHintComponent.cs"
+"Assets/Scripts/Utilities/DragSupport.cs"
 "Assets/Scripts/Utilities/EditorStyleViewer.cs"
 "Assets/Scripts/Utilities/FightText/FightTextComponent.cs"
 "Assets/Scripts/Utilities/FightText/FightTextInfo.cs"

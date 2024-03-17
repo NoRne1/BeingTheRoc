@@ -9,6 +9,7 @@ class GlobalAccess
         get
         {
             return PlayerPrefs.GetInt("CurrentCharacterId", -1);
+            //return 1;
         }
         set
         {
@@ -16,6 +17,14 @@ class GlobalAccess
             {
                 PlayerPrefs.SetInt("CurrentCharacterId", value);
             }
+        }
+    }
+
+    public static Sprite CurrentCharacterIcon
+    {
+        get
+        {
+            return Resloader.Load<Sprite>("Sprite/" + DataManager.Instance.Characters[CurrentCharacterId].Resource);
         }
     }
 

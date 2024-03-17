@@ -68,4 +68,9 @@ public class CharacterDefine
     /// 精力
     /// </summary>
     public int Energy { get; set; }
+
+    /// <summary>
+    /// 图片资源
+    /// </summary>
+    public string Resource { get; set; }
 }

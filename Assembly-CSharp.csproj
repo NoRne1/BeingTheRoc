@@ -63,6 +63,7 @@
     <Compile Include="Assets/Scripts/UI/UIOptions.cs" />
     <Compile Include="Assets/Scripts/Defines/CharacterDefine.cs" />
     <Compile Include="Assets/Scripts/Utilities/GlobalAccess.cs" />
+    <Compile Include="Assets/Scripts/Utilities/DragSupport.cs" />
     <Compile Include="Assets/Scripts/Utilities/Config.cs" />
     <Compile Include="Assets/Scripts/UI/UILoadingPanel.cs" />
     <Compile Include="Assets/Scripts/Sounds/SoundDefine.cs" />
