@@ -1,17 +1,14 @@
 ﻿<Properties StartupConfiguration="{BBB342A2-6894-1B0E-77BF-1034E1720682}|">
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="2030c32c-6264-40aa-aefb-2423ab9da1d6" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/MapManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Managers/MapManager.cs" Line="91" Column="10" />
-      <File FileName="Assets/Scripts/UI/UITownNode.cs" Line="22" Column="9" />
-      <File FileName="Assets/Scripts/Managers/DataManager.cs" />
-      <File FileName="Assets/Scripts/UI/UICharacterSelectPanel.cs" Line="84" Column="43" />
-      <File FileName="Assets/Scripts/Utilities/DragSupport.cs" />
-      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="22" Column="32" />
+      <File FileName="Assets/Scripts/Managers/MapManager.cs" Line="19" Column="34" />
+      <File FileName="Assets/Scripts/UI/UITownNode.cs" Line="41" Column="17" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -31,6 +28,5 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="17aeedc6-3ba8-4497-8132-eeb3e162fa16" />
-  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>

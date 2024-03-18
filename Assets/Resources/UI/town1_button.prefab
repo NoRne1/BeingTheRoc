@@ -40,7 +40,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 129, y: 64}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6182142212953093971
 CanvasRenderer:
@@ -70,7 +70,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4caf964adf6e64d6da6bbae74ec7592c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4b02a929dfe774da6b28a14a2b50114a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -150,7 +150,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 3
   townID: 0
+  town_icon: {fileID: 3098721490894210863}
   character_icon: {fileID: 6473991096263077056}
+  town_icon_list:
+  - {fileID: 21300000, guid: 4b02a929dfe774da6b28a14a2b50114a, type: 3}
+  - {fileID: 21300000, guid: 2b9c8373078d84141bcd31ae2ebff6db, type: 3}
+  - {fileID: 21300000, guid: f1beef44c22524c4da1aa69ae997db7d, type: 3}
 --- !u!95 &7674986116495860605
 Animator:
   serializedVersion: 5
@@ -208,7 +213,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 129, y: 112.7776}
+  m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7769273421497627719
 CanvasRenderer:

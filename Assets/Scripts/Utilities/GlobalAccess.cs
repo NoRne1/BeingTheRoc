@@ -8,8 +8,8 @@ class GlobalAccess
     {
         get
         {
-            return PlayerPrefs.GetInt("CurrentCharacterId", -1);
-            //return 1;
+            //return PlayerPrefs.GetInt("CurrentCharacterId", -1);
+            return 1;
         }
         set
         {

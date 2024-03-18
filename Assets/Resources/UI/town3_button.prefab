@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 129, y: 112.7776}
+  m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6207557300871821785
 CanvasRenderer:
@@ -116,7 +116,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 129, y: 122}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1541947341429053813
 CanvasRenderer:
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7c366b1991e0140a7986dc1171b29e5b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1543212a337f447a98d9cff0c41f67eb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -226,7 +226,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   townID: 0
+  town_icon: {fileID: 881608140156660413}
   character_icon: {fileID: 6516990179695615416}
+  town_icon_list:
+  - {fileID: 21300000, guid: 1543212a337f447a98d9cff0c41f67eb, type: 3}
+  - {fileID: 21300000, guid: d9a5e7c0e8379479e8e9c19118d80ac8, type: 3}
+  - {fileID: 21300000, guid: f3b83c175b43a4ed49deac2868688481, type: 3}
 --- !u!95 &21988192315097671
 Animator:
   serializedVersion: 5

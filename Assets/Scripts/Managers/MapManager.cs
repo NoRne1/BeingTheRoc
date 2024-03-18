@@ -5,9 +5,11 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 using UniRx;
+using System.Linq;
+using Unity.VisualScripting;
 
 
-public class MapManager : MonoSingleton<MapManager>, IPointerMoveHandler
+public class MapManager : MonoSingleton<MapManager>
 {
     public Transform town_node_father;
     public Transform map_line_father;
@@ -23,7 +25,10 @@ public class MapManager : MonoSingleton<MapManager>, IPointerMoveHandler
     public List<Sprite> map_line_list = new List<Sprite>();
 
     public List<UITownNode> townList = new List<UITownNode>();
-    public List<(int, int)> MapLineLink = new List<(int, int)>();
+
+    //计算最短路径的变量
+    private int V; // 图中顶点的数量
+    private List<int>[] MapLineLink; // 邻接表表示图
 
     private int townIdcounter = 1;
 
@@ -32,26 +37,25 @@ public class MapManager : MonoSingleton<MapManager>, IPointerMoveHandler
     // Start is called before the first frame update
     void Start()
     {
-        //townIdcounter = 1;
-        //currentTownId = null;
-
         //for test
         DataManager.Instance.Load();
 
         nextTownIdSubject.AsObservable().Subscribe(id =>
         {
-            if(id != -1)
+            if (id != -1)
             {
-                if(currentTownId == -1)
+                if (currentTownId == -1)
                 {
                     //init时
                     townList[id].UpdatePlayerIsThere(true);
                     currentTownId = id;
-                } else if(CanGoNextTown(currentTownId, id))
+                    townList[currentTownId].Status = TownNodeStatus.passed;
+                } else if (CanGoNextTown(currentTownId, id))
                 {
                     townList[currentTownId].UpdatePlayerIsThere(false);
                     townList[id].UpdatePlayerIsThere(true);
                     currentTownId = id;
+                    townList[currentTownId].Status = TownNodeStatus.passed;
                 } else
                 {
                     UITip tip = UIManager.Instance.Show<UITip>();
@@ -61,15 +65,26 @@ public class MapManager : MonoSingleton<MapManager>, IPointerMoveHandler
         });
 
         generateMap();
+        InitVarible();
+        generateMapLine();
         player_init();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
+    private void InitVarible()
+    {
+        V = townList.Count;
+        MapLineLink = new List<int>[V];
+        for (int i = 0; i < V; i++)
+        {
+            MapLineLink[i] = new List<int>();
+        }
+    }
     public void generateMap()
     {
         GameObject kingNode = Instantiate(kingPerfab, this.town_node_father);
@@ -80,7 +95,6 @@ public class MapManager : MonoSingleton<MapManager>, IPointerMoveHandler
         generateTownCircle(node_circle_3, town3Perfab, 4);
         generateTownCircle(node_circle_2, town2Perfab, 7);
         generateTownCircle(node_circle_1, town1Perfab, 10);
-        generateMapLine();
     }
 
     private void generateTownCircle(List<Transform> node_circle, GameObject townPerfab, int town_num)
@@ -135,7 +149,8 @@ public class MapManager : MonoSingleton<MapManager>, IPointerMoveHandler
                     {
                         mapLine.gameObject.transform.Rotate(new Vector3(0, 0, -Vector3.Angle(new Vector3(1, 0, 0), dirVector3)));
                     }
-                    MapLineLink.Add((i, j));
+                    MapLineLink[i].Add(j);
+                    MapLineLink[j].Add(i);
                 }
             }
         }
@@ -152,13 +167,65 @@ public class MapManager : MonoSingleton<MapManager>, IPointerMoveHandler
         nextTownIdSubject.OnNext(desTownID);
     }
 
-    public bool CanGoNextTown(int sourceTownID, int desTownID)
+    public bool CanGoNextTown(int s, int d)
     {
-        return MapLineLink.Contains((sourceTownID, desTownID)) || MapLineLink.Contains((desTownID, sourceTownID));
+        return ShortestPath(s, d).Count != 0;
     }
 
-    public void OnPointerMove(PointerEventData eventData)
+    // 使用 BFS 寻找从顶点 s 到顶点 d 的最短路径
+    public List<int> ShortestPath(int s, int d)
     {
-        throw new System.NotImplementedException();
+        // 记录路径
+        int[] predecessor = new int[V];
+        bool[] visited = new bool[V];
+        Queue<int> queue = new Queue<int>();
+
+        // 初始化数组
+        for (int i = 0; i < V; ++i)
+        {
+            predecessor[i] = -1;
+            visited[i] = false;
+        }
+
+        // 将起始顶点标记为访问过并加入队列
+        visited[s] = true;
+        queue.Enqueue(s);
+
+        // BFS
+        while (queue.Count != 0)
+        {
+            int current = queue.Dequeue();
+
+            // 遍历当前顶点的邻居
+            foreach (int neighbor in MapLineLink[current])
+            {
+                if (!visited[neighbor] && (neighbor == d || townList[neighbor].Status == TownNodeStatus.passed))
+                {
+                    visited[neighbor] = true;
+                    predecessor[neighbor] = current;
+                    queue.Enqueue(neighbor);
+                }
+            }
+        }
+
+        // 构建路径
+        List<int> path = new List<int>();
+        int crawl = d;
+        path.Add(crawl);
+        while (predecessor[crawl] != -1)
+        {
+            path.Add(predecessor[crawl]);
+            crawl = predecessor[crawl];
+        }
+
+        // 如果不存在路径，则返回空列表
+        if (path[path.Count - 1] != s)
+        {
+            return new List<int>();
+        }
+
+        // 反转路径
+        path.Reverse();
+        return path;
     }
 }
