@@ -24,7 +24,7 @@ class GlobalAccess
     {
         get
         {
-            return Resloader.Load<Sprite>("Sprite/" + DataManager.Instance.Characters[CurrentCharacterId].Resource);
+            return Resloader.Load<Sprite>(ConstValue.spritePath + DataManager.Instance.Characters[CurrentCharacterId].Resource);
         }
     }
 

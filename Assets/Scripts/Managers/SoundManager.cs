@@ -12,8 +12,6 @@ public class SoundManager : MonoSingleton<SoundManager>
     public AudioMixer audioMixer;
     public AudioSource musicAudioSource;
     public AudioSource soundAudioSource;
-    const string MusicPath = "Music/";
-    const string SoundPath = "Sound/";
     
     protected override void OnStart()
     {
@@ -125,7 +123,7 @@ public class SoundManager : MonoSingleton<SoundManager>
 
     public void PlayMusic(string name)
     {
-        AudioClip clip = Resloader.Load<AudioClip>(MusicPath + name);
+        AudioClip clip = Resloader.Load<AudioClip>(ConstValue.musicPath + name);
         if (clip == null)
         {
             Debug.LogWarningFormat("PlayMusic:{0} not existed", name);
@@ -153,7 +151,7 @@ public class SoundManager : MonoSingleton<SoundManager>
 
     public void PlaySound(string name)
     {
-        AudioClip clip = Resloader.Load<AudioClip>(SoundPath + name);
+        AudioClip clip = Resloader.Load<AudioClip>(ConstValue.soundPath + name);
         if (clip == null)
         {
             Debug.LogWarningFormat("PlaySound:{0} not existed", name);

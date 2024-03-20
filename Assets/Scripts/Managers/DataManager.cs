@@ -16,6 +16,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, CharacterDefine> Characters = null;
     public Dictionary<String, String> Language = null;
     public Dictionary<int, Dictionary<String, String>> LanguagesDic = null;
+    public Dictionary<int, TownActionDefine> TownActions = null;
 
     public BehaviorSubject<bool> DataLoaded = new BehaviorSubject<bool>(false);
 
@@ -34,6 +35,9 @@ public class DataManager : Singleton<DataManager>
         this.LanguagesDic = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<String, String>>>(json);
         Language = this.LanguagesDic[Config.Language];
 
+        json = File.ReadAllText(this.DataPath + "TownActionDefine.txt");
+        this.TownActions = JsonConvert.DeserializeObject<Dictionary<int, TownActionDefine>>(json);
+
         DataLoaded.OnNext(true);
     }
 
@@ -49,10 +53,14 @@ public class DataManager : Singleton<DataManager>
         Language = this.LanguagesDic[Config.Language];
         yield return null;
 
+        json = File.ReadAllText(this.DataPath + "TownActionDefine.txt");
+        this.TownActions = JsonConvert.DeserializeObject<Dictionary<int, TownActionDefine>>(json);
+        yield return null;
+
         //json = File.ReadAllText(this.DataPath + "TeleporterDefine.txt");
         //this.Teleporters = JsonConvert.DeserializeObject<Dictionary<int, TeleporterDefine>>(json);
-
         //yield return null;
+
         DataLoaded.OnNext(true);
     }
 

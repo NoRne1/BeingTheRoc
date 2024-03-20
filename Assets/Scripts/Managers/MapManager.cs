@@ -24,7 +24,11 @@ public class MapManager : MonoSingleton<MapManager>
     public List<Transform> node_circle_1 = new List<Transform>();
     public List<Sprite> map_line_list = new List<Sprite>();
 
-    public List<UITownNode> townList = new List<UITownNode>();
+    private List<UITownNode> townList = new List<UITownNode>();
+    public UITownNode CurrentTownNode
+    {
+        get { return townList[currentTownId]; }
+    }
 
     //计算最短路径的变量
     private int V; // 图中顶点的数量
@@ -32,6 +36,10 @@ public class MapManager : MonoSingleton<MapManager>
 
     private int townIdcounter = 1;
 
+    public int CurrentTownId
+    {
+        get { return currentTownId; }
+    }
     private int currentTownId = -1;
     private BehaviorSubject<int> nextTownIdSubject = new BehaviorSubject<int>(-1);
     // Start is called before the first frame update
@@ -165,6 +173,7 @@ public class MapManager : MonoSingleton<MapManager>
     public void GoNextTown(int desTownID)
     {
         nextTownIdSubject.OnNext(desTownID);
+        GameManager.Instance.SwitchPage(PageType.town);
     }
 
     public bool CanGoNextTown(int s, int d)

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public enum TownNodeType
 {
@@ -37,10 +38,14 @@ public class UITownNode : MonoBehaviour
             town_icon.overrideSprite = town_icon_list[(int)status];
         }
     }
+
+    public List<int> townActions = new List<int>();
+
     // Start is called before the first frame update
     void Start()
     {
         town_icon.overrideSprite = town_icon_list[(int)status];
+        Init();
     }
 
     // Update is called once per frame
@@ -63,5 +68,16 @@ public class UITownNode : MonoBehaviour
     public void GoNextTown()
     {
         MapManager.Instance.GoNextTown(townID);
+    }
+
+    private void Init()
+    {
+        townActions.Clear();
+        HashSet<int> hashSet = new HashSet<int>();
+        while (hashSet.Count < 3)
+        {
+            hashSet.Add(Random.Range(0,5));
+        }
+        townActions = hashSet.ToList();
     }
 }
