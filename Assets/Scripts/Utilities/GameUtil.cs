@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 
 class GameUtil : Singleton<GameUtil>
@@ -17,5 +18,34 @@ class GameUtil : Singleton<GameUtil>
         {
             return (int)Mathf.Floor(power * (1f + attack / 100f) * (1 - (armor * 0.05f / (1f + armor * 0.05f))));
         }
+    }
+
+    public IEnumerator FadeIn(CanvasGroup canvasGroup, float transitionDuration)
+    {
+        canvasGroup.alpha = 0;
+        canvasGroup.gameObject.SetActive(true);
+        float elapsedTime = 0;
+        while (elapsedTime < transitionDuration)
+        {
+            canvasGroup.alpha = Mathf.Lerp(0, 1, (elapsedTime / transitionDuration));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        canvasGroup.alpha = 1;
+    }
+
+    public IEnumerator FadeOut(CanvasGroup canvasGroup, float transitionDuration)
+    {
+        canvasGroup.gameObject.SetActive(true);
+        canvasGroup.alpha = 1;
+        float elapsedTime = 0;
+        while (elapsedTime < transitionDuration)
+        {
+            canvasGroup.alpha = Mathf.Lerp(1, 0, (elapsedTime / transitionDuration));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        canvasGroup.alpha = 0;
+        canvasGroup.gameObject.SetActive(false);
     }
 }

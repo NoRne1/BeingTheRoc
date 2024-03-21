@@ -14,22 +14,22 @@ public class UITownPage : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-			
+
 	}
 
 	public void SetActionPanels(List<int> actionTypes)
 	{
-		if(actionPanels.Count == actionPanels.Count)
+		if (actionPanels.Count == actionPanels.Count)
 		{
-			for(int i = 0; i< actionPanels.Count; i++)
+			for (int i = 0; i < actionPanels.Count; i++)
 			{
 				actionPanels[i].SetActionType((TownActionType)actionTypes[i]);
-            }
-		} else {
-            UITip tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateTip(DataManager.Instance.Language["town_action_init_error"]);
-        }
-
-    }
+			}
+		}
+		else
+		{
+			UITip tip = UIManager.Instance.Show<UITip>();
+			tip.UpdateTip(DataManager.Instance.Language["town_action_init_error"]);
+		}
+	}
 }
-

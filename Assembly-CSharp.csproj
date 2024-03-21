@@ -66,6 +66,7 @@
     <Compile Include="Assets/Scripts/Utilities/GlobalAccess.cs" />
     <Compile Include="Assets/Scripts/Utilities/DragSupport.cs" />
     <Compile Include="Assets/Scripts/Utilities/Config.cs" />
+    <Compile Include="Assets/Scripts/UI/UIFeatherButton.cs" />
     <Compile Include="Assets/Scripts/UI/UILoadingPanel.cs" />
     <Compile Include="Assets/Scripts/Utilities/Resloader.cs" />
     <Compile Include="Assets/Scripts/Defines/SoundDefine.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Assets/Scripts/Managers/LoadingManager.cs" />
     <Compile Include="Assets/Scripts/Utilities/FightText/FightTextComponent.cs" />
     <Compile Include="Assets/Scripts/Utilities/EditorStyleViewer.cs" />
+    <Compile Include="Assets/Scripts/UI/UITimeLeft.cs" />
     <Compile Include="Assets/Scripts/UI/UIWindow.cs" />
     <Compile Include="Assets/Scripts/Utilities/MonoSingleton.cs" />
     <Compile Include="Assets/Scripts/Utilities/Singleton.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public enum TownActionType
 {
@@ -11,6 +12,28 @@ public enum TownActionType
     shop = 2,
     train = 3,
     walk = 4
+}
+
+public static class TownActionTypeExtensions
+{
+    public static PageType ToPageType(this TownActionType actionType)
+    {
+        switch(actionType)
+        {
+            case TownActionType.bar:
+                return PageType.bar;
+            case TownActionType.forge:
+                return PageType.forge;
+            case TownActionType.shop:
+                return PageType.shop;
+            case TownActionType.train:
+                return PageType.train;
+            case TownActionType.walk:
+                return PageType.walk;
+            default:
+                throw new ArgumentException("Invalid TownActionType: " + actionType);
+        }
+    }
 }
 
 public class UITownActionPanel : MonoBehaviour
@@ -40,5 +63,10 @@ public class UITownActionPanel : MonoBehaviour
         action_icon.overrideSprite = Resloader.Load<Sprite>(ConstValue.spritePath + define.iconResource);
         title.text = DataManager.Instance.Language[define.titleIndex].ReplaceNewLines();
         desc.text = DataManager.Instance.Language[define.descIndex].ReplaceNewLines();
+    }
+
+    public void OnClicked()
+    {
+        GameManager.Instance.SwitchPage(type.ToPageType());
     }
 }
