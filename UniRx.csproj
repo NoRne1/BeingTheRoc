@@ -69,13 +69,13 @@
     <Compile Include="Assets/Plugins/UniRx/Scripts/UnityEngineBridge/CoroutineAsyncBridge.cs" />
     <Compile Include="Assets/Plugins/UniRx/Scripts/Observable.cs" />
     <Compile Include="Assets/Plugins/UniRx/Scripts/UnityEngineBridge/Triggers/ObservablePointerDownTrigger.cs" />
+    <Compile Include="Assets/Plugins/UniRx/Scripts/UnityEngineBridge/Triggers/ObservableEndDragTrigger.cs" />
     <Compile Include="Assets/Plugins/UniRx/Scripts/Operators/WhereSelect.cs" />
     <Compile Include="Assets/Plugins/UniRx/Scripts/UnityEngineBridge/Operators/FrameTimeInterval.cs" />
-    <Compile Include="Assets/Plugins/UniRx/Scripts/UnityEngineBridge/Triggers/ObservableEndDragTrigger.cs" />
-    <Compile Include="Assets/Plugins/UniRx/Scripts/TimeInterval.cs" />
     <Compile Include="Assets/Plugins/UniRx/Scripts/UnityWinRTBridge/ThreadPoolScheduler_UnityWinRT.cs" />
-    <Compile Include="Assets/Plugins/UniRx/Scripts/UnityEngineBridge/Triggers/ObservableUpdateTrigger.cs" />
+    <Compile Include="Assets/Plugins/UniRx/Scripts/TimeInterval.cs" />
     <Compile Include="Assets/Plugins/UniRx/Scripts/UnityEngineBridge/Triggers/ObservableTriggerBase.cs" />
+    <Compile Include="Assets/Plugins/UniRx/Scripts/UnityEngineBridge/Triggers/ObservableUpdateTrigger.cs" />
     <Compile Include="Assets/Plugins/UniRx/Scripts/InternalUtil/ImmutableList.cs" />
     <Compile Include="Assets/Plugins/UniRx/Scripts/Operators/ZipLatest.cs" />
     <Compile Include="Assets/Plugins/UniRx/Scripts/Operators/Materialize.cs" />

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 
 public enum PageType
@@ -18,6 +19,7 @@ public enum PageType
 public class GameManager : MonoSingleton<GameManager>
 {
     public List<GameObject> pages;
+    public UICommonUI commonUI;
     public CanvasGroup taBlackPanel;
     public Dictionary<PageType, GameObject> pagesDic = new Dictionary<PageType, GameObject>();
 
@@ -73,12 +75,44 @@ public class GameManager : MonoSingleton<GameManager>
         switch (pageType)
         {
             case PageType.map:
+                commonUI.gameObject.SetActive(false);
                 break;
             case PageType.town:
+                commonUI.gameObject.SetActive(true);
+                commonUI.setLeftButtonStyle(true);
+                commonUI.setPopButtonAutoHide(false);
                 UITownPage townPage = pagesDic[PageType.town].GetComponent<UITownPage>();
                 townPage.SetActionPanels(MapManager.Instance.CurrentTownNode.townActions);
                 break;
             case PageType.battle:
+                commonUI.gameObject.SetActive(true);
+                commonUI.setLeftButtonStyle(false);
+                commonUI.setPopButtonAutoHide(true);
+                break;
+            case PageType.bar:
+                commonUI.gameObject.SetActive(true);
+                commonUI.setLeftButtonStyle(false);
+                commonUI.setPopButtonAutoHide(true);
+                break;
+            case PageType.forge:
+                commonUI.gameObject.SetActive(true);
+                commonUI.setLeftButtonStyle(false);
+                commonUI.setPopButtonAutoHide(true);
+                break;
+            case PageType.shop:
+                commonUI.gameObject.SetActive(true);
+                commonUI.setLeftButtonStyle(false);
+                commonUI.setPopButtonAutoHide(true);
+                break;
+            case PageType.train:
+                commonUI.gameObject.SetActive(true);
+                commonUI.setLeftButtonStyle(false);
+                commonUI.setPopButtonAutoHide(true);
+                break;
+            case PageType.walk:
+                commonUI.gameObject.SetActive(true);
+                commonUI.setLeftButtonStyle(false);
+                commonUI.setPopButtonAutoHide(true);
                 break;
         }
 

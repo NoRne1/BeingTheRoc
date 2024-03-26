@@ -43,7 +43,7 @@ public class UIManager: Singleton<UIManager>
     public T Show<T>(CanvasType canvasType = CanvasType.ui)
     {
         //播放声音
-        SoundManager.Instance.PlaySound(SoundDefine.SFX_UI_Win_Open);
+        //SoundManager.Instance.PlaySound(SoundDefine.SFX_UI_Win_Open);
         //UI类型
         Type type = typeof(T);
         if (this.UIResources.ContainsKey(type))
@@ -105,7 +105,7 @@ public class UIManager: Singleton<UIManager>
                 //UI是不缓存的,销毁实例
                 GameObject.Destroy(info.Instance);
                 info.Instance = null;
-                SoundManager.Instance.PlaySound(SoundDefine.SFX_UI_Win_Close);
+                //SoundManager.Instance.PlaySound(SoundDefine.SFX_UI_Win_Close);
             }
         }
     }
