@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 
@@ -47,5 +49,35 @@ class GameUtil : Singleton<GameUtil>
         }
         canvasGroup.alpha = 0;
         canvasGroup.gameObject.SetActive(false);
+    }
+
+    public Color hexToColor(string hex)
+    {
+        hex = hex.Replace("#", ""); // 去除十六进制字符串中的 "#" 符号
+        byte r = byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber); // 解析红色分量
+        byte g = byte.Parse(hex.Substring(2, 2), System.Globalization.NumberStyles.HexNumber); // 解析绿色分量
+        byte b = byte.Parse(hex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber); // 解析蓝色分量
+        byte a = 255; // 默认不透明
+
+        if (hex.Length == 8)
+        {
+            a = byte.Parse(hex.Substring(6, 2), System.Globalization.NumberStyles.HexNumber); // 解析透明度分量
+        }
+
+        return new Color32(r, g, b, a);
+    }
+
+    public T CreateObjectFromDictionary<T>(Dictionary<string, object> dict) where T : new()
+    {
+        T obj = new T();
+        foreach (var kvp in dict)
+        {
+            PropertyInfo property = typeof(T).GetProperty(kvp.Key);
+            if (property != null && property.CanWrite)
+            {
+                property.SetValue(obj, kvp.Value);
+            }
+        }
+        return obj;
     }
 }

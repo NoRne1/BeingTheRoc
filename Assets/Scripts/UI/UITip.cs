@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts.UI;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -22,10 +21,5 @@ public class UITip : UIWindow
     public void UpdateTip(string text)
     {
         tip.text = text;
-    }
-
-    public void CloseSelf()
-    {
-        this.Close();
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Assets.Scripts.Sound;
-using Assets.Scripts.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -113,11 +112,6 @@ class UIOptions : UIWindow
     void DropdownValueChanged(TMP_Dropdown change)
     {
         Config.Language = change.value;
-    }
-
-    public void CloseSelf()
-    {
-        this.Close();
     }
 }
 

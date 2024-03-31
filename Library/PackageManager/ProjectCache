@@ -4413,6 +4413,7 @@ m_ResolvedPackages:
     - 2.4.0-exp.2
     - 2.4.0-pre.2
     - 2.4.0-pre.5
+    - 2.4.0
     compatible:
     - 1.2.4
     - 1.3.1

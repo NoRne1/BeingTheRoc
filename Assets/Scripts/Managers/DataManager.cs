@@ -17,7 +17,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<String, String> Language = null;
     public Dictionary<int, Dictionary<String, String>> LanguagesDic = null;
     public Dictionary<int, TownActionDefine> TownActions = null;
-
+    public Dictionary<int, StoreItemDefine> StoreItems = null;
     public BehaviorSubject<bool> DataLoaded = new BehaviorSubject<bool>(false);
 
     public DataManager()
@@ -35,6 +35,9 @@ public class DataManager : Singleton<DataManager>
         this.LanguagesDic = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<String, String>>>(json);
         Language = this.LanguagesDic[Config.Language];
 
+        json = File.ReadAllText(this.DataPath + "StoreItemDefine.txt");
+        this.StoreItems = JsonConvert.DeserializeObject<Dictionary<int, StoreItemDefine>>(json);
+
         json = File.ReadAllText(this.DataPath + "TownActionDefine.txt");
         this.TownActions = JsonConvert.DeserializeObject<Dictionary<int, TownActionDefine>>(json);
 
@@ -51,6 +54,10 @@ public class DataManager : Singleton<DataManager>
         json = File.ReadAllText(this.DataPath + "MutiLanguage.txt");
         this.LanguagesDic = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<String, String>>>(json);
         Language = this.LanguagesDic[Config.Language];
+        yield return null;
+
+        json = File.ReadAllText(this.DataPath + "StoreItemDefine.txt");
+        this.StoreItems = JsonConvert.DeserializeObject<Dictionary<int, StoreItemDefine>>(json);
         yield return null;
 
         json = File.ReadAllText(this.DataPath + "TownActionDefine.txt");

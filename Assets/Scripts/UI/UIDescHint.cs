@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class UIDescHint : MonoBehaviour
+public class UIDescHint: UIWindow
 {
     public TextMeshProUGUI desc_hint;
     // Start is called before the first frame update

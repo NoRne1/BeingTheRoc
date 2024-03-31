@@ -35,4 +35,19 @@ public class UICommonUI : MonoBehaviour
     {
         uIPopButtonGroup.AutoHidden = autoHide;
     }
+
+    public void nextDay()
+    {
+        GameManager.Instance.TimeChanged(-1);
+    }
+
+    public void backToMapPage()
+    {
+        GameManager.Instance.SwitchPage(PageType.map);
+    }
+
+    public void invokeTeamWindow()
+    {
+        UIManager.Instance.Show<UITeamWindow>();
+    }
 }

@@ -44,7 +44,16 @@ public class GameManager : MonoSingleton<GameManager>
             //todo
             tip.UpdateTip(DataManager.Instance.Language["go_next_town_tip"]);
         }
-        
+        //CharacterDefine playerDefine = DataManager.Instance.Characters[GlobalAccess.CurrentCharacterId];
+        //CharacterModel testCharacter = new CharacterModel(playerDefine);
+        //NorneStore.Instance.Update<CharacterModel>(testCharacter, isFull: true);
+
+        //NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(GlobalAccess.CurrentCharacterId)).AsObservable().Subscribe(character =>
+        //{
+        //    print(character.Name);
+        //});
+        //testCharacter.Name = "的撒UI哦福娃额哦";
+        //NorneStore.Instance.Update<CharacterModel>(testCharacter);
     }
 
     // Update is called once per frame

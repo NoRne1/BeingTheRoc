@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Sound;
-using Assets.Scripts.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;

@@ -66,7 +66,9 @@
     <Compile Include="Assets/LeanTween/Framework/LTDescr.cs" />
     <Compile Include="Assets/Scripts/Defines/CharacterDefine.cs" />
     <Compile Include="Assets/LeanTween/Framework/LeanTest.cs" />
+    <Compile Include="Assets/Scripts/Utilities/Codable.cs" />
     <Compile Include="Assets/LeanTween/Testing/TestingIssue2.cs" />
+    <Compile Include="Assets/Scripts/UI/UIShopPage.cs" />
     <Compile Include="Assets/LeanTween/Testing/Testing248.cs" />
     <Compile Include="Assets/Scripts/Utilities/GlobalAccess.cs" />
     <Compile Include="Assets/Scripts/Utilities/DragSupport.cs" />
@@ -75,6 +77,7 @@
     <Compile Include="Assets/LeanTween/Testing/TestingDescr.cs" />
     <Compile Include="Assets/LeanTween/Testing/TestingColorTweening.cs" />
     <Compile Include="Assets/Scripts/UI/UILoadingPanel.cs" />
+    <Compile Include="Assets/Scripts/Utilities/NorneStore.cs" />
     <Compile Include="Assets/Scripts/Utilities/Resloader.cs" />
     <Compile Include="Assets/Scripts/UI/UIPopButtonGroup.cs" />
     <Compile Include="Assets/Scripts/Defines/SoundDefine.cs" />
@@ -97,17 +100,20 @@
     <Compile Include="Assets/LeanTween/Testing/Testing246.cs" />
     <Compile Include="Assets/Scripts/Managers/UIManager.cs" />
     <Compile Include="Assets/Scripts/UI/UIDescHint.cs" />
+    <Compile Include="Assets/Scripts/Defines/StoreItemDefine.cs" />
     <Compile Include="Assets/Scripts/Managers/GameManager.cs" />
     <Compile Include="Assets/Scripts/UI/UITownActionPanel.cs" />
     <Compile Include="Assets/Scripts/UI/UIStartGame.cs" />
     <Compile Include="Assets/Scripts/UI/UICharacterSelectPanel.cs" />
     <Compile Include="Assets/Scripts/Utilities/GameUtil.cs" />
     <Compile Include="Assets/Scripts/Managers/SceneManager.cs" />
+    <Compile Include="Assets/Scripts/UI/UITeamWindow.cs" />
     <Compile Include="Assets/LeanTween/Framework/LTSeq.cs" />
     <Compile Include="Assets/Scripts/Utilities/FightText/FightTextManager.cs" />
     <Compile Include="Assets/Scripts/Utilities/DescHintComponent.cs" />
     <Compile Include="Assets/Scripts/Managers/SoundManager.cs" />
     <Compile Include="Assets/LeanTween/Framework/LeanTween.cs" />
+    <Compile Include="Assets/Scripts/UI/UIShopItem.cs" />
     <Compile Include="Assets/Scripts/Managers/LoadingManager.cs" />
     <Compile Include="Assets/Scripts/Utilities/FightText/FightTextComponent.cs" />
     <Compile Include="Assets/LeanTween/Framework/LeanTweenExt.cs" />
@@ -120,9 +126,12 @@
     <Compile Include="Assets/Scripts/Utilities/MonoSingleton.cs" />
     <Compile Include="Assets/LeanTween/Testing/TestingMaxTweens.cs" />
     <Compile Include="Assets/LeanTween/Testing/TestingIssue.cs" />
+    <Compile Include="Assets/Scripts/Models/CharacterModel.cs" />
+    <Compile Include="Assets/Scripts/UI/UITeamBagPage.cs" />
     <Compile Include="Assets/Scripts/Utilities/CheckPointerEnter.cs" />
     <Compile Include="Assets/LeanTween/Testing/FollowingTests.cs" />
     <Compile Include="Assets/Scripts/Utilities/Singleton.cs" />
+    <Compile Include="Assets/Scripts/UI/UITeamInfoPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
