@@ -38,6 +38,17 @@ public class SafeDictionaryCache<Key, Value> where Key : IEquatable<Key>
         }
     }
 
+    public void Remove(Key key)
+    {
+        if (_dic.ContainsKey(key))
+        {
+            lock (_lock)
+            {
+                _dic.Remove(key);
+            }
+        }
+    }
+
     public void RemoveAll()
     {
         lock (_lock)
@@ -86,6 +97,17 @@ public class NorneStore
         }
     }
 
+    public void Remove<T>(T storable) where T : IStorable
+    {
+        var key = $"{storable.StorableCategory}-{storable.Identifier}";
+        _datas.Remove(key);
+    }
+
+    public void RemoveAll()
+    {
+        _datas.RemoveAll();
+        _exts.RemoveAll();
+    }
     public void Update<T>(T storable, bool isFull = false) where T : IStorable, new()
     {
         if (string.IsNullOrEmpty(storable.Identifier))
@@ -173,7 +195,7 @@ public class NorneRelay<T> : IObservable<T>
 
     public IDisposable Subscribe(IObserver<T> observer)
     {
-        return _subject.Subscribe(observer);
+        return _subject.AsObservable().Subscribe(observer);
     }
 
     public IObservable<T> AsObservable()

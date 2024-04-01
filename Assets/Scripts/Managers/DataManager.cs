@@ -28,17 +28,17 @@ public class DataManager : Singleton<DataManager>
 
     public void Load()
     {
-        string json = File.ReadAllText(this.DataPath + "CharacterDefine.txt");
+        string json = File.ReadAllText(this.DataPath + "CharacterDefine.json");
         this.Characters = JsonConvert.DeserializeObject<Dictionary<int, CharacterDefine>>(json);
 
-        json = File.ReadAllText(this.DataPath + "MutiLanguage.txt");
+        json = File.ReadAllText(this.DataPath + "MutiLanguage.json");
         this.LanguagesDic = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<String, String>>>(json);
         Language = this.LanguagesDic[Config.Language];
 
-        json = File.ReadAllText(this.DataPath + "StoreItemDefine.txt");
+        json = File.ReadAllText(this.DataPath + "StoreItemDefine.json");
         this.StoreItems = JsonConvert.DeserializeObject<Dictionary<int, StoreItemDefine>>(json);
 
-        json = File.ReadAllText(this.DataPath + "TownActionDefine.txt");
+        json = File.ReadAllText(this.DataPath + "TownActionDefine.json");
         this.TownActions = JsonConvert.DeserializeObject<Dictionary<int, TownActionDefine>>(json);
 
         DataLoaded.OnNext(true);
@@ -46,29 +46,45 @@ public class DataManager : Singleton<DataManager>
 
     public IEnumerator LoadData()
     {
-        string json = File.ReadAllText(this.DataPath + "CharacterDefine.txt");
+        string json = File.ReadAllText(this.DataPath + "CharacterDefine.json");
         this.Characters = JsonConvert.DeserializeObject<Dictionary<int, CharacterDefine>>(json);
 
         yield return null;
 
-        json = File.ReadAllText(this.DataPath + "MutiLanguage.txt");
+        json = File.ReadAllText(this.DataPath + "MutiLanguage.json");
         this.LanguagesDic = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<String, String>>>(json);
         Language = this.LanguagesDic[Config.Language];
         yield return null;
 
-        json = File.ReadAllText(this.DataPath + "StoreItemDefine.txt");
+        json = File.ReadAllText(this.DataPath + "StoreItemDefine.json");
         this.StoreItems = JsonConvert.DeserializeObject<Dictionary<int, StoreItemDefine>>(json);
         yield return null;
 
-        json = File.ReadAllText(this.DataPath + "TownActionDefine.txt");
+        json = File.ReadAllText(this.DataPath + "TownActionDefine.json");
         this.TownActions = JsonConvert.DeserializeObject<Dictionary<int, TownActionDefine>>(json);
         yield return null;
 
-        //json = File.ReadAllText(this.DataPath + "TeleporterDefine.txt");
+        //json = File.ReadAllText(this.DataPath + "TeleporterDefine.json");
         //this.Teleporters = JsonConvert.DeserializeObject<Dictionary<int, TeleporterDefine>>(json);
         //yield return null;
 
         DataLoaded.OnNext(true);
+    }
+
+    public int GetRandomSubCharacterID()
+    {
+        while(true)
+        {
+            int id = UnityEngine.Random.Range(GlobalAccess.subCharacterStartIndex, GlobalAccess.subCharacterStartIndex+ GlobalAccess.subCharacterNum);
+            if(GameManager.Instance.characterIDs.Contains(id))
+            {
+                continue;
+            } else
+            {
+                return id;
+            }
+        }
+        
     }
 
 //#if UNITY_EDITOR

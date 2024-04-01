@@ -5,6 +5,9 @@ using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 public class CharacterModel: CharacterDefine, IStorable
 {
+    public int level { get { return exp / GlobalAccess.levelUpExp + 1; } }
+    public int remainExp { get { return exp % GlobalAccess.levelUpExp; } }
+    public int exp;
     public CharacterModel()
     {}
 
@@ -25,6 +28,7 @@ public class CharacterModel: CharacterDefine, IStorable
         Mobility = define.Mobility;
         Energy = define.Energy;
         Resource = define.Resource;
+        Desc = define.Desc;
     }
 
     public string StorableCategory => "Character";

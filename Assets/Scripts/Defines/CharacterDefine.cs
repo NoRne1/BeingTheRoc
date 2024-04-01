@@ -73,4 +73,9 @@ public class CharacterDefine
     /// 图片资源
     /// </summary>
     public string Resource { get; set; }
+
+    /// <summary>
+    /// 描述
+    /// </summary>
+    public string Desc { get; set; }
 }

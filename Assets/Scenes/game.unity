@@ -6607,6 +6607,7 @@ MonoBehaviour:
   commonUI: {fileID: 704094002}
   taBlackPanel: {fileID: 706832162}
   currentPageType: 0
+  characterIDs: 
 --- !u!1 &706832160
 GameObject:
   m_ObjectHideFlags: 0

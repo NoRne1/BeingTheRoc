@@ -1,15 +1,18 @@
 ﻿<Properties StartupConfiguration="{BBB342A2-6894-1B0E-77BF-1034E1720682}|">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Utilities/NorneStore.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/UITeamWindow.cs">
     <Files>
-      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="53" Column="37" />
-      <File FileName="Assets/Scripts/Utilities/NorneStore.cs" Line="54" Column="1" />
+      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="66" Column="56" />
+      <File FileName="Assets/Scripts/Utilities/NorneStore.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/UI/UITeamInfoPage.cs" Line="53" Column="6" />
+      <File FileName="Assets/Scripts/UI/UITeamWindow.cs" Line="24" Column="6" />
+      <File FileName="Assets/Scripts/Models/CharacterModel.cs" Line="31" Column="28" />
+      <File FileName="Assets/Scripts/Utilities/GlobalAccess.cs" Line="14" Column="33" />
+      <File FileName="Assets/Scripts/Defines/CharacterDefine.cs" Line="66" Column="38" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="BeingTheRoc" expanded="True">
+          <Node name="BeingTheRoc">
             <Node name="Assets" expanded="True">
               <Node name="LeanTween" expanded="True" />
               <Node name="Plugins" expanded="True">
@@ -24,9 +27,7 @@
                 <Node name="Managers" expanded="True" />
                 <Node name="Models" expanded="True" />
                 <Node name="UI" expanded="True" />
-                <Node name="Utilities" expanded="True">
-                  <Node name="NorneStore.cs" selected="True" />
-                </Node>
+                <Node name="Utilities" expanded="True" />
               </Node>
             </Node>
           </Node>
@@ -34,9 +35,11 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="bdeb8200-10aa-4ffd-9246-11fec3f5c298" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="6f12993d-ba59-4cbc-a8a9-97c115a2d19e" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
 </Properties>

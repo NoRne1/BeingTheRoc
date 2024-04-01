@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UITeamBagPage : MonoBehaviour
@@ -14,5 +15,9 @@ public class UITeamBagPage : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void UpdateCharacter(CharacterModel character)
+    {
     }
 }

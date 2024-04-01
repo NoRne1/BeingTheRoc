@@ -28,10 +28,12 @@ public class GameManager : MonoSingleton<GameManager>
     public BehaviorSubject<int> timeLeft = new BehaviorSubject<int>(30);
     public PageType currentPageType = PageType.map;
 
+    public List<int> characterIDs = new List<int>(GlobalAccess.teamOpacity);
+
     // Start is called before the first frame update
     void Start()
     {
-        if(pages.Count == System.Enum.GetValues(typeof(PageType)).Length)
+        if (pages.Count == System.Enum.GetValues(typeof(PageType)).Length)
         {
             for (int i = 0; i < pages.Count; i++)
             {
@@ -44,16 +46,28 @@ public class GameManager : MonoSingleton<GameManager>
             //todo
             tip.UpdateTip(DataManager.Instance.Language["go_next_town_tip"]);
         }
-        //CharacterDefine playerDefine = DataManager.Instance.Characters[GlobalAccess.CurrentCharacterId];
-        //CharacterModel testCharacter = new CharacterModel(playerDefine);
-        //NorneStore.Instance.Update<CharacterModel>(testCharacter, isFull: true);
 
-        //NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(GlobalAccess.CurrentCharacterId)).AsObservable().Subscribe(character =>
-        //{
-        //    print(character.Name);
-        //});
-        //testCharacter.Name = "的撒UI哦福娃额哦";
-        //NorneStore.Instance.Update<CharacterModel>(testCharacter);
+        //todo
+        NorneStore.Instance.RemoveAll();
+        DataManager.Instance.DataLoaded.AsObservable().Subscribe(flag =>
+        {
+            if (flag)
+            {
+                // init characters
+                characterIDs.Add(GlobalAccess.CurrentCharacterId);
+                CharacterDefine playerDefine = DataManager.Instance.Characters[GlobalAccess.CurrentCharacterId];
+                CharacterModel mainCharacter = new CharacterModel(playerDefine);
+                NorneStore.Instance.Update<CharacterModel>(mainCharacter, isFull: true);
+                for (int i = 0; i < 2; i++)
+                {
+                    int id = DataManager.Instance.GetRandomSubCharacterID();
+                    characterIDs.Add(id);
+                    CharacterDefine define = DataManager.Instance.Characters[id];
+                    CharacterModel model = new CharacterModel(define);
+                    NorneStore.Instance.Update<CharacterModel>(model, isFull: true);
+                }
+            }
+        });
     }
 
     // Update is called once per frame

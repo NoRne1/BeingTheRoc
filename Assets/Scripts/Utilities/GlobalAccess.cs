@@ -11,21 +11,29 @@ public enum EquipLevel
 
 class GlobalAccess
 {
-    public static int CurrentCharacterId
+    public static int levelUpExp = 100;
+    public static int teamOpacity = 5;
+    public static int mainCharacterNum = 3;
+    public static int subCharacterStartIndex = 100;
+    public static int subCharacterNum
     {
-        get
-        {
-            //return PlayerPrefs.GetInt("CurrentCharacterId", -1);
-            return 1;
-        }
-        set
-        {
-            if (DataManager.Instance.Characters.Keys.ToList().Contains(value))
-            {
-                PlayerPrefs.SetInt("CurrentCharacterId", value);
-            }
-        }
+        get { return DataManager.Instance.Characters.Count - mainCharacterNum; }
     }
+    public static int CurrentCharacterId = 1;
+    //{
+    //    get
+    //    {
+    //        //return PlayerPrefs.GetInt("CurrentCharacterId", -1);
+    //        return 1;
+    //    }
+    //    set
+    //    {
+    //        if (DataManager.Instance.Characters.Keys.ToList().Contains(value))
+    //        {
+    //            PlayerPrefs.SetInt("CurrentCharacterId", value);
+    //        }
+    //    }
+    //}
 
     public static Sprite CurrentCharacterIcon
     {
