@@ -63,6 +63,6 @@ public class UITeamInfoPage : MonoBehaviour
         Speed.text = character.Speed.ToString();
         Mobility.text = character.Mobility.ToString();
         Energy.text = character.Energy.ToString();
-        Character_icon.overrideSprite = Resloader.Load<Sprite>(ConstValue.spritePath + character.Resource);
+        Character_icon.overrideSprite = Resloader.LoadSprite(character.Resource);
     }
 }

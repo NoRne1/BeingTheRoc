@@ -8,6 +8,8 @@ public class CharacterModel: CharacterDefine, IStorable
     public int level { get { return exp / GlobalAccess.levelUpExp + 1; } }
     public int remainExp { get { return exp % GlobalAccess.levelUpExp; } }
     public int exp;
+    public Backpack backpack;
+
     public CharacterModel()
     {}
 

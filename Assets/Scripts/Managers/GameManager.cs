@@ -24,12 +24,13 @@ public class GameManager : MonoSingleton<GameManager>
     public Dictionary<PageType, GameObject> pagesDic = new Dictionary<PageType, GameObject>();
 
 
-    public BehaviorSubject<int> featherCoin = new BehaviorSubject<int>(0);
+    public BehaviorSubject<int> featherCoin = new BehaviorSubject<int>(1000);
     public BehaviorSubject<int> timeLeft = new BehaviorSubject<int>(30);
     public PageType currentPageType = PageType.map;
 
     public List<int> characterIDs = new List<int>(GlobalAccess.teamOpacity);
 
+    public RepositoryModel repository = new RepositoryModel();
     // Start is called before the first frame update
     void Start()
     {
@@ -42,9 +43,7 @@ public class GameManager : MonoSingleton<GameManager>
         } else
         {
             UITip tip = UIManager.Instance.Show<UITip>();
-
-            //todo
-            tip.UpdateTip(DataManager.Instance.Language["go_next_town_tip"]);
+            tip.UpdateTip(DataManager.Instance.Language["general_error_tip"] + "0001");
         }
 
         //todo
@@ -152,6 +151,12 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void CoinChanged(int change)
     {
+        if (featherCoin.Value + change < 0)
+        {
+            //错误请求(扣成负的了)
+            UITip tip = UIManager.Instance.Show<UITip>();
+            tip.UpdateTip(DataManager.Instance.Language["general_error_tip"] + "0003");
+        }
         featherCoin.OnNext(featherCoin.Value + change);
     }
 

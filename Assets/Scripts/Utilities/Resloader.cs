@@ -11,4 +11,9 @@ class Resloader
     {
         return Resources.Load<T>(path) as T;
     }
+
+    public static Sprite LoadSprite(string path)
+    {
+        return Resloader.Load<Sprite>(ConstValue.spritePath + path);
+    }
 }

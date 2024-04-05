@@ -35,7 +35,9 @@
         "town_action_init_error": "城镇设施初始化失败！",
         "wooden_sword": "木剑",
         "iron_sword": "铁剑",
-        "magic_sword": "神魔一念"
+        "magic_sword": "神魔一念",
+        "general_error_tip": "你捉到了一条虫子，把它给我好吗？我会给你奖励，编号是：",
+        "unknown": "未知"
     },
     "1": {
         "ID": 1,
@@ -73,6 +75,8 @@
         "town_action_init_error": null,
         "wooden_sword": null,
         "iron_sword": null,
-        "magic_sword": null
+        "magic_sword": null,
+        "general_error_tip": null,
+        "unknown": null
     }
 }

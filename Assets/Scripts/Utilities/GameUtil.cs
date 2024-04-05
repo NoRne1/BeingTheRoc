@@ -1,11 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
 
-class GameUtil : Singleton<GameUtil>
+public class GameUtil : Singleton<GameUtil>
 {
+    public string GenerateUniqueId()
+    {
+        return Guid.NewGuid().ToString();
+    }
+
     public bool InScreen(Vector3 position)
     {
         return Screen.safeArea.Contains(Camera.main.WorldToScreenPoint(position));
@@ -13,7 +19,7 @@ class GameUtil : Singleton<GameUtil>
 
     public int CalcDamage(float power, float agile, float attack, float armor)
     {
-        if (Random.Range(0f, 100f) < agile)
+        if (UnityEngine.Random.Range(0f, 100f) < agile)
         {
             return 0;
         } else

@@ -47,7 +47,8 @@ public class UITeamWindow : UIWindow
                 {
                     currentCharacterID.OnNext(characterID);
                 });
-                characterButtons[i].transform.GetChild(0).GetComponent<Image>().overrideSprite = Resloader.Load<Sprite>(ConstValue.spritePath + DataManager.Instance.Characters[characterID].Resource);
+                characterButtons[i].transform.GetChild(0).GetComponent<Image>().overrideSprite =
+                    Resloader.LoadSprite(DataManager.Instance.Characters[characterID].Resource);
                 characterButtons[i].gameObject.SetActive(true);
             } else
             {

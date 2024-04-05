@@ -11,6 +11,9 @@ public class UIShopItem : MonoBehaviour
     public Image icon;
     public TextMeshProUGUI title;
     public TextMeshProUGUI price;
+    public StoreItemDefine info;
+    public Button buyButton;
+    public GameObject soldIcon;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,10 +28,11 @@ public class UIShopItem : MonoBehaviour
 
     public void SetStoreItemInfo(StoreItemDefine info)
     {
-        if(info.ID != -1)
+        if(info != null)
         {
+            this.info = info;
             iconBG.color = GlobalAccess.GetLevelColor(info.level);
-            icon.overrideSprite = Resloader.Load<Sprite>(ConstValue.spritePath + info.iconResource);
+            icon.overrideSprite = Resloader.LoadSprite(info.iconResource);
             title.color = GlobalAccess.GetLevelColor(info.level);
 
             title.text = DataManager.Instance.Language[info.title];
@@ -36,8 +40,15 @@ public class UIShopItem : MonoBehaviour
             this.gameObject.SetActive(true);
         } else
         {
+            this.info = null;
             this.gameObject.SetActive(false);
         }
-        
+        ItemSold(false);
+    }
+
+    public void ItemSold(bool sold)
+    {
+        buyButton.enabled = !sold;
+        soldIcon.SetActive(sold);
     }
 }

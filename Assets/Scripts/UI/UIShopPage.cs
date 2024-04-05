@@ -48,11 +48,36 @@ public class UIShopPage : MonoBehaviour
                     [Random.Range(0, DataManager.Instance.StoreItems.Count)]);
             } else
             {
-                StoreItemDefine temp = new StoreItemDefine();
-                temp.ID = -1;
-                shopItems[i].SetStoreItemInfo(temp);
+                shopItems[i].SetStoreItemInfo(null);
             }
             
+        }
+    }
+
+    public void BuyItem(int index)
+    {
+        if (shopItems[index].info == null)
+        {
+            //错误请求
+            UITip tip = UIManager.Instance.Show<UITip>();
+            tip.UpdateTip(DataManager.Instance.Language["general_error_tip"] + "0002");
+        } else if (shopItems[index].info.price > GameManager.Instance.featherCoin.Value)
+        {
+            //钱不够买
+            UITip tip = UIManager.Instance.Show<UITip>();
+            //todo
+            tip.UpdateTip(DataManager.Instance.Language["go_next_town_tip"]);
+        } else if (!GameManager.Instance.repository.remainOpacity)
+        {
+            //仓库空间不够了
+            UITip tip = UIManager.Instance.Show<UITip>();
+            //todo
+            tip.UpdateTip(DataManager.Instance.Language["general_error_tip"]);
+        } else
+        {
+            shopItems[index].ItemSold(true);
+            GameManager.Instance.CoinChanged(-shopItems[index].info.price);
+            GameManager.Instance.repository.AddItem(new StoreItemModel(shopItems[index].info));
         }
     }
 }
