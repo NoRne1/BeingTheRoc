@@ -135,6 +135,7 @@
     <Compile Include="Assets/Scripts/UI/UITeamBagPage.cs" />
     <Compile Include="Assets/Scripts/Utilities/CheckPointerEnter.cs" />
     <Compile Include="Assets/LeanTween/Testing/FollowingTests.cs" />
+    <Compile Include="Assets/Scripts/UI/UIEquipItem.cs" />
     <Compile Include="Assets/Scripts/Utilities/Singleton.cs" />
     <Compile Include="Assets/Scripts/UI/UITeamInfoPage.cs" />
   </ItemGroup>

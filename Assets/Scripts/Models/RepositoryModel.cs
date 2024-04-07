@@ -28,9 +28,9 @@ public class RepositoryModel
         itemsRelay.OnNext(itemsRelay.Value);
     }
 
-	public void RemoveItem(StoreItemModel item)
+	public void RemoveItem(string uuid)
 	{
-        itemsRelay.Value.RemoveAll(value => item.uuid == value.uuid);
+        itemsRelay.Value.RemoveAll(value => uuid == value.uuid);
         itemsRelay.OnNext(itemsRelay.Value);
     }
 }

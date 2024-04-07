@@ -48,7 +48,7 @@ public class MapManager : MonoSingleton<MapManager>
         //for test
         DataManager.Instance.Load();
 
-        nextTownIdSubject.AsObservable().Subscribe(id =>
+        nextTownIdSubject.AsObservable().TakeUntilDestroy(this).Subscribe(id =>
         {
             if (id != -1)
             {
@@ -64,6 +64,7 @@ public class MapManager : MonoSingleton<MapManager>
                     townList[id].UpdatePlayerIsThere(true);
                     currentTownId = id;
                     townList[currentTownId].Status = TownNodeStatus.passed;
+                    GameManager.Instance.SwitchPage(PageType.town);
                 } else
                 {
                     UITip tip = UIManager.Instance.Show<UITip>();
@@ -173,7 +174,6 @@ public class MapManager : MonoSingleton<MapManager>
     public void GoNextTown(int desTownID)
     {
         nextTownIdSubject.OnNext(desTownID);
-        GameManager.Instance.SwitchPage(PageType.town);
     }
 
     public bool CanGoNextTown(int s, int d)

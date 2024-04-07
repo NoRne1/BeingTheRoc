@@ -13,7 +13,7 @@ public class UIShopPage : MonoBehaviour
         timeLeft = GameManager.Instance.timeLeft.Value;
         GenerateShopItems();
 
-        GameManager.Instance.timeLeft.AsObservable().Subscribe(time =>
+        GameManager.Instance.timeLeft.AsObservable().TakeUntilDestroy(this).Subscribe(time =>
         {
             if (timeLeft != time)
             {

@@ -844,6 +844,7 @@ RectTransform:
   - {fileID: 6848565745033852792}
   - {fileID: 1321623499262590354}
   - {fileID: 74229487500199904}
+  - {fileID: 2653883252470415810}
   m_Father: {fileID: 5492995744985450480}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -864,6 +865,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 026fb9aaad5134829b8cbd1af080e701, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterIcon: {fileID: 2937848933970418480}
+  equipSlots:
+  - {fileID: 5920318110539223575}
+  - {fileID: 94279629769665925}
+  - {fileID: 1969962497434798037}
+  - {fileID: 2242041286087045810}
+  - {fileID: 7888594182396155020}
+  - {fileID: 4503664467948142338}
+  - {fileID: 4337325245770538385}
+  - {fileID: 3420023506523778309}
+  - {fileID: 4709754591643403752}
   itemButtons:
   - {fileID: 5529434120690991104}
   - {fileID: 6222806949546625876}
@@ -879,6 +891,7 @@ MonoBehaviour:
   - {fileID: 9196090536851913348}
   itemPrefab: {fileID: 992046318155185873, guid: 00de02176a9a843cc90dcdf5c4515a40, type: 3}
   discardButton: {fileID: 8180165904778032193}
+  equipFather: {fileID: 2653883252470415810}
 --- !u!1 &781016975917638314
 GameObject:
   m_ObjectHideFlags: 0
@@ -1433,6 +1446,42 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &1039707763533348319
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2653883252470415810}
+  m_Layer: 5
+  m_Name: equipFather
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2653883252470415810
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039707763533348319}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2137733524690392475}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1107187277253422069
 GameObject:
   m_ObjectHideFlags: 0
@@ -11024,7 +11073,7 @@ GameObject:
   - component: {fileID: 2146809541339330642}
   m_Layer: 5
   m_Name: bag_view
-  m_TagString: Untagged
+  m_TagString: Repositor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

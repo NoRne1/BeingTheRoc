@@ -13,7 +13,7 @@ public class DescHintComponent : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     public void Start()
     {
-        DataManager.Instance.DataLoaded.AsObservable().Subscribe(loaded =>
+        DataManager.Instance.DataLoaded.AsObservable().TakeUntilDestroy(this).Subscribe(loaded =>
         {
             if (loaded)
             {
@@ -21,7 +21,7 @@ public class DescHintComponent : MonoBehaviour, IPointerEnterHandler, IPointerEx
             }
         });
 
-        this.isMouseEnter.AsObservable().DistinctUntilChanged().Subscribe(isEnter =>
+        this.isMouseEnter.AsObservable().DistinctUntilChanged().TakeUntilDestroy(this).Subscribe(isEnter =>
         {
             if (isEnter & hint_text != null)
             {

@@ -28,10 +28,10 @@ public class UITeamWindow : UIWindow
     private void Init()
     {
         currentCharacterID = new BehaviorSubject<int>(GameManager.Instance.characterIDs[0]);
-        currentCharacterID.AsObservable().DistinctUntilChanged().Subscribe(cid =>
+        currentCharacterID.AsObservable().DistinctUntilChanged().TakeUntilDestroy(this).Subscribe(cid =>
         {
             if(disposable != null) { disposable.Dispose(); }
-            disposable = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(cid)).Subscribe(character =>
+            disposable = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(cid)).TakeUntilDestroy(this).Subscribe(character =>
             {
                 print(DataManager.Instance.Characters[cid]);
                 infoPage.UpdateCharacter(character);

@@ -36,7 +36,7 @@ public class UICharacterSelectPanel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DataManager.Instance.DataLoaded.AsObservable().Subscribe(loaded =>
+        DataManager.Instance.DataLoaded.AsObservable().TakeUntilDestroy(this).Subscribe(loaded =>
         {
             if (loaded)
             {

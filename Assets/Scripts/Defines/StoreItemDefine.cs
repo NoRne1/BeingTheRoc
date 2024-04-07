@@ -27,7 +27,17 @@ public class StoreItemDefine
     public EquipLevel level { get; set; }
     public string title { get; set; }
     public int price { get; set; }
-    public List<Vector2Int> OccupiedCells { get { return occupiedCells; } }
+    public List<Vector2Int> OccupiedCells
+    {
+        get
+        {
+            if (occupiedCells == null)
+            {
+                OccupiedCellsInit();
+            }
+            return occupiedCells;
+        }
+    }
     private List<Vector2Int> occupiedCells;
 
     public void OccupiedCellsInit()

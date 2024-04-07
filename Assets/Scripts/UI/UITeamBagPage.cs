@@ -4,10 +4,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
-using static UnityEditor.Progress;
+using System.Linq;
+using Unity.Burst.CompilerServices;
 
 public class UITeamBagPage : MonoBehaviour
 {
+    public Image characterIcon;
+
+    public List<Transform> equipSlots;
+
     public List<Button> itemButtons;
 
     public GameObject itemPrefab; // 大装备的预制体
@@ -19,12 +24,12 @@ public class UITeamBagPage : MonoBehaviour
 
     private float moveThreshold = 10f; //移动检测阈值
 
-    private Vector3 offset; // 用于调整装备图像的位置
     // 丢弃按钮
     public Button discardButton;
 
     public CharacterModel character;
 
+    public Transform equipFather;
     // Start is called before the first frame update
     void Start()
     {
@@ -64,9 +69,6 @@ public class UITeamBagPage : MonoBehaviour
                 // 记录鼠标按下的位置
                 pressPosition = Input.mousePosition;
                 isDragging = false;
-
-                // 计算偏移量
-                //offset = draggedItem.transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
             }
         }
 
@@ -79,17 +81,13 @@ public class UITeamBagPage : MonoBehaviour
                 // 隐藏丢弃按钮
                 discardButton.gameObject.SetActive(false);
 
-                draggedItem = Instantiate(itemPrefab, this.transform);
+                draggedItem = Instantiate(itemPrefab, this.equipFather);
+                draggedItem.GetComponent<UIEquipItem>().item = currentItem.item;
+                draggedItem.GetComponent<UIEquipItem>().character = character;
                 draggedItem.GetComponent<Image>().overrideSprite = Resloader.LoadSprite(currentItem.item.iconResource);
             }
             if (isDragging && draggedItem != null)
             {
-                //Debug.Log("draggedItem.transform.position: " + draggedItem.transform.position);
-                //Debug.Log("Input.mousePosition: " + Input.mousePosition);
-                //Debug.Log("pressPosition: " + pressPosition);
-                //Debug.Log("+Position: " + Camera.main.ScreenToWorldPoint(Input.mousePosition - pressPosition));
-                //// 更新装备图像的位置，跟随鼠标移动
-                //Vector3 offset = Camera.main.ScreenToWorldPoint(Input.mousePosition) - Camera.main.ScreenToWorldPoint(pressPosition);
                 Vector3 tempVector = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 draggedItem.transform.position = new Vector3(tempVector.x, tempVector.y, 0);
             }
@@ -119,10 +117,15 @@ public class UITeamBagPage : MonoBehaviour
                         if (character.backpack.Place(currentItem.item, gridPosition))
                         {
                             Debug.Log("Place item at grid position: " + gridPosition);
+                            GameManager.Instance.repository.RemoveItem(currentItem.item.uuid);
+
+                            Vector3 tempVector = hit.collider.GetComponent<UIEquipSlot>().transform.position;
+                            draggedItem.transform.position = tempVector;
+                            draggedItem.GetComponent<UIEquipItem>().recordPosition = tempVector;
+                            Destroy(draggedItem);
                         }
                         else
                         {
-                            Debug.Log("Cannot place item at grid position: " + gridPosition);
                             Destroy(draggedItem);
                         }
                     } else
@@ -150,11 +153,56 @@ public class UITeamBagPage : MonoBehaviour
     public void UpdateCharacter(CharacterModel character)
     {
         this.character = character;
+        this.characterIcon.overrideSprite = Resloader.LoadSprite(character.Resource);
         RefreshBag(character);
     }
 
     public void RefreshBag(CharacterModel character)
     {
-        Debug.Log("RefreshBag");
+        // 遍历子节点
+        foreach (Transform child in this.equipFather)
+        {
+            // 销毁子节点
+            Destroy(child.gameObject);
+        }
+
+        // 清空子节点列表
+        equipFather.DetachChildren();
+
+        foreach (var kvp in MergeDictionaryByUuid(character.backpack.grid))
+        {
+            GameObject temp = Instantiate(itemPrefab, this.equipFather);
+            temp.GetComponent<UIEquipItem>().item = kvp.Value;
+            temp.GetComponent<UIEquipItem>().character = character;
+            temp.GetComponent<Image>().overrideSprite = Resloader.LoadSprite(kvp.Value.iconResource);
+            Vector3 tempVector = equipSlots[kvp.Key.x * 3 + kvp.Key.y].position;
+            temp.transform.position = tempVector;
+            temp.GetComponent<UIEquipItem>().recordPosition = tempVector;
+        }
+    }
+
+    public Dictionary<Vector2Int, StoreItemModel> MergeDictionaryByUuid(Dictionary<Vector2Int, StoreItemModel> originalDictionary)
+    {
+        // 分组
+        var groups = originalDictionary.Where(kv => kv.Value != null).GroupBy(kv => kv.Value.uuid);
+
+        // 合并后的新字典
+        Dictionary<Vector2Int, StoreItemModel> mergedDictionary = new Dictionary<Vector2Int, StoreItemModel>();
+
+        foreach (var group in groups)
+        {
+            // 计算每个组中 Vector2Int 的 x * 10 + y 的值，并找到最小的键值对
+            KeyValuePair<Vector2Int, StoreItemModel> minKeyValuePair = group
+                .OrderBy(kv => kv.Key.x * 100 + kv.Key.y)
+                .FirstOrDefault();
+
+            // 将最小的键值对添加到新字典中
+            if (minKeyValuePair.Key != null && !mergedDictionary.ContainsKey(minKeyValuePair.Key))
+            {
+                mergedDictionary.Add(minKeyValuePair.Key, minKeyValuePair.Value);
+            }
+        }
+
+        return mergedDictionary;
     }
 }

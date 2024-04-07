@@ -193,14 +193,14 @@ public class NorneRelay<T> : IObservable<T>
         _subject.OnNext(value);
     }
 
-    public IDisposable Subscribe(IObserver<T> observer)
-    {
-        return _subject.AsObservable().Subscribe(observer);
-    }
-
     public IObservable<T> AsObservable()
     {
         return _subject.AsObservable();
+    }
+
+    public IDisposable Subscribe(IObserver<T> observer)
+    {
+        return _subject.AsObservable().Subscribe(observer);
     }
 }
 

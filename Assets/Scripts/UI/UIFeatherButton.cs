@@ -10,7 +10,7 @@ public class UIFeatherButton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.Instance.featherCoin.AsObservable().DistinctUntilChanged().Subscribe(coin =>
+        GameManager.Instance.featherCoin.AsObservable().DistinctUntilChanged().TakeUntilDestroy(this).Subscribe(coin =>
         {
             featherCoinText.text = coin.ToString();
         });

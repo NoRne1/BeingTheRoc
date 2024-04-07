@@ -417,6 +417,7 @@
 "Assets/Scripts/UI/UICharacterSelectPanel.cs"
 "Assets/Scripts/UI/UICommonUI.cs"
 "Assets/Scripts/UI/UIDescHint.cs"
+"Assets/Scripts/UI/UIEquipItem.cs"
 "Assets/Scripts/UI/UIEquipSlot.cs"
 "Assets/Scripts/UI/UIFeatherButton.cs"
 "Assets/Scripts/UI/UILoadingPanel.cs"

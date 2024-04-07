@@ -19,21 +19,22 @@ class GlobalAccess
     {
         get { return DataManager.Instance.Characters.Count - mainCharacterNum; }
     }
-    public static int CurrentCharacterId = 1;
-    //{
-    //    get
-    //    {
-    //        //return PlayerPrefs.GetInt("CurrentCharacterId", -1);
-    //        return 1;
-    //    }
-    //    set
-    //    {
-    //        if (DataManager.Instance.Characters.Keys.ToList().Contains(value))
-    //        {
-    //            PlayerPrefs.SetInt("CurrentCharacterId", value);
-    //        }
-    //    }
-    //}
+    //public static int CurrentCharacterId = 1;
+    public static int CurrentCharacterId
+    {
+        get
+        {
+            return 1;
+            //return PlayerPrefs.GetInt("CurrentCharacterId", -1);
+        }
+        set
+        {
+            if (DataManager.Instance.Characters.Keys.ToList().Contains(value))
+            {
+                PlayerPrefs.SetInt("CurrentCharacterId", value);
+            }
+        }
+}
 
     public static Sprite CurrentCharacterIcon
     {

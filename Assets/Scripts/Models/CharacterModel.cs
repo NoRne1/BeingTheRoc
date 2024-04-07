@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
+using UniRx;
 
 public class CharacterModel: CharacterDefine, IStorable
 {
@@ -9,6 +9,9 @@ public class CharacterModel: CharacterDefine, IStorable
     public int remainExp { get { return exp % GlobalAccess.levelUpExp; } }
     public int exp;
     public Backpack backpack;
+
+    public Subject<bool> characterUpdate = new Subject<bool>();
+    private System.IDisposable disposable;
 
     public CharacterModel()
     {}
@@ -31,9 +34,22 @@ public class CharacterModel: CharacterDefine, IStorable
         Energy = define.Energy;
         Resource = define.Resource;
         Desc = define.Desc;
+        backpack = new Backpack(3, 3, characterUpdate);
+        disposable = characterUpdate.AsObservable().Subscribe(_ =>
+        {
+            NorneStore.Instance.Update<CharacterModel>(this, isFull: true);
+        });
     }
 
     public string StorableCategory => "Character";
 
     public string Identifier => this.ID.ToString();
+
+    ~CharacterModel()
+    {
+        if (disposable != null)
+        {
+            disposable.Dispose();
+        }
+    }
 }

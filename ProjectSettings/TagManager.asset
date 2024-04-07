@@ -8,6 +8,7 @@ TagManager:
   - ToolTipCanvas
   - Item
   - EquipSlot
+  - Repositor
   layers:
   - Default
   - TransparentFX

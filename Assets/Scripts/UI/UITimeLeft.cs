@@ -14,7 +14,7 @@ public class UITimeLeft : MonoBehaviour
     {
         currentTimeLeft = GameManager.Instance.timeLeft.Value;
         timeLeftText.text = currentTimeLeft.ToString();
-        GameManager.Instance.timeLeft.AsObservable().Skip(1).DistinctUntilChanged().Subscribe(time =>
+        GameManager.Instance.timeLeft.AsObservable().Skip(1).DistinctUntilChanged().TakeUntilDestroy(this).Subscribe(time =>
         {
             if(currentTimeLeft > time)
             {
