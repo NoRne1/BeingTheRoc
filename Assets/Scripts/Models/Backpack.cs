@@ -2,10 +2,12 @@
 using UniRx;
 using UnityEngine;
 using System.Linq;
+using static UnityEditor.Progress;
 
 public class Backpack
 {
     public Subject<bool> characterUpdate;
+    public List<StoreItemModel> equips = new List<StoreItemModel>();
     public Dictionary<Vector2Int, StoreItemModel> grid = new Dictionary<Vector2Int, StoreItemModel>();
     
     public Backpack(int sizeX, int sizeY, Subject<bool> subject)
@@ -48,6 +50,8 @@ public class Backpack
                 Vector2Int cellPosition = position + cell;
                 grid[cellPosition] = item;
             }
+            equips.Add(item);
+            item.EquipPosition(position);
             characterUpdate.OnNext(true);
             return true;
         }
@@ -67,7 +71,12 @@ public class Backpack
                 Vector2Int cellPosition = position + cell;
                 grid[cellPosition] = item;
             }
+
+            //RemoveItemsByUUID中删除了装备，需要加回来
+            equips.Add(item);
+            item.EquipPosition(position);
             characterUpdate.OnNext(true);
+            //只需要更新装备位置，旋转自动更新
             return true;
         }
         return false;
@@ -84,10 +93,14 @@ public class Backpack
 
     public void RemoveItemsByUUID(string uuid)
     {
-        this.RemoveItemsByUUID(uuid, grid);
+        equips.RemoveAll(item => item.uuid == uuid);
+        if (this.RemoveItemsByUUID(uuid, grid))
+        {
+            characterUpdate.OnNext(true);
+        }
     }
 
-    public void RemoveItemsByUUID(string uuid, Dictionary<Vector2Int, StoreItemModel> grid)
+    public bool RemoveItemsByUUID(string uuid, Dictionary<Vector2Int, StoreItemModel> grid)
     {
         // 使用 LINQ 筛选出字典中 uuid 相等的键值对，并转换为列表
         var itemsToRemove = grid.Where(kv => kv.Value?.uuid == uuid).ToList();
@@ -98,10 +111,7 @@ public class Backpack
             grid[itemToRemove.Key] = null;
         }
 
-        if (itemsToRemove.Count > 0)
-        {
-            characterUpdate.OnNext(true);
-        }
+        return itemsToRemove.Count> 0;
     }
 }
 

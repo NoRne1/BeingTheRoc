@@ -17,6 +17,7 @@ public class UITeamBagPage : MonoBehaviour
 
     public GameObject itemPrefab; // 大装备的预制体
     private GameObject draggedItem; // 大装备的实例
+    private UIEquipItem draggedEquipItem; // 大装备的实例
     private UIRepositorSlot currentItem; // 仓库中当前被拖动的装备脚本
     
     private Vector3 pressPosition; // 鼠标按下的位置
@@ -82,14 +83,19 @@ public class UITeamBagPage : MonoBehaviour
                 discardButton.gameObject.SetActive(false);
 
                 draggedItem = Instantiate(itemPrefab, this.equipFather);
-                draggedItem.GetComponent<UIEquipItem>().item = currentItem.item;
-                draggedItem.GetComponent<UIEquipItem>().character = character;
+                draggedEquipItem = draggedItem.GetComponent<UIEquipItem>();
+                draggedEquipItem.item = currentItem.item;
+                draggedEquipItem.character = character;
                 draggedItem.GetComponent<Image>().overrideSprite = Resloader.LoadSprite(currentItem.item.iconResource);
             }
-            if (isDragging && draggedItem != null)
+            if (isDragging && draggedItem != null && draggedEquipItem != null)
             {
                 Vector3 tempVector = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 draggedItem.transform.position = new Vector3(tempVector.x, tempVector.y, 0);
+                if (Input.GetMouseButtonDown(1))
+                {
+                    this.Rotate(draggedEquipItem, 90, 2f);
+                }
             }
         }
 
@@ -121,16 +127,16 @@ public class UITeamBagPage : MonoBehaviour
 
                             Vector3 tempVector = hit.collider.GetComponent<UIEquipSlot>().transform.position;
                             draggedItem.transform.position = tempVector;
-                            draggedItem.GetComponent<UIEquipItem>().recordPosition = tempVector;
-                            Destroy(draggedItem);
+                            draggedEquipItem.recordPosition = tempVector;
+                            DestroyDraggedItem();
                         }
                         else
                         {
-                            Destroy(draggedItem);
+                            DestroyDraggedItem();
                         }
                     } else
                     {
-                        Destroy(draggedItem);
+                        DestroyDraggedItem();
                     }
 
                 }
@@ -140,6 +146,16 @@ public class UITeamBagPage : MonoBehaviour
                 // 隐藏丢弃按钮
                 discardButton.gameObject.SetActive(false);
             }
+        }
+    }
+
+    private void DestroyDraggedItem()
+    {
+        if (draggedItem != null)
+        {
+            Destroy(draggedItem);
+            draggedItem = null;
+            draggedEquipItem = null;
         }
     }
 
@@ -169,40 +185,55 @@ public class UITeamBagPage : MonoBehaviour
         // 清空子节点列表
         equipFather.DetachChildren();
 
-        foreach (var kvp in MergeDictionaryByUuid(character.backpack.grid))
+        foreach (var equip in character.backpack.equips)
         {
             GameObject temp = Instantiate(itemPrefab, this.equipFather);
-            temp.GetComponent<UIEquipItem>().item = kvp.Value;
+            temp.GetComponent<UIEquipItem>().item = equip;
             temp.GetComponent<UIEquipItem>().character = character;
-            temp.GetComponent<Image>().overrideSprite = Resloader.LoadSprite(kvp.Value.iconResource);
-            Vector3 tempVector = equipSlots[kvp.Key.x * 3 + kvp.Key.y].position;
+            temp.GetComponent<Image>().overrideSprite = Resloader.LoadSprite(equip.iconResource);
+            temp.transform.rotation = temp.transform.rotation * Quaternion.Euler(0, 0, equip.rotationAngle);
+            Vector3 tempVector = equipSlots[equip.position.x * 3 + equip.position.y].position;
             temp.transform.position = tempVector;
             temp.GetComponent<UIEquipItem>().recordPosition = tempVector;
         }
     }
 
-    public Dictionary<Vector2Int, StoreItemModel> MergeDictionaryByUuid(Dictionary<Vector2Int, StoreItemModel> originalDictionary)
+    //public Dictionary<Vector2Int, StoreItemModel> MergeDictionaryByUuid(Dictionary<Vector2Int, StoreItemModel> originalDictionary)
+    //{
+    //    // 分组
+    //    var groups = originalDictionary.Where(kv => kv.Value != null).GroupBy(kv => kv.Value.uuid);
+
+    //    // 合并后的新字典
+    //    Dictionary<Vector2Int, StoreItemModel> mergedDictionary = new Dictionary<Vector2Int, StoreItemModel>();
+
+    //    foreach (var group in groups)
+    //    {
+    //        // 计算每个组中 Vector2Int 的 x * 10 + y 的值，并找到最小的键值对
+    //        KeyValuePair<Vector2Int, StoreItemModel> minKeyValuePair = group
+    //            .OrderBy(kv => kv.Key.x * 100 + kv.Key.y)
+    //            .FirstOrDefault();
+
+    //        // 将最小的键值对添加到新字典中
+    //        if (minKeyValuePair.Key != null && !mergedDictionary.ContainsKey(minKeyValuePair.Key))
+    //        {
+    //            mergedDictionary.Add(minKeyValuePair.Key, minKeyValuePair.Value);
+    //        }
+    //    }
+
+    //    return mergedDictionary;
+    //}
+
+    private BehaviorSubject<bool> isRotating = new BehaviorSubject<bool>(false); // 标志是否正在播放旋转动画
+
+    public void Rotate(UIEquipItem equipItem, int angle, float duration)
     {
-        // 分组
-        var groups = originalDictionary.Where(kv => kv.Value != null).GroupBy(kv => kv.Value.uuid);
-
-        // 合并后的新字典
-        Dictionary<Vector2Int, StoreItemModel> mergedDictionary = new Dictionary<Vector2Int, StoreItemModel>();
-
-        foreach (var group in groups)
+        if (!isRotating.Value)
         {
-            // 计算每个组中 Vector2Int 的 x * 10 + y 的值，并找到最小的键值对
-            KeyValuePair<Vector2Int, StoreItemModel> minKeyValuePair = group
-                .OrderBy(kv => kv.Key.x * 100 + kv.Key.y)
-                .FirstOrDefault();
-
-            // 将最小的键值对添加到新字典中
-            if (minKeyValuePair.Key != null && !mergedDictionary.ContainsKey(minKeyValuePair.Key))
-            {
-                mergedDictionary.Add(minKeyValuePair.Key, minKeyValuePair.Value);
-            }
+            equipItem.item.Rotate(angle);
+            // 如果当前没有正在播放的旋转动画，则启动旋转协程
+            Quaternion startRotation = transform.rotation;
+            Quaternion endRotation = startRotation * Quaternion.Euler(0, 0, angle);
+            StartCoroutine(GameUtil.Instance.RotateCoroutine(equipItem.transform, startRotation, endRotation, duration, isRotating)); // 启动旋转协程
         }
-
-        return mergedDictionary;
     }
 }

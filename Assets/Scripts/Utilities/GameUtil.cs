@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using UniRx;
 using UnityEngine;
 
 
@@ -85,5 +86,23 @@ public class GameUtil : Singleton<GameUtil>
             }
         }
         return obj;
+    }
+
+    public IEnumerator RotateCoroutine(Transform transform, Quaternion startRotation, Quaternion endRotation, float duration, BehaviorSubject<bool> isRotating)
+    {
+        isRotating.OnNext(true);
+         // 绕 Z 轴逆时针旋转 90 度
+        float startTime = Time.time;
+
+        while (Time.time - startTime < duration)
+        {
+            float t = (Time.time - startTime) / duration;
+            transform.rotation = Quaternion.Lerp(startRotation, endRotation, t);
+            yield return null;
+        }
+
+        // 确保结束时确切地达到目标旋转状态
+        transform.rotation = endRotation;
+        isRotating.OnNext(false);
     }
 }
