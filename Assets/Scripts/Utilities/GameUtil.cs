@@ -18,6 +18,22 @@ public class GameUtil : Singleton<GameUtil>
         return Screen.safeArea.Contains(Camera.main.WorldToScreenPoint(position));
     }
 
+    public bool IsPointInsideGameObject(GameObject gameObject, Vector3 screenPoint)
+    {
+        Vector2 localPoint;
+        var rectTransform = gameObject.GetComponent<RectTransform>();
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, screenPoint, Camera.main, out localPoint);
+        // 检查点是否在范围内
+        if (rectTransform.rect.Contains(localPoint))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public int CalcDamage(float power, float agile, float attack, float armor)
     {
         if (UnityEngine.Random.Range(0f, 100f) < agile)
@@ -97,12 +113,20 @@ public class GameUtil : Singleton<GameUtil>
         while (Time.time - startTime < duration)
         {
             float t = (Time.time - startTime) / duration;
-            transform.rotation = Quaternion.Lerp(startRotation, endRotation, t);
+            if (transform != null)
+            {
+                transform.rotation = Quaternion.Lerp(startRotation, endRotation, t);
+            } else
+            {
+                break;
+            }
             yield return null;
         }
-
-        // 确保结束时确切地达到目标旋转状态
-        transform.rotation = endRotation;
+        if (transform != null)
+        {
+            // 确保结束时确切地达到目标旋转状态
+            transform.rotation = endRotation;
+        }
         isRotating.OnNext(false);
     }
 }

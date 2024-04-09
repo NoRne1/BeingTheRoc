@@ -892,6 +892,7 @@ MonoBehaviour:
   itemPrefab: {fileID: 992046318155185873, guid: 00de02176a9a843cc90dcdf5c4515a40, type: 3}
   discardButton: {fileID: 8180165904778032193}
   equipFather: {fileID: 2653883252470415810}
+  repositor: {fileID: 8627098686273141798}
 --- !u!1 &781016975917638314
 GameObject:
   m_ObjectHideFlags: 0
@@ -11071,7 +11072,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1321623499262590354}
   - component: {fileID: 2146809541339330642}
-  - component: {fileID: 4655977401300330927}
   m_Layer: 5
   m_Name: bag_view
   m_TagString: Repositor
@@ -11129,51 +11129,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!61 &4655977401300330927
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8627098686273141798}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 755, y: 832.65}
-  m_EdgeRadius: 0
 --- !u!1 &8816772094114085947
 GameObject:
   m_ObjectHideFlags: 0

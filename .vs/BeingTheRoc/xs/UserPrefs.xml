@@ -1,14 +1,15 @@
 ﻿<Properties StartupConfiguration="{BBB342A2-6894-1B0E-77BF-1034E1720682}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/UITeamBagPage.cs">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Models/Backpack.cs">
     <Files>
-      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="80" Column="18" />
+      <File FileName="Assets/Scripts/Managers/GameManager.cs" />
       <File FileName="Assets/Scripts/UI/UITeamWindow.cs" Line="27" Column="1" />
-      <File FileName="Assets/Scripts/UI/UITeamBagPage.cs" Line="187" Column="1" />
-      <File FileName="Assets/Scripts/UI/UIEquipItem.cs" Line="46" Column="30" />
-      <File FileName="Assets/Scripts/Defines/StoreItemDefine.cs" Line="17" Column="27" />
-      <File FileName="Assets/Scripts/Models/Backpack.cs" Line="34" Column="10" />
-      <File FileName="Assets/Scripts/Models/StoreItemModel.cs" Line="7" Column="14" />
-      <File FileName="Assets/Scripts/Utilities/GameUtil.cs" Line="91" Column="24" />
+      <File FileName="Assets/Scripts/UI/UITeamBagPage.cs" Line="172" Column="22" />
+      <File FileName="Assets/Scripts/UI/UIEquipItem.cs" Line="8" Column="1" />
+      <File FileName="Assets/Scripts/Models/Backpack.cs" Line="40" Column="10" />
+      <File FileName="Assets/Scripts/Models/StoreItemModel.cs" Line="205" Column="52" />
+      <File FileName="Assets/Scripts/Defines/StoreItemDefine.cs" Line="19" Column="21" />
+      <File FileName="Assets/Scripts/Utilities/GameUtil.cs" Line="126" Column="10" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -26,9 +27,7 @@
                 <Node name="Defines" expanded="True" />
                 <Node name="Managers" expanded="True" />
                 <Node name="Models" expanded="True" />
-                <Node name="UI" expanded="True">
-                  <Node name="UITeamBagPage.cs" selected="True" />
-                </Node>
+                <Node name="UI" expanded="True" />
                 <Node name="Utilities" expanded="True" />
               </Node>
             </Node>
@@ -37,11 +36,12 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/norne/dev/BeingTheRoc/Assets/Scripts/UI/UITeamBagPage.cs" relfile="Assets/Scripts/UI/UITeamBagPage.cs" line="188" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="fa17682a-abaf-46f9-964d-75abb3ba6251" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="2771ec50-c2f0-4d98-af11-340643fbee1e" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations />
 </Properties>
