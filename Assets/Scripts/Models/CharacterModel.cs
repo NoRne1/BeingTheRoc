@@ -32,9 +32,10 @@ public class CharacterModel: CharacterDefine, IStorable
         Speed = define.Speed;
         Mobility = define.Mobility;
         Energy = define.Energy;
+        Lucky = define.Lucky;
         Resource = define.Resource;
         Desc = define.Desc;
-        backpack = new Backpack(3, 3, characterUpdate);
+        backpack = new Backpack(define.ID, 3, 3, characterUpdate);
         disposable = characterUpdate.AsObservable().Subscribe(_ =>
         {
             NorneStore.Instance.Update<CharacterModel>(this, isFull: true);

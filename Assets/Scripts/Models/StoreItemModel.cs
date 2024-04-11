@@ -7,17 +7,26 @@ using UnityEngine;
 public class StoreItemModel : StoreItemDefine
 {
     public string uuid;
-    public Vector3 recordPosition;
+    public int characterID = -1;
     public Vector2Int position; // 在背包中的位置
     public int rotationAngle; // 旋转角度
-
+    private int tempRotationAngle; // 旋转角度
     public List<Vector2Int> OccupiedCells
     {
         get
         {
-            return occupiedCells;
+            if(CanEquip() && tempOccupiedCells.Count != 0)
+            {
+                //优先返回临时的
+                return tempOccupiedCells;
+            } else
+            {
+                return occupiedCells;
+            }
         }
     }
+
+    private List<Vector2Int> tempOccupiedCells;
     private List<Vector2Int> occupiedCells;
 
     public Vector2 occupiedRect
@@ -63,28 +72,43 @@ public class StoreItemModel : StoreItemDefine
         level = define.level;
         title = define.title;
         price = define.price;
+        invokeType = define.invokeType;
+        effect1 = define.effect1;
+        effect2 = define.effect2;
+        effect3 = define.effect3;
         OccupiedCellsInit();
     }
 
-    public void EquipPosition(Vector2Int position)
+    public bool CanEquip()
     {
-        if (type != ItemType.none)
+        return type != ItemType.none;
+    }
+
+    public bool CanUse()
+    {
+        return invokeType == InvokeType.use;
+    }
+
+    public void Equip(int characterID, Vector2Int position)
+    {
+        if (CanEquip())
         {
+            this.characterID = characterID;
             this.position = position;
+            this.rotationAngle = tempRotationAngle;
+            this.occupiedCells = new List<Vector2Int>(tempOccupiedCells);
         }
     }
 
-    //public void EquipRotation(int rotationAngle)
-    //{
-    //    if (type != ItemType.none)
-    //    {
-    //        this.rotationAngle = rotationAngle;
-    //    }
-    //}
-
-    public void unEquip()
+    public void ResetRotate()
     {
-        this.recordPosition = Vector3.zero;
+        this.tempRotationAngle = rotationAngle;
+        this.tempOccupiedCells = new List<Vector2Int>(occupiedCells);
+    }
+
+    public void Unequip()
+    {
+        this.characterID = -1;
         this.position = Vector2Int.zero;
         this.rotationAngle = 0;
         OccupiedCellsInit();
@@ -161,14 +185,17 @@ public class StoreItemModel : StoreItemDefine
                 break;
         }
         occupiedCells = result;
+        tempOccupiedCells = new List<Vector2Int>(result);
     }
+
     public void Rotate(int angle)
     {
-        if (occupiedCells == null || occupiedCells.Count == 0)
+        List<Vector2Int> points;
+        if (tempOccupiedCells == null || tempOccupiedCells.Count == 0)
         {
             return;
         }
-        List<Vector2Int> points = new List<Vector2Int>(occupiedCells);
+        points = new List<Vector2Int>(tempOccupiedCells);
         // 对每个点进行旋转和平移
         for (int i = 0; i < points.Count; i++)
         {
@@ -201,8 +228,8 @@ public class StoreItemModel : StoreItemDefine
             // 更新点的坐标
             points[i] = new Vector2Int(newX, newY);
         }
-        occupiedCells = points;
-        rotationAngle = (rotationAngle + 90) % 360;
+        tempOccupiedCells = points;
+        tempRotationAngle = (tempRotationAngle + 90) % 360;
     }
     //public void Rotate(int angle)
     //{

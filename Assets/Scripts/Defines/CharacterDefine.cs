@@ -70,6 +70,11 @@ public class CharacterDefine
     public int Energy { get; set; }
 
     /// <summary>
+    /// 幸运
+    /// </summary>
+    public int Lucky { get; set; }
+
+    /// <summary>
     /// 图片资源
     /// </summary>
     public string Resource { get; set; }

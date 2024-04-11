@@ -10,7 +10,8 @@ public class UIEquipItem : MonoBehaviour
 {
     public StoreItemModel item;
     public CharacterModel character;
-
+    public Vector3 recordPosition;
+    public Quaternion recordRotation;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,5 +22,18 @@ public class UIEquipItem : MonoBehaviour
     void Update()
     {
        
+    }
+
+    public void SetAndRecord(Vector3 recordPosition)
+    {
+        transform.position = recordPosition;
+        this.recordPosition = recordPosition;
+        this.recordRotation = transform.rotation;
+    }
+
+    public void Reset()
+    {
+        transform.position = recordPosition;
+        transform.rotation = recordRotation;
     }
 }

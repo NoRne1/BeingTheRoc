@@ -122,7 +122,7 @@ public class UITeamBagPage : MonoBehaviour
                 draggedEquipItem.transform.position = new Vector3(tempVector.x, tempVector.y, 0);
                 if (Input.GetMouseButtonDown(1))
                 {
-                    this.Rotate(draggedEquipItem, 90, 0.5f);
+                    this.Rotate(draggedEquipItem, 90, 0.3f);
                 }
             }
         }
@@ -156,17 +156,16 @@ public class UITeamBagPage : MonoBehaviour
                                 GameManager.Instance.repository.RemoveItem(draggedEquipItem.item.uuid);
 
                                 Vector3 tempVector = hit.collider.GetComponent<UIEquipSlot>().transform.position;
-                                draggedEquipItem.transform.position = tempVector;
-                                draggedEquipItem.item.recordPosition = tempVector;
+                                draggedEquipItem.SetAndRecord(tempVector);
                             }
                             else
                             {
-                                draggedEquipItem.item.unEquip();
+                                draggedEquipItem.item.ResetRotate();
                                 Destroy(draggedEquipItem.gameObject);
                             }
                         } else
                         {
-                            draggedEquipItem.item.unEquip();
+                            draggedEquipItem.item.ResetRotate();
                             Destroy(draggedEquipItem.gameObject);
                         }
                     }
@@ -178,7 +177,7 @@ public class UITeamBagPage : MonoBehaviour
                             //放回到仓库
                             GameManager.Instance.repository.AddItem(draggedEquipItem.item);
                             character.backpack.RemoveItemsByUUID(draggedEquipItem.item.uuid);
-                            draggedEquipItem.item.unEquip();
+                            draggedEquipItem.item.Unequip();
                             Destroy(draggedEquipItem.gameObject);
                         }
                         else if (hit.collider != null && hit.collider.CompareTag("EquipSlot"))
@@ -188,16 +187,17 @@ public class UITeamBagPage : MonoBehaviour
                             if (character.backpack.MoveTo(draggedEquipItem.item, gridPosition))
                             {
                                 Vector3 tempVector = hit.collider.GetComponent<UIEquipSlot>().transform.position;
-                                draggedEquipItem.transform.position = tempVector;
-                                draggedEquipItem.item.recordPosition = tempVector;
+                                draggedEquipItem.SetAndRecord(tempVector);
                             }
                             else
                             {
-                                draggedEquipItem.transform.position = draggedEquipItem.item.recordPosition;
+                                draggedEquipItem.item.ResetRotate();
+                                draggedEquipItem.Reset();
                             }
                         } else
                         {
-                            draggedEquipItem.transform.position = draggedEquipItem.item.recordPosition;
+                            draggedEquipItem.item.ResetRotate();
+                            draggedEquipItem.Reset();
                         }
                     }
                 }
@@ -251,6 +251,7 @@ public class UITeamBagPage : MonoBehaviour
             Vector3 tempVector = equipSlots[equip.position.x * 3 + equip.position.y].position;
             temp.transform.position = tempVector;
             temp.GetComponent<RectTransform>().sizeDelta = equip.occupiedRect;
+            equipItem.SetAndRecord(tempVector);
             equipItems.Add(equipItem);
         }
     }

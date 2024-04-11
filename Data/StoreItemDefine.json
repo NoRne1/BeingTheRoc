@@ -3,60 +3,78 @@
         "ID": 0,
         "level": 0,
         "type": 0,
+        "invokeType": 0,
         "iconResource": "wooden_sword_icon",
         "title": "wooden_sword",
         "price": 100,
-        "Unnamed: 6": null,
-        "Unnamed: 7": null
+        "effect": {
+            "effectType": 0,
+            "value": 1
+        }
     },
     "1": {
         "ID": 1,
         "level": 1,
         "type": 1,
+        "invokeType": 1,
         "iconResource": "iron_sword_icon",
         "title": "iron_sword",
         "price": 200,
-        "Unnamed: 6": null,
-        "Unnamed: 7": null
+        "effect": {
+            "effectType": 1,
+            "value": 2
+        }
     },
     "2": {
         "ID": 2,
         "level": 2,
         "type": 2,
+        "invokeType": 2,
         "iconResource": "magic_sword_icon",
         "title": "magic_sword",
         "price": 400,
-        "Unnamed: 6": null,
-        "Unnamed: 7": null
+        "effect": {
+            "effectType": 2,
+            "value": 3
+        }
     },
     "3": {
         "ID": 3,
         "level": 0,
         "type": 0,
+        "invokeType": 0,
         "iconResource": "wooden_sword_icon",
         "title": "wooden_sword",
         "price": 150,
-        "Unnamed: 6": null,
-        "Unnamed: 7": null
+        "effect": {
+            "effectType": 0,
+            "value": 4
+        }
     },
     "4": {
         "ID": 4,
         "level": 1,
         "type": 1,
+        "invokeType": 1,
         "iconResource": "iron_sword_icon",
         "title": "iron_sword",
         "price": 250,
-        "Unnamed: 6": null,
-        "Unnamed: 7": " "
+        "effect": {
+            "effectType": 1,
+            "value": 5
+        }
     },
     "5": {
         "ID": 5,
         "level": 2,
         "type": 2,
+        "invokeType": 2,
         "iconResource": "magic_sword_icon",
         "title": "magic_sword",
         "price": 450,
-        "Unnamed: 6": null,
-        "Unnamed: 7": null
+        "effect": {
+            "effectType": 2,
+            "value": 6
+        }
     }
 }
