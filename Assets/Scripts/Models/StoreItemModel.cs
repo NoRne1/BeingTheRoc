@@ -33,29 +33,29 @@ public class StoreItemModel : StoreItemDefine
     {
         get
         {
-            switch (type)
+            switch (equipType)
             {
-                case ItemType.none:
-                    return Vector2.zero;
-                case ItemType.X1_1:
+                case EquipType.X1_1:
                     return new Vector2(180, 180);
-                case ItemType.X2_1:
+                case EquipType.X1_2:
+                    return new Vector2(360, 180);
+                case EquipType.X2_1:
                     return new Vector2(180, 360);
-                case ItemType.X3_1:
+                case EquipType.X3_1:
                     return new Vector2(180, 540);
-                case ItemType.X2_2:
+                case EquipType.X2_2:
                     return new Vector2(360, 360);
-                case ItemType.X3_2:
+                case EquipType.X3_2:
                     return new Vector2(360, 540);
-                case ItemType.X3_3:
+                case EquipType.X3_3:
                     return new Vector2(540, 540);
-                case ItemType.Xtu:
+                case EquipType.Xtu:
                     return new Vector2(360, 540);
-                case ItemType.Xcorner:
+                case EquipType.Xcorner:
                     return new Vector2(360, 360);
-                case ItemType.Xten:
+                case EquipType.Xten:
                     return new Vector2(360, 360);
-                case ItemType.Xz:
+                case EquipType.Xz:
                     return new Vector2(540, 360);
                 default:
                     return Vector2.zero;
@@ -68,11 +68,14 @@ public class StoreItemModel : StoreItemDefine
         uuid = GameUtil.Instance.GenerateUniqueId();
         ID = define.ID;
         type = define.type;
-        iconResource = define.iconResource;
-        level = define.level;
-        title = define.title;
-        price = define.price;
+        equipType = define.equipType;
         invokeType = define.invokeType;
+        title = define.title;
+        level = define.level;
+        price = define.price;
+        takeEnergy = define.takeEnergy;
+        iconResource = define.iconResource;
+        iconResource2 = define.iconResource2;
         effect1 = define.effect1;
         effect2 = define.effect2;
         effect3 = define.effect3;
@@ -81,12 +84,7 @@ public class StoreItemModel : StoreItemDefine
 
     public bool CanEquip()
     {
-        return type != ItemType.none;
-    }
-
-    public bool CanUse()
-    {
-        return invokeType == InvokeType.use;
+        return equipType != EquipType.none;
     }
 
     public void Equip(int characterID, Vector2Int position)
@@ -98,6 +96,11 @@ public class StoreItemModel : StoreItemDefine
             this.rotationAngle = tempRotationAngle;
             this.occupiedCells = new List<Vector2Int>(tempOccupiedCells);
         }
+    }
+
+    public bool CanUse()
+    {
+        return invokeType == InvokeType.use;
     }
 
     public void ResetRotate()
@@ -117,30 +120,34 @@ public class StoreItemModel : StoreItemDefine
     public void OccupiedCellsInit()
     {
         List<Vector2Int> result = new List<Vector2Int>();
-        switch (type)
+        switch (equipType)
         {
-            case ItemType.none:
+            case EquipType.none:
                 occupiedCells = null;
                 return;
-            case ItemType.X1_1:
+            case EquipType.X1_1:
                 result.Add(new Vector2Int(0, 0));
                 break;
-            case ItemType.X2_1:
+            case EquipType.X1_2:
+                result.Add(new Vector2Int(0, 0));
+                result.Add(new Vector2Int(0, 1));
+                break;
+            case EquipType.X2_1:
                 result.Add(new Vector2Int(0, 0));
                 result.Add(new Vector2Int(1, 0));
                 break;
-            case ItemType.X3_1:
+            case EquipType.X3_1:
                 result.Add(new Vector2Int(0, 0));
                 result.Add(new Vector2Int(1, 0));
                 result.Add(new Vector2Int(2, 0));
                 break;
-            case ItemType.X2_2:
+            case EquipType.X2_2:
                 result.Add(new Vector2Int(0, 0));
                 result.Add(new Vector2Int(1, 0));
                 result.Add(new Vector2Int(0, 1));
                 result.Add(new Vector2Int(1, 1));
                 break;
-            case ItemType.X3_2:
+            case EquipType.X3_2:
                 result.Add(new Vector2Int(0, 0));
                 result.Add(new Vector2Int(1, 0));
                 result.Add(new Vector2Int(2, 0));
@@ -148,7 +155,7 @@ public class StoreItemModel : StoreItemDefine
                 result.Add(new Vector2Int(1, 1));
                 result.Add(new Vector2Int(2, 1));
                 break;
-            case ItemType.X3_3:
+            case EquipType.X3_3:
                 result.Add(new Vector2Int(0, 0));
                 result.Add(new Vector2Int(1, 0));
                 result.Add(new Vector2Int(2, 0));
@@ -159,25 +166,25 @@ public class StoreItemModel : StoreItemDefine
                 result.Add(new Vector2Int(1, 2));
                 result.Add(new Vector2Int(2, 2));
                 break;
-            case ItemType.Xtu:
+            case EquipType.Xtu:
                 result.Add(new Vector2Int(0, 0));
                 result.Add(new Vector2Int(0, 1));
                 result.Add(new Vector2Int(0, 2));
                 result.Add(new Vector2Int(1, 1));
                 break;
-            case ItemType.Xcorner:
+            case EquipType.Xcorner:
                 result.Add(new Vector2Int(0, 0));
                 result.Add(new Vector2Int(0, 1));
                 result.Add(new Vector2Int(1, 0));
                 break;
-            case ItemType.Xten:
+            case EquipType.Xten:
                 result.Add(new Vector2Int(0, 0));
                 result.Add(new Vector2Int(1, 0));
                 result.Add(new Vector2Int(2, 0));
                 result.Add(new Vector2Int(1, -1));
                 result.Add(new Vector2Int(1, 1));
                 break;
-            case ItemType.Xz:
+            case EquipType.Xz:
                 result.Add(new Vector2Int(0, 0));
                 result.Add(new Vector2Int(1, 0));
                 result.Add(new Vector2Int(1, 1));

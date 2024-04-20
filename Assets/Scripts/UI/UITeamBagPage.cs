@@ -105,15 +105,14 @@ public class UITeamBagPage : MonoBehaviour
                 isDragging = true;
                 // 隐藏丢弃按钮
                 discardButton.gameObject.SetActive(false);
-                if (currentItem != null)
+                if (currentItem != null && currentItem.item.CanEquip())
                 {
                     var draggedItem = Instantiate(itemPrefab, this.equipFather);
-                    
                     draggedEquipItem = draggedItem.GetComponent<UIEquipItem>();
                     draggedEquipItem.item = currentItem.item;
                     draggedEquipItem.character = character;
                     draggedItem.GetComponent<RectTransform>().sizeDelta = draggedEquipItem.item.occupiedRect;
-                    draggedItem.GetComponent<Image>().overrideSprite = Resloader.LoadSprite(currentItem.item.iconResource);
+                    draggedItem.GetComponent<Image>().overrideSprite = Resloader.LoadSprite(currentItem.item.iconResource2);
                 }
             }
             if (isDragging && draggedEquipItem != null)
@@ -150,11 +149,8 @@ public class UITeamBagPage : MonoBehaviour
                         {
                             // 检查是否可以放置装备
                             Vector2Int gridPosition = hit.collider.GetComponent<UIEquipSlot>().position;
-                            if (character.backpack.Place(draggedEquipItem.item, gridPosition))
+                            if (EquipManager.Instance.Equip(character, draggedEquipItem.item, gridPosition))
                             {
-                                Debug.Log("Place item at grid position: " + gridPosition);
-                                GameManager.Instance.repository.RemoveItem(draggedEquipItem.item.uuid);
-
                                 Vector3 tempVector = hit.collider.GetComponent<UIEquipSlot>().transform.position;
                                 draggedEquipItem.SetAndRecord(tempVector);
                             }
@@ -163,7 +159,7 @@ public class UITeamBagPage : MonoBehaviour
                                 draggedEquipItem.item.ResetRotate();
                                 Destroy(draggedEquipItem.gameObject);
                             }
-                        } else
+                        } else if (draggedEquipItem != null)
                         {
                             draggedEquipItem.item.ResetRotate();
                             Destroy(draggedEquipItem.gameObject);
@@ -175,9 +171,7 @@ public class UITeamBagPage : MonoBehaviour
                         if (hit.collider != null && GameUtil.Instance.IsPointInsideGameObject(repositor, Input.mousePosition))
                         {
                             //放回到仓库
-                            GameManager.Instance.repository.AddItem(draggedEquipItem.item);
-                            character.backpack.RemoveItemsByUUID(draggedEquipItem.item.uuid);
-                            draggedEquipItem.item.Unequip();
+                            EquipManager.Instance.Unequip(character, draggedEquipItem.item);
                             Destroy(draggedEquipItem.gameObject);
                         }
                         else if (hit.collider != null && hit.collider.CompareTag("EquipSlot"))

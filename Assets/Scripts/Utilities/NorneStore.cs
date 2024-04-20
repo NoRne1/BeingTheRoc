@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using UniRx;
 using System.Linq;
-using Newtonsoft.Json;
+using UniRx;
 
 public interface IStorable
 {
@@ -72,14 +71,14 @@ public class NorneStore
         _exts.RemoveAll();
     }
 
-    public IObservable<T> ObservableObject<T>(T storable) where T : IStorable
+    public NorneRelay<T> ObservableObject<T>(T storable) where T : IStorable
     {
         if (string.IsNullOrEmpty(storable.Identifier))
         {
             return new NorneRelay<T>(storable);
         }
 
-        return ObservableObject<T>(storable.StorableCategory, storable.Identifier, storable);
+        return (NorneRelay<T>)ObservableObject<T>(storable.StorableCategory, storable.Identifier, storable);
     }
 
     public IObservable<T> ObservableObject<T>(string category, string identifier, T defaultValue) where T : IStorable
@@ -138,7 +137,7 @@ public class NorneStore
         }
         else
         {
-            Dictionary<string, object> oldDic = relay.Value.ToDictionary();
+            Dictionary<string, object> oldDic = relay.value.ToDictionary();
             Dictionary<string, object> newDic = storable.ToDictionary();
             if (oldDic != null && newDic != null)
             {
@@ -181,7 +180,7 @@ public class NorneRelay<T> : IObservable<T>
 {
     private BehaviorSubject<T> _subject;
 
-    public T Value => _subject.Value;
+    public T value => _subject.Value;
 
     public NorneRelay(T value)
     {

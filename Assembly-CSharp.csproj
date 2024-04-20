@@ -91,6 +91,7 @@
     <Compile Include="Assets/LeanTween/Testing/Testing243.cs" />
     <Compile Include="Assets/Scripts/Utilities/FightText/FightTextInfo.cs" />
     <Compile Include="Assets/Scripts/Utilities/StringExtensions.cs" />
+    <Compile Include="Assets/Scripts/Managers/BuffManager.cs" />
     <Compile Include="Assets/Scripts/UI/UIMainMenu.cs" />
     <Compile Include="Assets/Scripts/UI/UICommonUI.cs" />
     <Compile Include="Assets/LeanTween/Testing/Testing240.cs" />

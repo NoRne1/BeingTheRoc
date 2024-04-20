@@ -3,78 +3,870 @@
         "ID": 0,
         "level": 0,
         "type": 0,
+        "equipType": 2,
         "invokeType": 0,
-        "iconResource": "wooden_sword_icon",
         "title": "wooden_sword",
         "price": 100,
-        "effect": {
+        "iconResource": "wooden_sword_icon",
+        "iconResource2": "wooden_sword_icon_big",
+        "takeEnergy": 1,
+        "effect1": {
             "effectType": 0,
+            "propertyType": null,
+            "methodName": null,
             "value": 1
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
         }
     },
     "1": {
         "ID": 1,
         "level": 1,
-        "type": 1,
-        "invokeType": 1,
-        "iconResource": "iron_sword_icon",
+        "type": 0,
+        "equipType": 2,
+        "invokeType": 0,
         "title": "iron_sword",
         "price": 200,
-        "effect": {
+        "iconResource": "iron_sword_icon",
+        "iconResource2": "iron_sword_icon_big",
+        "takeEnergy": 1,
+        "effect1": {
             "effectType": 1,
+            "propertyType": null,
+            "methodName": null,
             "value": 2
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
         }
     },
     "2": {
         "ID": 2,
         "level": 2,
-        "type": 2,
-        "invokeType": 2,
-        "iconResource": "magic_sword_icon",
+        "type": 0,
+        "equipType": 3,
+        "invokeType": 0,
         "title": "magic_sword",
         "price": 400,
-        "effect": {
+        "iconResource": "magic_sword_icon",
+        "iconResource2": "magic_sword_icon_big",
+        "takeEnergy": 1,
+        "effect1": {
             "effectType": 2,
+            "propertyType": null,
+            "methodName": null,
             "value": 3
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
         }
     },
     "3": {
         "ID": 3,
-        "level": 0,
+        "level": 2,
         "type": 0,
+        "equipType": 1,
         "invokeType": 0,
-        "iconResource": "wooden_sword_icon",
-        "title": "wooden_sword",
-        "price": 150,
-        "effect": {
-            "effectType": 0,
-            "value": 4
+        "title": "fast_shoes",
+        "price": 400,
+        "iconResource": "fast_shoes_icon",
+        "iconResource2": "fast_shoes_icon_big",
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
         }
     },
     "4": {
         "ID": 4,
-        "level": 1,
-        "type": 1,
-        "invokeType": 1,
-        "iconResource": "iron_sword_icon",
-        "title": "iron_sword",
-        "price": 250,
-        "effect": {
-            "effectType": 1,
-            "value": 5
+        "level": 2,
+        "type": 0,
+        "equipType": 4,
+        "invokeType": 0,
+        "title": "stab_shield",
+        "price": 400,
+        "iconResource": "stab_shield_icon",
+        "iconResource2": "stab_shield_icon_big",
+        "takeEnergy": 1,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
         }
     },
     "5": {
         "ID": 5,
+        "level": 1,
+        "type": 0,
+        "equipType": 4,
+        "invokeType": 0,
+        "title": "arm_shield",
+        "price": 200,
+        "iconResource": "arm_shield_icon",
+        "iconResource2": "arm_shield_icon_big",
+        "takeEnergy": 1,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "6": {
+        "ID": 6,
+        "level": 0,
+        "type": 0,
+        "equipType": 4,
+        "invokeType": 0,
+        "title": "wood_shield",
+        "price": 100,
+        "iconResource": "wood_shield_icon",
+        "iconResource2": "wood_shield_icon_big",
+        "takeEnergy": 1,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "7": {
+        "ID": 7,
+        "level": 1,
+        "type": 0,
+        "equipType": 3,
+        "invokeType": 0,
+        "title": "long_arch",
+        "price": 200,
+        "iconResource": "long_arch_icon",
+        "iconResource2": "long_arch_icon_big",
+        "takeEnergy": 1,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "8": {
+        "ID": 8,
+        "level": 0,
+        "type": 0,
+        "equipType": 2,
+        "invokeType": 0,
+        "title": "wood_arch",
+        "price": 100,
+        "iconResource": "wood_arch_icon",
+        "iconResource2": "wood_arch_icon_big",
+        "takeEnergy": 1,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "9": {
+        "ID": 9,
+        "level": 2,
+        "type": 0,
+        "equipType": 4,
+        "invokeType": 0,
+        "title": "zhuge_bow",
+        "price": 400,
+        "iconResource": "zhuge_bow_icon",
+        "iconResource2": "zhuge_bow_icon_big",
+        "takeEnergy": 1,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "10": {
+        "ID": 10,
+        "level": 1,
+        "type": 0,
+        "equipType": 1,
+        "invokeType": 0,
+        "title": "multi_bow",
+        "price": 200,
+        "iconResource": "multi_bow_icon",
+        "iconResource2": "multi_bow_icon_big",
+        "takeEnergy": 1,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "11": {
+        "ID": 11,
+        "level": 0,
+        "type": 0,
+        "equipType": 0,
+        "invokeType": 0,
+        "title": "hand_bow",
+        "price": 100,
+        "iconResource": "hand_bow_icon",
+        "iconResource2": "hand_bow_icon",
+        "takeEnergy": 1,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "12": {
+        "ID": 12,
+        "level": 1,
+        "type": 1,
+        "equipType": 1,
+        "invokeType": 0,
+        "title": "shadow_charm",
+        "price": 200,
+        "iconResource": "shadow_charm_icon",
+        "iconResource2": "shadow_charm_icon",
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "13": {
+        "ID": 13,
+        "level": 1,
+        "type": 1,
+        "equipType": 1,
+        "invokeType": 0,
+        "title": "exchange_charm",
+        "price": 200,
+        "iconResource": "exchange_charm_icon",
+        "iconResource2": "exchange_charm_icon",
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "14": {
+        "ID": 14,
+        "level": 0,
+        "type": 1,
+        "equipType": 1,
+        "invokeType": 0,
+        "title": "silent_charm",
+        "price": 100,
+        "iconResource": "silent_charm_icon",
+        "iconResource2": "silent_charm_icon",
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "15": {
+        "ID": 15,
+        "level": 0,
+        "type": 1,
+        "equipType": 1,
+        "invokeType": 0,
+        "title": "confine_charm",
+        "price": 100,
+        "iconResource": "confine_charm_icon",
+        "iconResource2": "confine_charm_icon",
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "16": {
+        "ID": 16,
+        "level": 0,
+        "type": 1,
+        "equipType": 1,
+        "invokeType": 0,
+        "title": "thunder_charm",
+        "price": 100,
+        "iconResource": "thunder_charm_icon",
+        "iconResource2": "thunder_charm_icon",
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "17": {
+        "ID": 17,
+        "level": 1,
+        "type": 2,
+        "equipType": -1,
+        "invokeType": 2,
+        "title": "king_arrow",
+        "price": 200,
+        "iconResource": "king_arrow_icon",
+        "iconResource2": null,
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "18": {
+        "ID": 18,
         "level": 2,
         "type": 2,
+        "equipType": -1,
         "invokeType": 2,
-        "iconResource": "magic_sword_icon",
-        "title": "magic_sword",
-        "price": 450,
-        "effect": {
-            "effectType": 2,
-            "value": 6
+        "title": "treasure_bowl",
+        "price": 400,
+        "iconResource": "treasure_bowl_icon",
+        "iconResource2": null,
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "19": {
+        "ID": 19,
+        "level": 1,
+        "type": 2,
+        "equipType": -1,
+        "invokeType": 2,
+        "title": "shield_token",
+        "price": 200,
+        "iconResource": "shield_token_icon",
+        "iconResource2": null,
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "20": {
+        "ID": 20,
+        "level": 0,
+        "type": 2,
+        "equipType": -1,
+        "invokeType": 2,
+        "title": "sword_stone",
+        "price": 100,
+        "iconResource": "sword_stone_icon",
+        "iconResource2": null,
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "21": {
+        "ID": 21,
+        "level": 1,
+        "type": 3,
+        "equipType": -1,
+        "invokeType": 0,
+        "title": "energy_potion",
+        "price": 200,
+        "iconResource": "energy_potion_icon",
+        "iconResource2": null,
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "22": {
+        "ID": 22,
+        "level": 1,
+        "type": 3,
+        "equipType": -1,
+        "invokeType": 0,
+        "title": "angry_potion",
+        "price": 200,
+        "iconResource": "angry_potion_icon",
+        "iconResource2": null,
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "23": {
+        "ID": 23,
+        "level": 1,
+        "type": 3,
+        "equipType": -1,
+        "invokeType": 0,
+        "title": "lucky_potion",
+        "price": 200,
+        "iconResource": "lucky_potion_icon",
+        "iconResource2": null,
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "24": {
+        "ID": 24,
+        "level": 2,
+        "type": 4,
+        "equipType": -1,
+        "invokeType": -1,
+        "title": "boutique_feather",
+        "price": 400,
+        "iconResource": "boutique_feather_icon",
+        "iconResource2": null,
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "25": {
+        "ID": 25,
+        "level": 1,
+        "type": 4,
+        "equipType": -1,
+        "invokeType": -1,
+        "title": "boutique_rice",
+        "price": 200,
+        "iconResource": "boutique_rice_icon",
+        "iconResource2": null,
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "26": {
+        "ID": 26,
+        "level": 1,
+        "type": 4,
+        "equipType": -1,
+        "invokeType": -1,
+        "title": "trophy",
+        "price": 200,
+        "iconResource": "trophy_icon",
+        "iconResource2": null,
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "27": {
+        "ID": 27,
+        "level": 1,
+        "type": 4,
+        "equipType": -1,
+        "invokeType": -1,
+        "title": "jerky",
+        "price": 200,
+        "iconResource": "jerky_icon",
+        "iconResource2": null,
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        }
+    },
+    "28": {
+        "ID": 28,
+        "level": 2,
+        "type": 5,
+        "equipType": -1,
+        "invokeType": 2,
+        "title": "month_card",
+        "price": 400,
+        "iconResource": "month_card_icon",
+        "iconResource2": null,
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect3": {
+            "effectType": null,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
         }
     }
 }

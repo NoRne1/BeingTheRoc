@@ -1,28 +1,25 @@
 ﻿<Properties StartupConfiguration="{BBB342A2-6894-1B0E-77BF-1034E1720682}|">
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Models/Backpack.cs">
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Defines/StoreItemDefine.cs">
     <Files>
+      <File FileName="Assets/Scripts/Models/StoreItemModel.cs" Line="15" Column="6" />
       <File FileName="Assets/Scripts/Managers/GameManager.cs" />
-      <File FileName="Assets/Scripts/UI/UITeamWindow.cs" Line="27" Column="1" />
-      <File FileName="Assets/Scripts/UI/UITeamBagPage.cs" Line="172" Column="22" />
       <File FileName="Assets/Scripts/UI/UIEquipItem.cs" Line="8" Column="1" />
-      <File FileName="Assets/Scripts/Models/Backpack.cs" Line="40" Column="10" />
-      <File FileName="Assets/Scripts/Models/StoreItemModel.cs" Line="205" Column="52" />
-      <File FileName="Assets/Scripts/Defines/StoreItemDefine.cs" Line="19" Column="21" />
-      <File FileName="Assets/Scripts/Utilities/GameUtil.cs" Line="126" Column="10" />
+      <File FileName="Assets/Scripts/Models/Backpack.cs" Line="14" Column="12" />
+      <File FileName="Assets/Scripts/Managers/EquipManager.cs" Line="53" Column="56" />
+      <File FileName="Assets/Scripts/Models/CharacterModel.cs" Line="66" Column="26" />
+      <File FileName="Assets/Scripts/Defines/StoreItemDefine.cs" Line="22" Column="23" />
+      <File FileName="Assets/Scripts/Utilities/GlobalAccess.cs" Line="5" Column="13" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="BeingTheRoc">
             <Node name="Assets" expanded="True">
-              <Node name="Plugins" expanded="True">
-                <Node name="UniRx" expanded="True">
-                  <Node name="Scripts" expanded="True">
-                    <Node name="Subjects" expanded="True" />
-                  </Node>
-                </Node>
-              </Node>
               <Node name="Scripts" expanded="True">
                 <Node name="Defines" expanded="True" />
                 <Node name="Managers" expanded="True" />
@@ -36,12 +33,6 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/norne/dev/BeingTheRoc/Assets/Scripts/UI/UITeamBagPage.cs" relfile="Assets/Scripts/UI/UITeamBagPage.cs" line="188" column="1" />
-    </BreakpointStore>
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="2771ec50-c2f0-4d98-af11-340643fbee1e" />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="89be9916-33a5-4862-81b1-16975b5b8c76" />
 </Properties>

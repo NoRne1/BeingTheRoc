@@ -403,6 +403,7 @@
 "Assets/Scripts/Defines/SoundDefine.cs"
 "Assets/Scripts/Defines/StoreItemDefine.cs"
 "Assets/Scripts/Defines/TownActionDefine.cs"
+"Assets/Scripts/Managers/BuffManager.cs"
 "Assets/Scripts/Managers/DataManager.cs"
 "Assets/Scripts/Managers/EquipManager.cs"
 "Assets/Scripts/Managers/GameManager.cs"
