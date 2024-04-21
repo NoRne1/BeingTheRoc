@@ -90,14 +90,15 @@
     <Compile Include="Assets/Scripts/UI/UITownPage.cs" />
     <Compile Include="Assets/LeanTween/Testing/Testing243.cs" />
     <Compile Include="Assets/Scripts/Utilities/FightText/FightTextInfo.cs" />
-    <Compile Include="Assets/Scripts/Utilities/StringExtensions.cs" />
     <Compile Include="Assets/Scripts/Managers/BuffManager.cs" />
+    <Compile Include="Assets/Scripts/Utilities/StringExtensions.cs" />
     <Compile Include="Assets/Scripts/UI/UIMainMenu.cs" />
     <Compile Include="Assets/Scripts/UI/UICommonUI.cs" />
     <Compile Include="Assets/LeanTween/Testing/Testing240.cs" />
     <Compile Include="Assets/LeanTween/Testing/Scripts/LeanPool.cs" />
     <Compile Include="Assets/LeanTween/Testing/TestingSequencer.cs" />
     <Compile Include="Assets/LeanTween/Testing/PerformanceTests.cs" />
+    <Compile Include="Assets/Scripts/UI/UIEquipButtons.cs" />
     <Compile Include="Assets/Scripts/UI/UITip.cs" />
     <Compile Include="Assets/Scripts/Defines/TownActionDefine.cs" />
     <Compile Include="Assets/Scripts/UI/UISetting.cs" />

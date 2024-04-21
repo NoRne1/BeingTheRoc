@@ -28,7 +28,7 @@ public class UITeamBagPage : MonoBehaviour
     private float moveThreshold = 10f; //移动检测阈值
 
     // 丢弃按钮
-    public Button discardButton;
+    public UIEquipButtons equipButtons;
 
     public CharacterModel character;
 
@@ -54,10 +54,11 @@ public class UITeamBagPage : MonoBehaviour
         });
 
         // 隐藏丢弃按钮
-        discardButton.gameObject.SetActive(false);
+        equipButtons.gameObject.SetActive(false);
 
         // 添加丢弃按钮的点击事件
-        discardButton.onClick.AddListener(OnDiscardButtonClick);
+        equipButtons.dropButton.onClick.AddListener(OnDropButtonClick);
+        equipButtons.useButton.onClick.AddListener(OnUseButtonClick);
     }
 
     // Update is called once per frame
@@ -67,7 +68,7 @@ public class UITeamBagPage : MonoBehaviour
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
-            if (hit.collider != null && hit.collider.CompareTag("Item"))
+            if (hit.collider != null && hit.collider.CompareTag("Item") && hit.collider.GetComponent<UIRepositorSlot>().item != null)
             {
                 currentItem = hit.collider.GetComponent<UIRepositorSlot>();
                 // 记录鼠标按下的位置
@@ -104,7 +105,7 @@ public class UITeamBagPage : MonoBehaviour
             {
                 isDragging = true;
                 // 隐藏丢弃按钮
-                discardButton.gameObject.SetActive(false);
+                equipButtons.gameObject.SetActive(false);
                 if (currentItem != null && currentItem.item.CanEquip())
                 {
                     var draggedItem = Instantiate(itemPrefab, this.equipFather);
@@ -133,25 +134,28 @@ public class UITeamBagPage : MonoBehaviour
                 // 如果鼠标按下后未移动或移动距离小于一定距离，则显示丢弃按钮
                 if (!isDragging && (Input.mousePosition - pressPosition).magnitude <= moveThreshold)
                 {
-                    discardButton.gameObject.SetActive(true);
-                    Vector3 tempPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    discardButton.transform.position = new Vector3(tempPosition.x, tempPosition.y, 0);
+                    Vector3 tempPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(75, -75, 0));
+                    equipButtons.gameObject.SetActive(true);
+                    equipButtons.transform.position = new Vector3(tempPosition.x, tempPosition.y, 0);
                 }
                 // 如果鼠标按下后移动了一定距离，则执行装备逻辑
-                else if (isDragging)
+                else if (isDragging && draggedEquipItem != null)
                 {
                     // 获取鼠标松开时的位置
-                    Vector2 releasePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-                    RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(releasePosition), Vector2.zero);
+                    Vector2 checkPosition = draggedEquipItem.transform.TransformPoint(draggedEquipItem.item.originOffset);
+                    RaycastHit2D equipHit = Physics2D.Raycast(checkPosition, Vector2.zero);
+                    Vector2 mousePosition2D = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+                    RaycastHit2D repHit = Physics2D.Raycast(mousePosition2D, Vector2.zero);
+
                     if (currentItem != null)
                     {
-                        if (hit.collider != null && hit.collider.CompareTag("EquipSlot"))
+                        if (equipHit.collider != null && equipHit.collider.CompareTag("EquipSlot"))
                         {
                             // 检查是否可以放置装备
-                            Vector2Int gridPosition = hit.collider.GetComponent<UIEquipSlot>().position;
+                            Vector2Int gridPosition = equipHit.collider.GetComponent<UIEquipSlot>().position;
                             if (EquipManager.Instance.Equip(character, draggedEquipItem.item, gridPosition))
                             {
-                                Vector3 tempVector = hit.collider.GetComponent<UIEquipSlot>().transform.position;
+                                Vector3 tempVector = equipHit.collider.GetComponent<UIEquipSlot>().transform.position;
                                 draggedEquipItem.SetAndRecord(tempVector);
                             }
                             else
@@ -168,19 +172,19 @@ public class UITeamBagPage : MonoBehaviour
                     else
                     {
                         //draggedEquipItem != null
-                        if (hit.collider != null && GameUtil.Instance.IsPointInsideGameObject(repositor, Input.mousePosition))
+                        if (repHit.collider != null && GameUtil.Instance.IsPointInsideGameObject(repositor, Input.mousePosition))
                         {
                             //放回到仓库
                             EquipManager.Instance.Unequip(character, draggedEquipItem.item);
                             Destroy(draggedEquipItem.gameObject);
                         }
-                        else if (hit.collider != null && hit.collider.CompareTag("EquipSlot"))
+                        else if (equipHit.collider != null && equipHit.collider.CompareTag("EquipSlot"))
                         {
                             // 检查是否可以放置装备
-                            Vector2Int gridPosition = hit.collider.GetComponent<UIEquipSlot>().position;
+                            Vector2Int gridPosition = equipHit.collider.GetComponent<UIEquipSlot>().position;
                             if (character.backpack.MoveTo(draggedEquipItem.item, gridPosition))
                             {
-                                Vector3 tempVector = hit.collider.GetComponent<UIEquipSlot>().transform.position;
+                                Vector3 tempVector = equipHit.collider.GetComponent<UIEquipSlot>().transform.position;
                                 draggedEquipItem.SetAndRecord(tempVector);
                             }
                             else
@@ -201,16 +205,23 @@ public class UITeamBagPage : MonoBehaviour
             else
             {
                 // 隐藏丢弃按钮
-                discardButton.gameObject.SetActive(false);
+                equipButtons.gameObject.SetActive(false);
             }
         }
     }
 
+    // 使用按钮点击事件
+    void OnUseButtonClick()
+    {
+        // 在这里实现使用装备的逻辑
+        Debug.Log("Use button clicked!");
+    }
+
     // 丢弃按钮点击事件
-    void OnDiscardButtonClick()
+    void OnDropButtonClick()
     {
         // 在这里实现丢弃装备的逻辑
-        Debug.Log("Discard button clicked!");
+        Debug.Log("Drop button clicked!");
     }
 
     public void UpdateCharacter(CharacterModel character)
@@ -240,9 +251,11 @@ public class UITeamBagPage : MonoBehaviour
             UIEquipItem equipItem = temp.GetComponent<UIEquipItem>();
             equipItem.item = equip;
             equipItem.character = character;
-            temp.GetComponent<Image>().overrideSprite = Resloader.LoadSprite(equip.iconResource);
+            temp.GetComponent<Image>().overrideSprite = Resloader.LoadSprite(equip.iconResource2);
             temp.transform.rotation = temp.transform.rotation * Quaternion.Euler(0, 0, equip.rotationAngle);
             Vector3 tempVector = equipSlots[equip.position.x * 3 + equip.position.y].position;
+            temp.transform.position = tempVector;
+            tempVector = temp.transform.TransformPoint(-equip.originOffset);
             temp.transform.position = tempVector;
             temp.GetComponent<RectTransform>().sizeDelta = equip.occupiedRect;
             equipItem.SetAndRecord(tempVector);

@@ -23,11 +23,10 @@ public enum EquipType
     X3_1 = 3, //占用三个相邻格子
     X2_2 = 4, // 占用2x2的格子
     X3_2 = 5,
-    X3_3 = 6,
-    Xtu = 7, //土字形的四格
-    Xcorner = 8, //拐角形状的三格
-    Xten = 9, //十字型的五格
-    Xz = 10, //z字型的4格
+    Xtu = 6, //土字形的四格
+    Xcorner = 7, //拐角形状的三格
+    Xten = 8, //十字型的五格
+    Xz = 9, //z字型的4格
 }
 
 public enum InvokeType

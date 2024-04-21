@@ -39,7 +39,7 @@ RectTransform:
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 180, y: 540}
-  m_Pivot: {x: 0.5, y: 0.8333}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &173499667827768429
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -135,3 +135,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recordPosition: {x: 0, y: 0, z: 0}
+  recordRotation: {x: 0, y: 0, z: 0, w: 0}

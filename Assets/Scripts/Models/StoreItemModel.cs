@@ -47,18 +47,48 @@ public class StoreItemModel : StoreItemDefine
                     return new Vector2(360, 360);
                 case EquipType.X3_2:
                     return new Vector2(360, 540);
-                case EquipType.X3_3:
-                    return new Vector2(540, 540);
                 case EquipType.Xtu:
-                    return new Vector2(360, 540);
+                    return new Vector2(540, 360);
                 case EquipType.Xcorner:
                     return new Vector2(360, 360);
                 case EquipType.Xten:
-                    return new Vector2(360, 360);
+                    return new Vector2(540, 540);
                 case EquipType.Xz:
-                    return new Vector2(540, 360);
+                    return new Vector2(360, 540);
                 default:
                     return Vector2.zero;
+            }
+        }
+    }
+
+    public Vector3 originOffset
+    {
+        get
+        {
+            switch (equipType)
+            {
+                case EquipType.X1_1:
+                    return new Vector3(0, 0, 0);
+                case EquipType.X1_2:
+                    return new Vector3(-90, 0, 0);
+                case EquipType.X2_1:
+                    return new Vector3(0, 90, 0);
+                case EquipType.X3_1:
+                    return new Vector3(0, 180, 0);
+                case EquipType.X2_2:
+                    return new Vector3(-90, 90, 0);
+                case EquipType.X3_2:
+                    return new Vector3(-90, 180, 0);
+                case EquipType.Xtu:
+                    return new Vector3(-180, 90, 0);
+                case EquipType.Xcorner:
+                    return new Vector3(-90, 90, 0);
+                case EquipType.Xten:
+                    return new Vector3(0, 180, 0);
+                case EquipType.Xz:
+                    return new Vector3(-90, 180, 0);
+                default:
+                    return Vector3.zero;
             }
         }
     }
@@ -154,17 +184,6 @@ public class StoreItemModel : StoreItemDefine
                 result.Add(new Vector2Int(0, 1));
                 result.Add(new Vector2Int(1, 1));
                 result.Add(new Vector2Int(2, 1));
-                break;
-            case EquipType.X3_3:
-                result.Add(new Vector2Int(0, 0));
-                result.Add(new Vector2Int(1, 0));
-                result.Add(new Vector2Int(2, 0));
-                result.Add(new Vector2Int(0, 1));
-                result.Add(new Vector2Int(1, 1));
-                result.Add(new Vector2Int(2, 1));
-                result.Add(new Vector2Int(0, 2));
-                result.Add(new Vector2Int(1, 2));
-                result.Add(new Vector2Int(2, 2));
                 break;
             case EquipType.Xtu:
                 result.Add(new Vector2Int(0, 0));
