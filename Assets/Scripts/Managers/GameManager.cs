@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
@@ -97,44 +98,33 @@ public class GameManager : MonoSingleton<GameManager>
         switch (pageType)
         {
             case PageType.map:
-                commonUI.gameObject.SetActive(false);
+                commonUI.setUIStyle(CommonUIStyle.map);
                 break;
             case PageType.town:
-                commonUI.gameObject.SetActive(true);
-                commonUI.setLeftButtonStyle(true);
-                commonUI.setPopButtonAutoHide(false);
+                commonUI.setUIStyle(CommonUIStyle.town);
                 UITownPage townPage = pagesDic[PageType.town].GetComponent<UITownPage>();
                 townPage.SetActionPanels(MapManager.Instance.CurrentTownNode.townActions);
                 break;
             case PageType.battle:
+                commonUI.setUIStyle(CommonUIStyle.battle);
                 commonUI.gameObject.SetActive(true);
                 commonUI.setLeftButtonStyle(false);
                 commonUI.setPopButtonAutoHide(true);
                 break;
             case PageType.bar:
-                commonUI.gameObject.SetActive(true);
-                commonUI.setLeftButtonStyle(false);
-                commonUI.setPopButtonAutoHide(true);
+                commonUI.setUIStyle(CommonUIStyle.actionPage);
                 break;
             case PageType.forge:
-                commonUI.gameObject.SetActive(true);
-                commonUI.setLeftButtonStyle(false);
-                commonUI.setPopButtonAutoHide(true);
+                commonUI.setUIStyle(CommonUIStyle.actionPage);
                 break;
             case PageType.shop:
-                commonUI.gameObject.SetActive(true);
-                commonUI.setLeftButtonStyle(false);
-                commonUI.setPopButtonAutoHide(true);
+                commonUI.setUIStyle(CommonUIStyle.actionPage);
                 break;
             case PageType.train:
-                commonUI.gameObject.SetActive(true);
-                commonUI.setLeftButtonStyle(false);
-                commonUI.setPopButtonAutoHide(true);
+                commonUI.setUIStyle(CommonUIStyle.actionPage);
                 break;
             case PageType.walk:
-                commonUI.gameObject.SetActive(true);
-                commonUI.setLeftButtonStyle(false);
-                commonUI.setPopButtonAutoHide(true);
+                commonUI.setUIStyle(CommonUIStyle.actionPage);
                 break;
         }
 

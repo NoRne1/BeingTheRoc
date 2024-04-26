@@ -5,6 +5,16 @@ using UniRx;
 
 public class UIPopButtonGroup : MonoBehaviour
 {
+    //public bool Hidden
+    //{
+    //    get { return hidden; }
+    //    set
+    //    {
+    //        hidden = value;
+    //        gameObject.SetActive();
+    //    }
+    //}
+    //public bool hidden = false;
     public bool AutoHidden
     {
         get { return autoHidden; }
