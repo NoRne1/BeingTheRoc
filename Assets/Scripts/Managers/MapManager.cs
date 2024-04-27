@@ -60,11 +60,11 @@ public class MapManager : MonoSingleton<MapManager>
                     townList[currentTownId].Status = TownNodeStatus.passed;
                 } else if (CanGoNextTown(currentTownId, id))
                 {
-                    townList[currentTownId].UpdatePlayerIsThere(false);
-                    townList[id].UpdatePlayerIsThere(true);
-                    currentTownId = id;
-                    townList[currentTownId].Status = TownNodeStatus.passed;
-                    GameManager.Instance.SwitchPage(PageType.town);
+                    //townList[currentTownId].UpdatePlayerIsThere(false);
+                    //townList[id].UpdatePlayerIsThere(true);
+                    //currentTownId = id;
+                    //townList[currentTownId].Status = TownNodeStatus.passed;
+                    GameManager.Instance.SwitchPage(PageType.battle);
                 } else
                 {
                     UITip tip = UIManager.Instance.Show<UITip>();

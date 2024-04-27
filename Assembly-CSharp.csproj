@@ -82,6 +82,8 @@
     <Compile Include="Assets/Scripts/UI/UILoadingPanel.cs" />
     <Compile Include="Assets/Scripts/Models/Backpack.cs" />
     <Compile Include="Assets/Scripts/Utilities/NorneStore.cs" />
+    <Compile Include="Assets/Scripts/UI/UICharacterPlace.cs" />
+    <Compile Include="Assets/Scripts/UI/UIChessboardSlot.cs" />
     <Compile Include="Assets/Scripts/Utilities/Resloader.cs" />
     <Compile Include="Assets/Scripts/UI/UIPopButtonGroup.cs" />
     <Compile Include="Assets/Scripts/Defines/SoundDefine.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="Assets/Scripts/UI/UITip.cs" />
     <Compile Include="Assets/Scripts/Defines/TownActionDefine.cs" />
     <Compile Include="Assets/Scripts/UI/UISetting.cs" />
+    <Compile Include="Assets/Scripts/Managers/BattleManager.cs" />
     <Compile Include="Assets/Scripts/Models/RepositoryModel.cs" />
     <Compile Include="Assets/LeanTween/Testing/TestingSceneSwitching.cs" />
     <Compile Include="Assets/LeanTween/Testing/Testing246.cs" />
@@ -119,6 +122,7 @@
     <Compile Include="Assets/Scripts/Utilities/FightText/FightTextManager.cs" />
     <Compile Include="Assets/Scripts/Utilities/DescHintComponent.cs" />
     <Compile Include="Assets/Scripts/Managers/SoundManager.cs" />
+    <Compile Include="Assets/Scripts/UI/UIChessboard.cs" />
     <Compile Include="Assets/LeanTween/Framework/LeanTween.cs" />
     <Compile Include="Assets/Scripts/UI/UIEquipSlot.cs" />
     <Compile Include="Assets/Scripts/UI/UIShopItem.cs" />
