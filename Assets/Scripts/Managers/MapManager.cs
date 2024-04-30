@@ -64,7 +64,10 @@ public class MapManager : MonoSingleton<MapManager>
                     //townList[id].UpdatePlayerIsThere(true);
                     //currentTownId = id;
                     //townList[currentTownId].Status = TownNodeStatus.passed;
-                    GameManager.Instance.SwitchPage(PageType.battle);
+                    GameManager.Instance.SwitchPage(PageType.battle, ()=>
+                    {
+                        StartCoroutine(BattleManager.Instance.StartBattle(GameManager.Instance.characterIDs));
+                    });
                 } else
                 {
                     UITip tip = UIManager.Instance.Show<UITip>();

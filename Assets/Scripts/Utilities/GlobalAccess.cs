@@ -15,6 +15,9 @@ class GlobalAccess
     public static int teamOpacity = 5;
     public static int mainCharacterNum = 3;
     public static int subCharacterStartIndex = 100;
+    public static float roundDistance = 10000.0f;
+    public static float totalDayTime = 100.0f;
+    public static int moveBarMaxShowNum = 7;
     public static int subCharacterNum
     {
         get { return DataManager.Instance.Characters.Count - mainCharacterNum; }
@@ -34,7 +37,7 @@ class GlobalAccess
                 PlayerPrefs.SetInt("CurrentCharacterId", value);
             }
         }
-}
+    }
 
     public static Sprite CurrentCharacterIcon
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIChessboard : MonoBehaviour
 {
-    public Dictionary<Vector2, UIChessboardSlot> slots;
+    public Dictionary<Vector2, UIChessboardSlot> slots = new Dictionary<Vector2, UIChessboardSlot>();
     // Start is called before the first frame update
     void Start()
     {

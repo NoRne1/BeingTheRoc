@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
-public class CharacterModel: CharacterDefine, IStorable
+public class CharacterModel: CharacterDefine, BattleItem, IStorable
 {
     public BehaviorSubject<int> currentHp;
     public int level { get { return exp / GlobalAccess.levelUpExp + 1; } }
@@ -15,6 +15,14 @@ public class CharacterModel: CharacterDefine, IStorable
     private System.IDisposable disposable;
     private CharacterDefine define;
 
+    public BattleItemType battleItemType { get; set; }
+    public int remainActingTime { get; set; }
+    public string Resource
+    {
+        get { return base.Resource; }
+        set { base.Resource = value; }
+    }
+
     public CharacterModel()
     {}
 
@@ -24,6 +32,7 @@ public class CharacterModel: CharacterDefine, IStorable
     }
     public CharacterModel(CharacterDefine define)
     {
+        this.battleItemType = BattleItemType.player;
         this.define = define;
         ID = define.ID;
         Name = define.Name;
@@ -55,6 +64,7 @@ public class CharacterModel: CharacterDefine, IStorable
         if (disposable != null)
         {
             disposable.Dispose();
+            disposable = null;
         }
     }
 

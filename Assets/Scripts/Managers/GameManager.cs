@@ -76,12 +76,13 @@ public class GameManager : MonoSingleton<GameManager>
 
     }
 
-    public void SwitchPage(PageType pageType)
+    public void SwitchPage(PageType pageType, CoroutineAction action = null)
     {
-        StartCoroutine(SwitchPageIEnumerator(pageType));
+        StartCoroutine(SwitchPageIEnumerator(pageType, action));
     }
 
-    IEnumerator SwitchPageIEnumerator(PageType pageType)
+    public delegate void CoroutineAction();
+    IEnumerator SwitchPageIEnumerator(PageType pageType, CoroutineAction action)
     {
         //隐藏目前的page(黑幕渐显)
         foreach (KeyValuePair<PageType, GameObject> pair in pagesDic)
@@ -127,6 +128,8 @@ public class GameManager : MonoSingleton<GameManager>
                 commonUI.setUIStyle(CommonUIStyle.actionPage);
                 break;
         }
+
+        action?.Invoke();
 
         foreach (KeyValuePair<PageType, GameObject> pair in pagesDic)
         {

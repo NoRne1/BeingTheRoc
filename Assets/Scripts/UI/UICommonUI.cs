@@ -17,6 +17,7 @@ public class UICommonUI : MonoBehaviour
 {
     public Button backButton;
     public Button menuButton;
+    public UIWeatherPanel weatherPanel;
     public GameObject timeLeftGroup;
     public GameObject rightButtonGroup;
     public UIPopButtonGroup uIPopButtonGroup;
@@ -38,11 +39,12 @@ public class UICommonUI : MonoBehaviour
         {
             case CommonUIStyle.map:
                 gameObject.SetActive(true);
-                setLeftButtonStyle(false);
-                setPopButtonAutoHide(true);
-                hideRightButtonGroup(true);
-                hideTimeLeftGroup(true);
-                uIPopButtonGroup.gameObject.SetActive(false);
+                //setLeftButtonStyle(false);
+                //setPopButtonAutoHide(true);
+                //hideRightButtonGroup(true);
+                //hideTimeLeftGroup(true);
+                //weatherPanel.gameObject.SetActive(false);
+                //uIPopButtonGroup.gameObject.SetActive(false);
                 break;
             case CommonUIStyle.town:
                 gameObject.SetActive(true);
@@ -50,6 +52,7 @@ public class UICommonUI : MonoBehaviour
                 setPopButtonAutoHide(false);
                 hideRightButtonGroup(false);
                 hideTimeLeftGroup(false);
+                weatherPanel.gameObject.SetActive(false);
                 uIPopButtonGroup.gameObject.SetActive(true);
                 break;
             case CommonUIStyle.actionPage:
@@ -58,6 +61,7 @@ public class UICommonUI : MonoBehaviour
                 setPopButtonAutoHide(true);
                 hideRightButtonGroup(false);
                 hideTimeLeftGroup(false);
+                weatherPanel.gameObject.SetActive(false);
                 uIPopButtonGroup.gameObject.SetActive(true);
                 break;
             case CommonUIStyle.battle:
@@ -66,6 +70,7 @@ public class UICommonUI : MonoBehaviour
                 setPopButtonAutoHide(true);
                 hideRightButtonGroup(true);
                 hideTimeLeftGroup(false);
+                weatherPanel.gameObject.SetActive(true);
                 uIPopButtonGroup.gameObject.SetActive(true);
                 break;
         }
