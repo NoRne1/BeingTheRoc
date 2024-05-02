@@ -137,7 +137,7 @@ public class NorneStore
         }
         else
         {
-            Dictionary<string, object> oldDic = relay.value.ToDictionary();
+            Dictionary<string, object> oldDic = relay.Value.ToDictionary();
             Dictionary<string, object> newDic = storable.ToDictionary();
             if (oldDic != null && newDic != null)
             {
@@ -180,7 +180,7 @@ public class NorneRelay<T> : IObservable<T>
 {
     private BehaviorSubject<T> _subject;
 
-    public T value => _subject.Value;
+    public T Value => _subject.Value;
 
     public NorneRelay(T value)
     {

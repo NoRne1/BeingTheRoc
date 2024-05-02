@@ -41,6 +41,8 @@ public class UITownNode : MonoBehaviour
 
     public List<int> townActions = new List<int>();
 
+    public TownBattleInfoModel battleInfo;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,5 +81,15 @@ public class UITownNode : MonoBehaviour
             hashSet.Add(Random.Range(0,5));
         }
         townActions = hashSet.ToList();
+        List<Vector2> temp = new List<Vector2>
+        {
+            new Vector2(0, 0),
+            new Vector2(0, 1),
+            new Vector2(0, 2),
+            new Vector2(1, 0),
+            new Vector2(1, 1),
+            new Vector2(1, 2)
+        };
+        battleInfo = new TownBattleInfoModel(temp);
     }
 }

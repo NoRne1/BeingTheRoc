@@ -38,7 +38,7 @@ public class UICommonUI : MonoBehaviour
         switch(style)
         {
             case CommonUIStyle.map:
-                gameObject.SetActive(true);
+                gameObject.SetActive(false);
                 //setLeftButtonStyle(false);
                 //setPopButtonAutoHide(true);
                 //hideRightButtonGroup(true);

@@ -84,7 +84,6 @@
     <Compile Include="Assets/Scripts/UI/UILoadingPanel.cs" />
     <Compile Include="Assets/Scripts/Models/Backpack.cs" />
     <Compile Include="Assets/Scripts/Utilities/NorneStore.cs" />
-    <Compile Include="Assets/Scripts/UI/UICharacterPlace.cs" />
     <Compile Include="Assets/Scripts/UI/UIChessboardSlot.cs" />
     <Compile Include="Assets/Scripts/Utilities/Resloader.cs" />
     <Compile Include="Assets/Scripts/UI/UIPopButtonGroup.cs" />
@@ -94,6 +93,7 @@
     <Compile Include="Assets/Scripts/UI/UITownPage.cs" />
     <Compile Include="Assets/LeanTween/Testing/Testing243.cs" />
     <Compile Include="Assets/Scripts/Utilities/FightText/FightTextInfo.cs" />
+    <Compile Include="Assets/Scripts/Models/TownBattleInfoModel.cs" />
     <Compile Include="Assets/Scripts/Managers/BuffManager.cs" />
     <Compile Include="Assets/Scripts/Utilities/StringExtensions.cs" />
     <Compile Include="Assets/Scripts/UI/UIMainMenu.cs" />
@@ -114,6 +114,7 @@
     <Compile Include="Assets/Scripts/Managers/BattleManager.cs" />
     <Compile Include="Assets/Scripts/Models/RepositoryModel.cs" />
     <Compile Include="Assets/LeanTween/Testing/TestingSceneSwitching.cs" />
+    <Compile Include="Assets/Scripts/UI/UICharacterPlaceBox.cs" />
     <Compile Include="Assets/LeanTween/Testing/Testing246.cs" />
     <Compile Include="Assets/Scripts/Managers/UIManager.cs" />
     <Compile Include="Assets/Scripts/UI/UIDescHint.cs" />

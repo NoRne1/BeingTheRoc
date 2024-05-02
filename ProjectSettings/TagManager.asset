@@ -9,6 +9,8 @@ TagManager:
   - Item
   - EquipSlot
   - Repositor
+  - ChessBoard
+  - ChessBoardSlot
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - ChessBoardSlot
   - 
   - 
   - 

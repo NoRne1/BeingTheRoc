@@ -95,7 +95,9 @@ public class GameManager : MonoSingleton<GameManager>
                 break;
             }
         }
-        
+
+        currentPageType = pageType;
+
         switch (pageType)
         {
             case PageType.map:

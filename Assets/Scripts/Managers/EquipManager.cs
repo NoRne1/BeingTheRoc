@@ -55,7 +55,7 @@ public class EquipManager : MonoSingleton<EquipManager>
 
     public void ProcessEffect(int targetID, Effect effect)
     {
-        var target = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(targetID)).value;
+        var target = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(targetID)).Value;
         switch (effect.effectType)
         {
             case EffectType.property:
