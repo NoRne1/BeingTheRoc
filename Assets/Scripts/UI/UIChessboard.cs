@@ -13,7 +13,7 @@ public class UIChessboard : MonoBehaviour
         {
             foreach(UIChessboardSlot slot in tempSlots)
             {
-                slots.Add(slot.postion, slot);
+                slots.Add(slot.position, slot);
             }
         }
     }
@@ -22,5 +22,21 @@ public class UIChessboard : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void SetColors(Dictionary<Vector2, ChessboardSlotColor> slotColors)
+    {
+        foreach (var slotColor in slotColors)
+        {
+            slots[slotColor.Key].SetColor(slotColor.Value);
+        }
+    }
+
+    public void ResetColors()
+    {
+        foreach (var slot in slots.Values)
+        {
+            slot.SetColor(ChessboardSlotColor.none);
+        }
     }
 }

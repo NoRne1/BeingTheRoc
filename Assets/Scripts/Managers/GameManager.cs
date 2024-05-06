@@ -131,17 +131,20 @@ public class GameManager : MonoSingleton<GameManager>
                 break;
         }
 
-        action?.Invoke();
-
         foreach (KeyValuePair<PageType, GameObject> pair in pagesDic)
         {
             if (pair.Key == pageType)
             {
                 pair.Value.SetActive(true);
+
+                yield return null;
+                action?.Invoke();
+
                 StartCoroutine(GameUtil.Instance.FadeOut(taBlackPanel, 0.4f));
                 break;
             }
         }
+        
     }
 
     public void CoinChanged(int change)
@@ -151,6 +154,7 @@ public class GameManager : MonoSingleton<GameManager>
             //错误请求(扣成负的了)
             UITip tip = UIManager.Instance.Show<UITip>();
             tip.UpdateTip(DataManager.Instance.Language["general_error_tip"] + "0003");
+            return;
         }
         featherCoin.OnNext(featherCoin.Value + change);
     }

@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
+using UnityEngine.UI;
 
 public class ObjectPool
 {
@@ -21,7 +24,7 @@ public class ObjectPool
 
     private GameObject CreateObject()
     {
-        GameObject newObj = Object.Instantiate(prefab, parentTransform); // 指定父节点
+        GameObject newObj = GameObject.Instantiate(prefab, parentTransform); // 指定父节点
         newObj.SetActive(false);
         pooledObjects.Add(newObj);
         return newObj;
@@ -59,3 +62,83 @@ public class ObjectPool
     }
 }
 
+public class ButtonObjectPool
+{
+    private GameObject buttonPrefab;
+    private Transform parentTransform;
+    private List<GameObject> pooledObjects = new List<GameObject>();
+    private Action<Button> onClickAction; // 点击事件的回调方法
+
+    public ButtonObjectPool(GameObject buttonPrefab, int initialSize, Transform parentTransform, Action<Button> onClickAction)
+    {
+        this.buttonPrefab = buttonPrefab;
+        this.parentTransform = parentTransform;
+        this.onClickAction = onClickAction;
+
+        // 预先创建初始数量的按钮并设置点击事件
+        for (int i = 0; i < initialSize; i++)
+        {
+            CreateObject();
+        }
+    }
+
+    ~ButtonObjectPool()
+    {
+        foreach (GameObject obj in pooledObjects)
+        {
+            obj.GetComponent<Button>().onClick.RemoveAllListeners();
+        }
+    }
+
+    private GameObject CreateObject()
+    {
+        GameObject newButtonObject = GameObject.Instantiate(buttonPrefab, parentTransform);
+        newButtonObject.SetActive(false);
+        Button newButton = newButtonObject.GetComponent<Button>();
+
+        // 添加按钮点击事件监听器
+        newButton.onClick.AddListener(() => OnButtonClick(newButton));
+
+        pooledObjects.Add(newButtonObject);
+        return newButtonObject;
+    }
+
+    public GameObject GetObjectFromPool()
+    {
+        // 查找未激活的对象并返回
+        foreach (GameObject obj in pooledObjects)
+        {
+            if (!obj.activeSelf)
+            {
+                obj.SetActive(true);
+                return obj;
+            }
+        }
+
+        // 如果没有未激活的对象，创建一个新对象并返回
+        GameObject newObj = CreateObject();
+        newObj.SetActive(true);
+        return newObj;
+    }
+
+    public void ReturnObjectToPool(GameObject obj)
+    {
+        obj.SetActive(false);
+    }
+
+    public void ReturnAllObject()
+    {
+        foreach (var obj in pooledObjects)
+        {
+            obj.SetActive(false);
+        }
+    }
+
+    private void OnButtonClick(Button clickedButton)
+    {
+        Debug.Log("Button clicked!");
+
+        // 调用传入的 lambda 表达式
+        onClickAction?.Invoke(clickedButton);
+    }
+}

@@ -21,7 +21,7 @@ public class RepositoryModel
 		{
             //错误请求
             UITip tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateTip(DataManager.Instance.Language["general_error_tip"] + "0003");
+            tip.UpdateTip(DataManager.Instance.Language["general_error_tip"] + "0004");
 			return;
         }
         itemsRelay.Value.Add(item);

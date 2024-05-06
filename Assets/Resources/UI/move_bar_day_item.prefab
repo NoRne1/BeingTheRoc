@@ -410,9 +410,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2650553326602154075}
-  - component: {fileID: 7780086543064612642}
   - component: {fileID: 9153864711315556281}
   - component: {fileID: 1427075163194512444}
+  - component: {fileID: -6815385876401927905}
   m_Layer: 5
   m_Name: move_bar_day_item
   m_TagString: Untagged
@@ -441,21 +441,7 @@ RectTransform:
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7780086543064612642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8349832219159379812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 2
-  m_VerticalFit: 2
+  m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &9153864711315556281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -495,3 +481,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   remainActingTime: {fileID: 7582444124822561622}
+--- !u!114 &-6815385876401927905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8349832219159379812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2

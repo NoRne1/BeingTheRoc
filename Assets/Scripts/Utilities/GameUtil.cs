@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UniRx;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 
 public class GameUtil : Singleton<GameUtil>
@@ -74,13 +75,13 @@ public class GameUtil : Singleton<GameUtil>
         canvasGroup.gameObject.SetActive(false);
     }
 
-    public Color hexToColor(string hex)
+    public Color hexToColor(string hex, float alpha = 1f)
     {
         hex = hex.Replace("#", ""); // 去除十六进制字符串中的 "#" 符号
         byte r = byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber); // 解析红色分量
         byte g = byte.Parse(hex.Substring(2, 2), System.Globalization.NumberStyles.HexNumber); // 解析绿色分量
         byte b = byte.Parse(hex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber); // 解析蓝色分量
-        byte a = 255; // 默认不透明
+        byte a = (byte)(alpha * 255f); // 默认不透明
 
         if (hex.Length == 8)
         {
@@ -128,5 +129,11 @@ public class GameUtil : Singleton<GameUtil>
             transform.rotation = endRotation;
         }
         isRotating.OnNext(false);
+    }
+
+    public bool CanMoveTo(Vector2 source, Vector2 dest, int mobility)
+    {
+        float temp = Mathf.Abs(source.x - dest.x) + Mathf.Abs(source.y - dest.y);
+        return temp != 0 && temp <= mobility;
     }
 }

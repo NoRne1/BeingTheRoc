@@ -13,11 +13,11 @@ public class MapManager : MonoSingleton<MapManager>
 {
     public Transform town_node_father;
     public Transform map_line_father;
-    public GameObject town1Perfab;
-    public GameObject town2Perfab;
-    public GameObject town3Perfab;
-    public GameObject kingPerfab;
-    public GameObject mapLinePerfab;
+    public GameObject town1Prefab;
+    public GameObject town2Prefab;
+    public GameObject town3Prefab;
+    public GameObject kingPrefab;
+    public GameObject mapLinePrefab;
 
     public List<Transform> node_circle_3 = new List<Transform>();
     public List<Transform> node_circle_2 = new List<Transform>();
@@ -99,23 +99,23 @@ public class MapManager : MonoSingleton<MapManager>
     }
     public void generateMap()
     {
-        GameObject kingNode = Instantiate(kingPerfab, this.town_node_father);
+        GameObject kingNode = Instantiate(kingPrefab, this.town_node_father);
         UITownNode uIKingNode = kingNode.GetComponent<UITownNode>();
         uIKingNode.character_icon.overrideSprite = GlobalAccess.CurrentCharacterIcon;
         uIKingNode.townID = 0;
         townList.Add(kingNode.GetComponent<UITownNode>());
-        generateTownCircle(node_circle_3, town3Perfab, 4);
-        generateTownCircle(node_circle_2, town2Perfab, 7);
-        generateTownCircle(node_circle_1, town1Perfab, 10);
+        generateTownCircle(node_circle_3, town3Prefab, 4);
+        generateTownCircle(node_circle_2, town2Prefab, 7);
+        generateTownCircle(node_circle_1, town1Prefab, 10);
     }
 
-    private void generateTownCircle(List<Transform> node_circle, GameObject townPerfab, int town_num)
+    private void generateTownCircle(List<Transform> node_circle, GameObject townPrefab, int town_num)
     {
         int initIndex = Random.Range(0, node_circle.Count);
         int increase = 0;
         for (int i = 0; i < town_num; i++)
         {
-            GameObject townNode = Instantiate(townPerfab, node_circle[initIndex].position, Quaternion.identity, this.town_node_father);
+            GameObject townNode = Instantiate(townPrefab, node_circle[initIndex].position, Quaternion.identity, this.town_node_father);
             UITownNode uITownNode = townNode.GetComponent<UITownNode>();
             uITownNode.townID = townIdcounter;
             townIdcounter++;
@@ -151,7 +151,7 @@ public class MapManager : MonoSingleton<MapManager>
                 if (distance < 400 & flag)
                 {
                     int map_line_index = Random.Range(0, map_line_list.Count);
-                    GameObject mapLine = Instantiate(mapLinePerfab, Camera.main.ScreenToWorldPoint(middlePos), Quaternion.identity, this.map_line_father);
+                    GameObject mapLine = Instantiate(mapLinePrefab, Camera.main.ScreenToWorldPoint(middlePos), Quaternion.identity, this.map_line_father);
                     mapLine.GetComponent<Image>().overrideSprite = map_line_list[map_line_index];
                     mapLine.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(distance - 120, 20);
                     if (dirVector3.y > 0)

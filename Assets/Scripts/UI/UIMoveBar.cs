@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class UIMoveBar : MonoBehaviour
 {
-    public GameObject firstItemPerfab;
-    public GameObject otherItemPerfab;
-    public GameObject dayItemPerfab;
-    public ObjectPool firstItemPool;
-    public ObjectPool otherItemPool;
+    public GameObject firstItemPrefab;
+    public GameObject otherItemPrefab;
+    public GameObject dayItemPrefab;
+    public ButtonObjectPool firstItemPool;
+    public ButtonObjectPool otherItemPool;
     public ObjectPool dayItemPool;
     public Transform itemFather;
     // Start is called before the first frame update
@@ -25,9 +25,9 @@ public class UIMoveBar : MonoBehaviour
 
     public void Init()
     {
-        firstItemPool = new ObjectPool(firstItemPerfab, 1, itemFather);
-        otherItemPool = new ObjectPool(otherItemPerfab, 6, itemFather);
-        dayItemPool = new ObjectPool(dayItemPerfab, 1, itemFather);
+        firstItemPool = new ButtonObjectPool(firstItemPrefab, 1, itemFather, (button) => { BattleManager.Instance.MoveBarItemClicked(button); });
+        otherItemPool = new ButtonObjectPool(otherItemPrefab, 6, itemFather, (button) => { BattleManager.Instance.MoveBarItemClicked(button); });
+        dayItemPool = new ObjectPool(dayItemPrefab, 1, itemFather);
     }
 
     public void Show(List<BattleItem> battleItems)
@@ -37,7 +37,8 @@ public class UIMoveBar : MonoBehaviour
         dayItemPool.ReturnAllObject();
         for (int i = 0; i < Mathf.Min(battleItems.Count, GlobalAccess.moveBarMaxShowNum); i++)
         {
-            if (i == 0 && battleItems[i].battleItemType != BattleItemType.time)
+            if (i == 0 && battleItems[i].battleItemType != BattleItemType.time &&
+                battleItems[i].remainActingTime == 0)
             {
                 //有firstItem
                 GameObject firstItem = firstItemPool.GetObjectFromPool();

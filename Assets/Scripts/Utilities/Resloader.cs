@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-class Resloader
+public class Resloader
 {
     //加载资源
     public static T Load<T>(string path) where T : UnityEngine.Object

@@ -7,6 +7,7 @@ public class UIMoveBarFirstItem : MonoBehaviour
 {
     public Image bg;
     public Image icon;
+    public BattleItem item;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +22,7 @@ public class UIMoveBarFirstItem : MonoBehaviour
 
     public void Setup(BattleItem item)
     {
+        this.item = item;
         icon.overrideSprite = Resloader.LoadSprite(item.Resource);
         switch (item.battleItemType)
         {

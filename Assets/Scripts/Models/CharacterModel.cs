@@ -15,13 +15,23 @@ public class CharacterModel: CharacterDefine, BattleItem, IStorable
     private System.IDisposable disposable;
     private CharacterDefine define;
 
+    //BattleItem
+    public string uuid;
+    public string uuID { get { return uuid; } }
+    public new string Name { get; set; }
     public BattleItemType battleItemType { get; set; }
     public int remainActingTime { get; set; }
-    public string Resource
-    {
-        get { return base.Resource; }
-        set { base.Resource = value; }
-    }
+    public new string Resource { get; set; }
+    public new int Mobility { get; set; }
+    public new int Speed { get; set; }
+    public new int MaxHP { get; set; }
+    public new int Strength { get; set; }
+    public new int Defense { get; set; }
+    public new int Dodge { get; set; }
+    public new int Accuracy { get; set; }
+    public new int Energy { get; set; }
+    public new int Lucky { get; set; }
+    public new string Desc { get; set; }
 
     public CharacterModel()
     {}
@@ -30,8 +40,10 @@ public class CharacterModel: CharacterDefine, BattleItem, IStorable
     {
         ID = id;
     }
+
     public CharacterModel(CharacterDefine define)
     {
+        uuid = GameUtil.Instance.GenerateUniqueId();
         this.battleItemType = BattleItemType.player;
         this.define = define;
         ID = define.ID;
