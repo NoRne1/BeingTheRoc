@@ -40,7 +40,6 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     private BehaviorSubject<int> currentPlaceIndex = new BehaviorSubject<int>(-1);
 
-    private UIChessboardSlot lastClickedSlot; 
     public Subject<UIChessboardSlot> clickedSlot = new Subject<UIChessboardSlot>();
 
     public Dictionary<Vector2, UIBattleItem> battleItemDic = new Dictionary<Vector2, UIBattleItem>();
@@ -86,7 +85,6 @@ public class BattleManager : MonoSingleton<BattleManager>
                     Debug.Log("clickedSlot selectTarget");
                     break;
             }
-            lastClickedSlot = slot;
         });
     }
 
@@ -155,32 +153,34 @@ public class BattleManager : MonoSingleton<BattleManager>
         for (int i = 0; i < characterIDs.Count; i++)
         {
             battleItems.Add(
-                (BattleItem) NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(characterIDs[i])).Value
+                (BattleItem)NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(characterIDs[i])).Value
             );
         }
 
-        timePassDispose = timePass.AsObservable().TakeUntilDestroy(this).Subscribe(time => {
+        timePassDispose = timePass.AsObservable().TakeUntilDestroy(this).Subscribe(time =>
+        {
             CalcBattleItemAndShow(time);
         });
         //手动执行一次排序和显示(-999手是特殊指令值)
         timePass.OnNext(-999);
         //正式开始回合流程
-        roundRelayDispose = roundTime.AsObservable().TakeUntilDestroy(this).Subscribe(time => {
+        roundRelayDispose = roundTime.AsObservable().TakeUntilDestroy(this).Subscribe(time =>
+        {
             StartCoroutine(ProcessRound(time));
         });
     }
 
     public IEnumerator ProcessRound(RoundTime time)
     {
-        switch(time)
+        switch (time)
         {
             case RoundTime.begin:
                 Debug.Log("round begin");
                 UIBattleItem item = battleItemDic.Values.FirstOrDefault(item => { return item.item.uuID == battleItems[0].uuID; });
-                if (item != null)
+                battleItemDic.Values.FirstOrDefault(item => { return item.item.uuID == battleItems[0].uuID; }).IfNotNull(item =>
                 {
                     item.roundActive = true;
-                }
+                });
                 yield return new WaitForSeconds(1f);
                 roundTime.OnNext(RoundTime.acting);
                 break;
@@ -209,7 +209,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public void CalcBattleItemAndShow(int time)
     {
-        if(time >= 0)
+        if (time >= 0)
         {
             foreach (BattleItem item in battleItems)
             {
@@ -217,7 +217,8 @@ public class BattleManager : MonoSingleton<BattleManager>
             }
             ResortBattleItems();
             moveBar.Show(battleItems);
-        } else if (time == -999)
+        }
+        else if (time == -999)
         {
             foreach (BattleItem item in battleItems)
             {
@@ -249,15 +250,17 @@ public class BattleManager : MonoSingleton<BattleManager>
                 Debug.Log("Character Place Success! " + item.Name + ": " + slot.position);
                 GameObject temp = Instantiate(battleItemPrefab, this.battleItemFather);
                 UIBattleItem battleItem = temp.GetComponent<UIBattleItem>();
-                battleItem.Setup(battleItems[currentPlaceIndex.Value]);
+                battleItem.Setup(item);
                 temp.transform.position = slot.transform.position;
                 battleItemDic.Add(slot.position, battleItem);
                 currentPlaceIndex.OnNext(currentPlaceIndex.Value + 1);
-            } else
+            }
+            else
             {
                 //不做处理
             }
-        } else
+        }
+        else
         {
             UITip tip = UIManager.Instance.Show<UITip>();
             tip.UpdateTip(DataManager.Instance.Language["general_error_tip"] + "0005");
@@ -279,26 +282,31 @@ public class BattleManager : MonoSingleton<BattleManager>
             }
             chessBoard.SetColors(dic);
             clickSlotReason = ClickSlotReason.move;
-            battleItemDic[chessboardSlot.position].Selected = true;
+            SelectItem(chessboardSlot.position);
         }
     }
 
     public void ItemMove(UIChessboardSlot slot)
     {
-        if (battleItemDic[lastClickedSlot.position].item.uuID == battleItems[0].uuID && !HasBattleItem(slot) && HasBattleItem(lastClickedSlot) &&
-            GameUtil.Instance.CanMoveTo(lastClickedSlot.position, slot.position, battleItemDic[lastClickedSlot.position].item.Mobility))
+        UIChessboardSlot lastClickedSlot = chessBoard.slots.GetValueOrDefault(lastSelectedPos);
+        if (lastClickedSlot != null && battleItemDic[lastSelectedPos].item.uuID == battleItems[0].uuID && !HasBattleItem(slot) && HasBattleItem(lastClickedSlot) &&
+            GameUtil.Instance.CanMoveTo(lastSelectedPos, slot.position, battleItemDic[lastSelectedPos].item.Mobility))
         {
             Debug.Log("move success to :" + slot.position);
-            battleItemDic.Add(slot.position, battleItemDic[lastClickedSlot.position]);
-            battleItemDic.Remove(lastClickedSlot.position);
+            battleItemDic.Add(slot.position, battleItemDic[lastSelectedPos]);
+            battleItemDic.Remove(lastSelectedPos);
             battleItemDic[slot.position].transform.position = slot.transform.position;
             ShowMovePath(slot);
-        } else
+            SelectItem(slot.position);
+        }
+        else
         {
             Debug.Log("move failure to :" + slot.position);
+            Debug.Log(battleItemDic[lastSelectedPos].item.uuID + " " + battleItems[0].uuID + " " + !HasBattleItem(slot) + " " +
+                HasBattleItem(lastClickedSlot) + " " + GameUtil.Instance.CanMoveTo(lastSelectedPos, slot.position, battleItemDic[lastSelectedPos].item.Mobility));
             chessBoard.ResetColors();
             clickSlotReason = ClickSlotReason.viewCharacter;
-            battleItemDic[lastClickedSlot.position].Selected = false;
+            UnselectItem();
         }
     }
 
@@ -309,10 +317,20 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public void MoveBarItemClicked(Button button)
     {
+        BattleItem battleItem = null;
         if (button.GetComponent<UIMoveBarFirstItem>() != null)
         {
+            battleItem = button.GetComponent<UIMoveBarFirstItem>().item;
+        }
+        else if (button.GetComponent<UIMoveBarOtherItem>() != null)
+        {
+            battleItem = button.GetComponent<UIMoveBarOtherItem>().item;
+        }
+
+        if (battleItem != null)
+        {
             clickSlotReason = ClickSlotReason.viewCharacter;
-            string uuID = button.GetComponent<UIMoveBarFirstItem>().item.uuID;
+            string uuID = battleItem.uuID;
             try
             {
                 Vector2 vect = battleItemDic.First(x => x.Value.item.uuID == uuID).Key;
@@ -323,18 +341,31 @@ public class BattleManager : MonoSingleton<BattleManager>
                 Debug.Log("MoveBarItemClicked InvalidOperationException: " + e.Message);
             }
         }
-        if (button.GetComponent<UIMoveBarOtherItem>() != null)
+    }
+
+    private Vector2 lastSelectedPos = Vector2.positiveInfinity;
+    public void SelectItem(Vector2 pos)
+    {
+        if (lastSelectedPos != Vector2.positiveInfinity)
         {
-            clickSlotReason = ClickSlotReason.viewCharacter;
-            string uuID = button.GetComponent<UIMoveBarOtherItem>().item.uuID;
-            try {
-                Vector2 vect = battleItemDic.First(x => x.Value.item.uuID == uuID).Key;
-                clickedSlot.OnNext(chessBoard.slots[vect]);
-            }
-            catch (InvalidOperationException e)
+            battleItemDic.GetValueOrDefault(lastSelectedPos)?.IfNotNull(a =>
             {
-                Debug.Log("MoveBarItemClicked InvalidOperationException: " + e.Message);
-            }
+                a.Selected = false;
+            });
         }
+        battleItemDic[pos].Selected = true;
+        lastSelectedPos = pos;
+    }
+
+    public void UnselectItem()
+    {
+        if (lastSelectedPos != Vector2.positiveInfinity)
+        {
+            battleItemDic.GetValueOrDefault(lastSelectedPos)?.IfNotNull(a =>
+            {
+                a.Selected = false;
+            });
+        }
+        lastSelectedPos = Vector2.positiveInfinity;
     }
 }

@@ -18,6 +18,9 @@ class GlobalAccess
     public static float roundDistance = 10000.0f;
     public static float totalDayTime = 100.0f;
     public static int moveBarMaxShowNum = 7;
+    public static string friendColorHex = "#9bf6ff";
+    public static string enermyColorHex = "#ffadad";
+    
     public static int subCharacterNum
     {
         get { return DataManager.Instance.Characters.Count - mainCharacterNum; }

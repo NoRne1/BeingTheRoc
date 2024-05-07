@@ -420,7 +420,9 @@
 "Assets/Scripts/Models/RepositoryModel.cs"
 "Assets/Scripts/Models/StoreItemModel.cs"
 "Assets/Scripts/Models/TownBattleInfoModel.cs"
+"Assets/Scripts/UI/UIBattleBuffIcon.cs"
 "Assets/Scripts/UI/UIBattleItem.cs"
+"Assets/Scripts/UI/UIBattleItemInfo.cs"
 "Assets/Scripts/UI/UICharacterPlaceBox.cs"
 "Assets/Scripts/UI/UICharacterSelectPanel.cs"
 "Assets/Scripts/UI/UIChessboard.cs"
@@ -461,6 +463,8 @@
 "Assets/Scripts/Utilities/DescHintComponent.cs"
 "Assets/Scripts/Utilities/DragSupport.cs"
 "Assets/Scripts/Utilities/EditorStyleViewer.cs"
+"Assets/Scripts/Utilities/Extensions/StringExtensions.cs"
+"Assets/Scripts/Utilities/Extensions/UnityExtensions.cs"
 "Assets/Scripts/Utilities/FightText/FightTextComponent.cs"
 "Assets/Scripts/Utilities/FightText/FightTextInfo.cs"
 "Assets/Scripts/Utilities/FightText/FightTextManager.cs"
@@ -471,7 +475,6 @@
 "Assets/Scripts/Utilities/ObjectPool.cs"
 "Assets/Scripts/Utilities/Resloader.cs"
 "Assets/Scripts/Utilities/Singleton.cs"
-"Assets/Scripts/Utilities/StringExtensions.cs"
 -langversion:9.0
 
 /deterministic

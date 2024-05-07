@@ -82,6 +82,7 @@
     <Compile Include="Assets/LeanTween/Testing/TestingColorTweening.cs" />
     <Compile Include="Assets/Scripts/Managers/SkillManager.cs" />
     <Compile Include="Assets/Scripts/UI/UILoadingPanel.cs" />
+    <Compile Include="Assets/Scripts/UI/UIBattleItemInfo.cs" />
     <Compile Include="Assets/Scripts/Models/Backpack.cs" />
     <Compile Include="Assets/Scripts/Utilities/NorneStore.cs" />
     <Compile Include="Assets/Scripts/UI/UIChessboardSlot.cs" />
@@ -96,7 +97,6 @@
     <Compile Include="Assets/Scripts/UI/UIBattleItem.cs" />
     <Compile Include="Assets/Scripts/Models/TownBattleInfoModel.cs" />
     <Compile Include="Assets/Scripts/Managers/BuffManager.cs" />
-    <Compile Include="Assets/Scripts/Utilities/StringExtensions.cs" />
     <Compile Include="Assets/Scripts/UI/UIMainMenu.cs" />
     <Compile Include="Assets/Scripts/UI/UICommonUI.cs" />
     <Compile Include="Assets/Scripts/Utilities/ObjectPool.cs" />
@@ -107,6 +107,7 @@
     <Compile Include="Assets/Scripts/UI/UIMoveBarFirstItem.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBar.cs" />
     <Compile Include="Assets/LeanTween/Testing/PerformanceTests.cs" />
+    <Compile Include="Assets/Scripts/Utilities/Extensions/StringExtensions.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBarDayItem.cs" />
     <Compile Include="Assets/Scripts/UI/UIEquipButtons.cs" />
     <Compile Include="Assets/Scripts/UI/UITip.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Assets/LeanTween/Testing/Testing246.cs" />
     <Compile Include="Assets/Scripts/Managers/UIManager.cs" />
     <Compile Include="Assets/Scripts/UI/UIDescHint.cs" />
+    <Compile Include="Assets/Scripts/Utilities/Extensions/UnityExtensions.cs" />
     <Compile Include="Assets/Scripts/Defines/StoreItemDefine.cs" />
     <Compile Include="Assets/Scripts/Managers/GameManager.cs" />
     <Compile Include="Assets/Scripts/UI/UITownActionPanel.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="Assets/Scripts/Managers/SceneManager.cs" />
     <Compile Include="Assets/Scripts/UI/UITeamWindow.cs" />
     <Compile Include="Assets/LeanTween/Framework/LTSeq.cs" />
+    <Compile Include="Assets/Scripts/UI/UIBattleBuffIcon.cs" />
     <Compile Include="Assets/Scripts/Utilities/FightText/FightTextManager.cs" />
     <Compile Include="Assets/Scripts/Utilities/DescHintComponent.cs" />
     <Compile Include="Assets/Scripts/Managers/SoundManager.cs" />
