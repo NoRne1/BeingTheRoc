@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
-public class CharacterModel: CharacterDefine, BattleItem, IStorable
+public class CharacterModel: CharacterDefine, IStorable
 {
     public BehaviorSubject<int> currentHp;
+    public BehaviorSubject<int> currentEnergy;
     public int level { get { return exp / GlobalAccess.levelUpExp + 1; } }
     public int remainExp { get { return exp % GlobalAccess.levelUpExp; } }
     public int exp;
@@ -17,34 +18,19 @@ public class CharacterModel: CharacterDefine, BattleItem, IStorable
 
     //BattleItem
     public string uuid;
-    public string uuID { get { return uuid; } }
-    public new string Name { get; set; }
-    public BattleItemType battleItemType { get; set; }
-    public int remainActingTime { get; set; }
-    public new string Resource { get; set; }
-    public new int Mobility { get; set; }
-    public new int Speed { get; set; }
-    public new int MaxHP { get; set; }
-    public new int Strength { get; set; }
-    public new int Defense { get; set; }
-    public new int Dodge { get; set; }
-    public new int Accuracy { get; set; }
-    public new int Energy { get; set; }
-    public new int Lucky { get; set; }
-    public new string Desc { get; set; }
+    
 
     public CharacterModel()
     {}
 
-    public CharacterModel(int id)
+    public CharacterModel(string uuid)
     {
-        ID = id;
+        this.uuid = uuid;
     }
 
     public CharacterModel(CharacterDefine define)
     {
         uuid = GameUtil.Instance.GenerateUniqueId();
-        this.battleItemType = BattleItemType.player;
         this.define = define;
         ID = define.ID;
         Name = define.Name;
@@ -59,8 +45,9 @@ public class CharacterModel: CharacterDefine, BattleItem, IStorable
         Lucky = define.Lucky;
         Resource = define.Resource;
         Desc = define.Desc;
-        backpack = new Backpack(define.ID, 3, 3, characterUpdate);
+        backpack = new Backpack(uuid, 3, 3, characterUpdate);
         currentHp = new BehaviorSubject<int>(define.MaxHP);
+        currentEnergy = new BehaviorSubject<int>(define.Energy);
         disposable = characterUpdate.AsObservable().Subscribe(_ =>
         {
             NorneStore.Instance.Update<CharacterModel>(this, isFull: true);
@@ -69,7 +56,7 @@ public class CharacterModel: CharacterDefine, BattleItem, IStorable
 
     public string StorableCategory => "Character";
 
-    public string Identifier => this.ID.ToString();
+    public string Identifier => this.uuid.ToString();
 
     ~CharacterModel()
     {
@@ -91,5 +78,27 @@ public class CharacterModel: CharacterDefine, BattleItem, IStorable
         //{
         //    //伤害飘字
         //}
+    }
+
+    public BattleItem ToBattleItem()
+    {
+        BattleItem item = new BattleItem();
+        item.uuid = this.uuid;
+        item.battleItemType = BattleItemType.player;
+        item.Name = this.Name;
+        item.MaxHP = this.MaxHP;
+        item.Strength = this.Strength;
+        item.Defense = this.Defense;
+        item.Dodge = this.Dodge;
+        item.Accuracy = this.Accuracy;
+        item.Speed = this.Speed;
+        item.Mobility = this.Mobility;
+        item.Energy = this.Energy;
+        item.Lucky = this.Lucky;
+        item.Resource = this.Resource;
+        item.Desc = this.Desc;
+        item.currentHp = this.currentHp;
+        item.currentEnergy = this.currentEnergy;
+        return item;
     }
 }

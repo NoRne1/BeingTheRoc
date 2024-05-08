@@ -29,7 +29,7 @@ public class GameManager : MonoSingleton<GameManager>
     public BehaviorSubject<int> timeLeft = new BehaviorSubject<int>(30);
     public PageType currentPageType = PageType.map;
 
-    public List<int> characterIDs = new List<int>(GlobalAccess.teamOpacity);
+    public Dictionary<string, NorneRelay<CharacterModel>> characterRelays = new Dictionary<string, NorneRelay<CharacterModel>>();
 
     public RepositoryModel repository = new RepositoryModel();
     // Start is called before the first frame update
@@ -54,17 +54,18 @@ public class GameManager : MonoSingleton<GameManager>
             if (flag)
             {
                 // init characters
-                characterIDs.Add(GlobalAccess.CurrentCharacterId);
+                
                 CharacterDefine playerDefine = DataManager.Instance.Characters[GlobalAccess.CurrentCharacterId];
                 CharacterModel mainCharacter = new CharacterModel(playerDefine);
                 NorneStore.Instance.Update<CharacterModel>(mainCharacter, isFull: true);
+                characterRelays.Add(mainCharacter.uuid, NorneStore.Instance.ObservableObject(mainCharacter));
                 for (int i = 0; i < 2; i++)
                 {
                     int id = DataManager.Instance.GetRandomSubCharacterID();
-                    characterIDs.Add(id);
                     CharacterDefine define = DataManager.Instance.Characters[id];
                     CharacterModel model = new CharacterModel(define);
                     NorneStore.Instance.Update<CharacterModel>(model, isFull: true);
+                    characterRelays.Add(model.uuid, NorneStore.Instance.ObservableObject(mainCharacter));
                 }
             }
         });

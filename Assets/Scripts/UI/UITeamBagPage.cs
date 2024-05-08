@@ -233,15 +233,7 @@ public class UITeamBagPage : MonoBehaviour
 
     public void RefreshBag(CharacterModel character)
     {
-        // 遍历子节点
-        foreach (Transform child in this.equipFather)
-        {
-            // 销毁子节点
-            Destroy(child.gameObject);
-        }
-
-        // 清空子节点列表
-        equipFather.DetachChildren();
+        GameUtil.Instance.DetachChildren(equipFather);
 
         equipItems.Clear();
 

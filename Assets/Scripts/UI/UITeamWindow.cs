@@ -5,11 +5,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
 using UnityEngine.TextCore.Text;
+using System.Xml;
 
 public class UITeamWindow : UIWindow
 {
     public List<Button> characterButtons;
-    public BehaviorSubject<int> currentCharacterID;
+    public BehaviorSubject<string> currentCharacterID;
     private IDisposable disposable;
     public UITeamInfoPage infoPage;
     public UITeamBagPage bagPage;
@@ -27,28 +28,27 @@ public class UITeamWindow : UIWindow
 
     private void Init()
     {
-        currentCharacterID = new BehaviorSubject<int>(GameManager.Instance.characterIDs[0]);
+        currentCharacterID = new BehaviorSubject<string>(GameManager.Instance.characterRelays.GetValueByIndex(0).Value.uuid);
         currentCharacterID.AsObservable().DistinctUntilChanged().TakeUntilDestroy(this).Subscribe(cid =>
         {
             if(disposable != null) { disposable.Dispose(); }
             disposable = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(cid)).TakeUntilDestroy(this).Subscribe(character =>
             {
-                print(DataManager.Instance.Characters[cid]);
                 infoPage.UpdateCharacter(character);
                 bagPage.UpdateCharacter(character);
             });
         });
         for(int i = 0; i < characterButtons.Count; i++)
         {
-            if (i < GameManager.Instance.characterIDs.Count)
+            if (i < GameManager.Instance.characterRelays.Count)
             {
-                int characterID = GameManager.Instance.characterIDs[i];
+                string characterID = GameManager.Instance.characterRelays.GetValueByIndex(i).Value.uuid;
                 characterButtons[i].OnClickAsObservable().Subscribe(_ =>
                 {
                     currentCharacterID.OnNext(characterID);
                 });
                 characterButtons[i].transform.GetChild(0).GetComponent<Image>().overrideSprite =
-                    Resloader.LoadSprite(DataManager.Instance.Characters[characterID].Resource);
+                    Resloader.LoadSprite(GameManager.Instance.characterRelays[characterID].Value.Resource);
                 characterButtons[i].gameObject.SetActive(true);
             } else
             {

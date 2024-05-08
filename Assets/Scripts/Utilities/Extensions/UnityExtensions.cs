@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 public static class UnityExtensions
 {
@@ -8,6 +9,14 @@ public static class UnityExtensions
         if (obj != null)
         {
             action(obj);
+        }
+    }
+
+    public static void IfNotNull<TKey, TValue>(this KeyValuePair<TKey, TValue> pair, Action<KeyValuePair<TKey, TValue>> action)
+    {
+        if (!EqualityComparer<KeyValuePair<TKey, TValue>>.Default.Equals(pair, default))
+        {
+            action(pair);
         }
     }
 }

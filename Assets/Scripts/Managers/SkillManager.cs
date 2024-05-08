@@ -17,7 +17,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         
     }
 
-    public void InvokeSkill(int targetID, string methodName)
+    public void InvokeSkill(string targetID, string methodName)
     {
         var method = typeof(SkillManager).GetMethod(methodName);
         object[] parameters = new object[] { targetID };

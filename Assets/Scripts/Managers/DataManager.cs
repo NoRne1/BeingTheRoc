@@ -75,8 +75,9 @@ public class DataManager : Singleton<DataManager>
     {
         while(true)
         {
-            int id = UnityEngine.Random.Range(GlobalAccess.subCharacterStartIndex, GlobalAccess.subCharacterStartIndex+ GlobalAccess.subCharacterNum);
-            if(GameManager.Instance.characterIDs.Contains(id))
+            int id = UnityEngine.Random.Range(GlobalAccess.subCharacterStartIndex, GlobalAccess.subCharacterStartIndex + GlobalAccess.subCharacterNum);
+            if (GameManager.Instance.characterRelays.Values.Select(relay => { return relay.Value.ID; }).ToList()
+                .Contains(id))
             {
                 continue;
             } else

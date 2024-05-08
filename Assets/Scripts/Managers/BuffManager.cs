@@ -15,7 +15,7 @@ public class BuffManager : MonoSingleton<BuffManager>
 			
 	}
 
-    public void AddBuff(int targetID, string methodName)
+    public void AddBuff(string targetID, string methodName)
     {
         var method = typeof(BuffManager).GetMethod(methodName);
         object[] parameters = new object[] { targetID };

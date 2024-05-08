@@ -30,6 +30,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public GameObject battleItemPrefab;
     public Transform battleItemFather;
     public UICharacterPlaceBox placeBox;
+    public UIBattleItemInfo uiBattleItemInfo;
     public TownBattleInfoModel battleInfo;
 
     public BehaviorSubject<int> timePass = new BehaviorSubject<int>(-1);
@@ -141,7 +142,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         roundRelayDispose = null;
     }
 
-    public void StartBattle(List<int> characterIDs, TownBattleInfoModel battleInfo)
+    public void StartBattle(List<string> characterIDs, TownBattleInfoModel battleInfo)
     {
         timePassDispose?.Dispose();
         roundRelayDispose?.Dispose();
@@ -153,7 +154,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         for (int i = 0; i < characterIDs.Count; i++)
         {
             battleItems.Add(
-                (BattleItem)NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(characterIDs[i])).Value
+                NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(characterIDs[i])).Value.ToBattleItem()
             );
         }
 
@@ -176,10 +177,12 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             case RoundTime.begin:
                 Debug.Log("round begin");
-                UIBattleItem item = battleItemDic.Values.FirstOrDefault(item => { return item.item.uuID == battleItems[0].uuID; });
-                battleItemDic.Values.FirstOrDefault(item => { return item.item.uuID == battleItems[0].uuID; }).IfNotNull(item =>
+                battleItemDic.FirstOrDefault(pair => { return pair.Value.item.uuid == battleItems[0].uuid; }).IfNotNull(pair =>
                 {
-                    item.roundActive = true;
+                    pair.Value.roundActive = true;
+                    // auto viewCharacter
+                    clickSlotReason = ClickSlotReason.viewCharacter;
+                    clickedSlot.OnNext(chessBoard.slots[pair.Key]);
                 });
                 yield return new WaitForSeconds(1f);
                 roundTime.OnNext(RoundTime.acting);
@@ -189,7 +192,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 break;
             case RoundTime.end:
                 Debug.Log("round end");
-                battleItemDic.Values.First(item => { return item.item.uuID == battleItems[0].uuID; }).roundActive = false;
+                battleItemDic.Values.First(item => { return item.item.uuid == battleItems[0].uuid; }).roundActive = false;
                 int temp = Mathf.CeilToInt(GlobalAccess.roundDistance / battleItems[0].Speed);
                 battleItems[0].remainActingTime = temp + battleItems[1].remainActingTime; // 因为后续还会timePass一次
                 timePass.OnNext(battleItems[1].remainActingTime);
@@ -289,7 +292,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public void ItemMove(UIChessboardSlot slot)
     {
         UIChessboardSlot lastClickedSlot = chessBoard.slots.GetValueOrDefault(lastSelectedPos);
-        if (lastClickedSlot != null && battleItemDic[lastSelectedPos].item.uuID == battleItems[0].uuID && !HasBattleItem(slot) && HasBattleItem(lastClickedSlot) &&
+        if (lastClickedSlot != null && battleItemDic[lastSelectedPos].item.uuid == battleItems[0].uuid && !HasBattleItem(slot) && HasBattleItem(lastClickedSlot) &&
             GameUtil.Instance.CanMoveTo(lastSelectedPos, slot.position, battleItemDic[lastSelectedPos].item.Mobility))
         {
             Debug.Log("move success to :" + slot.position);
@@ -302,7 +305,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         else
         {
             Debug.Log("move failure to :" + slot.position);
-            Debug.Log(battleItemDic[lastSelectedPos].item.uuID + " " + battleItems[0].uuID + " " + !HasBattleItem(slot) + " " +
+            Debug.Log(battleItemDic[lastSelectedPos].item.uuid + " " + battleItems[0].uuid + " " + !HasBattleItem(slot) + " " +
                 HasBattleItem(lastClickedSlot) + " " + GameUtil.Instance.CanMoveTo(lastSelectedPos, slot.position, battleItemDic[lastSelectedPos].item.Mobility));
             chessBoard.ResetColors();
             clickSlotReason = ClickSlotReason.viewCharacter;
@@ -330,10 +333,10 @@ public class BattleManager : MonoSingleton<BattleManager>
         if (battleItem != null)
         {
             clickSlotReason = ClickSlotReason.viewCharacter;
-            string uuID = battleItem.uuID;
+            string uuID = battleItem.uuid;
             try
             {
-                Vector2 vect = battleItemDic.First(x => x.Value.item.uuID == uuID).Key;
+                Vector2 vect = battleItemDic.First(x => x.Value.item.uuid == uuID).Key;
                 clickedSlot.OnNext(chessBoard.slots[vect]);
             }
             catch (InvalidOperationException e)
@@ -354,6 +357,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             });
         }
         battleItemDic[pos].Selected = true;
+        uiBattleItemInfo.Setup(battleItemDic[pos].item);
         lastSelectedPos = pos;
     }
 
@@ -366,6 +370,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 a.Selected = false;
             });
         }
+        uiBattleItemInfo.Setup(null);
         lastSelectedPos = Vector2.positiveInfinity;
     }
 }

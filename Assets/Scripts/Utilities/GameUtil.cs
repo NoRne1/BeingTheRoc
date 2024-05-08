@@ -4,11 +4,20 @@ using System.Collections.Generic;
 using System.Reflection;
 using UniRx;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 
 public class GameUtil : Singleton<GameUtil>
 {
+    public void DetachChildren(Transform nodeFather) {
+        foreach (Transform child in nodeFather)
+        {
+            // 销毁子节点
+            UnityEngine.Object.Destroy(child.gameObject);
+        }
+        // 清空子节点列表
+        nodeFather.DetachChildren();
+    }
+
     public string GenerateUniqueId()
     {
         return Guid.NewGuid().ToString();

@@ -1,33 +1,36 @@
 ﻿<Properties StartupConfiguration="{BBB342A2-6894-1B0E-77BF-1034E1720682}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/BattleManager.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="12464019-386d-4174-880f-d92dcb4144cc" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/UIBattleItemInfo.cs">
     <Files>
-      <File FileName="Assets/Scripts/Managers/BattleManager.cs" Line="38" Column="24" />
-      <File FileName="Assets/Scripts/UI/UICharacterPlaceBox.cs" Line="6" Column="14" />
-      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="98" Column="1" />
-      <File FileName="Assets/Scripts/UI/UITeamBagPage.cs" Line="130" Column="13" />
-      <File FileName="Assets/Scripts/UI/UIChessboardSlot.cs" Line="10" Column="17" />
-      <File FileName="Assets/Scripts/Managers/MapManager.cs" Line="69" Column="129" />
-      <File FileName="Assets/Scripts/UI/UITownNode.cs" Line="44" Column="5" />
-      <File FileName="Assets/Scripts/Models/NewMonoBehaviour.cs" Line="12" Column="6" />
+      <File FileName="Assets/Scripts/Utilities/GameUtil.cs" Line="14" Column="15" />
+      <File FileName="Assets/Scripts/Managers/BattleManager.cs" Line="371" Column="16" />
+      <File FileName="Assets/Scripts/UI/UIBattleItem.cs" Line="13" Column="14" />
+      <File FileName="Assets/Scripts/Defines/BattleItem.cs" Line="15" Column="23" />
+      <File FileName="Assets/Scripts/Models/CharacterModel.cs" Line="36" Column="13" />
+      <File FileName="Assets/Scripts/UI/UIBattleItemInfo.cs" Line="49" Column="52" />
+      <File FileName="Assets/Scripts/Utilities/ObjectPool.cs" Line="69" Column="38" />
+      <File FileName="Assets/Scripts/UI/UITeamBagPage.cs" Line="254" Column="39" />
+      <File FileName="Assets/Scripts/Managers/BuffManager.cs" Line="19" Column="6" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="BeingTheRoc" expanded="True">
             <Node name="Assets" expanded="True">
-              <Node name="Plugins" expanded="True">
-                <Node name="UniRx" expanded="True">
-                  <Node name="Scripts" expanded="True">
-                    <Node name="Subjects" expanded="True" />
-                  </Node>
-                </Node>
-              </Node>
               <Node name="Scripts" expanded="True">
                 <Node name="Defines" expanded="True" />
                 <Node name="Managers" expanded="True" />
                 <Node name="Models" expanded="True" />
                 <Node name="UI" expanded="True" />
-                <Node name="Utilities" expanded="True" />
+                <Node name="Utilities" expanded="True">
+                  <Node name="Extensions" expanded="True" />
+                </Node>
               </Node>
             </Node>
           </Node>
@@ -35,11 +38,4 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="85ef0813-db28-4eaf-9288-7afd4815e738" />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>

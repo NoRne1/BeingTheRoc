@@ -7,7 +7,7 @@ using UnityEngine;
 public class StoreItemModel : StoreItemDefine
 {
     public string uuid;
-    public int characterID = -1;
+    public string characterID = "";
     public Vector2Int position; // 在背包中的位置
     public int rotationAngle; // 旋转角度
     private int tempRotationAngle; // 旋转角度
@@ -117,7 +117,7 @@ public class StoreItemModel : StoreItemDefine
         return equipType != EquipType.none;
     }
 
-    public void Equip(int characterID, Vector2Int position)
+    public void Equip(string characterID, Vector2Int position)
     {
         if (CanEquip())
         {
@@ -141,7 +141,7 @@ public class StoreItemModel : StoreItemDefine
 
     public void Unequip()
     {
-        this.characterID = -1;
+        this.characterID = "";
         this.position = Vector2Int.zero;
         this.rotationAngle = 0;
         OccupiedCellsInit();

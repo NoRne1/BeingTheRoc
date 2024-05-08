@@ -6,12 +6,12 @@ using static UnityEditor.Progress;
 
 public class Backpack
 {
-    public int characterID;
+    public string characterID;
     public Subject<bool> characterUpdate;
     public List<StoreItemModel> equips = new List<StoreItemModel>();
     public Dictionary<Vector2Int, StoreItemModel> grid = new Dictionary<Vector2Int, StoreItemModel>();
     
-    public Backpack(int characterID, int sizeX, int sizeY, Subject<bool> subject)
+    public Backpack(string characterID, int sizeX, int sizeY, Subject<bool> subject)
     {
         this.characterID = characterID;
         // 初始化背包，所有位置都为空

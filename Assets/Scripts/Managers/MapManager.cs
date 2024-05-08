@@ -66,7 +66,7 @@ public class MapManager : MonoSingleton<MapManager>
                     //townList[currentTownId].Status = TownNodeStatus.passed;
                     GameManager.Instance.SwitchPage(PageType.battle, ()=>
                     {
-                        BattleManager.Instance.StartBattle(GameManager.Instance.characterIDs, townList[currentTownId].battleInfo);
+                        BattleManager.Instance.StartBattle(GameManager.Instance.characterRelays.Keys.ToList(), townList[currentTownId].battleInfo);
                     });
                 } else
                 {

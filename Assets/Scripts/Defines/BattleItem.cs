@@ -1,4 +1,5 @@
 ﻿using System;
+using UniRx;
 using UnityEngine;
 
 public enum BattleItemType
@@ -8,9 +9,9 @@ public enum BattleItemType
     time = 2,
     sceneItem = 3
 }
-public interface BattleItem
+public class BattleItem
 {
-    public string uuID { get; }
+    public string uuid { get; set; }
     public string Name { get; set; }
     public string Resource { get; set; }
     public BattleItemType battleItemType { get; set; }
@@ -25,5 +26,11 @@ public interface BattleItem
     public int Energy { get; set; }
     public int Lucky { get; set; }
     public string Desc { get; set; }
+    public BehaviorSubject<int> currentHp;
+    public BehaviorSubject<int> currentEnergy;
+
+    public BattleItem() {
+
+    }
 }
 

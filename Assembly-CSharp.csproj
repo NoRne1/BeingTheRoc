@@ -63,13 +63,13 @@
     <Compile Include="Assets/Scripts/Utilities/ConstValue.cs" />
     <Compile Include="Assets/Scripts/UI/UIOptions.cs" />
     <Compile Include="Assets/LeanTween/Testing/TestingOptionalCancel.cs" />
+    <Compile Include="Assets/Scripts/Utilities/Extensions/ObjectExtensions.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBarOtherItem.cs" />
     <Compile Include="Assets/LeanTween/Framework/LTDescr.cs" />
     <Compile Include="Assets/Scripts/Defines/CharacterDefine.cs" />
     <Compile Include="Assets/Scripts/Managers/EquipManager.cs" />
     <Compile Include="Assets/Scripts/UI/UIRepositorSlot.cs" />
     <Compile Include="Assets/LeanTween/Framework/LeanTest.cs" />
-    <Compile Include="Assets/Scripts/Utilities/Codable.cs" />
     <Compile Include="Assets/Scripts/UI/UIWeatherPanel.cs" />
     <Compile Include="Assets/LeanTween/Testing/TestingIssue2.cs" />
     <Compile Include="Assets/Scripts/UI/UIShopPage.cs" />
@@ -103,6 +103,7 @@
     <Compile Include="Assets/LeanTween/Testing/Testing240.cs" />
     <Compile Include="Assets/Scripts/Defines/BattleItem.cs" />
     <Compile Include="Assets/LeanTween/Testing/Scripts/LeanPool.cs" />
+    <Compile Include="Assets/Scripts/Utilities/Extensions/DictionaryExtensions.cs" />
     <Compile Include="Assets/LeanTween/Testing/TestingSequencer.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBarFirstItem.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBar.cs" />

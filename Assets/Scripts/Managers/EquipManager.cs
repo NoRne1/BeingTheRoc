@@ -17,7 +17,7 @@ public class EquipManager : MonoSingleton<EquipManager>
         
     }
 
-    public void Use(int targetID, StoreItemModel item)
+    public void Use(string targetID, StoreItemModel item)
     {
         if (item.CanUse())
         {
@@ -53,7 +53,7 @@ public class EquipManager : MonoSingleton<EquipManager>
         item.Unequip();
     }
 
-    public void ProcessEffect(int targetID, Effect effect)
+    public void ProcessEffect(string targetID, Effect effect)
     {
         var target = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(targetID)).Value;
         switch (effect.effectType)

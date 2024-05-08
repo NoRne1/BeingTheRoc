@@ -48,9 +48,36 @@ public class ObjectPool
         return newObj;
     }
 
+    public GameObject FindObject(Func<GameObject, bool> predicate)
+    {
+        // 使用 lambda 表达式在对象池中查找符合条件的对象
+        foreach (GameObject obj in pooledObjects)
+        {
+            if (obj.activeSelf && predicate(obj))
+            {
+                return obj;
+            }
+        }
+        return null;
+    }
+
     public void ReturnObjectToPool(GameObject obj)
     {
         obj.SetActive(false);
+    }
+
+    public bool ReturnOneActiveObject()
+    {
+        // 查找未激活的对象并返回
+        foreach (GameObject obj in pooledObjects)
+        {
+            if (obj.activeSelf)
+            {
+                ReturnObjectToPool(obj);
+                return true;
+            }
+        }
+        return false;
     }
 
     public void ReturnAllObject()
