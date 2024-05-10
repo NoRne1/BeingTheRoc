@@ -31,6 +31,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public Transform battleItemFather;
     public UICharacterPlaceBox placeBox;
     public UIBattleItemInfo uiBattleItemInfo;
+    public UIBattleBag uIBattleBag;
     public TownBattleInfoModel battleInfo;
 
     public BehaviorSubject<int> timePass = new BehaviorSubject<int>(-1);
@@ -292,7 +293,11 @@ public class BattleManager : MonoSingleton<BattleManager>
     public void ItemMove(UIChessboardSlot slot)
     {
         UIChessboardSlot lastClickedSlot = chessBoard.slots.GetValueOrDefault(lastSelectedPos);
-        if (lastClickedSlot != null && battleItemDic[lastSelectedPos].item.uuid == battleItems[0].uuid && !HasBattleItem(slot) && HasBattleItem(lastClickedSlot) &&
+        if (HasBattleItem(slot))
+        {
+            clickSlotReason = ClickSlotReason.viewCharacter;
+            clickedSlot.OnNext(slot);
+        } else if (lastClickedSlot != null && battleItemDic[lastSelectedPos].item.uuid == battleItems[0].uuid && HasBattleItem(lastClickedSlot) &&
             GameUtil.Instance.CanMoveTo(lastSelectedPos, slot.position, battleItemDic[lastSelectedPos].item.Mobility))
         {
             Debug.Log("move success to :" + slot.position);
@@ -305,8 +310,6 @@ public class BattleManager : MonoSingleton<BattleManager>
         else
         {
             Debug.Log("move failure to :" + slot.position);
-            Debug.Log(battleItemDic[lastSelectedPos].item.uuid + " " + battleItems[0].uuid + " " + !HasBattleItem(slot) + " " +
-                HasBattleItem(lastClickedSlot) + " " + GameUtil.Instance.CanMoveTo(lastSelectedPos, slot.position, battleItemDic[lastSelectedPos].item.Mobility));
             chessBoard.ResetColors();
             clickSlotReason = ClickSlotReason.viewCharacter;
             UnselectItem();
@@ -358,6 +361,8 @@ public class BattleManager : MonoSingleton<BattleManager>
         }
         battleItemDic[pos].Selected = true;
         uiBattleItemInfo.Setup(battleItemDic[pos].item);
+        uIBattleBag.Setup(battleItemDic[pos].item);
+        chessBoard.ResetMiddle(false);
         lastSelectedPos = pos;
     }
 
@@ -371,6 +376,37 @@ public class BattleManager : MonoSingleton<BattleManager>
             });
         }
         uiBattleItemInfo.Setup(null);
+        uIBattleBag.Setup(null);
+        chessBoard.ResetMiddle(true);
         lastSelectedPos = Vector2.positiveInfinity;
+    }
+
+    public void EquipClicked(string uuid, UIEquipItem equipItem) {
+        if (uuid == battleItems[0].uuid && battleItems[0].battleItemType == BattleItemType.player)
+        {
+            //只处理正在行动的玩家角色的装备点击
+            EquipManager.Instance.Use(uuid, equipItem.storeItem);
+        }
+    }
+
+    public void SelectTargets(StoreItemModel storeItem)
+    {
+        //todo SetColors
+        //chessBoard.ResetColors();
+        //Dictionary<Vector2, ChessboardSlotColor> dic = new Dictionary<Vector2, ChessboardSlotColor>();
+        //foreach (var slot in chessBoard.slots.Values)
+        //{
+        //    dic.Add(slot.position, ChessboardSlotColor.green);
+        //}
+        //chessBoard.SetColors(dic);
+        clickSlotReason = ClickSlotReason.selectTarget;
+    }
+
+    public void TargetSelected(UIChessboardSlot slot)
+    {
+        clickSlotReason = ClickSlotReason.viewCharacter;
+        List<string> targetIDs = new List<string>();
+
+        EquipManager.Instance.targetIDs = targetIDs;
     }
 }

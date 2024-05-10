@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
 
 public enum EquipLevel
 {
@@ -20,7 +21,10 @@ class GlobalAccess
     public static int moveBarMaxShowNum = 7;
     public static string friendColorHex = "#9bf6ff";
     public static string enermyColorHex = "#ffadad";
-    
+
+    public static float equipSizeBagMultiply = 180;
+    public static float equipSizeBattleMultiply = 150;
+
     public static int subCharacterNum
     {
         get { return DataManager.Instance.Characters.Count - mainCharacterNum; }

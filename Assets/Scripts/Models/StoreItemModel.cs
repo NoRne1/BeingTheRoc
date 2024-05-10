@@ -36,25 +36,25 @@ public class StoreItemModel : StoreItemDefine
             switch (equipType)
             {
                 case EquipType.X1_1:
-                    return new Vector2(180, 180);
+                    return new Vector2(1, 1);
                 case EquipType.X1_2:
-                    return new Vector2(360, 180);
+                    return new Vector2(2, 1);
                 case EquipType.X2_1:
-                    return new Vector2(180, 360);
+                    return new Vector2(1, 2);
                 case EquipType.X3_1:
-                    return new Vector2(180, 540);
+                    return new Vector2(1, 3);
                 case EquipType.X2_2:
-                    return new Vector2(360, 360);
+                    return new Vector2(2, 2);
                 case EquipType.X3_2:
-                    return new Vector2(360, 540);
+                    return new Vector2(2, 3);
                 case EquipType.Xtu:
-                    return new Vector2(540, 360);
+                    return new Vector2(3, 2);
                 case EquipType.Xcorner:
-                    return new Vector2(360, 360);
+                    return new Vector2(2, 2);
                 case EquipType.Xten:
-                    return new Vector2(540, 540);
+                    return new Vector2(3, 3);
                 case EquipType.Xz:
-                    return new Vector2(360, 540);
+                    return new Vector2(2, 3);
                 default:
                     return Vector2.zero;
             }
@@ -70,23 +70,23 @@ public class StoreItemModel : StoreItemDefine
                 case EquipType.X1_1:
                     return new Vector3(0, 0, 0);
                 case EquipType.X1_2:
-                    return new Vector3(-90, 0, 0);
+                    return new Vector3(-0.5f, 0, 0);
                 case EquipType.X2_1:
-                    return new Vector3(0, 90, 0);
+                    return new Vector3(0, 0.5f, 0);
                 case EquipType.X3_1:
-                    return new Vector3(0, 180, 0);
+                    return new Vector3(0, 1, 0);
                 case EquipType.X2_2:
-                    return new Vector3(-90, 90, 0);
+                    return new Vector3(-0.5f, 0.5f, 0);
                 case EquipType.X3_2:
-                    return new Vector3(-90, 180, 0);
+                    return new Vector3(-0.5f, 1, 0);
                 case EquipType.Xtu:
-                    return new Vector3(-180, 90, 0);
+                    return new Vector3(-1, 0.5f, 0);
                 case EquipType.Xcorner:
-                    return new Vector3(-90, 90, 0);
+                    return new Vector3(-0.5f, 0.5f, 0);
                 case EquipType.Xten:
-                    return new Vector3(0, 180, 0);
+                    return new Vector3(0, 1, 0);
                 case EquipType.Xz:
-                    return new Vector3(-90, 180, 0);
+                    return new Vector3(-0.5f, 1, 0);
                 default:
                     return Vector3.zero;
             }
@@ -130,7 +130,17 @@ public class StoreItemModel : StoreItemDefine
 
     public bool CanUse()
     {
-        return invokeType == InvokeType.use;
+        switch (invokeType)
+        {
+            case InvokeType.use:
+            case InvokeType.target:
+                return true;
+            case InvokeType.none:
+            case InvokeType.equip:
+            case InvokeType.instant:
+            default:
+                return false;
+        }
     }
 
     public void ResetRotate()

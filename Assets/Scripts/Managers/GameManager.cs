@@ -1,6 +1,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using Unity.Burst.Intrinsics;
 using UnityEngine;
@@ -54,19 +55,20 @@ public class GameManager : MonoSingleton<GameManager>
             if (flag)
             {
                 // init characters
-                
                 CharacterDefine playerDefine = DataManager.Instance.Characters[GlobalAccess.CurrentCharacterId];
                 CharacterModel mainCharacter = new CharacterModel(playerDefine);
                 NorneStore.Instance.Update<CharacterModel>(mainCharacter, isFull: true);
                 characterRelays.Add(mainCharacter.uuid, NorneStore.Instance.ObservableObject(mainCharacter));
-                for (int i = 0; i < 2; i++)
+                List<int> ids = GameUtil.Instance.GenerateUniqueRandomList(GlobalAccess.subCharacterStartIndex,
+                    GlobalAccess.subCharacterStartIndex + GlobalAccess.subCharacterNum, 2);
+                foreach (var id in ids)
                 {
-                    int id = DataManager.Instance.GetRandomSubCharacterID();
                     CharacterDefine define = DataManager.Instance.Characters[id];
                     CharacterModel model = new CharacterModel(define);
                     NorneStore.Instance.Update<CharacterModel>(model, isFull: true);
-                    characterRelays.Add(model.uuid, NorneStore.Instance.ObservableObject(mainCharacter));
+                    characterRelays.Add(model.uuid, NorneStore.Instance.ObservableObject(model));
                 }
+                    
             }
         });
     }

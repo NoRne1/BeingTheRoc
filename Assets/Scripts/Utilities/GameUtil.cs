@@ -145,4 +145,33 @@ public class GameUtil : Singleton<GameUtil>
         float temp = Mathf.Abs(source.x - dest.x) + Mathf.Abs(source.y - dest.y);
         return temp != 0 && temp <= mobility;
     }
+
+    public List<int> GenerateUniqueRandomList(int begin, int end, int num)
+    {
+        if (num > (end - begin + 1) || begin > end)
+        {
+            throw new ArgumentException("Invalid input parameters.");
+        }
+
+        List<int> result = new List<int>();
+        List<int> allPossibleValues = new List<int>();
+
+        // 构建包含所有可能随机数的列表
+        for (int i = begin; i <= end; i++)
+        {
+            allPossibleValues.Add(i);
+        }
+
+        System.Random random = new System.Random();
+
+        // 使用洗牌算法获取不重复的随机数列表
+        for (int i = 0; i < num; i++)
+        {
+            int index = random.Next(0, allPossibleValues.Count);
+            result.Add(allPossibleValues[index]);
+            allPossibleValues.RemoveAt(index);
+        }
+
+        return result;
+    }
 }

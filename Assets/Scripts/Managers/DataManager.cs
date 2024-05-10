@@ -70,24 +70,6 @@ public class DataManager : Singleton<DataManager>
 
         DataLoaded.OnNext(true);
     }
-
-    public int GetRandomSubCharacterID()
-    {
-        while(true)
-        {
-            int id = UnityEngine.Random.Range(GlobalAccess.subCharacterStartIndex, GlobalAccess.subCharacterStartIndex + GlobalAccess.subCharacterNum);
-            if (GameManager.Instance.characterRelays.Values.Select(relay => { return relay.Value.ID; }).ToList()
-                .Contains(id))
-            {
-                continue;
-            } else
-            {
-                return id;
-            }
-        }
-        
-    }
-
 //#if UNITY_EDITOR
 //    public void SaveTeleporters()
 //    {

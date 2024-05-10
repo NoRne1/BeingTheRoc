@@ -8,8 +8,8 @@ using UniRx;
 
 public class UIEquipItem : MonoBehaviour
 {
-    public StoreItemModel item;
-    public CharacterModel character;
+    public StoreItemModel storeItem;
+    public string ownerID;
     public Vector3 recordPosition;
     public Quaternion recordRotation;
     // Start is called before the first frame update

@@ -28,6 +28,7 @@ public class BattleItem
     public string Desc { get; set; }
     public BehaviorSubject<int> currentHp;
     public BehaviorSubject<int> currentEnergy;
+    public Backpack backpack;
 
     public BattleItem() {
 

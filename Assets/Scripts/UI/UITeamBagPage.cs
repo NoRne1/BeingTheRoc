@@ -82,10 +82,10 @@ public class UITeamBagPage : MonoBehaviour
                 draggedEquipItem = equipItems.Where(equipTtem =>
                 {
                     bool result = false;
-                    for (int i = 0; i < equipTtem.item.OccupiedCells.Count; i++)
+                    for (int i = 0; i < equipTtem.storeItem.OccupiedCells.Count; i++)
                     {
-                        Vector2 pos = equipTtem.item.OccupiedCells[i];
-                        if (pos + equipTtem.item.position == vector2)
+                        Vector2 pos = equipTtem.storeItem.OccupiedCells[i];
+                        if (pos + equipTtem.storeItem.position == vector2)
                         {
                             result = true;
                             break;
@@ -110,9 +110,9 @@ public class UITeamBagPage : MonoBehaviour
                 {
                     var draggedItem = Instantiate(itemPrefab, this.equipFather);
                     draggedEquipItem = draggedItem.GetComponent<UIEquipItem>();
-                    draggedEquipItem.item = currentItem.item;
-                    draggedEquipItem.character = character;
-                    draggedItem.GetComponent<RectTransform>().sizeDelta = draggedEquipItem.item.occupiedRect;
+                    draggedEquipItem.storeItem = currentItem.item;
+                    draggedEquipItem.ownerID = character.uuid;
+                    draggedItem.GetComponent<RectTransform>().sizeDelta = draggedEquipItem.storeItem.occupiedRect * GlobalAccess.equipSizeBagMultiply;
                     draggedItem.GetComponent<Image>().overrideSprite = Resloader.LoadSprite(currentItem.item.iconResource2);
                 }
             }
@@ -142,7 +142,7 @@ public class UITeamBagPage : MonoBehaviour
                 else if (isDragging && draggedEquipItem != null)
                 {
                     // 获取鼠标松开时的位置
-                    Vector2 checkPosition = draggedEquipItem.transform.TransformPoint(draggedEquipItem.item.originOffset);
+                    Vector2 checkPosition = draggedEquipItem.transform.TransformPoint(draggedEquipItem.storeItem.originOffset * GlobalAccess.equipSizeBagMultiply);
                     RaycastHit2D equipHit = Physics2D.Raycast(checkPosition, Vector2.zero);
                     Vector2 mousePosition2D = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
                     RaycastHit2D repHit = Physics2D.Raycast(mousePosition2D, Vector2.zero);
@@ -153,19 +153,19 @@ public class UITeamBagPage : MonoBehaviour
                         {
                             // 检查是否可以放置装备
                             Vector2Int gridPosition = equipHit.collider.GetComponent<UIEquipSlot>().position;
-                            if (EquipManager.Instance.Equip(character, draggedEquipItem.item, gridPosition))
+                            if (EquipManager.Instance.Equip(character, draggedEquipItem.storeItem, gridPosition))
                             {
                                 Vector3 tempVector = equipHit.collider.GetComponent<UIEquipSlot>().transform.position;
                                 draggedEquipItem.SetAndRecord(tempVector);
                             }
                             else
                             {
-                                draggedEquipItem.item.ResetRotate();
+                                draggedEquipItem.storeItem.ResetRotate();
                                 Destroy(draggedEquipItem.gameObject);
                             }
                         } else if (draggedEquipItem != null)
                         {
-                            draggedEquipItem.item.ResetRotate();
+                            draggedEquipItem.storeItem.ResetRotate();
                             Destroy(draggedEquipItem.gameObject);
                         }
                     }
@@ -175,26 +175,26 @@ public class UITeamBagPage : MonoBehaviour
                         if (repHit.collider != null && GameUtil.Instance.IsPointInsideGameObject(repositor, Input.mousePosition))
                         {
                             //放回到仓库
-                            EquipManager.Instance.Unequip(character, draggedEquipItem.item);
+                            EquipManager.Instance.Unequip(character, draggedEquipItem.storeItem);
                             Destroy(draggedEquipItem.gameObject);
                         }
                         else if (equipHit.collider != null && equipHit.collider.CompareTag("EquipSlot"))
                         {
                             // 检查是否可以放置装备
                             Vector2Int gridPosition = equipHit.collider.GetComponent<UIEquipSlot>().position;
-                            if (character.backpack.MoveTo(draggedEquipItem.item, gridPosition))
+                            if (character.backpack.MoveTo(draggedEquipItem.storeItem, gridPosition))
                             {
                                 Vector3 tempVector = equipHit.collider.GetComponent<UIEquipSlot>().transform.position;
                                 draggedEquipItem.SetAndRecord(tempVector);
                             }
                             else
                             {
-                                draggedEquipItem.item.ResetRotate();
+                                draggedEquipItem.storeItem.ResetRotate();
                                 draggedEquipItem.Reset();
                             }
                         } else
                         {
-                            draggedEquipItem.item.ResetRotate();
+                            draggedEquipItem.storeItem.ResetRotate();
                             draggedEquipItem.Reset();
                         }
                     }
@@ -241,15 +241,15 @@ public class UITeamBagPage : MonoBehaviour
         {
             GameObject temp = Instantiate(itemPrefab, this.equipFather);
             UIEquipItem equipItem = temp.GetComponent<UIEquipItem>();
-            equipItem.item = equip;
-            equipItem.character = character;
+            equipItem.storeItem = equip;
+            equipItem.ownerID = character.uuid;
             temp.GetComponent<Image>().overrideSprite = Resloader.LoadSprite(equip.iconResource2);
             temp.transform.rotation = temp.transform.rotation * Quaternion.Euler(0, 0, equip.rotationAngle);
             Vector3 tempVector = equipSlots[equip.position.x * 3 + equip.position.y].position;
             temp.transform.position = tempVector;
-            tempVector = temp.transform.TransformPoint(-equip.originOffset);
+            tempVector = temp.transform.TransformPoint(-equip.originOffset * GlobalAccess.equipSizeBagMultiply);
             temp.transform.position = tempVector;
-            temp.GetComponent<RectTransform>().sizeDelta = equip.occupiedRect;
+            temp.GetComponent<RectTransform>().sizeDelta = equip.occupiedRect * GlobalAccess.equipSizeBagMultiply;
             equipItem.SetAndRecord(tempVector);
             equipItems.Add(equipItem);
         }
@@ -286,7 +286,7 @@ public class UITeamBagPage : MonoBehaviour
     {
         if (!isRotating.Value)
         {
-            equipItem.item.Rotate(angle);
+            equipItem.storeItem.Rotate(angle);
             // 如果当前没有正在播放的旋转动画，则启动旋转协程
             Quaternion startRotation = equipItem.transform.rotation;
             Quaternion endRotation = startRotation * Quaternion.Euler(0, 0, angle);

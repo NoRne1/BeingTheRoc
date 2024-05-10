@@ -420,6 +420,7 @@
 "Assets/Scripts/Models/RepositoryModel.cs"
 "Assets/Scripts/Models/StoreItemModel.cs"
 "Assets/Scripts/Models/TownBattleInfoModel.cs"
+"Assets/Scripts/UI/UIBattleBag.cs"
 "Assets/Scripts/UI/UIBattleBuffIcon.cs"
 "Assets/Scripts/UI/UIBattleItem.cs"
 "Assets/Scripts/UI/UIBattleItemInfo.cs"

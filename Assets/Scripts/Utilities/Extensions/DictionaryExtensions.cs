@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class DictionaryExtensions
@@ -29,18 +30,24 @@ public static class DictionaryExtensions
     // 扩展方法：通过索引访问字典值
     public static TValue GetValueByIndex<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, int index)
     {
-        // 将字典的键值对转换为列表
-        List<KeyValuePair<TKey, TValue>> list = new List<KeyValuePair<TKey, TValue>>(dictionary);
+        if (dictionary == null)
+        {
+            Debug.LogWarning("Dictionary is null.");
+            return default(TValue);
+        }
+
+        // 获取字典中的键值对数量
+        int count = dictionary.Count;
 
         // 检查索引是否有效
-        if (index >= 0 && index < list.Count)
+        if (index >= 0 && index < count)
         {
-            // 返回指定索引处的值
-            return list[index].Value;
+            // 直接按索引访问字典中的值
+            return dictionary.ElementAt(index).Value;
         }
         else
         {
-            // 索引超出范围，返回默认值（这里可以根据需求修改）
+            // 索引超出范围，返回默认值
             Debug.LogWarning("Index out of range for dictionary.");
             return default(TValue);
         }

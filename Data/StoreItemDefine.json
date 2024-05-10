@@ -5,10 +5,10 @@
         "type": 0,
         "equipType": 2,
         "invokeType": 0,
-        "title": "wooden_sword",
+        "title": "wood_sword",
         "price": 100,
-        "iconResource": "wooden_sword_icon",
-        "iconResource2": "wooden_sword_icon_big",
+        "iconResource": "wood_sword_icon",
+        "iconResource2": "wood_sword_icon_big",
         "takeEnergy": 1,
         "effect1": {
             "effectType": 0,

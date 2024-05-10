@@ -97,6 +97,7 @@
     <Compile Include="Assets/Scripts/UI/UIBattleItem.cs" />
     <Compile Include="Assets/Scripts/Models/TownBattleInfoModel.cs" />
     <Compile Include="Assets/Scripts/Managers/BuffManager.cs" />
+    <Compile Include="Assets/Scripts/UI/UIBattleBag.cs" />
     <Compile Include="Assets/Scripts/UI/UIMainMenu.cs" />
     <Compile Include="Assets/Scripts/UI/UICommonUI.cs" />
     <Compile Include="Assets/Scripts/Utilities/ObjectPool.cs" />

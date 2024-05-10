@@ -34,7 +34,8 @@ public enum InvokeType
     none = -1,
     use = 0, // 使用生效
     equip = 1, // 装备生效
-    instant = 2, // 立即执行
+    instant = 2, // 获得立即生效
+    target = 3, //使用并选择目标生效
 }
 
 public enum EffectType

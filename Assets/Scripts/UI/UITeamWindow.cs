@@ -43,7 +43,7 @@ public class UITeamWindow : UIWindow
             if (i < GameManager.Instance.characterRelays.Count)
             {
                 string characterID = GameManager.Instance.characterRelays.GetValueByIndex(i).Value.uuid;
-                characterButtons[i].OnClickAsObservable().Subscribe(_ =>
+                characterButtons[i].OnClickAsObservable().TakeUntilDestroy(this).Subscribe(_ =>
                 {
                     currentCharacterID.OnNext(characterID);
                 });

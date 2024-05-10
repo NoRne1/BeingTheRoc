@@ -39,4 +39,11 @@ public class UIChessboard : MonoBehaviour
             slot.SetColor(ChessboardSlotColor.none);
         }
     }
+
+    public void ResetMiddle(bool flag)
+    {
+        var rectTransform = GetComponent<RectTransform>();
+        rectTransform.anchoredPosition = flag ? new Vector2(0, rectTransform.anchoredPosition.y)
+            : new Vector2(255, rectTransform.anchoredPosition.y);
+    }
 }

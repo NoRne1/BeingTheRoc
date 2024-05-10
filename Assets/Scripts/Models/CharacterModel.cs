@@ -99,6 +99,7 @@ public class CharacterModel: CharacterDefine, IStorable
         item.Desc = this.Desc;
         item.currentHp = this.currentHp;
         item.currentEnergy = this.currentEnergy;
+        item.backpack = this.backpack;
         return item;
     }
 }
