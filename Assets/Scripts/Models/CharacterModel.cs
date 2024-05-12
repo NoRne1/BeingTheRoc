@@ -5,8 +5,8 @@ using UniRx;
 
 public class CharacterModel: CharacterDefine, IStorable
 {
-    public BehaviorSubject<int> currentHp;
-    public BehaviorSubject<int> currentEnergy;
+    public int currentHP;
+    public int currentEnergy;
     public int level { get { return exp / GlobalAccess.levelUpExp + 1; } }
     public int remainExp { get { return exp % GlobalAccess.levelUpExp; } }
     public int exp;
@@ -46,8 +46,8 @@ public class CharacterModel: CharacterDefine, IStorable
         Resource = define.Resource;
         Desc = define.Desc;
         backpack = new Backpack(uuid, 3, 3, characterUpdate);
-        currentHp = new BehaviorSubject<int>(define.MaxHP);
-        currentEnergy = new BehaviorSubject<int>(define.Energy);
+        currentHP = define.MaxHP;
+        currentEnergy = define.Energy;
         disposable = characterUpdate.AsObservable().Subscribe(_ =>
         {
             NorneStore.Instance.Update<CharacterModel>(this, isFull: true);
@@ -67,19 +67,6 @@ public class CharacterModel: CharacterDefine, IStorable
         }
     }
 
-    public void healthChange(int value)
-    {
-        this.currentHp.OnNext(this.currentHp.Value + value);
-        //if (value > 0)
-        //{
-        //    //回复飘字
-        //}
-        //else
-        //{
-        //    //伤害飘字
-        //}
-    }
-
     public BattleItem ToBattleItem()
     {
         BattleItem item = new BattleItem();
@@ -97,7 +84,7 @@ public class CharacterModel: CharacterDefine, IStorable
         item.Lucky = this.Lucky;
         item.Resource = this.Resource;
         item.Desc = this.Desc;
-        item.currentHp = this.currentHp;
+        item.currentHP = this.currentHP;
         item.currentEnergy = this.currentEnergy;
         item.backpack = this.backpack;
         return item;

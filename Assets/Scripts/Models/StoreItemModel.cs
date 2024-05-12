@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 
 
@@ -132,8 +133,9 @@ public class StoreItemModel : StoreItemDefine
     {
         switch (invokeType)
         {
-            case InvokeType.use:
-            case InvokeType.target:
+            case InvokeType.bagUse:
+            case InvokeType.equipTarget:
+            case InvokeType.equipUse:
                 return true;
             case InvokeType.none:
             case InvokeType.equip:
@@ -266,6 +268,148 @@ public class StoreItemModel : StoreItemDefine
         }
         tempOccupiedCells = points;
         tempRotationAngle = (tempRotationAngle + 90) % 360;
+    }
+
+    public List<Vector2> GetTargetRangeList(Vector2 vect)
+    {
+        List<Vector2> result;
+        bool flag = true;
+        switch (targetRange)
+        {
+            case TargetRange.range_1:
+                result = new List<Vector2>()
+                {
+                    new Vector2(0, 1),
+                    new Vector2(0, -1),
+                    new Vector2(1, 0),
+                    new Vector2(-1, 0),
+                };
+                break;
+            case TargetRange.range_2:
+                result = new List<Vector2>()
+                {
+                    new Vector2(0, 1),
+                    new Vector2(0, -1),
+                    new Vector2(1, 0),
+                    new Vector2(-1, 0),
+                    new Vector2(-2, 0),
+                    new Vector2(2, 0),
+                    new Vector2(0, 2),
+                    new Vector2(0, -2),
+                    new Vector2(1, 1),
+                    new Vector2(1, -1),
+                    new Vector2(-1, 1),
+                    new Vector2(-1, -1),
+                };
+                break;
+            case TargetRange.range_3:
+                result = new List<Vector2>()
+                {
+                    new Vector2(0, 1),
+                    new Vector2(0, -1),
+                    new Vector2(1, 0),
+                    new Vector2(-1, 0),
+                    new Vector2(-2, 0),
+                    new Vector2(2, 0),
+                    new Vector2(0, 2),
+                    new Vector2(0, -2),
+                    new Vector2(-3, 0),
+                    new Vector2(3, 0),
+                    new Vector2(0, 3),
+                    new Vector2(0, -3),
+                    new Vector2(1, 1),
+                    new Vector2(1, -1),
+                    new Vector2(-1, 1),
+                    new Vector2(-1, -1),
+                    new Vector2(2, 1),
+                    new Vector2(2, -1),
+                    new Vector2(-2, 1),
+                    new Vector2(-2, -1),
+                    new Vector2(1, 2),
+                    new Vector2(1, -2),
+                    new Vector2(-1, 2),
+                    new Vector2(-1, -2),
+                };
+                break;
+            case TargetRange.archer:
+                result = new List<Vector2>()
+                {
+                    new Vector2(-2, 0),
+                    new Vector2(2, 0),
+                    new Vector2(0, 2),
+                    new Vector2(0, -2),
+                    new Vector2(1, 1),
+                    new Vector2(1, -1),
+                    new Vector2(-1, 1),
+                    new Vector2(-1, -1),
+                };
+                break;
+            case TargetRange.archer_long:
+                result = new List<Vector2>()
+                {
+                    new Vector2(-3, 0),
+                    new Vector2(3, 0),
+                    new Vector2(0, 3),
+                    new Vector2(0, -3),
+                    new Vector2(2, 1),
+                    new Vector2(2, -1),
+                    new Vector2(-2, 1),
+                    new Vector2(-2, -1),
+                    new Vector2(1, 2),
+                    new Vector2(1, -2),
+                    new Vector2(-1, 2),
+                    new Vector2(-1, -2),
+                };
+                break;
+            case TargetRange.around_8:
+                result = new List<Vector2>()
+                {
+                    new Vector2(0, 1),
+                    new Vector2(0, -1),
+                    new Vector2(1, 0),
+                    new Vector2(-1, 0),
+                    new Vector2(1, 1),
+                    new Vector2(1, -1),
+                    new Vector2(-1, 1),
+                    new Vector2(-1, -1),
+                };
+                break;
+            case TargetRange.line:
+                int boardSize = 8;
+                List<Vector2> tempList = new List<Vector2>();
+                // 获取同行的坐标
+                for (int x = 0; x < boardSize; x++)
+                {
+                    if (x != vect.x) // 排除传入坐标本身
+                    {
+                        tempList.Add(new Vector2(x, vect.y));
+                    }
+                }
+
+                // 获取同列的坐标
+                for (int y = 0; y < boardSize; y++)
+                {
+                    if (y != vect.y && y != vect.y) // 排除传入坐标本身
+                    {
+                        tempList.Add(new Vector2(vect.x, y));
+                    }
+                }
+                result = tempList;
+                flag = false;
+                break;
+            case TargetRange.none:
+            default:
+                result = new List<Vector2>();
+                break;
+        }
+        if (flag)
+        {
+            return result.Select(temp => { return temp + vect; }).ToList();
+        }
+        else
+        {
+            return result;
+        }
     }
     //public void Rotate(int angle)
     //{

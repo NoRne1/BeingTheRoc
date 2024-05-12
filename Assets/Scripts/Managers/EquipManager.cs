@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class EquipManager : MonoSingleton<EquipManager>
 {
@@ -18,34 +16,57 @@ public class EquipManager : MonoSingleton<EquipManager>
         
     }
 
-    public void Use(string selfID, StoreItemModel item)
+    public void Drop(StoreItemModel item)
+    {
+        GameManager.Instance.repository.RemoveItem(item.uuid);
+    }
+
+    public void Use(string selfID, StoreItemModel item, bool characterOrBattleItem)
     {
         if (item.CanUse())
         {
-            StartCoroutine(TriggerEquipEffect(selfID, item));
+            if (characterOrBattleItem)
+            {
+                StartCoroutine(TriggerEquipEffect(selfID, item, characterOrBattleItem));
+            }
+            else
+            {
+                //战斗中存在能量不够的情况
+                var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(selfID)).Value;
+                if (target.currentEnergy >= item.takeEnergy)
+                {
+                    target.currentEnergy -= item.takeEnergy;
+                    NorneStore.Instance.Update<BattleItem>(target, true);
+                    StartCoroutine(TriggerEquipEffect(selfID, item, characterOrBattleItem));
+                }
+                else
+                {
+                    BattleManager.Instance.ShakeEnergy();
+                }
+            }
         }
     }
 
     public List<string> targetIDs = null;
-    private IEnumerator TriggerEquipEffect(string selfID, StoreItemModel item)
+    private IEnumerator TriggerEquipEffect(string selfID, StoreItemModel item, bool characterOrBattleItem)
     {
         targetIDs = null;
-        if (item.invokeType == InvokeType.use)
+        if (item.invokeType == InvokeType.bagUse || item.invokeType == InvokeType.equipUse)
         {
             List<string> selfIDList = new List<string> { selfID };
             if (item.effect1.effectType != null)
             {
-                ProcessEffect(selfIDList, item.effect1);
+                ProcessEffect(selfIDList, item.effect1, characterOrBattleItem);
             }
             if (item.effect2.effectType != null)
             {
-                ProcessEffect(selfIDList, item.effect2);
+                ProcessEffect(selfIDList, item.effect2, characterOrBattleItem);
             }
             if (item.effect3.effectType != null)
             {
-                ProcessEffect(selfIDList, item.effect3);
+                ProcessEffect(selfIDList, item.effect3, characterOrBattleItem);
             }
-        } else if (item.invokeType == InvokeType.target)
+        } else if (item.invokeType == InvokeType.equipTarget)
         {
             BattleManager.Instance.SelectTargets(item);
             // 等待玩家选择目标，比如点击其他游戏对象
@@ -55,15 +76,15 @@ public class EquipManager : MonoSingleton<EquipManager>
                 {
                     if (item.effect1.effectType != null)
                     {
-                        ProcessEffect(targetIDs, item.effect1);
+                        ProcessEffect(targetIDs, item.effect1, characterOrBattleItem);
                     }
                     if (item.effect2.effectType != null)
                     {
-                        ProcessEffect(targetIDs, item.effect2);
+                        ProcessEffect(targetIDs, item.effect2, characterOrBattleItem);
                     }
                     if (item.effect3.effectType != null)
                     {
-                        ProcessEffect(targetIDs, item.effect3);
+                        ProcessEffect(targetIDs, item.effect3, characterOrBattleItem);
                     }
                     break;
                 }
@@ -89,11 +110,24 @@ public class EquipManager : MonoSingleton<EquipManager>
         item.Unequip();
     }
 
-    public void ProcessEffect(List<string> targetIDs, Effect effect)
+    public void ProcessEffect(List<string> targetIDs, Effect effect, bool characterOrBattleItem)
+    {
+        if (characterOrBattleItem)
+        {
+            ProcessEffect_Character(targetIDs, effect);
+        }
+        else
+        {
+            ProcessEffect_BattleItem(targetIDs, effect);
+        }
+    }
+
+    public void ProcessEffect_Character(List<string> targetIDs, Effect effect)
     {
         foreach (var targetID in targetIDs)
         {
             var target = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(targetID)).Value;
+            
             switch (effect.effectType)
             {
                 case EffectType.property:
@@ -101,7 +135,64 @@ public class EquipManager : MonoSingleton<EquipManager>
                     {
                         case PropertyType.MaxHP:
                             target.MaxHP += effect.Value;
-                            target.healthChange(effect.Value);
+                            target.currentHP += effect.Value;
+                            break;
+                        case PropertyType.Strength:
+                            target.Strength += effect.Value;
+                            break;
+                        case PropertyType.Defense:
+                            target.Defense += effect.Value;
+                            break;
+                        case PropertyType.Dodge:
+                            target.Dodge += effect.Value;
+                            break;
+                        case PropertyType.Accuracy:
+                            target.Accuracy += effect.Value;
+                            break;
+                        case PropertyType.Speed:
+                            target.Speed += effect.Value;
+                            break;
+                        case PropertyType.Mobility:
+                            target.Mobility += effect.Value;
+                            break;
+                        case PropertyType.Energy:
+                            target.Energy += effect.Value;
+                            break;
+                        case PropertyType.Lucky:
+                            target.Lucky += effect.Value;
+                            break;
+                        case PropertyType.HP:
+                            target.currentHP += effect.Value;
+                            break;
+                        default:
+                            Debug.Log("unknown propertyType");
+                            break;
+                    }
+                    NorneStore.Instance.Update<CharacterModel>(target, isFull: true);
+                    break;
+                case EffectType.skill:
+                    SkillManager.Instance.InvokeSkill(targetID, effect.methodName);
+                    break;
+                case EffectType.buff:
+                    BuffManager.Instance.AddBuff(targetID, effect.methodName);
+                    break;
+            }
+        }
+    }
+    public void ProcessEffect_BattleItem(List<string> targetIDs, Effect effect)
+    {
+        foreach (var targetID in targetIDs)
+        {
+            var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(targetID)).Value;
+
+            switch (effect.effectType)
+            {
+                case EffectType.property:
+                    switch (effect.propertyType)
+                    {
+                        case PropertyType.MaxHP:
+                            target.MaxHP += effect.Value;
+                            target.currentHP += effect.Value;
                             break;
                         case PropertyType.Strength:
                             target.Strength += effect.Value;
@@ -131,10 +222,7 @@ public class EquipManager : MonoSingleton<EquipManager>
                             Debug.Log("unknown propertyType");
                             break;
                     }
-                    NorneStore.Instance.Update<CharacterModel>(target, isFull: true);
-                    break;
-                case EffectType.health:
-                    target.healthChange(effect.Value);
+                    NorneStore.Instance.Update<BattleItem>(target, isFull: true);
                     break;
                 case EffectType.skill:
                     SkillManager.Instance.InvokeSkill(targetID, effect.methodName);

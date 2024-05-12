@@ -21,6 +21,7 @@ public class UITeamBagPage : MonoBehaviour
     private List<UIEquipItem> equipItems = new List<UIEquipItem>();
     private UIEquipItem draggedEquipItem; // 大装备的实例
     private UIRepositorSlot currentItem; // 仓库中当前被拖动的装备脚本
+    private StoreItemModel useOrDropItem;
     
     private Vector3 pressPosition; // 鼠标按下的位置
     private bool isDragging; // 是否正在拖动装备
@@ -132,8 +133,9 @@ public class UITeamBagPage : MonoBehaviour
             if (currentItem != null || draggedEquipItem != null)
             {
                 // 如果鼠标按下后未移动或移动距离小于一定距离，则显示丢弃按钮
-                if (!isDragging && (Input.mousePosition - pressPosition).magnitude <= moveThreshold)
+                if (draggedEquipItem == null && !isDragging && (Input.mousePosition - pressPosition).magnitude <= moveThreshold)
                 {
+                    useOrDropItem = currentItem.item;
                     Vector3 tempPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(75, -75, 0));
                     equipButtons.gameObject.SetActive(true);
                     equipButtons.transform.position = new Vector3(tempPosition.x, tempPosition.y, 0);
@@ -213,15 +215,13 @@ public class UITeamBagPage : MonoBehaviour
     // 使用按钮点击事件
     void OnUseButtonClick()
     {
-        // 在这里实现使用装备的逻辑
-        Debug.Log("Use button clicked!");
+        EquipManager.Instance.Use(character.uuid, useOrDropItem, true);
     }
 
     // 丢弃按钮点击事件
     void OnDropButtonClick()
     {
-        // 在这里实现丢弃装备的逻辑
-        Debug.Log("Drop button clicked!");
+        EquipManager.Instance.Drop(useOrDropItem);
     }
 
     public void UpdateCharacter(CharacterModel character)

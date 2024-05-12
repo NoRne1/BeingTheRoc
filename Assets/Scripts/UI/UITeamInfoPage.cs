@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static UnityEditor.Progress;
+using UniRx;
 
 public class UITeamInfoPage : MonoBehaviour
 {
@@ -30,6 +32,9 @@ public class UITeamInfoPage : MonoBehaviour
     public TextMeshProUGUI Speed;
     public TextMeshProUGUI Mobility;
     public TextMeshProUGUI Energy;
+
+    private System.IDisposable disposable;
+    public CharacterModel character;
     // Start is called before the first frame update
     void Start()
     {
@@ -51,18 +56,30 @@ public class UITeamInfoPage : MonoBehaviour
 
     public void UpdateCharacter(CharacterModel character)
     {
-        descText.text = character.Desc;
-        levelText.text = "Lv: " + character.level.ToString();
-        expText.text = character.remainExp.ToString() + "/" + GlobalAccess.levelUpExp.ToString();
-        title.text = character.Name;
-        MaxHP.text = character.MaxHP.ToString();
-        Strength.text = character.Strength.ToString();
-        Defense.text = character.Defense.ToString();
-        Dodge.text = character.Dodge.ToString();
-        Accuracy.text = character.Accuracy.ToString();
-        Speed.text = character.Speed.ToString();
-        Mobility.text = character.Mobility.ToString();
-        Energy.text = character.Energy.ToString();
-        Character_icon.overrideSprite = Resloader.LoadSprite(character.Resource);
+        this.character = character;
+        if (character != null)
+        {
+            disposable.IfNotNull(dis => { dis.Dispose(); });
+            disposable = NorneStore.Instance.ObservableObject<CharacterModel>(character)
+                .AsObservable().TakeUntilDestroy(this).Subscribe(cm =>
+            {
+                descText.text = cm.Desc;
+                levelText.text = "Lv: " + cm.level.ToString();
+                expText.text = cm.remainExp.ToString() + "/" + GlobalAccess.levelUpExp.ToString();
+                title.text = cm.Name;
+                MaxHP.text = cm.MaxHP.ToString();
+                Strength.text = cm.Strength.ToString();
+                Defense.text = cm.Defense.ToString();
+                Dodge.text = cm.Dodge.ToString();
+                Accuracy.text = cm.Accuracy.ToString();
+                Speed.text = cm.Speed.ToString();
+                Mobility.text = cm.Mobility.ToString();
+                Energy.text = cm.Energy.ToString();
+                Character_icon.overrideSprite = Resloader.LoadSprite(cm.Resource);
+            });
+        } else
+        {
+            Debug.Log("UITeamInfoPage setup character is null");
+        }
     }
 }

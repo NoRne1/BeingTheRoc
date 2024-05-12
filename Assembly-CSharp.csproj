@@ -88,6 +88,7 @@
     <Compile Include="Assets/Scripts/UI/UIChessboardSlot.cs" />
     <Compile Include="Assets/Scripts/Utilities/Resloader.cs" />
     <Compile Include="Assets/Scripts/UI/UIPopButtonGroup.cs" />
+    <Compile Include="Assets/Scripts/Utilities/ShakeEffect.cs" />
     <Compile Include="Assets/Scripts/Defines/SoundDefine.cs" />
     <Compile Include="Assets/Scripts/Managers/MapManager.cs" />
     <Compile Include="Assets/LeanTween/Testing/TestingRotate.cs" />

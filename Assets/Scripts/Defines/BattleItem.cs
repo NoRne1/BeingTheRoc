@@ -9,7 +9,7 @@ public enum BattleItemType
     time = 2,
     sceneItem = 3
 }
-public class BattleItem
+public class BattleItem: IStorable
 {
     public string uuid { get; set; }
     public string Name { get; set; }
@@ -26,12 +26,19 @@ public class BattleItem
     public int Energy { get; set; }
     public int Lucky { get; set; }
     public string Desc { get; set; }
-    public BehaviorSubject<int> currentHp;
-    public BehaviorSubject<int> currentEnergy;
+    public int currentHP;
+    public int currentEnergy;
     public Backpack backpack;
 
-    public BattleItem() {
+    public string StorableCategory => "BattleItem";
 
+    public string Identifier => this.uuid.ToString();
+
+    public BattleItem() {}
+
+    public BattleItem(string uuid)
+    {
+        this.uuid = uuid;
     }
 }
 

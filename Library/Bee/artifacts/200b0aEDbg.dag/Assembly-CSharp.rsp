@@ -476,6 +476,7 @@
 "Assets/Scripts/Utilities/NorneStore.cs"
 "Assets/Scripts/Utilities/ObjectPool.cs"
 "Assets/Scripts/Utilities/Resloader.cs"
+"Assets/Scripts/Utilities/ShakeEffect.cs"
 "Assets/Scripts/Utilities/Singleton.cs"
 -langversion:9.0
 

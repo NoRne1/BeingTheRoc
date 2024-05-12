@@ -32,25 +32,25 @@ public enum EquipType
 public enum InvokeType
 {
     none = -1,
-    use = 0, // 使用生效
+    bagUse = 0, // 背包中使用生效
     equip = 1, // 装备生效
     instant = 2, // 获得立即生效
-    target = 3, //使用并选择目标生效
+    equipUse = 3, //装备后使用直接生效
+    equipTarget = 4, //装备后使用并选择目标生效
 }
 
 public enum EffectType
 {
     none = -1,
     property = 0, // 属性改变
-    health = 1, // 生命值变化
-    buff = 2, // buff
-    skill = 3, // skill
+    buff = 1, // buff
+    skill = 2, // skill
 }
 
 public enum PropertyType
 {
     none = -1,
-    MaxHP = 0, 
+    MaxHP = 0,
     Strength = 1, 
     Defense = 2,
     Dodge = 3,
@@ -59,6 +59,19 @@ public enum PropertyType
     Mobility = 6,
     Energy = 7,
     Lucky = 8,
+    HP = 9,
+}
+
+public enum TargetRange
+{
+    none = -1,
+    around_8 = 0,
+    archer = 1,
+    archer_long = 2,
+    range_1 = 3,
+    range_2 = 4,
+    range_3 = 5,
+    line = 6,
 }
 
 public class Effect
@@ -77,6 +90,7 @@ public class StoreItemDefine
     public ItemType type { get; set; }
     public EquipType equipType { get; set; }
     public InvokeType invokeType { get; set; }
+    public TargetRange targetRange { get; set; }
     public string title { get; set; }
     public EquipLevel level { get; set; }
     public int price { get; set; }

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using System;
+using UnityEditor;
 
 public enum RoundTime
 {
@@ -84,7 +85,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                     ItemMove(slot);
                     break;
                 case ClickSlotReason.selectTarget:
-                    Debug.Log("clickedSlot selectTarget");
+                    TargetSelected(slot);
                     break;
             }
         });
@@ -154,16 +155,16 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         for (int i = 0; i < characterIDs.Count; i++)
         {
-            battleItems.Add(
-                NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(characterIDs[i])).Value.ToBattleItem()
-            );
+            var battleItem = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(characterIDs[i])).Value.ToBattleItem();
+            battleItems.Add(battleItem);
+            NorneStore.Instance.Update<BattleItem>(battleItem, true);
         }
 
         timePassDispose = timePass.AsObservable().TakeUntilDestroy(this).Subscribe(time =>
         {
             CalcBattleItemAndShow(time);
         });
-        //手动执行一次排序和显示(-999手是特殊指令值)
+        //手动执行一次排序和显示(-999是特殊指令值)
         timePass.OnNext(-999);
         //正式开始回合流程
         roundRelayDispose = roundTime.AsObservable().TakeUntilDestroy(this).Subscribe(time =>
@@ -385,28 +386,57 @@ public class BattleManager : MonoSingleton<BattleManager>
         if (uuid == battleItems[0].uuid && battleItems[0].battleItemType == BattleItemType.player)
         {
             //只处理正在行动的玩家角色的装备点击
-            EquipManager.Instance.Use(uuid, equipItem.storeItem);
+            EquipManager.Instance.Use(uuid, equipItem.storeItem, false);
         }
     }
 
+    private StoreItemModel clickedStoreItem;
     public void SelectTargets(StoreItemModel storeItem)
     {
-        //todo SetColors
-        //chessBoard.ResetColors();
-        //Dictionary<Vector2, ChessboardSlotColor> dic = new Dictionary<Vector2, ChessboardSlotColor>();
-        //foreach (var slot in chessBoard.slots.Values)
-        //{
-        //    dic.Add(slot.position, ChessboardSlotColor.green);
-        //}
-        //chessBoard.SetColors(dic);
+        //SetColors
+        string uuID = battleItems[0].uuid;
+        try
+        {
+            Vector2 vect = battleItemDic.First(x => x.Value.item.uuid == uuID).Key;
+            List<Vector2> vectList = storeItem.GetTargetRangeList(vect);
+            chessBoard.ResetColors();
+            Dictionary<Vector2, ChessboardSlotColor> dic = new Dictionary<Vector2, ChessboardSlotColor>();
+            foreach (var vector in vectList)
+            {
+                dic.Add(vector, ChessboardSlotColor.red);
+            }
+            chessBoard.SetColors(dic);
+        }
+        catch (InvalidOperationException e)
+        {
+            Debug.Log("MoveBarItemClicked InvalidOperationException: " + e.Message);
+        }
         clickSlotReason = ClickSlotReason.selectTarget;
     }
 
     public void TargetSelected(UIChessboardSlot slot)
     {
         clickSlotReason = ClickSlotReason.viewCharacter;
-        List<string> targetIDs = new List<string>();
+        Vector2 vect = battleItemDic.First(x => x.Value.item.uuid == battleItems[0].uuid).Key;
+        if (clickedStoreItem.GetTargetRangeList(vect).Contains(slot.position))
+        {
+            //todo temp one target
+            if (battleItemDic.Keys.Contains(slot.position))
+            {
+                EquipManager.Instance.targetIDs = new List<string>() { battleItemDic[slot.position].item.uuid };
+            }
+            else
+            {
+                EquipManager.Instance.targetIDs = new List<string>();
+            }
+        } else
+        {
+            EquipManager.Instance.targetIDs = new List<string>();
+        }
+    }
 
-        EquipManager.Instance.targetIDs = targetIDs;
+    public void ShakeEnergy()
+    {
+        uiBattleItemInfo.ShakeEnergy();
     }
 }

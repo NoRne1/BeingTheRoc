@@ -20,9 +20,7 @@ public class UIBattleItemInfo : MonoBehaviour
 
     private ObjectPool energyPool;
     private ObjectPool buffPool;
-    private System.IDisposable hpDisposable;
-    private System.IDisposable energyDisposable;
-    private System.IDisposable buffDisposable;
+    private System.IDisposable disposable;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,40 +40,42 @@ public class UIBattleItemInfo : MonoBehaviour
         this.gameObject.SetActive(item != null);
         if (item != null)
         {
-            switch (item.battleItemType)
+            disposable.IfNotNull(dis => { dis.Dispose(); });
+            disposable = NorneStore.Instance.ObservableObject<BattleItem>(item)
+            .AsObservable().TakeUntilDestroy(this).Subscribe(item =>
             {
-                case BattleItemType.enemy:
-                case BattleItemType.player:
-                    hpSlider.maxValue = item.MaxHP;
-                    icon.overrideSprite = Resloader.LoadSprite(item.Resource);
-                    nameText.text = item.Name;
-                    hpDisposable.IfNotNull(disposable => { disposable.Dispose(); });
-                    hpDisposable = item.currentHp.AsObservable().TakeUntilDestroy(this).Subscribe(hp =>
-                    {
-                        hpSlider.value = hp;
-                        sliderText.text = hp + "/" + item.MaxHP; 
-                    });
-                    energyDisposable.IfNotNull(disposable => { disposable.Dispose(); });
-                    energyDisposable = item.currentEnergy.AsObservable().TakeUntilDestroy(this).Subscribe(energy =>
-                    {
+                switch (item.battleItemType)
+                {
+                    case BattleItemType.enemy:
+                    case BattleItemType.player:
+                        hpSlider.maxValue = item.MaxHP;
+                        icon.overrideSprite = Resloader.LoadSprite(item.Resource);
+                        nameText.text = item.Name;
+                        hpSlider.value = item.currentHP;
+                        sliderText.text = item.currentHP + "/" + item.MaxHP;
                         energyPool.ReturnAllObject();
-                        for (int i = 0; i < energy; i++)
+                        for (int i = 0; i < item.currentEnergy; i++)
                         {
                             energyPool.GetObjectFromPool();
                         }
-                    });
-                    //todo actual buff
-                    buffPool.ReturnAllObject();
-                    for (int i = 0; i < Random.Range(1, 3); i++)
-                    {
-                        buffPool.GetObjectFromPool();
-                    }
-                    break;
-                case BattleItemType.sceneItem:
-                case BattleItemType.time:
-                    Debug.Log("UIBattleItemInfo setup error");
-                    break;
-            }
+                        //todo actual buff
+                        buffPool.ReturnAllObject();
+                        for (int i = 0; i < Random.Range(1, 3); i++)
+                        {
+                            buffPool.GetObjectFromPool();
+                        }
+                        break;
+                    case BattleItemType.sceneItem:
+                    case BattleItemType.time:
+                        Debug.Log("UIBattleItemInfo setup error");
+                        break;
+                }
+            });
         }
+    }
+
+    public void ShakeEnergy()
+    {
+        energyFather.GetComponent<ShakeEffect>().TriggerShake();
     }
 }
