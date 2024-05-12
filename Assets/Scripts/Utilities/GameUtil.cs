@@ -148,7 +148,7 @@ public class GameUtil : Singleton<GameUtil>
 
     public List<int> GenerateUniqueRandomList(int begin, int end, int num)
     {
-        if (num > (end - begin + 1) || begin > end)
+        if (num > (end - begin) || begin > end)
         {
             throw new ArgumentException("Invalid input parameters.");
         }
@@ -157,7 +157,7 @@ public class GameUtil : Singleton<GameUtil>
         List<int> allPossibleValues = new List<int>();
 
         // 构建包含所有可能随机数的列表
-        for (int i = begin; i <= end; i++)
+        for (int i = begin; i < end; i++)
         {
             allPossibleValues.Add(i);
         }

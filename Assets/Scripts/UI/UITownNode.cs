@@ -79,7 +79,7 @@ public class UITownNode : MonoBehaviour
 
         //todo add a shop for test
         hashSet.Add(2);
-        while (hashSet.Count < 2)
+        while (hashSet.Count < 3)
         {
             hashSet.Add(Random.Range(0,5));
         }

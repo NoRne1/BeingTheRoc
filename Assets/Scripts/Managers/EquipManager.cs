@@ -54,15 +54,15 @@ public class EquipManager : MonoSingleton<EquipManager>
         if (item.invokeType == InvokeType.bagUse || item.invokeType == InvokeType.equipUse)
         {
             List<string> selfIDList = new List<string> { selfID };
-            if (item.effect1.effectType != null)
+            if (item.effect1 != null)
             {
                 ProcessEffect(selfIDList, item.effect1, characterOrBattleItem);
             }
-            if (item.effect2.effectType != null)
+            if (item.effect2 != null)
             {
                 ProcessEffect(selfIDList, item.effect2, characterOrBattleItem);
             }
-            if (item.effect3.effectType != null)
+            if (item.effect3 != null)
             {
                 ProcessEffect(selfIDList, item.effect3, characterOrBattleItem);
             }
@@ -74,15 +74,15 @@ public class EquipManager : MonoSingleton<EquipManager>
             {
                 if (targetIDs != null)
                 {
-                    if (item.effect1.effectType != null)
+                    if (item.effect1 != null)
                     {
                         ProcessEffect(targetIDs, item.effect1, characterOrBattleItem);
                     }
-                    if (item.effect2.effectType != null)
+                    if (item.effect2 != null)
                     {
                         ProcessEffect(targetIDs, item.effect2, characterOrBattleItem);
                     }
-                    if (item.effect3.effectType != null)
+                    if (item.effect3 != null)
                     {
                         ProcessEffect(targetIDs, item.effect3, characterOrBattleItem);
                     }
@@ -213,7 +213,7 @@ public class EquipManager : MonoSingleton<EquipManager>
                             target.Mobility += effect.Value;
                             break;
                         case PropertyType.Energy:
-                            target.Energy += effect.Value;
+                            target.currentEnergy += effect.Value;
                             break;
                         case PropertyType.Lucky:
                             target.Lucky += effect.Value;

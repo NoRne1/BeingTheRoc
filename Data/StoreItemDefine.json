@@ -4,510 +4,332 @@
         "level": 0,
         "type": 0,
         "equipType": 2,
-        "invokeType": 0,
+        "invokeType": 4,
         "title": "wood_sword",
         "price": 100,
         "iconResource": "wood_sword_icon",
         "iconResource2": "wood_sword_icon_big",
+        "targetRange": 3,
         "takeEnergy": 1,
         "effect1": {
             "effectType": 0,
-            "propertyType": null,
+            "propertyType": 9,
             "methodName": null,
-            "value": 1
+            "value": -10
         },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect2": null,
+        "effect3": null
     },
     "1": {
         "ID": 1,
         "level": 1,
         "type": 0,
         "equipType": 2,
-        "invokeType": 0,
+        "invokeType": 4,
         "title": "iron_sword",
         "price": 200,
         "iconResource": "iron_sword_icon",
         "iconResource2": "iron_sword_icon_big",
+        "targetRange": 3,
         "takeEnergy": 1,
         "effect1": {
-            "effectType": 1,
-            "propertyType": null,
+            "effectType": 0,
+            "propertyType": 9,
             "methodName": null,
-            "value": 2
+            "value": -20
         },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect2": null,
+        "effect3": null
     },
     "2": {
         "ID": 2,
         "level": 2,
         "type": 0,
         "equipType": 3,
-        "invokeType": 0,
+        "invokeType": 4,
         "title": "magic_sword",
         "price": 400,
         "iconResource": "magic_sword_icon",
         "iconResource2": "magic_sword_icon_big",
+        "targetRange": 4,
         "takeEnergy": 1,
         "effect1": {
-            "effectType": 2,
-            "propertyType": null,
+            "effectType": 0,
+            "propertyType": 9,
             "methodName": null,
-            "value": 3
+            "value": -30
         },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect2": null,
+        "effect3": null
     },
     "3": {
         "ID": 3,
         "level": 2,
         "type": 0,
         "equipType": 1,
-        "invokeType": 0,
+        "invokeType": 3,
         "title": "fast_shoes",
         "price": 400,
         "iconResource": "fast_shoes_icon",
         "iconResource2": "fast_shoes_icon_big",
+        "targetRange": -1,
         "takeEnergy": 0,
         "effect1": {
-            "effectType": null,
-            "propertyType": null,
+            "effectType": 0,
+            "propertyType": 7,
             "methodName": null,
-            "value": null
+            "value": 1
         },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect2": null,
+        "effect3": null
     },
     "4": {
         "ID": 4,
         "level": 2,
         "type": 0,
         "equipType": 4,
-        "invokeType": 0,
+        "invokeType": 3,
         "title": "stab_shield",
         "price": 400,
         "iconResource": "stab_shield_icon",
         "iconResource2": "stab_shield_icon_big",
+        "targetRange": -1,
         "takeEnergy": 1,
-        "effect1": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect1": null,
+        "effect2": null,
+        "effect3": null
     },
     "5": {
         "ID": 5,
         "level": 1,
         "type": 0,
         "equipType": 4,
-        "invokeType": 0,
+        "invokeType": 3,
         "title": "arm_shield",
         "price": 200,
         "iconResource": "arm_shield_icon",
         "iconResource2": "arm_shield_icon_big",
+        "targetRange": -1,
         "takeEnergy": 1,
-        "effect1": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect1": null,
+        "effect2": null,
+        "effect3": null
     },
     "6": {
         "ID": 6,
         "level": 0,
         "type": 0,
         "equipType": 4,
-        "invokeType": 0,
+        "invokeType": 3,
         "title": "wood_shield",
         "price": 100,
         "iconResource": "wood_shield_icon",
         "iconResource2": "wood_shield_icon_big",
+        "targetRange": -1,
         "takeEnergy": 1,
-        "effect1": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect1": null,
+        "effect2": null,
+        "effect3": null
     },
     "7": {
         "ID": 7,
         "level": 1,
         "type": 0,
         "equipType": 3,
-        "invokeType": 0,
+        "invokeType": 4,
         "title": "long_arch",
         "price": 200,
         "iconResource": "long_arch_icon",
         "iconResource2": "long_arch_icon_big",
+        "targetRange": 2,
         "takeEnergy": 1,
         "effect1": {
-            "effectType": null,
-            "propertyType": null,
+            "effectType": 0,
+            "propertyType": 9,
             "methodName": null,
-            "value": null
+            "value": -15
         },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect2": null,
+        "effect3": null
     },
     "8": {
         "ID": 8,
         "level": 0,
         "type": 0,
         "equipType": 2,
-        "invokeType": 0,
+        "invokeType": 4,
         "title": "wood_arch",
         "price": 100,
         "iconResource": "wood_arch_icon",
         "iconResource2": "wood_arch_icon_big",
+        "targetRange": 1,
         "takeEnergy": 1,
         "effect1": {
-            "effectType": null,
-            "propertyType": null,
+            "effectType": 0,
+            "propertyType": 9,
             "methodName": null,
-            "value": null
+            "value": -10
         },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect2": null,
+        "effect3": null
     },
     "9": {
         "ID": 9,
         "level": 2,
         "type": 0,
         "equipType": 4,
-        "invokeType": 0,
+        "invokeType": 4,
         "title": "zhuge_bow",
         "price": 400,
         "iconResource": "zhuge_bow_icon",
         "iconResource2": "zhuge_bow_icon_big",
+        "targetRange": 5,
         "takeEnergy": 1,
         "effect1": {
-            "effectType": null,
-            "propertyType": null,
+            "effectType": 0,
+            "propertyType": 9,
             "methodName": null,
-            "value": null
+            "value": -10
         },
         "effect2": {
-            "effectType": null,
-            "propertyType": null,
+            "effectType": 0,
+            "propertyType": 9,
             "methodName": null,
-            "value": null
+            "value": -10
         },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect3": null
     },
     "10": {
         "ID": 10,
         "level": 1,
         "type": 0,
         "equipType": 1,
-        "invokeType": 0,
+        "invokeType": 4,
         "title": "multi_bow",
         "price": 200,
         "iconResource": "multi_bow_icon",
         "iconResource2": "multi_bow_icon_big",
+        "targetRange": 4,
         "takeEnergy": 1,
         "effect1": {
-            "effectType": null,
-            "propertyType": null,
+            "effectType": 0,
+            "propertyType": 9,
             "methodName": null,
-            "value": null
+            "value": -6
         },
         "effect2": {
-            "effectType": null,
-            "propertyType": null,
+            "effectType": 0,
+            "propertyType": 9,
             "methodName": null,
-            "value": null
+            "value": -6
         },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect3": null
     },
     "11": {
         "ID": 11,
         "level": 0,
         "type": 0,
         "equipType": 0,
-        "invokeType": 0,
+        "invokeType": 4,
         "title": "hand_bow",
         "price": 100,
         "iconResource": "hand_bow_icon",
         "iconResource2": "hand_bow_icon",
+        "targetRange": 4,
         "takeEnergy": 1,
         "effect1": {
-            "effectType": null,
-            "propertyType": null,
+            "effectType": 0,
+            "propertyType": 9,
             "methodName": null,
-            "value": null
+            "value": -10
         },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect2": null,
+        "effect3": null
     },
     "12": {
         "ID": 12,
         "level": 1,
         "type": 1,
         "equipType": 1,
-        "invokeType": 0,
+        "invokeType": 3,
         "title": "shadow_charm",
         "price": 200,
         "iconResource": "shadow_charm_icon",
         "iconResource2": "shadow_charm_icon",
+        "targetRange": 6,
         "takeEnergy": 0,
-        "effect1": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect1": null,
+        "effect2": null,
+        "effect3": null
     },
     "13": {
         "ID": 13,
         "level": 1,
         "type": 1,
         "equipType": 1,
-        "invokeType": 0,
+        "invokeType": 4,
         "title": "exchange_charm",
         "price": 200,
         "iconResource": "exchange_charm_icon",
         "iconResource2": "exchange_charm_icon",
+        "targetRange": 6,
         "takeEnergy": 0,
-        "effect1": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect1": null,
+        "effect2": null,
+        "effect3": null
     },
     "14": {
         "ID": 14,
         "level": 0,
         "type": 1,
         "equipType": 1,
-        "invokeType": 0,
+        "invokeType": 4,
         "title": "silent_charm",
         "price": 100,
         "iconResource": "silent_charm_icon",
         "iconResource2": "silent_charm_icon",
+        "targetRange": 6,
         "takeEnergy": 0,
-        "effect1": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect1": null,
+        "effect2": null,
+        "effect3": null
     },
     "15": {
         "ID": 15,
         "level": 0,
         "type": 1,
         "equipType": 1,
-        "invokeType": 0,
+        "invokeType": 4,
         "title": "confine_charm",
         "price": 100,
         "iconResource": "confine_charm_icon",
         "iconResource2": "confine_charm_icon",
+        "targetRange": 6,
         "takeEnergy": 0,
-        "effect1": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect1": null,
+        "effect2": null,
+        "effect3": null
     },
     "16": {
         "ID": 16,
         "level": 0,
         "type": 1,
         "equipType": 1,
-        "invokeType": 0,
+        "invokeType": 4,
         "title": "thunder_charm",
         "price": 100,
         "iconResource": "thunder_charm_icon",
         "iconResource2": "thunder_charm_icon",
+        "targetRange": 6,
         "takeEnergy": 0,
         "effect1": {
-            "effectType": null,
-            "propertyType": null,
+            "effectType": 0,
+            "propertyType": 9,
             "methodName": null,
-            "value": null
+            "value": -20
         },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect2": null,
+        "effect3": null
     },
     "17": {
         "ID": 17,
@@ -519,25 +341,11 @@
         "price": 200,
         "iconResource": "king_arrow_icon",
         "iconResource2": null,
+        "targetRange": -1,
         "takeEnergy": 0,
-        "effect1": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect1": null,
+        "effect2": null,
+        "effect3": null
     },
     "18": {
         "ID": 18,
@@ -549,25 +357,11 @@
         "price": 400,
         "iconResource": "treasure_bowl_icon",
         "iconResource2": null,
+        "targetRange": -1,
         "takeEnergy": 0,
-        "effect1": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect1": null,
+        "effect2": null,
+        "effect3": null
     },
     "19": {
         "ID": 19,
@@ -579,25 +373,11 @@
         "price": 200,
         "iconResource": "shield_token_icon",
         "iconResource2": null,
+        "targetRange": -1,
         "takeEnergy": 0,
-        "effect1": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect1": null,
+        "effect2": null,
+        "effect3": null
     },
     "20": {
         "ID": 20,
@@ -609,25 +389,11 @@
         "price": 100,
         "iconResource": "sword_stone_icon",
         "iconResource2": null,
+        "targetRange": -1,
         "takeEnergy": 0,
-        "effect1": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect1": null,
+        "effect2": null,
+        "effect3": null
     },
     "21": {
         "ID": 21,
@@ -639,25 +405,16 @@
         "price": 200,
         "iconResource": "energy_potion_icon",
         "iconResource2": null,
+        "targetRange": -1,
         "takeEnergy": 0,
         "effect1": {
-            "effectType": null,
-            "propertyType": null,
+            "effectType": 0,
+            "propertyType": 7,
             "methodName": null,
-            "value": null
+            "value": 1
         },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect2": null,
+        "effect3": null
     },
     "22": {
         "ID": 22,
@@ -669,25 +426,11 @@
         "price": 200,
         "iconResource": "angry_potion_icon",
         "iconResource2": null,
+        "targetRange": -1,
         "takeEnergy": 0,
-        "effect1": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect1": null,
+        "effect2": null,
+        "effect3": null
     },
     "23": {
         "ID": 23,
@@ -699,25 +442,16 @@
         "price": 200,
         "iconResource": "lucky_potion_icon",
         "iconResource2": null,
+        "targetRange": -1,
         "takeEnergy": 0,
         "effect1": {
-            "effectType": null,
-            "propertyType": null,
+            "effectType": 0,
+            "propertyType": 8,
             "methodName": null,
-            "value": null
+            "value": 10
         },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect2": null,
+        "effect3": null
     },
     "24": {
         "ID": 24,
@@ -729,25 +463,11 @@
         "price": 400,
         "iconResource": "boutique_feather_icon",
         "iconResource2": null,
+        "targetRange": -1,
         "takeEnergy": 0,
-        "effect1": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect1": null,
+        "effect2": null,
+        "effect3": null
     },
     "25": {
         "ID": 25,
@@ -759,25 +479,11 @@
         "price": 200,
         "iconResource": "boutique_rice_icon",
         "iconResource2": null,
+        "targetRange": -1,
         "takeEnergy": 0,
-        "effect1": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect1": null,
+        "effect2": null,
+        "effect3": null
     },
     "26": {
         "ID": 26,
@@ -789,25 +495,11 @@
         "price": 200,
         "iconResource": "trophy_icon",
         "iconResource2": null,
+        "targetRange": -1,
         "takeEnergy": 0,
-        "effect1": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect1": null,
+        "effect2": null,
+        "effect3": null
     },
     "27": {
         "ID": 27,
@@ -819,25 +511,11 @@
         "price": 200,
         "iconResource": "jerky_icon",
         "iconResource2": null,
+        "targetRange": -1,
         "takeEnergy": 0,
-        "effect1": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect1": null,
+        "effect2": null,
+        "effect3": null
     },
     "28": {
         "ID": 28,
@@ -849,24 +527,10 @@
         "price": 400,
         "iconResource": "month_card_icon",
         "iconResource2": null,
+        "targetRange": -1,
         "takeEnergy": 0,
-        "effect1": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect2": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        },
-        "effect3": {
-            "effectType": null,
-            "propertyType": null,
-            "methodName": null,
-            "value": null
-        }
+        "effect1": null,
+        "effect2": null,
+        "effect3": null
     }
 }

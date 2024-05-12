@@ -19,7 +19,7 @@ public class UITownPage : MonoBehaviour
 
 	public void SetActionPanels(List<int> actionTypes)
 	{
-		if (actionPanels.Count == actionPanels.Count)
+		if (actionPanels.Count == actionTypes.Count)
 		{
 			for (int i = 0; i < actionPanels.Count; i++)
 			{
