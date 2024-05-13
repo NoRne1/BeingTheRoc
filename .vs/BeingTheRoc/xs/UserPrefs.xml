@@ -1,15 +1,16 @@
 ﻿<Properties StartupConfiguration="{BBB342A2-6894-1B0E-77BF-1034E1720682}|">
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="8ae16ec6-b76d-45b2-b81b-6db399aea5e6" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/EquipManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Managers/BattleManager.cs" Line="160" Column="44" />
-      <File FileName="Assets/Scripts/Managers/EquipManager.cs" Line="46" Column="14" />
-      <File FileName="Assets/Scripts/UI/UIBattleBag.cs" Line="29" Column="17" />
-      <File FileName="Assets/Scripts/UI/UIEquipItem.cs" Line="11" Column="23" />
-      <File FileName="Assets/Scripts/Models/StoreItemModel.cs" Line="124" Column="10" />
-      <File FileName="Assets/Scripts/Defines/StoreItemDefine.cs" Line="34" Column="15" />
-      <File FileName="Assets/Scripts/UI/UIBattleItemInfo.cs" Line="22" Column="33" />
+      <File FileName="Assets/Scripts/Managers/BattleManager.cs" Line="389" Column="36" />
+      <File FileName="Assets/Scripts/Managers/EquipManager.cs" Line="191" Column="49" />
+      <File FileName="Assets/Scripts/UI/UITeamBagPage.cs" Line="54" Column="14" />
+      <File FileName="Assets/Scripts/Models/Backpack.cs" Line="96" Column="17" />
+      <File FileName="Assets/Scripts/Models/RepositoryModel.cs" Line="18" Column="42" />
+      <File FileName="Assets/Scripts/Models/StoreItemModel.cs" Line="69" Column="26" />
+      <File FileName="Assets/Scripts/Defines/StoreItemDefine.cs" Line="46" Column="22" />
+      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="112" Column="84" />
+      <File FileName="Assets/Scripts/UI/UIBattleItemInfo.cs" Line="61" Column="43" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -18,9 +19,7 @@
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
                 <Node name="Defines" expanded="True" />
-                <Node name="Managers" expanded="True">
-                  <Node name="EquipManager.cs" selected="True" />
-                </Node>
+                <Node name="Managers" expanded="True" />
                 <Node name="Models" expanded="True" />
                 <Node name="UI" expanded="True" />
                 <Node name="Utilities" expanded="True">
@@ -33,9 +32,12 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="1ad04242-23e0-4a81-932e-b8fb33794281" />
+  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/norne/dev/BeingTheRoc/Assets/Scripts/Managers/BattleManager.cs" relfile="Assets/Scripts/Managers/BattleManager.cs" line="389" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

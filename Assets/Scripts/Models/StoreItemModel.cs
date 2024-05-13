@@ -101,6 +101,7 @@ public class StoreItemModel : StoreItemDefine
         type = define.type;
         equipType = define.equipType;
         invokeType = define.invokeType;
+        targetRange = define.targetRange;
         title = define.title;
         level = define.level;
         price = define.price;
@@ -404,7 +405,8 @@ public class StoreItemModel : StoreItemDefine
         }
         if (flag)
         {
-            return result.Select(temp => { return temp + vect; }).ToList();
+            return result.Select(temp => { return temp + vect; })
+                .Where( temp => { return GameUtil.Instance.InChessBoard(temp); }).ToList();
         }
         else
         {

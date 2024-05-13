@@ -32,14 +32,14 @@ public class BattleManager : MonoSingleton<BattleManager>
     public Transform battleItemFather;
     public UICharacterPlaceBox placeBox;
     public UIBattleItemInfo uiBattleItemInfo;
-    public UIBattleBag uIBattleBag;
+    public UIBattleBag uiBattleBag;
     public TownBattleInfoModel battleInfo;
 
     public BehaviorSubject<int> timePass = new BehaviorSubject<int>(-1);
-    public System.IDisposable? timePassDispose;
+    public System.IDisposable timePassDispose;
     public List<BattleItem> battleItems = new List<BattleItem>();
     public BehaviorSubject<RoundTime> roundTime = new BehaviorSubject<RoundTime>(RoundTime.prepare);
-    public System.IDisposable? roundRelayDispose;
+    public System.IDisposable roundRelayDispose;
 
     private BehaviorSubject<int> currentPlaceIndex = new BehaviorSubject<int>(-1);
 
@@ -138,19 +138,34 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     ~BattleManager()
     {
-        timePassDispose?.Dispose();
-        roundRelayDispose?.Dispose();
+        timePassDispose.IfNotNull(dispose => { dispose.Dispose(); });
+        roundRelayDispose.IfNotNull(dispose => { dispose.Dispose(); });
         timePassDispose = null;
         roundRelayDispose = null;
     }
 
+    private void BattleInit()
+    {
+        timePassDispose.IfNotNull(dispose => { dispose.Dispose(); });
+        roundRelayDispose.IfNotNull(dispose => { dispose.Dispose(); });
+        timePassDispose = null;
+        roundRelayDispose = null;
+
+        timePass.OnNext(-1);
+        roundTime.OnNext(RoundTime.prepare);
+        currentPlaceIndex.OnNext(-1);
+
+        uiBattleItemInfo.Setup(null);
+        uiBattleBag.Setup(null);
+        battleItems.Clear();
+        GameUtil.Instance.DetachChildren(battleItemFather);
+        battleItemDic.Clear();
+        chessBoard.ResetColors();
+    }
+
     public void StartBattle(List<string> characterIDs, TownBattleInfoModel battleInfo)
     {
-        timePassDispose?.Dispose();
-        roundRelayDispose?.Dispose();
-        battleItems.Clear();
-        chessBoard.ResetColors();
-
+        BattleInit();
         this.battleInfo = battleInfo;
 
         for (int i = 0; i < characterIDs.Count; i++)
@@ -362,7 +377,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         }
         battleItemDic[pos].Selected = true;
         uiBattleItemInfo.Setup(battleItemDic[pos].item);
-        uIBattleBag.Setup(battleItemDic[pos].item);
+        uiBattleBag.Setup(battleItemDic[pos].item);
         chessBoard.ResetMiddle(false);
         lastSelectedPos = pos;
     }
@@ -377,7 +392,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             });
         }
         uiBattleItemInfo.Setup(null);
-        uIBattleBag.Setup(null);
+        uiBattleBag.Setup(null);
         chessBoard.ResetMiddle(true);
         lastSelectedPos = Vector2.positiveInfinity;
     }
@@ -411,6 +426,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             Debug.Log("MoveBarItemClicked InvalidOperationException: " + e.Message);
         }
+        clickedStoreItem = storeItem;
         clickSlotReason = ClickSlotReason.selectTarget;
     }
 
@@ -424,14 +440,20 @@ public class BattleManager : MonoSingleton<BattleManager>
             if (battleItemDic.Keys.Contains(slot.position))
             {
                 EquipManager.Instance.targetIDs = new List<string>() { battleItemDic[slot.position].item.uuid };
+                clickSlotReason = ClickSlotReason.move;
+                ShowMovePath(chessBoard.slots[vect]);
             }
             else
             {
                 EquipManager.Instance.targetIDs = new List<string>();
+                clickSlotReason = ClickSlotReason.move;
+                ShowMovePath(chessBoard.slots[vect]);
             }
         } else
         {
             EquipManager.Instance.targetIDs = new List<string>();
+            clickSlotReason = ClickSlotReason.move;
+            ShowMovePath(chessBoard.slots[vect]);
         }
     }
 

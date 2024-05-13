@@ -23,6 +23,11 @@ public class GameUtil : Singleton<GameUtil>
         return Guid.NewGuid().ToString();
     }
 
+    public bool InChessBoard(Vector2 vect)
+    {
+        return vect.x >= 0 && vect.x <= 7 && vect.y >= 0 && vect.y <= 7;
+    }
+
     public bool InScreen(Vector3 position)
     {
         return Screen.safeArea.Contains(Camera.main.WorldToScreenPoint(position));

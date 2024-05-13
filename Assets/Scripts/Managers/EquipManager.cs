@@ -72,7 +72,10 @@ public class EquipManager : MonoSingleton<EquipManager>
             // 等待玩家选择目标，比如点击其他游戏对象
             while (true)
             {
-                if (targetIDs != null)
+                if (targetIDs != null && targetIDs.Count == 0)
+                {
+                    break;
+                } else if (targetIDs != null && targetIDs.Count > 0)
                 {
                     if (item.effect1 != null)
                     {
@@ -192,6 +195,9 @@ public class EquipManager : MonoSingleton<EquipManager>
                     {
                         case PropertyType.MaxHP:
                             target.MaxHP += effect.Value;
+                            target.currentHP += effect.Value;
+                            break;
+                        case PropertyType.HP:
                             target.currentHP += effect.Value;
                             break;
                         case PropertyType.Strength:
