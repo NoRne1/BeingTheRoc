@@ -35,13 +35,14 @@ public class EquipManager : MonoSingleton<EquipManager>
                 var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(selfID)).Value;
                 if (target.currentEnergy >= item.takeEnergy)
                 {
-                    target.currentEnergy -= item.takeEnergy;
-                    NorneStore.Instance.Update<BattleItem>(target, true);
                     StartCoroutine(TriggerEquipEffect(selfID, item, characterOrBattleItem));
                 }
-                else
+                else if (target.currentEnergy > 0)
                 {
                     BattleManager.Instance.ShakeEnergy();
+                } else
+                {
+                    BattleManager.Instance.BlinkEnergy();
                 }
             }
         }
@@ -53,6 +54,13 @@ public class EquipManager : MonoSingleton<EquipManager>
         targetIDs = null;
         if (item.invokeType == InvokeType.bagUse || item.invokeType == InvokeType.equipUse)
         {
+            if (!characterOrBattleItem && item.takeEnergy > 0)
+            {
+                //战斗需要消耗能量的物品使用时，扣除能量
+                var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(selfID)).Value;
+                target.currentEnergy -= item.takeEnergy;
+                NorneStore.Instance.Update<BattleItem>(target, true);
+            }
             List<string> selfIDList = new List<string> { selfID };
             if (item.effect1 != null)
             {
@@ -77,6 +85,13 @@ public class EquipManager : MonoSingleton<EquipManager>
                     break;
                 } else if (targetIDs != null && targetIDs.Count > 0)
                 {
+                    if (!characterOrBattleItem && item.takeEnergy > 0)
+                    {
+                        //战斗需要消耗能量的物品使用时，扣除能量
+                        var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(selfID)).Value;
+                        target.currentEnergy -= item.takeEnergy;
+                        NorneStore.Instance.Update<BattleItem>(target, true);
+                    }
                     if (item.effect1 != null)
                     {
                         ProcessEffect(targetIDs, item.effect1, characterOrBattleItem);

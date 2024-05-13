@@ -461,4 +461,9 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         uiBattleItemInfo.ShakeEnergy();
     }
+
+    public void BlinkEnergy()
+    {
+        uiBattleItemInfo.BlinkEnergy();
+    }
 }

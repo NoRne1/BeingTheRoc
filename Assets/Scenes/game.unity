@@ -26253,6 +26253,8 @@ MonoBehaviour:
   sliderText: {fileID: 1351699554}
   icon: {fileID: 379576141}
   nameText: {fileID: 669567802}
+  blinkDuration: 0.3
+  blinkCount: 2
 --- !u!1 &1936324893
 GameObject:
   m_ObjectHideFlags: 0

@@ -179,4 +179,23 @@ public class GameUtil : Singleton<GameUtil>
 
         return result;
     }
+
+    public IEnumerator BlinkObject(GameObject obj, float blinkDuration, int blinkCount = 2)
+    {
+        for (int i = 0; i < blinkCount; i++)
+        {
+            // 根据初始状态决定先隐藏还是先显示
+            if (obj.activeSelf)
+                obj.SetActive(false);
+            else
+                obj.SetActive(true);
+            yield return new WaitForSeconds(blinkDuration);
+
+            if (obj.activeSelf)
+                obj.SetActive(false);
+            else
+                obj.SetActive(true);
+            yield return new WaitForSeconds(blinkDuration);
+        }
+    }
 }

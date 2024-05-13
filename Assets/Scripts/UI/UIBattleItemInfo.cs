@@ -78,4 +78,14 @@ public class UIBattleItemInfo : MonoBehaviour
     {
         energyFather.GetComponent<ShakeEffect>().TriggerShake();
     }
+
+    private Coroutine blinkCoroutine;
+    public void BlinkEnergy()
+    {
+        var energyIcon = energyPool.GetObjectFromPool();
+        energyIcon.SetActive(false);
+        if (blinkCoroutine != null)
+            StopCoroutine(blinkCoroutine);
+        blinkCoroutine = StartCoroutine(GameUtil.Instance.BlinkObject(energyIcon, 0.3f, 2));
+    }
 }
