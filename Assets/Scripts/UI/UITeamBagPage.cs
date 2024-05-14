@@ -8,6 +8,9 @@ using System.Linq;
 using Unity.Burst.CompilerServices;
 using static UnityEditor.Progress;
 using Unity.VisualScripting;
+using static UnityEngine.EventSystems.EventTrigger;
+using System;
+using System.Xml.Linq;
 
 public class UITeamBagPage : MonoBehaviour
 {
@@ -32,6 +35,7 @@ public class UITeamBagPage : MonoBehaviour
     public UIEquipButtons equipButtons;
 
     public CharacterModel character;
+    public BattleItem battleItem;
 
     public Transform equipFather;
     public GameObject repositor;
@@ -227,17 +231,26 @@ public class UITeamBagPage : MonoBehaviour
     public void UpdateCharacter(CharacterModel character)
     {
         this.character = character;
+        this.battleItem = null;
         this.characterIcon.overrideSprite = Resloader.LoadSprite(character.Resource);
-        RefreshBag(character);
+        RefreshBag(character.backpack);
     }
 
-    public void RefreshBag(CharacterModel character)
+    public void UpdateBattleItem(BattleItem battleItem)
+    {
+        this.character = null;
+        this.battleItem = battleItem;
+        this.characterIcon.overrideSprite = Resloader.LoadSprite(battleItem.Resource);
+        RefreshBag(battleItem.backpack);
+    }
+
+    public void RefreshBag(Backpack backpack)
     {
         GameUtil.Instance.DetachChildren(equipFather);
 
         equipItems.Clear();
 
-        foreach (var equip in character.backpack.equips)
+        foreach (var equip in backpack.equips)
         {
             GameObject temp = Instantiate(itemPrefab, this.equipFather);
             UIEquipItem equipItem = temp.GetComponent<UIEquipItem>();

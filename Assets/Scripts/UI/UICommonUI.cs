@@ -105,7 +105,14 @@ public class UICommonUI : MonoBehaviour
 
     public void invokeTeamWindow()
     {
-        UIManager.Instance.Show<UITeamWindow>();
+        var teamWindow = UIManager.Instance.Show<UITeamWindow>();
+        if (GameManager.Instance.currentPageType == PageType.battle)
+        {
+            teamWindow.BattleInit();
+        } else
+        {
+            teamWindow.NormalInit();
+        }
     }
 
     public void hideRightButtonGroup(bool flag)

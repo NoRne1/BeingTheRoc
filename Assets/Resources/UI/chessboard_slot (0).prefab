@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4122072353414115677}
   - component: {fileID: 1292658129133409959}
   - component: {fileID: 6897739181825261665}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: chessboard_slot (0)
   m_TagString: ChessBoardSlot
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b677c96590d904923ac17e0a93c09cc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  postion: {x: 0, y: 0}
+  position: {x: 0, y: 0}
   colorImage: {fileID: 4122072353414115677}
 --- !u!61 &6897739181825261665
 BoxCollider2D:

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using System.Linq;
 using System;
 using UnityEditor;
+using Unity.VisualScripting;
+using Unity.Burst.CompilerServices;
 
 public enum RoundTime
 {
@@ -100,36 +102,56 @@ public class BattleManager : MonoSingleton<BattleManager>
 
             if (currentPlaceIndex.Value != -1)
             {
-                RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
-                //在放置角色阶段
-                if (hit.collider != null &&
-                    (hit.collider.CompareTag("ChessBoard") || hit.collider.CompareTag("ChessBoardSlot")))
+                RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosition, Vector2.zero);
+                bool flag = false;
+                // 处理每个射线碰撞到的对象
+                foreach (RaycastHit2D hit in hits)
                 {
-                    //鼠标在棋盘内
-                    placeBox.gameObject.SetActive(true);
-                    // 获取鼠标当前的屏幕坐标位置
-                    Vector3 mousePositionScreen = Input.mousePosition;
+                    if (hit.collider != null && hit.collider.CompareTag("ChessBoardSlot"))
+                    {
+                        //鼠标在棋盘内
+                        placeBox.gameObject.SetActive(true);
+                        // 获取鼠标当前的屏幕坐标位置
+                        Vector3 mousePositionScreen = Input.mousePosition;
 
-                    // 将鼠标屏幕坐标位置转换为世界坐标位置
-                    Vector3 mousePositionWorld = Camera.main.ScreenToWorldPoint(mousePositionScreen);
-                    mousePositionWorld.z = 0f; // 将 z 轴位置设为 0，使其与 2D 平面对齐
+                        // 将鼠标屏幕坐标位置转换为世界坐标位置
+                        Vector3 mousePositionWorld = Camera.main.ScreenToWorldPoint(mousePositionScreen);
+                        mousePositionWorld.z = 0f; // 将 z 轴位置设为 0，使其与 2D 平面对齐
 
-                    // 将自身 GameObject 的位置设置为鼠标的世界坐标位置
-                    placeBox.transform.position = mousePositionWorld;
+                        // 将自身 GameObject 的位置设置为鼠标的世界坐标位置
+                        placeBox.transform.position = mousePositionWorld;
+
+                        flag = true;
+                        break;
+                    }
                 }
-                else
-                {
+                if (!flag)
+                { 
                     placeBox.gameObject.SetActive(false);
                 }
             }
 
             if (Input.GetMouseButtonUp(0))
             {
-                RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero,
-                    Mathf.Infinity, LayerMask.GetMask("ChessBoardSlot"));
-                if (hit.collider != null && hit.collider.CompareTag("ChessBoardSlot"))
+                RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosition, Vector2.zero);
+                bool flag = false;
+                UIChessboardSlot slot = null;
+                // 处理每个射线碰撞到的对象
+                foreach (RaycastHit2D hit in hits)
                 {
-                    UIChessboardSlot slot = hit.collider.GetComponent<UIChessboardSlot>();
+                    if (hit.collider != null && hit.collider.CompareTag("ChessBoardSlot"))
+                    {
+                        flag = true;
+                        slot = hit.collider.GetComponent<UIChessboardSlot>();
+                    }
+                    if (hit.collider != null && hit.collider.CompareTag("TopUI"))
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag && slot != null)
+                {
                     clickedSlot.OnNext(slot);
                 }
             }

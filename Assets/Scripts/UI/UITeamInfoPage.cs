@@ -35,6 +35,7 @@ public class UITeamInfoPage : MonoBehaviour
 
     private System.IDisposable disposable;
     public CharacterModel character;
+    public BattleItem battleItem;
     // Start is called before the first frame update
     void Start()
     {
@@ -57,6 +58,7 @@ public class UITeamInfoPage : MonoBehaviour
     public void UpdateCharacter(CharacterModel character)
     {
         this.character = character;
+        this.battleItem = null;
         if (character != null)
         {
             disposable.IfNotNull(dis => { dis.Dispose(); });
@@ -80,6 +82,37 @@ public class UITeamInfoPage : MonoBehaviour
         } else
         {
             Debug.Log("UITeamInfoPage setup character is null");
+        }
+    }
+
+    public void UpdateBattleItem(BattleItem battleItem)
+    {
+        this.character = null;
+        this.battleItem = battleItem;
+        if (battleItem != null)
+        {
+            disposable.IfNotNull(dis => { dis.Dispose(); });
+            disposable = NorneStore.Instance.ObservableObject<BattleItem>(battleItem)
+                .AsObservable().TakeUntilDestroy(this).Subscribe(bi =>
+                {
+                    descText.text = bi.Desc;
+                    levelText.text = "Lv: " + bi.level.ToString();
+                    expText.text = bi.remainExp.ToString() + "/" + GlobalAccess.levelUpExp.ToString();
+                    title.text = bi.Name;
+                    MaxHP.text = bi.MaxHP.ToString();
+                    Strength.text = bi.Strength.ToString();
+                    Defense.text = bi.Defense.ToString();
+                    Dodge.text = bi.Dodge.ToString();
+                    Accuracy.text = bi.Accuracy.ToString();
+                    Speed.text = bi.Speed.ToString();
+                    Mobility.text = bi.Mobility.ToString();
+                    Energy.text = bi.Energy.ToString();
+                    Character_icon.overrideSprite = Resloader.LoadSprite(bi.Resource);
+                });
+        }
+        else
+        {
+            Debug.Log("UITeamInfoPage setup battleItem is null");
         }
     }
 }

@@ -11,6 +11,7 @@ TagManager:
   - Repositor
   - ChessBoard
   - ChessBoardSlot
+  - TopUI
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - 
   - Water
   - UI
-  - ChessBoardSlot
+  - 
   - 
   - 
   - 
