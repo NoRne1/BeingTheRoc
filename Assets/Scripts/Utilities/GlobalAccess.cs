@@ -13,6 +13,7 @@ public enum EquipLevel
 class GlobalAccess
 {
     public static int levelUpExp = 100;
+    public static int maxLevel = 3;
     public static int teamOpacity = 5;
     public static int mainCharacterNum = 3;
     public static int subCharacterStartIndex = 100;

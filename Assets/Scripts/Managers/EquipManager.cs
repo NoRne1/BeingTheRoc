@@ -182,6 +182,9 @@ public class EquipManager : MonoSingleton<EquipManager>
                         case PropertyType.HP:
                             target.currentHP += effect.Value;
                             break;
+                        case PropertyType.Exp:
+                            target.exp += effect.Value;
+                            break;
                         default:
                             Debug.Log("unknown propertyType");
                             break;
@@ -238,6 +241,9 @@ public class EquipManager : MonoSingleton<EquipManager>
                             break;
                         case PropertyType.Lucky:
                             target.Lucky += effect.Value;
+                            break;
+                        case PropertyType.Exp:
+                            target.exp += effect.Value;
                             break;
                         default:
                             Debug.Log("unknown propertyType");

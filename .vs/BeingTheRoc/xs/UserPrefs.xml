@@ -1,30 +1,34 @@
 ﻿<Properties StartupConfiguration="{BBB342A2-6894-1B0E-77BF-1034E1720682}|">
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/EquipManager.cs">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/norne/dev/BeingTheRoc/Assets/Scripts/Models/StoreItemModel.cs" relfile="Assets/Scripts/Models/StoreItemModel.cs" line="276" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/UITeamInfoPage.cs">
     <Files>
-      <File FileName="Assets/Scripts/Managers/BattleManager.cs" Line="389" Column="36" />
-      <File FileName="Assets/Scripts/Managers/EquipManager.cs" Line="191" Column="49" />
-      <File FileName="Assets/Scripts/UI/UITeamBagPage.cs" Line="54" Column="14" />
-      <File FileName="Assets/Scripts/Models/Backpack.cs" Line="96" Column="17" />
-      <File FileName="Assets/Scripts/Models/RepositoryModel.cs" Line="18" Column="42" />
-      <File FileName="Assets/Scripts/Models/StoreItemModel.cs" Line="69" Column="26" />
-      <File FileName="Assets/Scripts/Defines/StoreItemDefine.cs" Line="46" Column="22" />
-      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="112" Column="84" />
-      <File FileName="Assets/Scripts/UI/UIBattleItemInfo.cs" Line="61" Column="43" />
+      <File FileName="Assets/Scripts/Managers/BattleManager.cs" Line="270" Column="22" />
+      <File FileName="Assets/Scripts/Managers/EquipManager.cs" Line="89" Column="22" />
+      <File FileName="Assets/Scripts/UI/UITeamBagPage.cs" Line="244" Column="41" />
+      <File FileName="Assets/Scripts/Managers/SkillManager.cs" Line="24" Column="59" />
+      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="133" Column="31" />
+      <File FileName="Assets/Scripts/UI/UITeamWindow.cs" Line="6" Column="13" />
+      <File FileName="Assets/Scripts/UI/UITeamInfoPage.cs" Line="113" Column="20" />
+      <File FileName="Assets/Scripts/Models/CharacterModel.cs" Line="89" Column="29" />
+      <File FileName="Assets/Scripts/UI/UIPopButtonGroup.cs" Line="115" Column="6" />
+      <File FileName="Assets/Scripts/UI/UITimeLeft.cs" Line="19" Column="10" />
+      <File FileName="Assets/Scripts/UI/UIMoveBar.cs" Line="21" Column="18" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="BeingTheRoc">
+          <Node name="BeingTheRoc" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="Defines" expanded="True" />
                 <Node name="Managers" expanded="True" />
-                <Node name="Models" expanded="True" />
                 <Node name="UI" expanded="True" />
-                <Node name="Utilities" expanded="True">
-                  <Node name="Extensions" expanded="True" />
-                </Node>
               </Node>
             </Node>
           </Node>
@@ -32,12 +36,5 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="1ad04242-23e0-4a81-932e-b8fb33794281" />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/norne/dev/BeingTheRoc/Assets/Scripts/Managers/BattleManager.cs" relfile="Assets/Scripts/Managers/BattleManager.cs" line="389" column="1" />
-    </BreakpointStore>
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="f556b75a-a773-48da-9f85-90160d30038c" />
 </Properties>

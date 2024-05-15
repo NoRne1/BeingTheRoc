@@ -72,34 +72,40 @@ public class UITeamBagPage : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
-            if (hit.collider != null && hit.collider.CompareTag("Item") && hit.collider.GetComponent<UIRepositorSlot>().item != null)
+            RaycastHit2D? hit = GameUtil.Instance.RaycastAndFindFirstHit(mousePosition, hit =>
+                hit.collider != null && hit.collider.CompareTag("Item") && hit.collider.GetComponent<UIRepositorSlot>().item != null);
+            if (hit != null && hit.HasValue)
             {
-                currentItem = hit.collider.GetComponent<UIRepositorSlot>();
+                currentItem = hit?.collider.GetComponent<UIRepositorSlot>();
                 // 记录鼠标按下的位置
                 pressPosition = Input.mousePosition;
                 isDragging = false;
             }
-            else if (hit.collider != null && hit.collider.CompareTag("EquipSlot"))
+            else
             {
-                Vector2 vector2 = hit.collider.GetComponent<UIEquipSlot>().position;
-                //点击的位置是否有装备
-                draggedEquipItem = equipItems.Where(equipTtem =>
+                RaycastHit2D? hit2 = GameUtil.Instance.RaycastAndFindFirstHit(mousePosition, hit =>
+                    hit.collider != null && hit.collider.CompareTag("EquipSlot"));
+                if (hit2 != null && hit2.HasValue)
                 {
-                    bool result = false;
-                    for (int i = 0; i < equipTtem.storeItem.OccupiedCells.Count; i++)
+                    Vector2 vector2 = hit2.Value.collider.GetComponent<UIEquipSlot>().position;
+                    //点击的位置是否有装备
+                    draggedEquipItem = equipItems.Where(equipTtem =>
                     {
-                        Vector2 pos = equipTtem.storeItem.OccupiedCells[i];
-                        if (pos + equipTtem.storeItem.position == vector2)
+                        bool result = false;
+                        for (int i = 0; i < equipTtem.storeItem.OccupiedCells.Count; i++)
                         {
-                            result = true;
-                            break;
+                            Vector2 pos = equipTtem.storeItem.OccupiedCells[i];
+                            if (pos + equipTtem.storeItem.position == vector2)
+                            {
+                                result = true;
+                                break;
+                            }
                         }
-                    }
-                    return result;
-                }).FirstOrDefault();
-                pressPosition = Input.mousePosition;
-                isDragging = false;
+                        return result;
+                    }).FirstOrDefault();
+                    pressPosition = Input.mousePosition;
+                    isDragging = false;
+                }
             }
         }
 
@@ -149,19 +155,18 @@ public class UITeamBagPage : MonoBehaviour
                 {
                     // 获取鼠标松开时的位置
                     Vector2 checkPosition = draggedEquipItem.transform.TransformPoint(draggedEquipItem.storeItem.originOffset * GlobalAccess.equipSizeBagMultiply);
-                    RaycastHit2D equipHit = Physics2D.Raycast(checkPosition, Vector2.zero);
-                    Vector2 mousePosition2D = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
-                    RaycastHit2D repHit = Physics2D.Raycast(mousePosition2D, Vector2.zero);
+                    RaycastHit2D? equipHit = GameUtil.Instance.RaycastAndFindFirstHit(checkPosition, hit =>
+                        hit.collider != null && hit.collider.CompareTag("EquipSlot"));
 
                     if (currentItem != null)
                     {
-                        if (equipHit.collider != null && equipHit.collider.CompareTag("EquipSlot"))
+                        if (equipHit != null && equipHit.HasValue)
                         {
                             // 检查是否可以放置装备
-                            Vector2Int gridPosition = equipHit.collider.GetComponent<UIEquipSlot>().position;
+                            Vector2Int gridPosition = equipHit.Value.collider.GetComponent<UIEquipSlot>().position;
                             if (EquipManager.Instance.Equip(character, draggedEquipItem.storeItem, gridPosition))
                             {
-                                Vector3 tempVector = equipHit.collider.GetComponent<UIEquipSlot>().transform.position;
+                                Vector3 tempVector = equipHit.Value.collider.GetComponent<UIEquipSlot>().transform.position;
                                 draggedEquipItem.SetAndRecord(tempVector);
                             }
                             else
@@ -178,19 +183,19 @@ public class UITeamBagPage : MonoBehaviour
                     else
                     {
                         //draggedEquipItem != null
-                        if (repHit.collider != null && GameUtil.Instance.IsPointInsideGameObject(repositor, Input.mousePosition))
+                        if (GameUtil.Instance.IsPointInsideGameObject(repositor, Input.mousePosition))
                         {
                             //放回到仓库
                             EquipManager.Instance.Unequip(character, draggedEquipItem.storeItem);
                             Destroy(draggedEquipItem.gameObject);
                         }
-                        else if (equipHit.collider != null && equipHit.collider.CompareTag("EquipSlot"))
+                        else if (equipHit != null)
                         {
                             // 检查是否可以放置装备
-                            Vector2Int gridPosition = equipHit.collider.GetComponent<UIEquipSlot>().position;
+                            Vector2Int gridPosition = equipHit.Value.collider.GetComponent<UIEquipSlot>().position;
                             if (character.backpack.MoveTo(draggedEquipItem.storeItem, gridPosition))
                             {
-                                Vector3 tempVector = equipHit.collider.GetComponent<UIEquipSlot>().transform.position;
+                                Vector3 tempVector = equipHit.Value.collider.GetComponent<UIEquipSlot>().transform.position;
                                 draggedEquipItem.SetAndRecord(tempVector);
                             }
                             else

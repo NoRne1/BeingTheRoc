@@ -33,6 +33,9 @@ public class UITeamInfoPage : MonoBehaviour
     public TextMeshProUGUI Mobility;
     public TextMeshProUGUI Energy;
 
+    public Button levelUpButton;
+    public Slider expSlider;
+
     private System.IDisposable disposable;
     public CharacterModel character;
     public BattleItem battleItem;
@@ -57,6 +60,7 @@ public class UITeamInfoPage : MonoBehaviour
 
     public void UpdateCharacter(CharacterModel character)
     {
+        expSlider.maxValue = GlobalAccess.levelUpExp;
         this.character = character;
         this.battleItem = null;
         if (character != null)
@@ -67,7 +71,10 @@ public class UITeamInfoPage : MonoBehaviour
             {
                 descText.text = cm.Desc;
                 levelText.text = "Lv: " + cm.level.ToString();
+                expSlider.value = Mathf.Min(cm.remainExp, GlobalAccess.levelUpExp);
                 expText.text = cm.remainExp.ToString() + "/" + GlobalAccess.levelUpExp.ToString();
+                levelUpButton.gameObject.SetActive(cm.remainExp > GlobalAccess.levelUpExp &&
+                    cm.level < GlobalAccess.maxLevel);
                 title.text = cm.Name;
                 MaxHP.text = cm.MaxHP.ToString();
                 Strength.text = cm.Strength.ToString();
@@ -87,6 +94,7 @@ public class UITeamInfoPage : MonoBehaviour
 
     public void UpdateBattleItem(BattleItem battleItem)
     {
+        expSlider.maxValue = GlobalAccess.levelUpExp;
         this.character = null;
         this.battleItem = battleItem;
         if (battleItem != null)
@@ -97,7 +105,10 @@ public class UITeamInfoPage : MonoBehaviour
                 {
                     descText.text = bi.Desc;
                     levelText.text = "Lv: " + bi.level.ToString();
+                    expSlider.value = Mathf.Min(bi.remainExp, GlobalAccess.levelUpExp);
                     expText.text = bi.remainExp.ToString() + "/" + GlobalAccess.levelUpExp.ToString();
+                    levelUpButton.gameObject.SetActive(bi.remainExp > GlobalAccess.levelUpExp &&
+                        bi.level < GlobalAccess.maxLevel);
                     title.text = bi.Name;
                     MaxHP.text = bi.MaxHP.ToString();
                     Strength.text = bi.Strength.ToString();

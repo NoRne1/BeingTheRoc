@@ -7,9 +7,9 @@ public class CharacterModel: CharacterDefine, IStorable
 {
     public int currentHP;
     public int currentEnergy;
-    public int level { get { return exp / GlobalAccess.levelUpExp + 1; } }
-    public int remainExp { get { return exp % GlobalAccess.levelUpExp; } }
-    public int exp;
+    public int level = 0;
+    public int remainExp { get { return exp - GlobalAccess.levelUpExp * level; } }
+    public int exp = 0;
     public Backpack backpack;
 
     public Subject<bool> characterUpdate = new Subject<bool>();
@@ -87,6 +87,7 @@ public class CharacterModel: CharacterDefine, IStorable
         item.currentHP = this.currentHP;
         item.currentEnergy = this.currentEnergy;
         item.exp = this.exp;
+        item.level = this.level;
         item.backpack = this.backpack;
         return item;
     }

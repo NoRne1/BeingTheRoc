@@ -60,6 +60,7 @@ public enum PropertyType
     Energy = 7,
     Lucky = 8,
     HP = 9,
+    Exp = 10,
 }
 
 public enum TargetRange

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
+using DG.Tweening;
 
 public class UIPopButtonGroup : MonoBehaviour
 {
@@ -98,15 +99,29 @@ public class UIPopButtonGroup : MonoBehaviour
         }
     }
 
+    //void ShowButton()
+    //{
+    //    isButtonVisible = true;
+    //    LeanTween.move(buttonGroup, visiblePosition, 1f / animationSpeed).setEaseOutBounce();
+    //}
+
+    //void HideButton()
+    //{
+    //    isButtonVisible = false;
+    //    LeanTween.move(buttonGroup, hiddenPosition, 1f / animationSpeed).setEaseInBack();
+    //}
+
     void ShowButton()
     {
         isButtonVisible = true;
-        LeanTween.move(buttonGroup, visiblePosition, 1f / animationSpeed).setEaseOutBounce();
+        buttonGroup.transform.DOMove(visiblePosition, 1f / animationSpeed)
+            .SetEase(Ease.OutBounce); // 使用 Ease.OutBounce 缓动函数实现弹跳效果
     }
 
     void HideButton()
     {
         isButtonVisible = false;
-        LeanTween.move(buttonGroup, hiddenPosition, 1f / animationSpeed).setEaseInBack();
+        buttonGroup.transform.DOMove(hiddenPosition, 1f / animationSpeed)
+            .SetEase(Ease.InBack); // 使用 Ease.InBack 缓动函数实现回弹效果
     }
 }

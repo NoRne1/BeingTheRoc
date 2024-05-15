@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 using UniRx;
+using System.Security.Cryptography;
 
 public class UITeamWindow : UIWindow
 {
@@ -13,10 +15,28 @@ public class UITeamWindow : UIWindow
     public UITeamInfoPage infoPage;
     public UITeamBagPage bagPage;
     public Button bagButton;
+
+    private bool normalOrBattleInit = true;
     // Start is called before the first frame update
     void Start()
     {
-
+        infoPage.levelUpButton.OnClickAsObservable().Subscribe(_ => {
+            if (normalOrBattleInit)
+            {
+                var character = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(currentCharacterID.Value)).Value;
+                if (character.remainExp > GlobalAccess.levelUpExp &&
+                    character.level < GlobalAccess.maxLevel)
+                {
+                    //可以升级
+                    character.level += 1;
+                }
+                NorneStore.Instance.Update<CharacterModel>(character, true);
+            } else
+            {
+                var tip = UIManager.Instance.Show<UITip>();
+                tip.UpdateTip("在战斗中渡劫升级乃是兵家大忌");
+            }
+        });
     }
 
     // Update is called once per frame
@@ -27,6 +47,7 @@ public class UITeamWindow : UIWindow
 
     public void NormalInit()
     {
+        normalOrBattleInit = true;
         currentCharacterID = new BehaviorSubject<string>(GameManager.Instance.characterRelays.GetValueByIndex(0).Value.uuid);
         currentCharacterID.AsObservable().DistinctUntilChanged().TakeUntilDestroy(this).Subscribe(cid =>
         {
@@ -60,7 +81,9 @@ public class UITeamWindow : UIWindow
 
     public void BattleInit()
     {
-        currentCharacterID = new BehaviorSubject<string>(GameManager.Instance.characterRelays.GetValueByIndex(0).Value.uuid);
+        normalOrBattleInit = false;
+        var battleItems = BattleManager.Instance.battleItems.Where(item => item.battleItemType == BattleItemType.player).ToList();
+        currentCharacterID = new BehaviorSubject<string>(battleItems[0].uuid);
         currentCharacterID.AsObservable().DistinctUntilChanged().TakeUntilDestroy(this).Subscribe(cid =>
         {
             if (disposable != null) { disposable.Dispose(); }
@@ -74,13 +97,13 @@ public class UITeamWindow : UIWindow
         {
             if (i < GameManager.Instance.characterRelays.Count)
             {
-                string characterID = GameManager.Instance.characterRelays.GetValueByIndex(i).Value.uuid;
+                string characterID = battleItems[i].uuid;
                 characterButtons[i].OnClickAsObservable().TakeUntilDestroy(this).Subscribe(_ =>
                 {
                     currentCharacterID.OnNext(characterID);
                 });
                 characterButtons[i].transform.GetChild(0).GetComponent<Image>().overrideSprite =
-                    Resloader.LoadSprite(GameManager.Instance.characterRelays[characterID].Value.Resource);
+                    Resloader.LoadSprite(battleItems[i].Resource);
                 characterButtons[i].gameObject.SetActive(true);
             }
             else

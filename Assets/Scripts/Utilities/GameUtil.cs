@@ -198,4 +198,21 @@ public class GameUtil : Singleton<GameUtil>
             yield return new WaitForSeconds(blinkDuration);
         }
     }
+
+    public RaycastHit2D? RaycastAndFindFirstHit(Vector2 position, System.Func<RaycastHit2D, bool> condition)
+    {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(position, Vector2.zero);
+
+        // 遍历射线碰撞到的每个对象
+        foreach (RaycastHit2D hit in hits)
+        {
+            // 调用传入的条件 lambda 表达式，判断是否满足条件
+            if (condition(hit))
+            {
+                return hit; // 返回第一个符合条件的 RaycastHit2D 对象
+            }
+        }
+
+        return null; // 如果未找到符合条件的对象，返回 null
+    }
 }

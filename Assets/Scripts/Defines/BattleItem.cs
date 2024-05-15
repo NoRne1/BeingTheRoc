@@ -28,8 +28,8 @@ public class BattleItem: IStorable
     public string Desc { get; set; }
     public int currentHP;
     public int currentEnergy;
-    public int level { get { return exp / GlobalAccess.levelUpExp + 1; } }
-    public int remainExp { get { return exp % GlobalAccess.levelUpExp; } }
+    public int level;
+    public int remainExp { get { return exp - GlobalAccess.levelUpExp * level; } }
     public int exp;
     public Backpack backpack;
 

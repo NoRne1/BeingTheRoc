@@ -428,7 +428,12 @@
         "iconResource2": null,
         "targetRange": -1,
         "takeEnergy": 0,
-        "effect1": null,
+        "effect1": {
+            "effectType": 0,
+            "propertyType": 10,
+            "methodName": null,
+            "value": 150
+        },
         "effect2": null,
         "effect3": null
     },
