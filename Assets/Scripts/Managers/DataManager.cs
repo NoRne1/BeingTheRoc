@@ -18,6 +18,8 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, Dictionary<String, String>> LanguagesDic = null;
     public Dictionary<int, TownActionDefine> TownActions = null;
     public Dictionary<int, StoreItemDefine> StoreItems = null;
+    public Dictionary<int, SkillDefine> Skills = null;
+    public Dictionary<int, ExtraEntryDesc> ExtraEntrys = null;
     public BehaviorSubject<bool> DataLoaded = new BehaviorSubject<bool>(false);
 
     public DataManager()
@@ -41,6 +43,12 @@ public class DataManager : Singleton<DataManager>
         json = File.ReadAllText(this.DataPath + "TownActionDefine.json");
         this.TownActions = JsonConvert.DeserializeObject<Dictionary<int, TownActionDefine>>(json);
 
+        json = File.ReadAllText(this.DataPath + "SkillDefine.json");
+        this.Skills = JsonConvert.DeserializeObject<Dictionary<int, SkillDefine>>(json);
+
+        json = File.ReadAllText(this.DataPath + "ExtraEntryDesc.json");
+        this.ExtraEntrys = JsonConvert.DeserializeObject<Dictionary<int, ExtraEntryDesc>>(json);
+
         DataLoaded.OnNext(true);
     }
 
@@ -62,6 +70,14 @@ public class DataManager : Singleton<DataManager>
 
         json = File.ReadAllText(this.DataPath + "TownActionDefine.json");
         this.TownActions = JsonConvert.DeserializeObject<Dictionary<int, TownActionDefine>>(json);
+        yield return null;
+
+        json = File.ReadAllText(this.DataPath + "SkillDefine.json");
+        this.Skills = JsonConvert.DeserializeObject<Dictionary<int, SkillDefine>>(json);
+        yield return null;
+
+        json = File.ReadAllText(this.DataPath + "ExtraEntryDesc.json");
+        this.ExtraEntrys = JsonConvert.DeserializeObject<Dictionary<int, ExtraEntryDesc>>(json);
         yield return null;
 
         //json = File.ReadAllText(this.DataPath + "TeleporterDefine.json");

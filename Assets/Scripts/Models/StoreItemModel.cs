@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-
-
 public class StoreItemModel : StoreItemDefine
 {
     public string uuid;
@@ -52,8 +50,6 @@ public class StoreItemModel : StoreItemDefine
                     return new Vector2(3, 2);
                 case EquipType.Xcorner:
                     return new Vector2(2, 2);
-                case EquipType.Xten:
-                    return new Vector2(3, 3);
                 case EquipType.Xz:
                     return new Vector2(2, 3);
                 default:
@@ -84,8 +80,6 @@ public class StoreItemModel : StoreItemDefine
                     return new Vector3(-1, 0.5f, 0);
                 case EquipType.Xcorner:
                     return new Vector3(-0.5f, 0.5f, 0);
-                case EquipType.Xten:
-                    return new Vector3(0, 1, 0);
                 case EquipType.Xz:
                     return new Vector3(-0.5f, 1, 0);
                 default:
@@ -111,6 +105,10 @@ public class StoreItemModel : StoreItemDefine
         effect1 = define.effect1;
         effect2 = define.effect2;
         effect3 = define.effect3;
+        desc = define.desc;
+        extraEntryID1 = define.extraEntryID1;
+        extraEntryID2 = define.extraEntryID2;
+        extraEntryID3 = define.extraEntryID3;
         OccupiedCellsInit();
     }
 
@@ -209,13 +207,6 @@ public class StoreItemModel : StoreItemDefine
                 result.Add(new Vector2Int(0, 1));
                 result.Add(new Vector2Int(1, 0));
                 break;
-            case EquipType.Xten:
-                result.Add(new Vector2Int(0, 0));
-                result.Add(new Vector2Int(1, 0));
-                result.Add(new Vector2Int(2, 0));
-                result.Add(new Vector2Int(1, -1));
-                result.Add(new Vector2Int(1, 1));
-                break;
             case EquipType.Xz:
                 result.Add(new Vector2Int(0, 0));
                 result.Add(new Vector2Int(1, 0));
@@ -269,6 +260,31 @@ public class StoreItemModel : StoreItemDefine
         }
         tempOccupiedCells = points;
         tempRotationAngle = (tempRotationAngle + 90) % 360;
+    }
+
+    public String GetTargetRangeResource()
+    {
+        switch (targetRange)
+        {
+            case TargetRange.none:
+                return null;
+            case TargetRange.around_8:
+                return "equip_attack_range_0";
+            case TargetRange.archer:
+                return "equip_attack_range_1";
+            case TargetRange.archer_long:
+                return "equip_attack_range_2";
+            case TargetRange.range_1:
+                return "equip_attack_range_3";
+            case TargetRange.range_2:
+                return "equip_attack_range_4";
+            case TargetRange.range_3:
+                return "equip_attack_range_5";
+            case TargetRange.line:
+                return "equip_attack_range_6";
+            default:
+                return null;
+        }
     }
 
     public List<Vector2> GetTargetRangeList(Vector2 vect)

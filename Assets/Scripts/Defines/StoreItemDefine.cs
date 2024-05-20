@@ -25,7 +25,6 @@ public enum EquipType
     X3_2 = 5,
     Xtu = 6, //土字形的四格
     Xcorner = 7, //拐角形状的三格
-    Xten = 8, //十字型的五格
     Xz = 9, //z字型的4格
 }
 
@@ -98,8 +97,12 @@ public class StoreItemDefine
     public int takeEnergy { get; set; }
     public string iconResource { get; set; }
     public string iconResource2 { get; set; }
+    public string desc { get; set; }
     public Effect effect1 { get; set; }
     public Effect effect2 { get; set; }
     public Effect effect3 { get; set; }
+    public int extraEntryID1 { get; set; }
+    public int extraEntryID2 { get; set; }
+    public int extraEntryID3 { get; set; }
 }
 

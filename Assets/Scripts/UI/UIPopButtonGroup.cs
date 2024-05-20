@@ -99,18 +99,6 @@ public class UIPopButtonGroup : MonoBehaviour
         }
     }
 
-    //void ShowButton()
-    //{
-    //    isButtonVisible = true;
-    //    LeanTween.move(buttonGroup, visiblePosition, 1f / animationSpeed).setEaseOutBounce();
-    //}
-
-    //void HideButton()
-    //{
-    //    isButtonVisible = false;
-    //    LeanTween.move(buttonGroup, hiddenPosition, 1f / animationSpeed).setEaseInBack();
-    //}
-
     void ShowButton()
     {
         isButtonVisible = true;
