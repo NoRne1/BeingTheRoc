@@ -106,9 +106,9 @@ public class StoreItemModel : StoreItemDefine
         effect2 = define.effect2;
         effect3 = define.effect3;
         desc = define.desc;
-        extraEntryID1 = define.extraEntryID1;
-        extraEntryID2 = define.extraEntryID2;
-        extraEntryID3 = define.extraEntryID3;
+        ExtraEntry1 = define.ExtraEntry1;
+        ExtraEntry2 = define.ExtraEntry2;
+        ExtraEntry3 = define.ExtraEntry3;
         OccupiedCellsInit();
     }
 

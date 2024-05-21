@@ -19,7 +19,7 @@ public class UIDescHint: UIWindow
         transform.position = position + new Vector3(10, 10, 0);
     }
 
-    public void UpdateDesc(string text)
+    public void Setup(string text)
     {
         desc_hint.text = text;
     }

@@ -5,8 +5,8 @@ using UnityEngine;
 public class UIEquipRange : MonoBehaviour
 {
     public Dictionary<Vector2, UIEquipSlot> slots = new Dictionary<Vector2, UIEquipSlot>();
-    // Start is called before the first frame update
-    void Start()
+
+    void Awake()
     {
         UIEquipSlot[] tempSlots = GetComponentsInChildren<UIEquipSlot>();
         if (tempSlots.Length > 0)
@@ -18,15 +18,24 @@ public class UIEquipRange : MonoBehaviour
         }
     }
 
-    public void Setup(StoreItemModel item)
+    public bool Setup(StoreItemModel item)
     {
         foreach (var slot in slots.Values)
         {
             slot.gameObject.SetActive(false);
         }
-        foreach (var slotPos in item.OccupiedCells)
+        if (item.OccupiedCells == null)
         {
-            slots[slotPos].gameObject.SetActive(true);
+            gameObject.SetActive(false);
+            return false;
+        } else
+        {
+            foreach (var slotPos in item.OccupiedCells)
+            {
+                slots[slotPos].gameObject.SetActive(true);
+            }
+            gameObject.SetActive(true);
+            return true;
         }
     }
 }

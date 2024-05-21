@@ -4,8 +4,9 @@ using UnityEngine.EventSystems;
 
 public enum HintType
 {
-    normal = 0,
-    storeItem = 1,
+    none = 0,
+    normal = 1,
+    storeItem = 2,
 }
 
 public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
@@ -32,11 +33,15 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             {
                 switch (type)
                 {
+                    case HintType.none:
+                        break;
                     case HintType.normal:
-                        UIDescHint hint = UIManager.Instance.Show<UIDescHint>(CanvasType.tooltip);
-                        hint.UpdateDesc(hint_text);
+                        UIDescHint descHint = UIManager.Instance.Show<UIDescHint>(CanvasType.tooltip);
+                        descHint.Setup(hint_text);
                         break;
                     case HintType.storeItem:
+                        UIStoreItemHint storeItemHint = UIManager.Instance.Show<UIStoreItemHint>(CanvasType.tooltip);
+                        storeItemHint.Setup(storeItem);
                         break;
                 }
             }
@@ -44,10 +49,13 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             {
                 switch (type)
                 {
+                    case HintType.none:
+                        break;
                     case HintType.normal:
                         UIManager.Instance.Close<UIDescHint>();
                         break;
                     case HintType.storeItem:
+                        UIManager.Instance.Close<UIStoreItemHint>();
                         break;
                 }
             }
@@ -61,6 +69,13 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void OnPointerExit(PointerEventData eventData)
     {
         isMouseEnter.OnNext(false);
+    }
+
+    public void Reset()
+    {
+        type = HintType.none;
+        hint_text = null;
+        storeItem = null;
     }
 
     public void Setup(string text)

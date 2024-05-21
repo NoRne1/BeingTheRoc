@@ -18,7 +18,11 @@
             "value": -10
         },
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "wood_sword吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "1": {
         "ID": 1,
@@ -39,7 +43,11 @@
             "value": -20
         },
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "iron_sword吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "2": {
         "ID": 2,
@@ -60,7 +68,11 @@
             "value": -30
         },
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "magic_sword吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "3": {
         "ID": 3,
@@ -81,7 +93,11 @@
             "value": 1
         },
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "fast_shoes吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "4": {
         "ID": 4,
@@ -97,7 +113,11 @@
         "takeEnergy": 1,
         "effect1": null,
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "stab_shield吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "5": {
         "ID": 5,
@@ -113,7 +133,11 @@
         "takeEnergy": 1,
         "effect1": null,
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "arm_shield吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "6": {
         "ID": 6,
@@ -129,7 +153,11 @@
         "takeEnergy": 1,
         "effect1": null,
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "wood_shield吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "7": {
         "ID": 7,
@@ -150,7 +178,11 @@
             "value": -15
         },
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "long_arch吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "8": {
         "ID": 8,
@@ -171,7 +203,11 @@
             "value": -10
         },
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "wood_arch吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "9": {
         "ID": 9,
@@ -197,7 +233,11 @@
             "methodName": null,
             "value": -10
         },
-        "effect3": null
+        "effect3": null,
+        "desc": "zhuge_bow吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "10": {
         "ID": 10,
@@ -223,7 +263,11 @@
             "methodName": null,
             "value": -6
         },
-        "effect3": null
+        "effect3": null,
+        "desc": "multi_bow吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "11": {
         "ID": 11,
@@ -244,7 +288,11 @@
             "value": -10
         },
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "hand_bow吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "12": {
         "ID": 12,
@@ -260,7 +308,11 @@
         "takeEnergy": 0,
         "effect1": null,
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "shadow_charm吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "13": {
         "ID": 13,
@@ -276,7 +328,11 @@
         "takeEnergy": 0,
         "effect1": null,
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "exchange_charm吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "14": {
         "ID": 14,
@@ -292,7 +348,11 @@
         "takeEnergy": 0,
         "effect1": null,
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "silent_charm吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "15": {
         "ID": 15,
@@ -308,7 +368,11 @@
         "takeEnergy": 0,
         "effect1": null,
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "confine_charm吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "16": {
         "ID": 16,
@@ -329,7 +393,11 @@
             "value": -20
         },
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "thunder_charm吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "17": {
         "ID": 17,
@@ -345,7 +413,11 @@
         "takeEnergy": 0,
         "effect1": null,
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "king_arrow吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "18": {
         "ID": 18,
@@ -361,7 +433,11 @@
         "takeEnergy": 0,
         "effect1": null,
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "treasure_bowl吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "19": {
         "ID": 19,
@@ -377,7 +453,11 @@
         "takeEnergy": 0,
         "effect1": null,
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "shield_token吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "20": {
         "ID": 20,
@@ -393,7 +473,11 @@
         "takeEnergy": 0,
         "effect1": null,
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "sword_stone吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "21": {
         "ID": 21,
@@ -414,7 +498,11 @@
             "value": 1
         },
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "energy_potion吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "22": {
         "ID": 22,
@@ -435,7 +523,11 @@
             "value": 150
         },
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "angry_potion吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "23": {
         "ID": 23,
@@ -456,7 +548,11 @@
             "value": 10
         },
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "lucky_potion吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "24": {
         "ID": 24,
@@ -472,7 +568,11 @@
         "takeEnergy": 0,
         "effect1": null,
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "boutique_feather吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "25": {
         "ID": 25,
@@ -488,7 +588,11 @@
         "takeEnergy": 0,
         "effect1": null,
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "boutique_rice吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "26": {
         "ID": 26,
@@ -504,7 +608,11 @@
         "takeEnergy": 0,
         "effect1": null,
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "trophy吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "27": {
         "ID": 27,
@@ -520,7 +628,11 @@
         "takeEnergy": 0,
         "effect1": null,
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "jerky吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     },
     "28": {
         "ID": 28,
@@ -536,6 +648,10 @@
         "takeEnergy": 0,
         "effect1": null,
         "effect2": null,
-        "effect3": null
+        "effect3": null,
+        "desc": "month_card吧啦吧啦吧啦吧啦吧啦吧啦",
+        "ExtraEntry1": -1,
+        "ExtraEntry2": 0,
+        "ExtraEntry3": 1
     }
 }

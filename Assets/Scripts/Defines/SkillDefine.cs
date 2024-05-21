@@ -8,7 +8,7 @@ public class SkillDefine
     public string Resource { get; set; }
     public string MethodName { get; set; }
     public string Desc { get; set; }
-    public int ExtraEntry { get; set; }
+    public int ExtraEntry1 { get; set; }
     public int ExtraEntry2 { get; set; }
     public int ExtraEntry3 { get; set; }
 }

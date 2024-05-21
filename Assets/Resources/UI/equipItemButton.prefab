@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5366974094861889773}
   - component: {fileID: 3859761629761700660}
   - component: {fileID: 6888178001341347964}
+  - component: {fileID: 2971106093345243611}
   m_Layer: 5
   m_Name: equipItemButton
   m_TagString: Untagged
@@ -134,5 +135,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d45f0dd89c66240c19ff2939fcc3446f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ownerID: 
   recordPosition: {x: 0, y: 0, z: 0}
   recordRotation: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2971106093345243611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992046318155185873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f95950c49eb78405faebe8b581882360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

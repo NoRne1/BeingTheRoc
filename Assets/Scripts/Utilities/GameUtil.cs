@@ -215,4 +215,45 @@ public class GameUtil : Singleton<GameUtil>
 
         return null; // 如果未找到符合条件的对象，返回 null
     }
+
+    // 根据物体位置和大小计算合适的偏移量
+    public Vector2 CalculateOffset(Vector2 screenPosition, Vector2 prefabSize)
+    {
+        // 获取屏幕的宽度和高度
+        float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
+
+        // 获取相机的视野范围
+        float cameraOrthographicSize = Camera.main.orthographicSize;
+        float cameraAspect = Camera.main.aspect;
+
+        // 计算相机的宽度和高度
+        float cameraWidth = cameraOrthographicSize * 2 * cameraAspect;
+        float cameraHeight = cameraOrthographicSize * 2;
+
+        // 计算偏移量
+        float offsetX = 0f;
+        float offsetY = 0f;
+
+        // 如果物体越过了屏幕边界，则调整偏移量使其保持在屏幕内
+        if (screenPosition.x + prefabSize.x <= screenWidth)
+        {
+            offsetX = prefabSize.x / 2;
+        }
+        else
+        {
+            offsetX = -prefabSize.x / 2;
+        }
+
+        if (screenPosition.y - prefabSize.y >= 0)
+        {
+            offsetY = -prefabSize.y / 2;
+        }
+        else
+        {
+            offsetY = prefabSize.y / 2;
+        }
+
+        return new Vector2(offsetX, offsetY);
+    }
 }

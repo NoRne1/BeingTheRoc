@@ -101,8 +101,8 @@ public class StoreItemDefine
     public Effect effect1 { get; set; }
     public Effect effect2 { get; set; }
     public Effect effect3 { get; set; }
-    public int extraEntryID1 { get; set; }
-    public int extraEntryID2 { get; set; }
-    public int extraEntryID3 { get; set; }
+    public int ExtraEntry1 { get; set; }
+    public int ExtraEntry2 { get; set; }
+    public int ExtraEntry3 { get; set; }
 }
 

@@ -51,9 +51,11 @@ public class UITeamBagPage : MonoBehaviour
                 if (i < items.Count)
                 {
                     itemButtons[i].GetComponent<UIRepositorSlot>().UpdateItem(items[i]);
+                    itemButtons[i].GetComponent<HintComponent>().Setup(items[i]);
                 } else
                 {
                     itemButtons[i].GetComponent<UIRepositorSlot>().UpdateItem(null);
+                    itemButtons[i].GetComponent<HintComponent>().Reset();
                 }
             }
         });
@@ -258,6 +260,7 @@ public class UITeamBagPage : MonoBehaviour
         foreach (var equip in backpack.equips)
         {
             GameObject temp = Instantiate(itemPrefab, this.equipFather);
+            temp.GetComponent<HintComponent>().Setup(equip);
             UIEquipItem equipItem = temp.GetComponent<UIEquipItem>();
             equipItem.storeItem = equip;
             equipItem.ownerID = character.uuid;
