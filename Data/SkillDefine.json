@@ -2,8 +2,9 @@
     "0": {
         "ID": 0,
         "Title": "混元剑坯",
-        "MethodName": "HunYuanSword_1",
+        "MethodName": "HunYuanSword_0",
         "Desc": "获得一件专属武器，后续可以升级获得进一步加强",
+        "Resource": "Skill_HunYuanSword_0",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -11,8 +12,9 @@
     "1": {
         "ID": 1,
         "Title": "混元·御利",
-        "MethodName": "HunYuanSword_2",
+        "MethodName": "HunYuanSword_1",
         "Desc": "升级你的混元剑坯，御利分别有着不同的效果，二者随机出现其一。\\n混元·御：使用混元剑坯时，增加自身15%攻击伤害的防御，持续一回合\\n混元·利：增加混元剑坯10%攻击伤害",
+        "Resource": "Skill_HunYuanSword_1",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -22,6 +24,7 @@
         "Title": "混元·御",
         "MethodName": "HunYuanYu",
         "Desc": "使用混元剑坯时，增加自身15%攻击伤害的防御，持续一回合",
+        "Resource": "Skill_HunYuanYu",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -31,6 +34,7 @@
         "Title": "混元·利",
         "MethodName": "HunYuanLi",
         "Desc": "增加混元剑坯10%攻击伤害",
+        "Resource": "Skill_HunYuanLi",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -40,6 +44,7 @@
         "Title": "混元·澄疾",
         "MethodName": "HunYuanSword_2",
         "Desc": "升级你的混元剑坯，澄疾利分别有着不同的效果，二者随机出现其一。\\n混元·澄：使用混元剑坯后，增加自身运气20点，持续两回合\\n混元·疾：使用混元剑坯击伤敌方单位，使行动值提前10%",
+        "Resource": "Skill_HunYuanSword_2",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -49,6 +54,7 @@
         "Title": "混元·澄",
         "MethodName": "HunYuanCheng",
         "Desc": "使用混元剑坯击杀敌方单位后，永久增加自身幸运1点",
+        "Resource": "Skill_HunYuanCheng",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -58,6 +64,7 @@
         "Title": "混元·疾",
         "MethodName": "HunYuanJi",
         "Desc": "使用混元剑坯击伤敌方单位，使行动值提前10%",
+        "Resource": "Skill_HunYuanji",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -67,6 +74,7 @@
         "Title": "混元·无灵",
         "MethodName": "HunYuanSword_3",
         "Desc": "升级你的混元剑坯，无灵分别有着不同的效果，二者随机出现其一。\\n混元·无：使用混元剑坯击伤敌方单位时，使该单位陷入一层虚无状态\\n混元·灵：使用混元剑坯后，有20%概率返还消耗的精力",
+        "Resource": "Skill_HunYuanSword_3",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -76,6 +84,7 @@
         "Title": "混元·无",
         "MethodName": "HunYuanWu",
         "Desc": "使用混元剑坯击伤敌方单位时，使该单位陷入一层虚无状态",
+        "Resource": "Skill_HunYuanWu",
         "ExtraEntry1": 1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -85,6 +94,7 @@
         "Title": "混元·灵",
         "MethodName": "HunYuanLing",
         "Desc": "使用混元剑坯后，有20%概率返还消耗的精力",
+        "Resource": "Skill_HunYuanLing",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -94,6 +104,7 @@
         "Title": "幻·灭",
         "MethodName": "HuanMie",
         "Desc": "击杀敌方单位后，立即获得一个额外回合",
+        "Resource": "Skill_HuanMie",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -103,6 +114,7 @@
         "Title": "幻·梦",
         "MethodName": "HuanMeng",
         "Desc": "击杀敌方单位后，进入隐身状态，持续一回合",
+        "Resource": "Skill_HuanMeng",
         "ExtraEntry1": 2,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -112,6 +124,7 @@
         "Title": "幻·身",
         "MethodName": "HuanJing",
         "Desc": "击杀敌方单位后，行动力提升2，持续一回合。",
+        "Resource": "Skill_HuanJing",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -121,6 +134,7 @@
         "Title": "幻·影",
         "MethodName": "HuanYing",
         "Desc": "当自身血量低于30%时，召唤两个拥有10%自身最大生命值的影分身，自身进入隐身状态，持续一回合",
+        "Resource": "Skill_HuanYing",
         "ExtraEntry1": 2,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -130,6 +144,7 @@
         "Title": "钢筋铁骨",
         "MethodName": "StrongBone",
         "Desc": "自身受到伤害减少20%，一格内队友受到伤害减少10%",
+        "Resource": "Skill_StrongBone",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -139,6 +154,7 @@
         "Title": "不灭之志",
         "MethodName": "UnstoppableAspiration",
         "Desc": "当自身单次承伤高于自身15%百分比血量时，立即恢复5%最大生命值，每回合最多触发一次",
+        "Resource": "Skill_UnstoppableAspiration",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -148,6 +164,7 @@
         "Title": "是兄弟就",
         "MethodName": "WeAreBrother",
         "Desc": "增加自身嘲讽值100点",
+        "Resource": "Skill_WeAreBrother",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -157,6 +174,7 @@
         "Title": "泥人还有脾气，何况树人",
         "MethodName": "TreeAngry",
         "Desc": "造成伤害时，额外附加本场战斗中损失总血量10%的伤害",
+        "Resource": "Skill_TreeAngry",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1

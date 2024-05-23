@@ -84,7 +84,7 @@ public class UITeamInfoPage : MonoBehaviour
                 Speed.text = cm.Speed.ToString();
                 Mobility.text = cm.Mobility.ToString();
                 Energy.text = cm.Energy.ToString();
-                Character_icon.overrideSprite = Resloader.LoadSprite(cm.Resource);
+                Character_icon.overrideSprite = Resloader.LoadSprite(cm.Resource, ConstValue.playersPath);
             });
         } else
         {
@@ -118,7 +118,7 @@ public class UITeamInfoPage : MonoBehaviour
                     Speed.text = bi.Speed.ToString();
                     Mobility.text = bi.Mobility.ToString();
                     Energy.text = bi.Energy.ToString();
-                    Character_icon.overrideSprite = Resloader.LoadSprite(bi.Resource);
+                    Character_icon.overrideSprite = Resloader.LoadSprite(bi.Resource, ConstValue.playersPath);
                 });
         }
         else

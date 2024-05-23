@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
 
-public enum EquipLevel
+public enum GenerlLevel
 {
     green = 0,
     blue = 1,
@@ -51,19 +51,19 @@ class GlobalAccess
     {
         get
         {
-            return Resloader.LoadSprite(DataManager.Instance.Characters[CurrentCharacterId].Resource);
+            return Resloader.LoadSprite(DataManager.Instance.Characters[CurrentCharacterId].Resource, ConstValue.playersPath);
         }
     }
 
-    public static Color GetLevelColor(EquipLevel level)
+    public static Color GetLevelColor(GenerlLevel level)
     {
         switch(level)
         {
-            case EquipLevel.green:
+            case GenerlLevel.green:
                 return GameUtil.Instance.hexToColor("98CF76");
-            case EquipLevel.blue:
+            case GenerlLevel.blue:
                 return GameUtil.Instance.hexToColor("67CDFF");
-            case EquipLevel.red:
+            case GenerlLevel.red:
                 return GameUtil.Instance.hexToColor("E36157");
             default:
                 return Color.white;

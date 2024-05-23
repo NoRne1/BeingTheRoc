@@ -1174,6 +1174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a85f6fc21eed2434ca4ea152cc5ab194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Root: {fileID: 5000005953047673834}
   equipRange: {fileID: 1592182876462357102}
   titleBorder: {fileID: 39092471683340864}
   title: {fileID: 7229518129068417861}

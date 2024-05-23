@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class UIDescHint: UIWindow
+public class UIDescHint: UIHintBase
 {
     public TextMeshProUGUI desc_hint;
     // Start is called before the first frame update
@@ -22,5 +22,6 @@ public class UIDescHint: UIWindow
     public void Setup(string text)
     {
         desc_hint.text = text;
+        StartCoroutine(InitLayoutPosition());
     }
 }

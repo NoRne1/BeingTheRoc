@@ -48,6 +48,8 @@ public class CharacterModel: CharacterDefine, IStorable
         backpack = new Backpack(uuid, 3, 3, characterUpdate);
         currentHP = define.MaxHP;
         currentEnergy = define.Energy;
+        //只有被动技能，其他技能升级选择后再赋值
+        BornSkill = define.BornSkill;
         disposable = characterUpdate.AsObservable().Subscribe(_ =>
         {
             NorneStore.Instance.Update<CharacterModel>(this, isFull: true);
@@ -89,6 +91,10 @@ public class CharacterModel: CharacterDefine, IStorable
         item.exp = this.exp;
         item.level = this.level;
         item.backpack = this.backpack;
+        item.BornSkill = this.BornSkill;
+        item.Skill1 = this.Skill1;
+        item.Skill2 = this.Skill2;
+        item.Skill3 = this.Skill3;
         return item;
     }
 }

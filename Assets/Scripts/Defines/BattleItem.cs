@@ -33,6 +33,11 @@ public class BattleItem: IStorable
     public int exp;
     public Backpack backpack;
 
+    public int BornSkill { get; set; }
+    public int Skill1 { get; set; }
+    public int Skill2 { get; set; }
+    public int Skill3 { get; set; }
+
     public string StorableCategory => "BattleItem";
 
     public string Identifier => this.uuid.ToString();

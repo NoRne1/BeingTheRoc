@@ -60,7 +60,7 @@ public class UITownActionPanel : MonoBehaviour
     {
         this.type = type;
         define = DataManager.Instance.TownActions[(int)type];
-        action_icon.overrideSprite = Resloader.LoadSprite(define.iconResource);
+        action_icon.overrideSprite = Resloader.LoadSprite(define.iconResource, ConstValue.townActionPath);
         title.text = DataManager.Instance.Language[define.titleIndex].ReplaceNewLines();
         desc.text = DataManager.Instance.Language[define.descIndex].ReplaceNewLines();
     }

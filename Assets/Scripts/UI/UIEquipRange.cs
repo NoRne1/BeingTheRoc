@@ -18,7 +18,7 @@ public class UIEquipRange : MonoBehaviour
         }
     }
 
-    public bool Setup(StoreItemModel item)
+    public bool Setup(StoreItemDefine item)
     {
         foreach (var slot in slots.Values)
         {

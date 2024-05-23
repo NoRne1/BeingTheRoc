@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 2586679203848210309}
   - component: {fileID: 7819632603426579000}
   - component: {fileID: 5986928964853752041}
+  - component: {fileID: 3446294873002484840}
   m_Layer: 5
   m_Name: shopItem
   m_TagString: Untagged
@@ -177,6 +178,7 @@ MonoBehaviour:
   price: {fileID: 4869651540681364375}
   buyButton: {fileID: 7397152646958676200}
   soldIcon: {fileID: 39330100401183154}
+  hintComponent: {fileID: 3446294873002484840}
 --- !u!222 &5986928964853752041
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -185,6 +187,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1529097766546102860}
   m_CullTransparentMesh: 1
+--- !u!114 &3446294873002484840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529097766546102860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f95950c49eb78405faebe8b581882360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2069665580910487689
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,7 +311,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 84.185, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2082838979418155063
@@ -448,7 +462,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 100, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6845819094605491663

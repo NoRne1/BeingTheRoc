@@ -7,6 +7,7 @@ public enum HintType
     none = 0,
     normal = 1,
     storeItem = 2,
+    skill = 3,
 }
 
 public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
@@ -14,7 +15,8 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private HintType type;
 
     private string hint_text = null;
-    private StoreItemModel storeItem = null;
+    private StoreItemDefine storeItem = null;
+    private SkillDefine skill = null;
     public BehaviorSubject<bool> isMouseEnter = new BehaviorSubject<bool>(false);
 
     public void Start()
@@ -43,6 +45,10 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                         UIStoreItemHint storeItemHint = UIManager.Instance.Show<UIStoreItemHint>(CanvasType.tooltip);
                         storeItemHint.Setup(storeItem);
                         break;
+                    case HintType.skill:
+                        UISkillHint skillHint = UIManager.Instance.Show<UISkillHint>(CanvasType.tooltip);
+                        skillHint.Setup(skill);
+                        break;
                 }
             }
             else
@@ -56,6 +62,9 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                         break;
                     case HintType.storeItem:
                         UIManager.Instance.Close<UIStoreItemHint>();
+                        break;
+                    case HintType.skill:
+                        UIManager.Instance.Close<UISkillHint>();
                         break;
                 }
             }
@@ -76,6 +85,7 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         type = HintType.none;
         hint_text = null;
         storeItem = null;
+        skill = null;
     }
 
     public void Setup(string text)
@@ -84,10 +94,16 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         hint_text = DataManager.Instance.Language[text];
     }
 
-    public void Setup(StoreItemModel storeItem)
+    public void Setup(StoreItemDefine storeItem)
     {
         type = HintType.storeItem;
         this.storeItem = storeItem;
+    }
+
+    public void Setup(SkillDefine skill)
+    {
+        type = HintType.skill;
+        this.skill = skill;
     }
 }
 

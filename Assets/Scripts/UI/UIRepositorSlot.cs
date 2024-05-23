@@ -26,7 +26,7 @@ public class UIRepositorSlot : MonoBehaviour
         if (item != null)
         {
             itemImage.GetComponent<Image>().overrideSprite =
-                Resloader.LoadSprite(item.iconResource);
+                Resloader.LoadSprite(item.iconResource, ConstValue.equipsPath);
             itemImage.gameObject.SetActive(true);
         }
         else

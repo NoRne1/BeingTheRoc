@@ -25,18 +25,18 @@ public class UIMoveBarOtherItem : MonoBehaviour
     public void Setup(BattleItem item)
     {
         this.item = item;
-        icon.overrideSprite = Resloader.LoadSprite(item.Resource);
+        icon.overrideSprite = Resloader.LoadSprite(item.Resource, ConstValue.playersPath);
         remainActingTime.text = item.remainActingTime.ToString();
         switch (item.battleItemType)
         {
             case BattleItemType.player:
-                bg.overrideSprite = Resloader.LoadSprite("move_bar_other_blue_bg");
+                bg.overrideSprite = Resloader.LoadSprite("move_bar_other_blue_bg", ConstValue.moveBarPath);
                 break;
             case BattleItemType.enemy:
-                bg.overrideSprite = Resloader.LoadSprite("move_bar_other_red_bg");
+                bg.overrideSprite = Resloader.LoadSprite("move_bar_other_red_bg", ConstValue.moveBarPath);
                 break;
             case BattleItemType.sceneItem:
-                bg.overrideSprite = Resloader.LoadSprite("move_bar_other_grey_bg");
+                bg.overrideSprite = Resloader.LoadSprite("move_bar_other_grey_bg", ConstValue.moveBarPath);
                 break;
             case BattleItemType.time:
                 Debug.LogError("UIMoveBarOtherItem BattleItemType == time error!");

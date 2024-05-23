@@ -21,6 +21,8 @@ public class CharacterDefine
 {
     //TID
     public int ID { get; set; }
+
+    public GenerlLevel Level { get; set; }
     //角色名字
     public string Name { get; set; }
 
@@ -83,4 +85,9 @@ public class CharacterDefine
     /// 描述
     /// </summary>
     public string Desc { get; set; }
+
+    public int BornSkill { get; set; }
+    public int Skill1 { get; set; }
+    public int Skill2 { get; set; }
+    public int Skill3 { get; set; }
 }

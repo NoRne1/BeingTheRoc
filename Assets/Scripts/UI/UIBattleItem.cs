@@ -37,7 +37,7 @@ public class UIBattleItem : MonoBehaviour
 
 	public void Setup(BattleItem item)
 	{
-		itemIcon.overrideSprite = Resloader.LoadSprite(item.Resource);
+		itemIcon.overrideSprite = Resloader.LoadSprite(item.Resource, ConstValue.playersPath);
 		this.item = item;
     }
 }

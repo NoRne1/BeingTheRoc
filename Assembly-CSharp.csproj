@@ -94,6 +94,7 @@
     <Compile Include="Assets/Scripts/UI/UIBattleBag.cs" />
     <Compile Include="Assets/Scripts/UI/UIMainMenu.cs" />
     <Compile Include="Assets/Scripts/UI/UICommonUI.cs" />
+    <Compile Include="Assets/Scripts/UI/UISkillButton.cs" />
     <Compile Include="Assets/Scripts/Utilities/ObjectPool.cs" />
     <Compile Include="Assets/Scripts/Defines/BattleItem.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/DictionaryExtensions.cs" />
@@ -103,9 +104,11 @@
     <Compile Include="Assets/Scripts/UI/UIMoveBarDayItem.cs" />
     <Compile Include="Assets/Scripts/UI/UIEquipButtons.cs" />
     <Compile Include="Assets/Scripts/UI/UITip.cs" />
+    <Compile Include="Assets/Scripts/UI/UIHintBase.cs" />
     <Compile Include="Assets/Scripts/Defines/TownActionDefine.cs" />
     <Compile Include="Assets/Scripts/UI/UISetting.cs" />
     <Compile Include="Assets/Scripts/Managers/BattleManager.cs" />
+    <Compile Include="Assets/Scripts/UI/UISkillHint.cs" />
     <Compile Include="Assets/Scripts/Models/RepositoryModel.cs" />
     <Compile Include="Assets/Scripts/UI/UICharacterPlaceBox.cs" />
     <Compile Include="Assets/Scripts/Managers/UIManager.cs" />

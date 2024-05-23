@@ -14,6 +14,8 @@ public class UIShopItem : MonoBehaviour
     public StoreItemDefine info;
     public Button buyButton;
     public GameObject soldIcon;
+
+    public HintComponent hintComponent;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,15 +34,16 @@ public class UIShopItem : MonoBehaviour
         {
             this.info = info;
             iconBG.color = GlobalAccess.GetLevelColor(info.level);
-            icon.overrideSprite = Resloader.LoadSprite(info.iconResource);
+            icon.overrideSprite = Resloader.LoadSprite(info.iconResource, ConstValue.equipsPath);
             title.color = GlobalAccess.GetLevelColor(info.level);
-
             title.text = DataManager.Instance.Language[info.title];
             price.text = info.price.ToString();
+            hintComponent.Setup(info);
             this.gameObject.SetActive(true);
         } else
         {
             this.info = null;
+            hintComponent.Reset();
             this.gameObject.SetActive(false);
         }
         ItemSold(false);

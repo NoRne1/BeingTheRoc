@@ -126,7 +126,7 @@ public class UITeamBagPage : MonoBehaviour
                     draggedEquipItem.storeItem = currentItem.item;
                     draggedEquipItem.ownerID = character.uuid;
                     draggedItem.GetComponent<RectTransform>().sizeDelta = draggedEquipItem.storeItem.occupiedRect * GlobalAccess.equipSizeBagMultiply;
-                    draggedItem.GetComponent<Image>().overrideSprite = Resloader.LoadSprite(currentItem.item.iconResource2);
+                    draggedItem.GetComponent<Image>().overrideSprite = Resloader.LoadSprite(currentItem.item.iconResource2, ConstValue.equipsPath);
                 }
             }
             if (isDragging && draggedEquipItem != null)
@@ -239,7 +239,7 @@ public class UITeamBagPage : MonoBehaviour
     {
         this.character = character;
         this.battleItem = null;
-        this.characterIcon.overrideSprite = Resloader.LoadSprite(character.Resource);
+        this.characterIcon.overrideSprite = Resloader.LoadSprite(character.Resource, ConstValue.playersPath);
         RefreshBag(character.backpack);
     }
 
@@ -247,7 +247,7 @@ public class UITeamBagPage : MonoBehaviour
     {
         this.character = null;
         this.battleItem = battleItem;
-        this.characterIcon.overrideSprite = Resloader.LoadSprite(battleItem.Resource);
+        this.characterIcon.overrideSprite = Resloader.LoadSprite(battleItem.Resource, ConstValue.playersPath);
         RefreshBag(battleItem.backpack);
     }
 
@@ -264,7 +264,7 @@ public class UITeamBagPage : MonoBehaviour
             UIEquipItem equipItem = temp.GetComponent<UIEquipItem>();
             equipItem.storeItem = equip;
             equipItem.ownerID = character.uuid;
-            temp.GetComponent<Image>().overrideSprite = Resloader.LoadSprite(equip.iconResource2);
+            temp.GetComponent<Image>().overrideSprite = Resloader.LoadSprite(equip.iconResource2, ConstValue.equipsPath);
             temp.transform.rotation = temp.transform.rotation * Quaternion.Euler(0, 0, equip.rotationAngle);
             Vector3 tempVector = equipSlots[equip.position.x * 3 + equip.position.y].position;
             temp.transform.position = tempVector;

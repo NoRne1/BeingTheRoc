@@ -32,7 +32,10 @@ public class UICharacterSelectPanel : MonoBehaviour
     public TextMeshProUGUI Mobility;
     public TextMeshProUGUI Energy;
 
+    public List<UISkillButton> skillButtons;
+
     private int SelectedCharacterId = -1;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -72,18 +75,24 @@ public class UICharacterSelectPanel : MonoBehaviour
     {
         if (DataManager.Instance.Characters.Keys.ToList().Contains(id))
         {
-            MaxHP.text = DataManager.Instance.Characters[id].MaxHP.ToString();
-            Strength.text = DataManager.Instance.Characters[id].Strength.ToString();
-            Defense.text = DataManager.Instance.Characters[id].Defense.ToString();
-            Dodge.text = DataManager.Instance.Characters[id].Dodge.ToString();
-            Accuracy.text = DataManager.Instance.Characters[id].Accuracy.ToString();
-            Speed.text = DataManager.Instance.Characters[id].Speed.ToString();
-            Mobility.text = DataManager.Instance.Characters[id].Mobility.ToString();
-            Energy.text = DataManager.Instance.Characters[id].Energy.ToString();
-            Character_icon.overrideSprite = Resloader.LoadSprite(DataManager.Instance.Characters[id].Resource);
+            CharacterDefine cd = DataManager.Instance.Characters[id];
+            MaxHP.text = cd.MaxHP.ToString();
+            Strength.text = cd.Strength.ToString();
+            Defense.text = cd.Defense.ToString();
+            Dodge.text = cd.Dodge.ToString();
+            Accuracy.text = cd.Accuracy.ToString();
+            Speed.text = cd.Speed.ToString();
+            Mobility.text = cd.Mobility.ToString();
+            Energy.text = cd.Energy.ToString();
+            Character_icon.overrideSprite = Resloader.LoadSprite(cd.Resource, ConstValue.playersPath);
             this.SelectedCharacterId = id;
             please_select_tip.gameObject.SetActive(false);
             character_info_panel.SetActive(true);
+
+            skillButtons[0].Setup(DataManager.Instance.Skills[cd.BornSkill]);
+            skillButtons[1].Setup(DataManager.Instance.Skills[cd.Skill1]);
+            skillButtons[2].Setup(DataManager.Instance.Skills[cd.Skill2]);
+            skillButtons[3].Setup(DataManager.Instance.Skills[cd.Skill3]);
         } else
         {
             UITip tip = UIManager.Instance.Show<UITip>();

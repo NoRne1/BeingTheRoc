@@ -68,7 +68,7 @@ public class UITeamWindow : UIWindow
                     currentCharacterID.OnNext(characterID);
                 });
                 characterButtons[i].transform.GetChild(0).GetComponent<Image>().overrideSprite =
-                    Resloader.LoadSprite(GameManager.Instance.characterRelays[characterID].Value.Resource);
+                    Resloader.LoadSprite(GameManager.Instance.characterRelays[characterID].Value.Resource, ConstValue.playersPath);
                 characterButtons[i].gameObject.SetActive(true);
             } else
             {
@@ -103,7 +103,7 @@ public class UITeamWindow : UIWindow
                     currentCharacterID.OnNext(characterID);
                 });
                 characterButtons[i].transform.GetChild(0).GetComponent<Image>().overrideSprite =
-                    Resloader.LoadSprite(battleItems[i].Resource);
+                    Resloader.LoadSprite(battleItems[i].Resource, ConstValue.playersPath);
                 characterButtons[i].gameObject.SetActive(true);
             }
             else

@@ -11,7 +11,11 @@
         "Mobility": 2,
         "Energy": 2,
         "Resource": "player_dahong",
-        "Desc": "大红的描述测试"
+        "Desc": "大红的描述测试",
+        "BornSkill": 0,
+        "Skill1": 1,
+        "Skill2": 4,
+        "Skill3": 7
     },
     "1": {
         "ID": 1,
@@ -25,7 +29,11 @@
         "Mobility": 3,
         "Energy": 2,
         "Resource": "player_huanying",
-        "Desc": "幻影的描述测试"
+        "Desc": "幻影的描述测试",
+        "BornSkill": 10,
+        "Skill1": 11,
+        "Skill2": 12,
+        "Skill3": 13
     },
     "2": {
         "ID": 2,
@@ -39,7 +47,11 @@
         "Mobility": 2,
         "Energy": 2,
         "Resource": "player_micai",
-        "Desc": "迷彩的描述测试"
+        "Desc": "迷彩的描述测试",
+        "BornSkill": 14,
+        "Skill1": 15,
+        "Skill2": 16,
+        "Skill3": 17
     },
     "100": {
         "ID": 100,
@@ -53,7 +65,11 @@
         "Mobility": 2,
         "Energy": 2,
         "Resource": "player_dahong",
-        "Desc": "test1的描述测试"
+        "Desc": "test1的描述测试",
+        "BornSkill": -1,
+        "Skill1": -1,
+        "Skill2": -1,
+        "Skill3": -1
     },
     "101": {
         "ID": 101,
@@ -67,7 +83,11 @@
         "Mobility": 3,
         "Energy": 2,
         "Resource": "player_huanying",
-        "Desc": "test2的描述测试"
+        "Desc": "test2的描述测试",
+        "BornSkill": -1,
+        "Skill1": -1,
+        "Skill2": -1,
+        "Skill3": -1
     },
     "102": {
         "ID": 102,
@@ -81,7 +101,11 @@
         "Mobility": 2,
         "Energy": 2,
         "Resource": "player_micai",
-        "Desc": "test3的描述测试"
+        "Desc": "test3的描述测试",
+        "BornSkill": -1,
+        "Skill1": -1,
+        "Skill2": -1,
+        "Skill3": -1
     },
     "103": {
         "ID": 103,
@@ -95,7 +119,11 @@
         "Mobility": 2,
         "Energy": 2,
         "Resource": "player_dahong",
-        "Desc": "test4的描述测试"
+        "Desc": "test4的描述测试",
+        "BornSkill": -1,
+        "Skill1": -1,
+        "Skill2": -1,
+        "Skill3": -1
     },
     "104": {
         "ID": 104,
@@ -109,7 +137,11 @@
         "Mobility": 3,
         "Energy": 2,
         "Resource": "player_huanying",
-        "Desc": "test5的描述测试"
+        "Desc": "test5的描述测试",
+        "BornSkill": -1,
+        "Skill1": -1,
+        "Skill2": -1,
+        "Skill3": -1
     },
     "105": {
         "ID": 105,
@@ -123,7 +155,11 @@
         "Mobility": 2,
         "Energy": 2,
         "Resource": "player_micai",
-        "Desc": "test6的描述测试"
+        "Desc": "test6的描述测试",
+        "BornSkill": -1,
+        "Skill1": -1,
+        "Skill2": -1,
+        "Skill3": -1
     },
     "106": {
         "ID": 106,
@@ -137,7 +173,11 @@
         "Mobility": 2,
         "Energy": 2,
         "Resource": "player_dahong",
-        "Desc": "test7的描述测试"
+        "Desc": "test7的描述测试",
+        "BornSkill": -1,
+        "Skill1": -1,
+        "Skill2": -1,
+        "Skill3": -1
     },
     "107": {
         "ID": 107,
@@ -151,7 +191,11 @@
         "Mobility": 3,
         "Energy": 2,
         "Resource": "player_huanying",
-        "Desc": "test8的描述测试"
+        "Desc": "test8的描述测试",
+        "BornSkill": -1,
+        "Skill1": -1,
+        "Skill2": -1,
+        "Skill3": -1
     },
     "108": {
         "ID": 108,
@@ -165,7 +209,11 @@
         "Mobility": 2,
         "Energy": 2,
         "Resource": "player_micai",
-        "Desc": "test9的描述测试"
+        "Desc": "test9的描述测试",
+        "BornSkill": -1,
+        "Skill1": -1,
+        "Skill2": -1,
+        "Skill3": -1
     },
     "109": {
         "ID": 109,
@@ -179,7 +227,11 @@
         "Mobility": 2,
         "Energy": 2,
         "Resource": "player_dahong",
-        "Desc": "test10的描述测试"
+        "Desc": "test10的描述测试",
+        "BornSkill": -1,
+        "Skill1": -1,
+        "Skill2": -1,
+        "Skill3": -1
     },
     "110": {
         "ID": 110,
@@ -193,7 +245,11 @@
         "Mobility": 3,
         "Energy": 2,
         "Resource": "player_huanying",
-        "Desc": "test11的描述测试"
+        "Desc": "test11的描述测试",
+        "BornSkill": -1,
+        "Skill1": -1,
+        "Skill2": -1,
+        "Skill3": -1
     },
     "111": {
         "ID": 111,
@@ -207,6 +263,10 @@
         "Mobility": 2,
         "Energy": 2,
         "Resource": "player_micai",
-        "Desc": "test12的描述测试"
+        "Desc": "test12的描述测试",
+        "BornSkill": -1,
+        "Skill1": -1,
+        "Skill2": -1,
+        "Skill3": -1
     }
 }

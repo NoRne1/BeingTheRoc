@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UIStoreItemHint : MonoBehaviour
+public class UIStoreItemHint : UIHintBase
 {
     public UIEquipRange equipRange;
     public Image titleBorder;
@@ -32,23 +32,7 @@ public class UIStoreItemHint : MonoBehaviour
         updatePostion();
     }
 
-    public void updatePostion()
-    {
-        // 获取鼠标在屏幕上的位置
-        Vector2 screenPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-
-        // 计算大小
-        Vector2 prefabSize = gameObject.GetComponent<RectTransform>().sizeDelta;
-
-        // 计算合适的偏移量
-        Vector2 offset = GameUtil.Instance.CalculateOffset(screenPosition, prefabSize);
-
-        Vector2 temp = Camera.main.ScreenToWorldPoint(screenPosition + offset);
-        // 更新位置
-        gameObject.transform.position = new Vector3(temp.x, temp.y, gameObject.transform.position.z);
-    }
-
-    public void Setup(StoreItemModel item)
+    public void Setup(StoreItemDefine item)
     {
         leftPlaceHolder.SetActive(!equipRange.Setup(item));
         titleBorder.color = GlobalAccess.GetLevelColor(item.level);
@@ -68,7 +52,7 @@ public class UIStoreItemHint : MonoBehaviour
         
         if(item.GetTargetRangeResource() != null)
         {
-            attackRange.overrideSprite = Resloader.LoadSprite(item.GetTargetRangeResource());
+            attackRange.overrideSprite = Resloader.LoadSprite(item.GetTargetRangeResource(), ConstValue.equipAttackRangePath);
             attackRange.gameObject.SetActive(true);
             rightPlaceHolder.SetActive(false);
         } else
@@ -98,13 +82,6 @@ public class UIStoreItemHint : MonoBehaviour
     {
         UIExtraHint extraHint = Instantiate(extraHintPrefab, extraHintFather).GetComponent<UIExtraHint>();
         extraHint.Setup(desc);
-    }
-
-    public IEnumerator InitLayoutPosition()
-    {
-        yield return null;
-        LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
-        updatePostion();
     }
 }
 
