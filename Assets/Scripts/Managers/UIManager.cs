@@ -36,6 +36,7 @@ public class UIManager: Singleton<UIManager>
         this.UIResources.Add(typeof(UITeamWindow), new UIElement() { Resource = "UI/UITeamWindow", Cache = false });
         this.UIResources.Add(typeof(UIStoreItemHint), new UIElement() { Resource = "UI/UIStoreItemHint", Cache = false });
         this.UIResources.Add(typeof(UISkillHint), new UIElement() { Resource = "UI/UISkillHint", Cache = false });
+        this.UIResources.Add(typeof(UISkillSelect), new UIElement() { Resource = "UI/UISkillSelect", Cache = false });
     }
 
     ~UIManager()

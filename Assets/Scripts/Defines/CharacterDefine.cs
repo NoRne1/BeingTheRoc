@@ -2,6 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
+public enum JobType
+{
+    General = 0,
+    Warrior = 1,
+    Magician = 2,
+    Shield = 3,
+    Special = 4,
+}
+
 /// <summary>
 /// 角色定义
     /*"1": {"ID":1,
@@ -21,6 +30,8 @@ public class CharacterDefine
 {
     //TID
     public int ID { get; set; }
+
+    public JobType Job { get; set; }
 
     public GenerlLevel Level { get; set; }
     //角色名字

@@ -9,6 +9,7 @@ public enum BattleItemType
     time = 2,
     sceneItem = 3
 }
+
 public class BattleItem: IStorable
 {
     public string uuid { get; set; }

@@ -87,6 +87,7 @@
     <Compile Include="Assets/Scripts/Defines/SoundDefine.cs" />
     <Compile Include="Assets/Scripts/Managers/MapManager.cs" />
     <Compile Include="Assets/Scripts/UI/UITownPage.cs" />
+    <Compile Include="Assets/Scripts/UI/UISkillSelect.cs" />
     <Compile Include="Assets/Scripts/Utilities/FightText/FightTextInfo.cs" />
     <Compile Include="Assets/Scripts/UI/UIBattleItem.cs" />
     <Compile Include="Assets/Scripts/Models/TownBattleInfoModel.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Assets/Scripts/UI/UITownActionPanel.cs" />
     <Compile Include="Assets/Scripts/UI/UIStartGame.cs" />
     <Compile Include="Assets/Scripts/UI/UICharacterSelectPanel.cs" />
+    <Compile Include="Assets/Scripts/UI/UISkillItem.cs" />
     <Compile Include="Assets/Scripts/Utilities/GameUtil.cs" />
     <Compile Include="Assets/Scripts/Managers/SceneManager.cs" />
     <Compile Include="Assets/Scripts/Defines/ExtraEntryDesc.cs" />

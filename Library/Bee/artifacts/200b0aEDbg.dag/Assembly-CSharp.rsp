@@ -432,6 +432,8 @@
 "Assets/Scripts/UI/UIShopPage.cs"
 "Assets/Scripts/UI/UISkillButton.cs"
 "Assets/Scripts/UI/UISkillHint.cs"
+"Assets/Scripts/UI/UISkillItem.cs"
+"Assets/Scripts/UI/UISkillSelect.cs"
 "Assets/Scripts/UI/UIStartGame.cs"
 "Assets/Scripts/UI/UIStoreItemHint.cs"
 "Assets/Scripts/UI/UITeamBagPage.cs"

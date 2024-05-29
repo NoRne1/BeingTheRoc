@@ -14,7 +14,7 @@ public class CharacterModel: CharacterDefine, IStorable
 
     public Subject<bool> characterUpdate = new Subject<bool>();
     private System.IDisposable disposable;
-    private CharacterDefine define;
+    public CharacterDefine define;
 
     //BattleItem
     public string uuid;
@@ -34,6 +34,7 @@ public class CharacterModel: CharacterDefine, IStorable
         this.define = define;
         ID = define.ID;
         Name = define.Name;
+        Level = define.Level;
         MaxHP = define.MaxHP;
         Strength = define.Strength;
         Defense = define.Defense;
@@ -50,6 +51,9 @@ public class CharacterModel: CharacterDefine, IStorable
         currentEnergy = define.Energy;
         //只有被动技能，其他技能升级选择后再赋值
         BornSkill = define.BornSkill;
+        Skill1 = -1;
+        Skill2 = -1;
+        Skill3 = -1;
         disposable = characterUpdate.AsObservable().Subscribe(_ =>
         {
             NorneStore.Instance.Update<CharacterModel>(this, isFull: true);

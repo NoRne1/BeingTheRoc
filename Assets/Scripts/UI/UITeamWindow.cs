@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using UniRx;
-using System.Security.Cryptography;
 
 public class UITeamWindow : UIWindow
 {
@@ -21,21 +20,7 @@ public class UITeamWindow : UIWindow
     void Start()
     {
         infoPage.levelUpButton.OnClickAsObservable().Subscribe(_ => {
-            if (normalOrBattleInit)
-            {
-                var character = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(currentCharacterID.Value)).Value;
-                if (character.remainExp > GlobalAccess.levelUpExp &&
-                    character.level < GlobalAccess.maxLevel)
-                {
-                    //可以升级
-                    character.level += 1;
-                }
-                NorneStore.Instance.Update<CharacterModel>(character, true);
-            } else
-            {
-                var tip = UIManager.Instance.Show<UITip>();
-                tip.UpdateTip("在战斗中渡劫升级乃是兵家大忌");
-            }
+            LevelUp();
         });
     }
 
@@ -120,5 +105,41 @@ public class UITeamWindow : UIWindow
     {
         infoPage.gameObject.SetActive(infoOrBag);
         bagPage.gameObject.SetActive(!infoOrBag);
+    }
+
+    public void LevelUp()
+    {
+        if (normalOrBattleInit)
+        {
+            var character = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(currentCharacterID.Value)).Value;
+            if (character.remainExp > GlobalAccess.levelUpExp &&
+                character.level < GlobalAccess.maxLevel)
+            {
+                //可以升级
+                UISkillSelect skillSelect = UIManager.Instance.Show<UISkillSelect>();
+                skillSelect.Setup(character);
+                skillSelect.selectedAction = (skill) =>
+                {
+                    character.level += 1;
+                    if(character.level == 1)
+                    {
+                        character.Skill1 = skill.ID;
+                    } else if (character.level == 2)
+                    {
+                        character.Skill2 = skill.ID;
+                    }
+                    else if (character.level == 3)
+                    {
+                        character.Skill3 = skill.ID;
+                    }
+                    NorneStore.Instance.Update<CharacterModel>(character, true);
+                };
+            }
+        }
+        else
+        {
+            var tip = UIManager.Instance.Show<UITip>();
+            tip.UpdateTip("在战斗中渡劫升级乃是兵家大忌");
+        }
     }
 }

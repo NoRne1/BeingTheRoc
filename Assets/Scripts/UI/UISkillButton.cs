@@ -14,7 +14,14 @@ public class UISkillButton : MonoBehaviour
 
     public void Setup(SkillDefine skill)
     {
-        icon.overrideSprite = Resloader.LoadSprite(skill.Resource, ConstValue.skillsPath);
-        hint.Setup(skill);
+        if (skill != null)
+        {
+            icon.overrideSprite = Resloader.LoadSprite(skill.Resource, ConstValue.skillsPath);
+            hint.Setup(skill);
+        } else
+        {
+            icon.overrideSprite = Resloader.LoadSprite("Skill_Lock", ConstValue.skillsPath);
+            hint.Reset();
+        }
     }
 }

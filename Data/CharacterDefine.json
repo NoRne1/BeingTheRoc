@@ -2,6 +2,7 @@
     "0": {
         "ID": 0,
         "Name": "大红",
+        "Level": 3,
         "MaxHP": 300,
         "Strength": 20,
         "Defense": 20,
@@ -20,6 +21,7 @@
     "1": {
         "ID": 1,
         "Name": "幻影",
+        "Level": 3,
         "MaxHP": 200,
         "Strength": 25,
         "Defense": 15,
@@ -38,6 +40,7 @@
     "2": {
         "ID": 2,
         "Name": "迷彩",
+        "Level": 3,
         "MaxHP": 500,
         "Strength": 15,
         "Defense": 25,
@@ -56,6 +59,7 @@
     "100": {
         "ID": 100,
         "Name": "test1",
+        "Level": 1,
         "MaxHP": 300,
         "Strength": 20,
         "Defense": 20,
@@ -74,6 +78,7 @@
     "101": {
         "ID": 101,
         "Name": "test2",
+        "Level": 1,
         "MaxHP": 200,
         "Strength": 25,
         "Defense": 15,
@@ -92,6 +97,7 @@
     "102": {
         "ID": 102,
         "Name": "test3",
+        "Level": 1,
         "MaxHP": 500,
         "Strength": 15,
         "Defense": 25,
@@ -110,6 +116,7 @@
     "103": {
         "ID": 103,
         "Name": "test4",
+        "Level": 2,
         "MaxHP": 300,
         "Strength": 20,
         "Defense": 20,
@@ -128,6 +135,7 @@
     "104": {
         "ID": 104,
         "Name": "test5",
+        "Level": 2,
         "MaxHP": 200,
         "Strength": 25,
         "Defense": 15,
@@ -146,6 +154,7 @@
     "105": {
         "ID": 105,
         "Name": "test6",
+        "Level": 2,
         "MaxHP": 500,
         "Strength": 15,
         "Defense": 25,
@@ -164,6 +173,7 @@
     "106": {
         "ID": 106,
         "Name": "test7",
+        "Level": 3,
         "MaxHP": 300,
         "Strength": 20,
         "Defense": 20,
@@ -182,6 +192,7 @@
     "107": {
         "ID": 107,
         "Name": "test8",
+        "Level": 3,
         "MaxHP": 200,
         "Strength": 25,
         "Defense": 15,
@@ -200,6 +211,7 @@
     "108": {
         "ID": 108,
         "Name": "test9",
+        "Level": 3,
         "MaxHP": 500,
         "Strength": 15,
         "Defense": 25,
@@ -218,6 +230,7 @@
     "109": {
         "ID": 109,
         "Name": "test10",
+        "Level": 2,
         "MaxHP": 300,
         "Strength": 20,
         "Defense": 20,
@@ -236,6 +249,7 @@
     "110": {
         "ID": 110,
         "Name": "test11",
+        "Level": 2,
         "MaxHP": 200,
         "Strength": 25,
         "Defense": 15,
@@ -254,6 +268,7 @@
     "111": {
         "ID": 111,
         "Name": "test12",
+        "Level": 2,
         "MaxHP": 500,
         "Strength": 15,
         "Defense": 25,

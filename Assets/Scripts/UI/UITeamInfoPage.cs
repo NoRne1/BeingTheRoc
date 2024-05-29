@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static UnityEditor.Progress;
 using UniRx;
 
 public class UITeamInfoPage : MonoBehaviour
@@ -35,6 +34,8 @@ public class UITeamInfoPage : MonoBehaviour
 
     public Button levelUpButton;
     public Slider expSlider;
+
+    public List<UISkillButton> skillButtons;
 
     private System.IDisposable disposable;
     public CharacterModel character;
@@ -85,6 +86,14 @@ public class UITeamInfoPage : MonoBehaviour
                 Mobility.text = cm.Mobility.ToString();
                 Energy.text = cm.Energy.ToString();
                 Character_icon.overrideSprite = Resloader.LoadSprite(cm.Resource, ConstValue.playersPath);
+
+                skillButtons[0].Setup(DataManager.Instance.Skills[cm.BornSkill]);
+                skillButtons[1].Setup(cm.Skill1 == -1 ? null : DataManager.Instance.Skills[cm.Skill1]);
+                skillButtons[2].Setup(cm.Skill2 == -1 ? null : DataManager.Instance.Skills[cm.Skill2]);
+                skillButtons[3].Setup(cm.Skill3 == -1 ? null : DataManager.Instance.Skills[cm.Skill3]);
+                skillButtons[1].gameObject.SetActive((int)cm.Level >= (int)GenerlLevel.green);
+                skillButtons[2].gameObject.SetActive((int)cm.Level >= (int)GenerlLevel.blue);
+                skillButtons[3].gameObject.SetActive((int)cm.Level >= (int)GenerlLevel.red);
             });
         } else
         {
