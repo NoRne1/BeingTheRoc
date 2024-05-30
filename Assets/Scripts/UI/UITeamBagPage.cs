@@ -39,10 +39,11 @@ public class UITeamBagPage : MonoBehaviour
 
     public Transform equipFather;
     public GameObject repositor;
+    public System.IDisposable disposable;
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.Instance.repository.itemsRelay.AsObservable()
+        disposable = GameManager.Instance.repository.itemsRelay.AsObservable()
             .TakeUntilDestroy(this).Subscribe(items =>
         {
             for(int i = 0; i < itemButtons.Count; i++)
@@ -232,7 +233,7 @@ public class UITeamBagPage : MonoBehaviour
     // 丢弃按钮点击事件
     void OnDropButtonClick()
     {
-        EquipManager.Instance.Drop(useOrDropItem);
+        EquipManager.Instance.RepoDrop(useOrDropItem);
     }
 
     public void UpdateCharacter(CharacterModel character)

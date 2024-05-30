@@ -37,7 +37,7 @@ public class UITeamInfoPage : MonoBehaviour
 
     public List<UISkillButton> skillButtons;
 
-    private System.IDisposable disposable;
+    public System.IDisposable disposable;
     public CharacterModel character;
     public BattleItem battleItem;
     // Start is called before the first frame update
@@ -74,6 +74,7 @@ public class UITeamInfoPage : MonoBehaviour
                 levelText.text = "Lv: " + cm.level.ToString();
                 expSlider.value = Mathf.Min(cm.remainExp, GlobalAccess.levelUpExp);
                 expText.text = cm.remainExp.ToString() + "/" + GlobalAccess.levelUpExp.ToString();
+
                 levelUpButton.gameObject.SetActive(cm.remainExp > GlobalAccess.levelUpExp &&
                     cm.level < GlobalAccess.maxLevel);
                 title.text = cm.Name;
@@ -87,7 +88,7 @@ public class UITeamInfoPage : MonoBehaviour
                 Energy.text = cm.Energy.ToString();
                 Character_icon.overrideSprite = Resloader.LoadSprite(cm.Resource, ConstValue.playersPath);
 
-                skillButtons[0].Setup(DataManager.Instance.Skills[cm.BornSkill]);
+                skillButtons[0].Setup(cm.BornSkill == -1 ? null : DataManager.Instance.Skills[cm.BornSkill]);
                 skillButtons[1].Setup(cm.Skill1 == -1 ? null : DataManager.Instance.Skills[cm.Skill1]);
                 skillButtons[2].Setup(cm.Skill2 == -1 ? null : DataManager.Instance.Skills[cm.Skill2]);
                 skillButtons[3].Setup(cm.Skill3 == -1 ? null : DataManager.Instance.Skills[cm.Skill3]);

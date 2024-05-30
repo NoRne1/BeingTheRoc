@@ -142,4 +142,11 @@ public class UITeamWindow : UIWindow
             tip.UpdateTip("在战斗中渡劫升级乃是兵家大忌");
         }
     }
+
+    void OnDestroy()
+    {
+        // 确保子对象订阅被取消
+        infoPage.disposable.IfNotNull(dis => { dis.Dispose(); });
+        bagPage.disposable.IfNotNull(dis => { dis.Dispose(); });
+    }
 }

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
+using UnityEngine.TextCore.Text;
 
 public class EquipManager : MonoSingleton<EquipManager>
 {
@@ -14,11 +16,6 @@ public class EquipManager : MonoSingleton<EquipManager>
     void Update()
     {
         
-    }
-
-    public void Drop(StoreItemModel item)
-    {
-        GameManager.Instance.repository.RemoveItem(item.uuid);
     }
 
     public void Use(string selfID, StoreItemModel item, bool characterOrBattleItem)
@@ -54,26 +51,8 @@ public class EquipManager : MonoSingleton<EquipManager>
         targetIDs = null;
         if (item.invokeType == InvokeType.bagUse || item.invokeType == InvokeType.equipUse)
         {
-            if (!characterOrBattleItem && item.takeEnergy > 0)
-            {
-                //战斗需要消耗能量的物品使用时，扣除能量
-                var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(selfID)).Value;
-                target.currentEnergy -= item.takeEnergy;
-                NorneStore.Instance.Update<BattleItem>(target, true);
-            }
             List<string> selfIDList = new List<string> { selfID };
-            if (item.effect1 != null)
-            {
-                ProcessEffect(selfIDList, item.effect1, characterOrBattleItem);
-            }
-            if (item.effect2 != null)
-            {
-                ProcessEffect(selfIDList, item.effect2, characterOrBattleItem);
-            }
-            if (item.effect3 != null)
-            {
-                ProcessEffect(selfIDList, item.effect3, characterOrBattleItem);
-            }
+            ProcessItemUse(selfID, item, selfIDList, characterOrBattleItem);
         } else if (item.invokeType == InvokeType.equipTarget)
         {
             BattleManager.Instance.SelectTargets(item);
@@ -85,25 +64,7 @@ public class EquipManager : MonoSingleton<EquipManager>
                     break;
                 } else if (targetIDs != null && targetIDs.Count > 0)
                 {
-                    if (!characterOrBattleItem && item.takeEnergy > 0)
-                    {
-                        //战斗需要消耗能量的物品使用时，扣除能量
-                        var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(selfID)).Value;
-                        target.currentEnergy -= item.takeEnergy;
-                        NorneStore.Instance.Update<BattleItem>(target, true);
-                    }
-                    if (item.effect1 != null)
-                    {
-                        ProcessEffect(targetIDs, item.effect1, characterOrBattleItem);
-                    }
-                    if (item.effect2 != null)
-                    {
-                        ProcessEffect(targetIDs, item.effect2, characterOrBattleItem);
-                    }
-                    if (item.effect3 != null)
-                    {
-                        ProcessEffect(targetIDs, item.effect3, characterOrBattleItem);
-                    }
+                    ProcessItemUse(selfID, item, targetIDs, characterOrBattleItem);
                     break;
                 }
                 yield return null;
@@ -126,6 +87,51 @@ public class EquipManager : MonoSingleton<EquipManager>
         GameManager.Instance.repository.AddItem(item);
         character.backpack.RemoveItemsByUUID(item.uuid);
         item.Unequip();
+    }
+
+    public void RepoDrop(StoreItemModel item)
+    {
+        GameManager.Instance.repository.RemoveItem(item.uuid);
+    }
+
+    public void EquipDrop(CharacterModel character, StoreItemModel item)
+    {
+        character.backpack.RemoveItemsByUUID(item.uuid);
+        item.Unequip();
+    }
+
+    public void ProcessItemUse(string selfID, StoreItemModel item, List<string> targetIDs, bool characterOrBattleItem)
+    {
+        if (!characterOrBattleItem && item.takeEnergy > 0)
+        {
+            //战斗需要消耗能量的物品使用时，扣除能量
+            var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(selfID)).Value;
+            target.currentEnergy -= item.takeEnergy;
+            NorneStore.Instance.Update<BattleItem>(target, true);
+        }
+        if (item.effect1 != null)
+        {
+            ProcessEffect(targetIDs, item.effect1, characterOrBattleItem);
+        }
+        if (item.effect2 != null)
+        {
+            ProcessEffect(targetIDs, item.effect2, characterOrBattleItem);
+        }
+        if (item.effect3 != null)
+        {
+            ProcessEffect(targetIDs, item.effect3, characterOrBattleItem);
+        }
+        if (item.type == ItemType.charm || item.type == ItemType.potion)
+        {
+            if (characterOrBattleItem)
+            {
+                RepoDrop(item);
+            } else
+            {
+                var target = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(selfID)).Value;
+                EquipDrop(target, item);
+            }
+        }
     }
 
     public void ProcessEffect(List<string> targetIDs, Effect effect, bool characterOrBattleItem)

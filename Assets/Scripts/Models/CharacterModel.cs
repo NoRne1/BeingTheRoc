@@ -33,6 +33,7 @@ public class CharacterModel: CharacterDefine, IStorable
         uuid = GameUtil.Instance.GenerateUniqueId();
         this.define = define;
         ID = define.ID;
+        Job = define.Job;
         Name = define.Name;
         Level = define.Level;
         MaxHP = define.MaxHP;
