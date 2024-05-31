@@ -1,6 +1,7 @@
 ﻿using System;
 using UniRx;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public enum BattleItemType
 {

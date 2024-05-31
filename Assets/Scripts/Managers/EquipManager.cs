@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.Progress;
 using UnityEngine.TextCore.Text;
+using static UnityEngine.GraphicsBuffer;
 
 public class EquipManager : MonoSingleton<EquipManager>
 {
@@ -111,17 +112,17 @@ public class EquipManager : MonoSingleton<EquipManager>
         }
         if (item.effect1 != null)
         {
-            ProcessEffect(targetIDs, item.effect1, characterOrBattleItem);
+            ProcessEffect(selfID, targetIDs, item.effect1, characterOrBattleItem);
         }
         if (item.effect2 != null)
         {
-            ProcessEffect(targetIDs, item.effect2, characterOrBattleItem);
+            ProcessEffect(selfID, targetIDs, item.effect2, characterOrBattleItem);
         }
         if (item.effect3 != null)
         {
-            ProcessEffect(targetIDs, item.effect3, characterOrBattleItem);
+            ProcessEffect(selfID, targetIDs, item.effect3, characterOrBattleItem);
         }
-        if (item.type == ItemType.charm || item.type == ItemType.potion)
+        if (item.type == ItemType.expendable)
         {
             if (characterOrBattleItem)
             {
@@ -134,7 +135,7 @@ public class EquipManager : MonoSingleton<EquipManager>
         }
     }
 
-    public void ProcessEffect(List<string> targetIDs, Effect effect, bool characterOrBattleItem)
+    public void ProcessEffect(string selfID, List<string> targetIDs, Effect effect, bool characterOrBattleItem)
     {
         if (characterOrBattleItem)
         {
@@ -142,7 +143,7 @@ public class EquipManager : MonoSingleton<EquipManager>
         }
         else
         {
-            ProcessEffect_BattleItem(targetIDs, effect);
+            ProcessEffect_BattleItem(selfID, targetIDs, effect);
         }
     }
 
@@ -203,10 +204,13 @@ public class EquipManager : MonoSingleton<EquipManager>
                 case EffectType.buff:
                     BuffManager.Instance.AddBuff(targetID, effect.methodName);
                     break;
+                case EffectType.attack:
+                    Debug.LogError("角色使用的物品不存在攻击行为");
+                    break;
             }
         }
     }
-    public void ProcessEffect_BattleItem(List<string> targetIDs, Effect effect)
+    public void ProcessEffect_BattleItem(string selfID, List<string> targetIDs, Effect effect)
     {
         foreach (var targetID in targetIDs)
         {
@@ -262,6 +266,9 @@ public class EquipManager : MonoSingleton<EquipManager>
                     break;
                 case EffectType.buff:
                     BuffManager.Instance.AddBuff(targetID, effect.methodName);
+                    break;
+                case EffectType.attack:
+                    BattleManager.Instance.ProcessAttack(selfID, targetIDs, effect.Value);
                     break;
             }
         }

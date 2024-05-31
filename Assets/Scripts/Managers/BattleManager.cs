@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System.Linq;
 using System;
 using Unity.VisualScripting;
+using static UnityEngine.GraphicsBuffer;
 
 public enum RoundTime
 {
@@ -485,5 +486,24 @@ public class BattleManager : MonoSingleton<BattleManager>
     public void BlinkEnergy()
     {
         uiBattleItemInfo.BlinkEnergy();
+    }
+
+    public void ProcessAttack(string selfID, List<string> targetIDs, int value)
+    {
+        var self = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(selfID)).Value;
+        foreach (var id in targetIDs)
+        {
+            var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(id)).Value;
+            int damage = (int)(value
+                * (1 + self.Strength / 100.0f)
+                * (1 - target.Defense / (target.Defense + 100.0f))
+                * (UnityEngine.Random.Range(0,1) < (target.Dodge - self.Accuracy) ? 0 : 1)
+                * (UnityEngine.Random.Range(0, 100) < self.Lucky ? 1 : 2));
+            var targetItem = battleItemDic.Values.Where((item) => item.item.uuid == id).ToList().FirstOrDefault();
+            if (targetItem != null)
+            {
+                targetItem.Damage(damage);
+            }
+        }
     }
 }

@@ -30,13 +30,13 @@ public class UIManager: Singleton<UIManager>
 
     public UIManager()
     {
-        this.UIResources.Add(typeof(UIOptions), new UIElement() { Resource = "UI/UIOptions", Cache = false });
-        this.UIResources.Add(typeof(UIDescHint), new UIElement() { Resource = "UI/UIDescHint", Cache = false });
-        this.UIResources.Add(typeof(UITip), new UIElement() { Resource = "UI/UITip", Cache = false });
-        this.UIResources.Add(typeof(UITeamWindow), new UIElement() { Resource = "UI/UITeamWindow", Cache = false });
-        this.UIResources.Add(typeof(UIStoreItemHint), new UIElement() { Resource = "UI/UIStoreItemHint", Cache = false });
-        this.UIResources.Add(typeof(UISkillHint), new UIElement() { Resource = "UI/UISkillHint", Cache = false });
-        this.UIResources.Add(typeof(UISkillSelect), new UIElement() { Resource = "UI/UISkillSelect", Cache = false });
+        this.UIResources.Add(typeof(UIOptions), new UIElement() { Resource = "Prefabs/UIOptions", Cache = false });
+        this.UIResources.Add(typeof(UIDescHint), new UIElement() { Resource = "Prefabs/UIDescHint", Cache = false });
+        this.UIResources.Add(typeof(UITip), new UIElement() { Resource = "Prefabs/UITip", Cache = false });
+        this.UIResources.Add(typeof(UITeamWindow), new UIElement() { Resource = "Prefabs/UITeamWindow", Cache = false });
+        this.UIResources.Add(typeof(UIStoreItemHint), new UIElement() { Resource = "Prefabs/UIStoreItemHint", Cache = false });
+        this.UIResources.Add(typeof(UISkillHint), new UIElement() { Resource = "Prefabs/UISkillHint", Cache = false });
+        this.UIResources.Add(typeof(UISkillSelect), new UIElement() { Resource = "Prefabs/UISkillSelect", Cache = false });
     }
 
     ~UIManager()

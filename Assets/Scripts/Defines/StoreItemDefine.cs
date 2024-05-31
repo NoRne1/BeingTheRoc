@@ -8,11 +8,10 @@ using System.Linq;
 public enum ItemType
 {
     equip = 0,
-    charm = 1,
+    expendable = 1,
     treasure = 2,
-    potion = 3,
-    economicGoods = 4,
-    special = 5,
+    economicGoods = 3,
+    special = 4,
 }
 
 public enum EquipType
@@ -45,6 +44,7 @@ public enum EffectType
     property = 0, // 属性改变
     buff = 1, // buff
     skill = 2, // skill
+    attack = 3,
 }
 
 public enum PropertyType

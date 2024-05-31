@@ -1,26 +1,20 @@
 ﻿<Properties StartupConfiguration="{BBB342A2-6894-1B0E-77BF-1034E1720682}|">
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="1acceba8-7093-43b1-9e6c-8a2b4b76a0dd" />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/UITeamInfoPage.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/UITeamBagPage.cs">
     <Files>
-      <File FileName="Assets/Scripts/Managers/BattleManager.cs" Line="424" Column="36" />
-      <File FileName="Assets/Scripts/Managers/EquipManager.cs" Line="24" Column="17" />
+      <File FileName="Assets/Scripts/Managers/BattleManager.cs" />
+      <File FileName="Assets/Scripts/Managers/EquipManager.cs" Line="132" Column="41" />
       <File FileName="Assets/Scripts/Managers/SkillManager.cs" />
       <File FileName="Assets/Scripts/Managers/GameManager.cs" />
-      <File FileName="Assets/Scripts/Managers/MapManager.cs" Line="127" Column="14" />
-      <File FileName="Assets/Scripts/UI/UISkillSelect.cs" Line="21" Column="54" />
-      <File FileName="Assets/Scripts/UI/UISkillItem.cs" Line="27" Column="28" />
-      <File FileName="Assets/Scripts/Models/CharacterModel.cs" Line="10" Column="16" />
-      <File FileName="Assets/Scripts/Defines/SkillDefine.cs" Line="9" Column="37" />
-      <File FileName="Assets/Scripts/Defines/CharacterDefine.cs" Line="11" Column="12" />
-      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="41" Column="1" />
-      <File FileName="Assets/Scripts/UI/UITeamWindow.cs" Line="29" Column="6" />
-      <File FileName="Assets/Scripts/UI/UITeamInfoPage.cs" Line="83" Column="56" />
+      <File FileName="Assets/Scripts/UI/UITeamInfoPage.cs" Line="91" Column="1" />
+      <File FileName="Assets/Scripts/UI/UITeamWindow.cs" Line="119" Column="73" />
+      <File FileName="Assets/Scripts/UI/UISkillSelect.cs" Line="58" Column="67" />
+      <File FileName="Assets/Scripts/UI/UITeamBagPage.cs" Line="33" Column="1" />
+      <File FileName="Assets/Scripts/Defines/StoreItemDefine.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Models/Backpack.cs" Line="96" Column="17" />
+      <File FileName="Assets/Scripts/Models/StoreItemModel.cs" Line="55" Column="17" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -40,4 +34,8 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="fedcee74-9338-4338-a784-0e139686f033" />
+  <MultiItemStartupConfigurations />
 </Properties>

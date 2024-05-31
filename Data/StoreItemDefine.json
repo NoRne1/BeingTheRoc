@@ -12,10 +12,10 @@
         "targetRange": 3,
         "takeEnergy": 1,
         "effect1": {
-            "effectType": 0,
-            "propertyType": 9,
+            "effectType": 3,
+            "propertyType": -1,
             "methodName": null,
-            "value": -10
+            "value": 10
         },
         "effect2": null,
         "effect3": null,
@@ -37,10 +37,10 @@
         "targetRange": 3,
         "takeEnergy": 1,
         "effect1": {
-            "effectType": 0,
-            "propertyType": 9,
+            "effectType": 3,
+            "propertyType": -1,
             "methodName": null,
-            "value": -20
+            "value": 20
         },
         "effect2": null,
         "effect3": null,
@@ -62,10 +62,10 @@
         "targetRange": 4,
         "takeEnergy": 1,
         "effect1": {
-            "effectType": 0,
-            "propertyType": 9,
+            "effectType": 3,
+            "propertyType": -1,
             "methodName": null,
-            "value": -30
+            "value": 30
         },
         "effect2": null,
         "effect3": null,
@@ -172,10 +172,10 @@
         "targetRange": 2,
         "takeEnergy": 1,
         "effect1": {
-            "effectType": 0,
-            "propertyType": 9,
+            "effectType": 3,
+            "propertyType": -1,
             "methodName": null,
-            "value": -15
+            "value": 15
         },
         "effect2": null,
         "effect3": null,
@@ -197,10 +197,10 @@
         "targetRange": 1,
         "takeEnergy": 1,
         "effect1": {
-            "effectType": 0,
-            "propertyType": 9,
+            "effectType": 3,
+            "propertyType": -1,
             "methodName": null,
-            "value": -10
+            "value": 10
         },
         "effect2": null,
         "effect3": null,
@@ -222,16 +222,16 @@
         "targetRange": 5,
         "takeEnergy": 1,
         "effect1": {
-            "effectType": 0,
-            "propertyType": 9,
+            "effectType": 3,
+            "propertyType": -1,
             "methodName": null,
-            "value": -10
+            "value": 10
         },
         "effect2": {
-            "effectType": 0,
-            "propertyType": 9,
+            "effectType": 3,
+            "propertyType": -1,
             "methodName": null,
-            "value": -10
+            "value": 10
         },
         "effect3": null,
         "desc": "zhuge_bow吧啦吧啦吧啦吧啦吧啦吧啦",
@@ -252,16 +252,16 @@
         "targetRange": 4,
         "takeEnergy": 1,
         "effect1": {
-            "effectType": 0,
-            "propertyType": 9,
+            "effectType": 3,
+            "propertyType": -1,
             "methodName": null,
-            "value": -6
+            "value": 6
         },
         "effect2": {
-            "effectType": 0,
-            "propertyType": 9,
+            "effectType": 3,
+            "propertyType": -1,
             "methodName": null,
-            "value": -6
+            "value": 6
         },
         "effect3": null,
         "desc": "multi_bow吧啦吧啦吧啦吧啦吧啦吧啦",
@@ -282,10 +282,10 @@
         "targetRange": 4,
         "takeEnergy": 1,
         "effect1": {
-            "effectType": 0,
-            "propertyType": 9,
+            "effectType": 3,
+            "propertyType": -1,
             "methodName": null,
-            "value": -10
+            "value": 10
         },
         "effect2": null,
         "effect3": null,
@@ -387,10 +387,10 @@
         "targetRange": 6,
         "takeEnergy": 0,
         "effect1": {
-            "effectType": 0,
-            "propertyType": 9,
+            "effectType": 3,
+            "propertyType": -1,
             "methodName": null,
-            "value": -20
+            "value": 20
         },
         "effect2": null,
         "effect3": null,
@@ -482,7 +482,7 @@
     "21": {
         "ID": 21,
         "level": 1,
-        "type": 3,
+        "type": 1,
         "equipType": -1,
         "invokeType": 0,
         "title": "energy_potion",
@@ -507,7 +507,7 @@
     "22": {
         "ID": 22,
         "level": 1,
-        "type": 3,
+        "type": 1,
         "equipType": -1,
         "invokeType": 0,
         "title": "angry_potion",
@@ -532,7 +532,7 @@
     "23": {
         "ID": 23,
         "level": 1,
-        "type": 3,
+        "type": 1,
         "equipType": -1,
         "invokeType": 0,
         "title": "lucky_potion",
@@ -557,7 +557,7 @@
     "24": {
         "ID": 24,
         "level": 2,
-        "type": 4,
+        "type": 3,
         "equipType": -1,
         "invokeType": -1,
         "title": "boutique_feather",
@@ -577,7 +577,7 @@
     "25": {
         "ID": 25,
         "level": 1,
-        "type": 4,
+        "type": 3,
         "equipType": -1,
         "invokeType": -1,
         "title": "boutique_rice",
@@ -597,7 +597,7 @@
     "26": {
         "ID": 26,
         "level": 1,
-        "type": 4,
+        "type": 3,
         "equipType": -1,
         "invokeType": -1,
         "title": "trophy",
@@ -617,7 +617,7 @@
     "27": {
         "ID": 27,
         "level": 1,
-        "type": 4,
+        "type": 3,
         "equipType": -1,
         "invokeType": -1,
         "title": "jerky",
@@ -637,7 +637,7 @@
     "28": {
         "ID": 28,
         "level": 2,
-        "type": 5,
+        "type": 4,
         "equipType": -1,
         "invokeType": 2,
         "title": "month_card",

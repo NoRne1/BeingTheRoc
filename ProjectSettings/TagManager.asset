@@ -12,6 +12,7 @@ TagManager:
   - ChessBoard
   - ChessBoardSlot
   - TopUI
+  - FightTextCanvas
   layers:
   - Default
   - TransparentFX
