@@ -14,9 +14,8 @@ public enum TownNodeType
 
 public enum TownNodeStatus
 {
-    normal = 0,
-    unpassed = 1,
-    passed = 2
+    unpassed = 0,
+    passed = 1
 }
 
 public class UITownNode : MonoBehaviour
@@ -24,7 +23,6 @@ public class UITownNode : MonoBehaviour
     public TownNodeType type;
     public int townID;
     public Image town_icon;
-    public Image character_icon;
 
     public List<Sprite> town_icon_list;
     
@@ -54,17 +52,6 @@ public class UITownNode : MonoBehaviour
     void Update()
     {
         
-    }
-
-    public void UpdatePlayerIsThere(bool isThere)
-    {
-        if (isThere)
-        {
-            character_icon.gameObject.SetActive(true);
-        } else
-        {
-            character_icon.gameObject.SetActive(false);
-        }
     }
 
     public void GoNextTown()

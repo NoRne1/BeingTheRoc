@@ -25,6 +25,8 @@ class GlobalAccess
 
     public static float equipSizeBagMultiply = 180;
     public static float equipSizeBattleMultiply = 150;
+    public static float timeLeftAnimTime = 0.5f;
+    public static float switchPageTime = 0.85f;
 
     public static int subCharacterNum
     {

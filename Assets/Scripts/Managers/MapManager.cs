@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using TMPro;
 using UniRx;
 using System.Linq;
-using Unity.VisualScripting;
+using DG.Tweening;
+using TMPro;
 
 
 public class MapManager : MonoSingleton<MapManager>
@@ -18,6 +17,7 @@ public class MapManager : MonoSingleton<MapManager>
     public GameObject town3Prefab;
     public GameObject kingPrefab;
     public GameObject mapLinePrefab;
+    public GameObject playerFather;
 
     public List<Transform> node_circle_3 = new List<Transform>();
     public List<Transform> node_circle_2 = new List<Transform>();
@@ -41,6 +41,7 @@ public class MapManager : MonoSingleton<MapManager>
         get { return currentTownId; }
     }
     private int currentTownId = -1;
+    private int beforeBattleTownId = -1;
     private BehaviorSubject<int> nextTownIdSubject = new BehaviorSubject<int>(-1);
     // Start is called before the first frame update
     void Start()
@@ -55,21 +56,15 @@ public class MapManager : MonoSingleton<MapManager>
                 if (currentTownId == -1)
                 {
                     //init时
-                    townList[id].UpdatePlayerIsThere(true);
+                    MovePlayerPos(id, false);
                     currentTownId = id;
                     townList[currentTownId].Status = TownNodeStatus.passed;
                 } else if (CanGoNextTown(currentTownId, id))
                 {
-                    //townList[currentTownId].UpdatePlayerIsThere(false);
-                    //townList[id].UpdatePlayerIsThere(true);
-                    //currentTownId = id;
-                    //townList[currentTownId].Status = TownNodeStatus.passed;
-
-                    //todo StartBattle
-                    GameManager.Instance.SwitchPage(PageType.battle, ()=>
-                    {
-                        BattleManager.Instance.StartBattle(GameManager.Instance.characterRelays.Keys.ToList(), townList[currentTownId].battleInfo);
-                    });
+                    var path = ShortestPath(currentTownId, id);
+                    path.Remove(currentTownId);
+                    GameManager.Instance.TimeChanged(-path.Count);
+                    StartCoroutine(MoveToNextTown(path));
                 } else
                 {
                     UITip tip = UIManager.Instance.Show<UITip>();
@@ -99,11 +94,12 @@ public class MapManager : MonoSingleton<MapManager>
             MapLineLink[i] = new List<int>();
         }
     }
+
     public void generateMap()
     {
+        playerFather.GetComponentInChildren<Image>().overrideSprite = GlobalAccess.CurrentCharacterIcon;
         GameObject kingNode = Instantiate(kingPrefab, this.town_node_father);
         UITownNode uIKingNode = kingNode.GetComponent<UITownNode>();
-        uIKingNode.character_icon.overrideSprite = GlobalAccess.CurrentCharacterIcon;
         uIKingNode.townID = 0;
         townList.Add(kingNode.GetComponent<UITownNode>());
         generateTownCircle(node_circle_3, town3Prefab, 4);
@@ -121,7 +117,6 @@ public class MapManager : MonoSingleton<MapManager>
             UITownNode uITownNode = townNode.GetComponent<UITownNode>();
             uITownNode.townID = townIdcounter;
             townIdcounter++;
-            uITownNode.character_icon.overrideSprite = GlobalAccess.CurrentCharacterIcon;
             townList.Add(uITownNode);
             if (increase <= (node_circle.Count / (float)town_num) * i)
             {
@@ -241,5 +236,65 @@ public class MapManager : MonoSingleton<MapManager>
         // 反转路径
         path.Reverse();
         return path;
+    }
+
+    private float playerMoveTime = 0.5f;
+    private void MovePlayerPos(int id, bool animate)
+    {
+        //Vector3 targetPosition = townList[id].transform.position;
+        //targetPosition = townList[id].transform.TransformPoint(townList[id].transform.InverseTransformPoint(targetPosition));
+        if (animate)
+        {
+            playerFather.transform.DOMove(townList[id].transform.position, playerMoveTime);
+        } else
+        {
+            playerFather.transform.position = townList[id].transform.position;
+        }
+    }
+
+    private IEnumerator MoveToNextTown(List<int> path)
+    {
+        foreach (var id in path)
+        {
+            MovePlayerPos(id, true);
+            beforeBattleTownId = currentTownId;
+            currentTownId = id;
+            yield return new WaitForSeconds(playerMoveTime);
+        }
+
+        switch (townList[currentTownId].Status)
+        {
+            case TownNodeStatus.passed:
+                GameManager.Instance.SwitchPage(PageType.town);
+                break;
+            case TownNodeStatus.unpassed:
+                //todo StartBattle
+                GameManager.Instance.SwitchPage(PageType.battle, () =>
+                {
+                    BattleManager.Instance.StartBattle(GameManager.Instance.characterRelays.Keys.ToList(), townList[currentTownId].battleInfo);
+                });
+                break;
+        }      
+    }
+
+    public void BattleFail()
+    {
+        StartCoroutine(BattleFailIEnumerator());
+    }
+
+    private IEnumerator BattleFailIEnumerator()
+    {
+        GameManager.Instance.TimeChanged(-1);
+        yield return new WaitForSeconds(GlobalAccess.timeLeftAnimTime);
+        currentTownId = beforeBattleTownId;
+        GameManager.Instance.SwitchPage(PageType.map);
+        yield return new WaitForSeconds(GlobalAccess.switchPageTime);
+        MovePlayerPos(beforeBattleTownId, true);
+    }
+
+    public void BattleSuccess()
+    {
+        townList[currentTownId].Status = TownNodeStatus.passed;
+        GameManager.Instance.SwitchPage(PageType.map);
     }
 }
