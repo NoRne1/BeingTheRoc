@@ -101,7 +101,7 @@ public class StoreItemModel : StoreItemDefine
             points[i] = new Vector2Int(newX, newY);
         }
         tempOccupiedCells = points;
-        tempRotationAngle = (tempRotationAngle + 90) % 360;
+        tempRotationAngle = (tempRotationAngle + angle) % 360;
     }
 
     //public void Rotate(int angle)

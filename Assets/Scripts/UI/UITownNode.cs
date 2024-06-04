@@ -71,7 +71,7 @@ public class UITownNode : MonoBehaviour
             hashSet.Add(Random.Range(0,5));
         }
         townActions = hashSet.ToList();
-        //townActions = GameUtil.Instance.GenerateUniqueRandomList(0, DataManager.Instance.TownActions.Count, 3); ;
+        //townActions = GameUtil.Instance.GenerateUniqueRandomList(0, DataManager.Instance.TownActions.Count, 3);
 
         //todo TownBattleInfoModel init
         List<Vector2> temp = new List<Vector2>
@@ -83,6 +83,6 @@ public class UITownNode : MonoBehaviour
             new Vector2(1, 1),
             new Vector2(1, 2)
         };
-        battleInfo = new TownBattleInfoModel(temp);
+        battleInfo = new TownBattleInfoModel(type, temp);
     }
 }

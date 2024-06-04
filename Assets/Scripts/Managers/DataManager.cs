@@ -20,6 +20,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, StoreItemDefine> StoreItems = null;
     public Dictionary<int, SkillDefine> Skills = null;
     public Dictionary<int, ExtraEntryDesc> ExtraEntrys = null;
+    public Dictionary<int, EnemyDefine> EnemyDefines = null;
     public BehaviorSubject<bool> DataLoaded = new BehaviorSubject<bool>(false);
 
     public DataManager()
@@ -48,6 +49,9 @@ public class DataManager : Singleton<DataManager>
 
         json = File.ReadAllText(this.DataPath + "ExtraEntryDesc.json");
         this.ExtraEntrys = JsonConvert.DeserializeObject<Dictionary<int, ExtraEntryDesc>>(json);
+
+        json = File.ReadAllText(this.DataPath + "EnemyDefine.json");
+        this.EnemyDefines = JsonConvert.DeserializeObject<Dictionary<int, EnemyDefine>>(json);
 
         DataLoaded.OnNext(true);
     }
@@ -80,6 +84,10 @@ public class DataManager : Singleton<DataManager>
         this.ExtraEntrys = JsonConvert.DeserializeObject<Dictionary<int, ExtraEntryDesc>>(json);
         yield return null;
 
+        json = File.ReadAllText(this.DataPath + "EnemyDefine.json");
+        this.EnemyDefines = JsonConvert.DeserializeObject<Dictionary<int, EnemyDefine>>(json);
+        yield return null;
+
         //json = File.ReadAllText(this.DataPath + "TeleporterDefine.json");
         //this.Teleporters = JsonConvert.DeserializeObject<Dictionary<int, TeleporterDefine>>(json);
         //yield return null;
@@ -99,4 +107,50 @@ public class DataManager : Singleton<DataManager>
 //    }
 
 //#endif
+
+    public List<EnermyModel> getEnermyModels()
+    {
+        List<EnermyModel> enermyModels = new List<EnermyModel>();
+        //List<int> ids = GameUtil.Instance.GenerateUniqueRandomList(GlobalAccess.subCharacterStartIndex,
+        //            GlobalAccess.subCharacterStartIndex + GlobalAccess.subCharacterNum, 2);
+        List<int> ids = new List<int>() { 0 };
+        foreach (var id in ids)
+        {
+            EnemyDefine define = EnemyDefines.Values.Where(define => define.CID == id).ToList().OrderBy(x => UnityEngine.Random.Range(0, 100)).FirstOrDefault();
+            if (define != null)
+            {
+                EnermyModel model = new EnermyModel(Characters[id]);
+                if (define.equip1 != null)
+                {
+                    model.backpack.Place(buildStoreItem(define.equip1), define.equip1.postion);
+                }
+                if (define.equip2 != null)
+                {
+                    model.backpack.Place(buildStoreItem(define.equip2), define.equip2.postion);
+                }
+                if (define.equip3 != null)
+                {
+                    model.backpack.Place(buildStoreItem(define.equip3), define.equip3.postion);
+                }
+                if (define.equip4 != null)
+                {
+                    model.backpack.Place(buildStoreItem(define.equip4), define.equip4.postion);
+                }  
+                if (define.equip5 != null)
+                {
+                    model.backpack.Place(buildStoreItem(define.equip5), define.equip5.postion);
+                }
+                enermyModels.Add(model);
+            }
+        }
+        return enermyModels;
+    }
+
+    private StoreItemModel buildStoreItem(EnemyEquip equip)
+    {
+        StoreItemModel item = new StoreItemModel(StoreItems[equip.id]);
+        item.position = equip.postion;
+        item.Rotate(equip.rotation);
+        return item;
+    }
 }

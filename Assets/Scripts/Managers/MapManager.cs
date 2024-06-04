@@ -43,6 +43,8 @@ public class MapManager : MonoSingleton<MapManager>
     private int currentTownId = -1;
     private int beforeBattleTownId = -1;
     private BehaviorSubject<int> nextTownIdSubject = new BehaviorSubject<int>(-1);
+
+    public Subject<bool> battleResultSubject = new Subject<bool>();
     // Start is called before the first frame update
     void Start()
     {
@@ -274,7 +276,7 @@ public class MapManager : MonoSingleton<MapManager>
                     BattleManager.Instance.StartBattle(GameManager.Instance.characterRelays.Keys.ToList(), townList[currentTownId].battleInfo);
                 });
                 break;
-        }      
+        }                                                                                                                                                                                                                                                 
     }
 
     public void BattleFail()
@@ -290,11 +292,13 @@ public class MapManager : MonoSingleton<MapManager>
         GameManager.Instance.SwitchPage(PageType.map);
         yield return new WaitForSeconds(GlobalAccess.switchPageTime);
         MovePlayerPos(beforeBattleTownId, true);
+        battleResultSubject.OnNext(false);
     }
 
     public void BattleSuccess()
     {
         townList[currentTownId].Status = TownNodeStatus.passed;
         GameManager.Instance.SwitchPage(PageType.map);
+        battleResultSubject.OnNext(true);
     }
 }

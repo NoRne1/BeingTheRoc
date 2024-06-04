@@ -160,7 +160,6 @@ public class EquipManager : MonoSingleton<EquipManager>
                     {
                         case PropertyType.MaxHP:
                             target.MaxHP += effect.Value;
-                            target.currentHP += effect.Value;
                             break;
                         case PropertyType.Strength:
                             target.Strength += effect.Value;
@@ -187,7 +186,7 @@ public class EquipManager : MonoSingleton<EquipManager>
                             target.Lucky += effect.Value;
                             break;
                         case PropertyType.HP:
-                            target.currentHP += effect.Value;
+                            Debug.Log("CharacterModel can not add currentHP");
                             break;
                         case PropertyType.Exp:
                             target.exp += effect.Value;

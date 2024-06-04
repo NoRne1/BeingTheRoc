@@ -5,8 +5,6 @@ using UniRx;
 
 public class CharacterModel: CharacterDefine, IStorable
 {
-    public int currentHP;
-    public int currentEnergy;
     public int level = 0;
     public int remainExp { get { return exp - GlobalAccess.levelUpExp * level; } }
     public int exp = 0;
@@ -48,8 +46,6 @@ public class CharacterModel: CharacterDefine, IStorable
         Resource = define.Resource;
         Desc = define.Desc;
         backpack = new Backpack(uuid, 3, 3, characterUpdate);
-        currentHP = define.MaxHP;
-        currentEnergy = define.Energy;
         //只有被动技能，其他技能升级选择后再赋值
         BornSkill = define.BornSkill;
         Skill1 = -1;
@@ -61,7 +57,7 @@ public class CharacterModel: CharacterDefine, IStorable
         });
     }
 
-    public string StorableCategory => "Character";
+    public string StorableCategory => "CharacterModel";
 
     public string Identifier => this.uuid.ToString();
 
@@ -91,8 +87,8 @@ public class CharacterModel: CharacterDefine, IStorable
         item.Lucky = this.Lucky;
         item.Resource = this.Resource;
         item.Desc = this.Desc;
-        item.currentHP = this.currentHP;
-        item.currentEnergy = this.currentEnergy;
+        item.currentHP = this.MaxHP;
+        item.currentEnergy = this.Energy;
         item.exp = this.exp;
         item.level = this.level;
         item.backpack = this.backpack;

@@ -7,6 +7,7 @@ using System.Linq;
 using System;
 using Unity.VisualScripting;
 using static UnityEngine.GraphicsBuffer;
+using static UnityEditor.Progress;
 
 public enum RoundTime
 {
@@ -27,6 +28,7 @@ public enum ClickSlotReason
 
 public class BattleManager : MonoSingleton<BattleManager>
 {
+    public float difficultyExtraFactor = 0f;
     public UIMoveBar moveBar;
     public UIChessboard chessBoard;
     public GameObject battleItemPrefab;
@@ -39,6 +41,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public BehaviorSubject<int> timePass = new BehaviorSubject<int>(-1);
     public System.IDisposable timePassDispose;
     public List<BattleItem> battleItems = new List<BattleItem>();
+    public List<BattleItem> PlayerItems = new List<BattleItem>();
     public BehaviorSubject<RoundTime> roundTime = new BehaviorSubject<RoundTime>(RoundTime.prepare);
     public System.IDisposable roundRelayDispose;
 
@@ -54,10 +57,18 @@ public class BattleManager : MonoSingleton<BattleManager>
     void Start()
     {
         moveBar.Init();
+        MapManager.Instance.battleResultSubject.AsObservable().TakeUntilDestroy(this).Subscribe(result =>
+        {
+            if (result)
+            {
+                difficultyExtraFactor += 0.2f;
+            }
+        });
+
         currentPlaceIndex.AsObservable().TakeUntilDestroy(this).Subscribe(index =>
         {
             if (index < 0) { return; }
-            if (index >= battleItems.Count)
+            if (index >= PlayerItems.Count)
             {
                 //放置完成，回合正式开始
                 //需要手动把placebox隐藏
@@ -68,7 +79,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 currentPlaceIndex.OnNext(-1);
                 return;
             }
-            placeBox.Setup(battleItems[currentPlaceIndex.Value].Resource);
+            placeBox.Setup(PlayerItems[currentPlaceIndex.Value].Resource);
         });
         clickedSlot.AsObservable().TakeUntilDestroy(this).Subscribe(slot =>
         {
@@ -179,6 +190,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         uiBattleItemInfo.Setup(null);
         uiBattleBag.Setup(null);
         battleItems.Clear();
+        PlayerItems.Clear();
         GameUtil.Instance.DetachChildren(battleItemFather);
         battleItemDic.Clear();
         chessBoard.ResetColors();
@@ -193,7 +205,16 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             var battleItem = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(characterIDs[i])).Value.ToBattleItem();
             battleItems.Add(battleItem);
+            PlayerItems.Add(battleItem);
             NorneStore.Instance.Update<BattleItem>(battleItem, true);
+        }
+
+        foreach (var pair in battleInfo.enermys)
+        {
+            var battleItem = pair.Value.ToBattleItem(difficultyExtraFactor + battleInfo.battleBaseDifficulty);
+            battleItems.Add(battleItem);
+            NorneStore.Instance.Update<BattleItem>(battleItem, true);
+            PlaceBattleItem(battleItem, chessBoard.slots[pair.Key]);
         }
 
         timePassDispose = timePass.AsObservable().TakeUntilDestroy(this).Subscribe(time =>
@@ -286,14 +307,9 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             if (!HasBattleItem(slot))
             {
-                BattleItem item = battleItems[currentPlaceIndex.Value];
+                BattleItem item = PlayerItems[currentPlaceIndex.Value];
                 //放置成功
-                Debug.Log("Character Place Success! " + item.Name + ": " + slot.position);
-                GameObject temp = Instantiate(battleItemPrefab, this.battleItemFather);
-                UIBattleItem battleItem = temp.GetComponent<UIBattleItem>();
-                battleItem.Setup(item);
-                temp.transform.position = slot.transform.position;
-                battleItemDic.Add(slot.position, battleItem);
+                PlaceBattleItem(item, slot);
                 currentPlaceIndex.OnNext(currentPlaceIndex.Value + 1);
             }
             else
@@ -306,6 +322,16 @@ public class BattleManager : MonoSingleton<BattleManager>
             UITip tip = UIManager.Instance.Show<UITip>();
             tip.UpdateTip(DataManager.Instance.Language["general_error_tip"] + "0005");
         }
+    }
+
+    private void PlaceBattleItem(BattleItem item, UIChessboardSlot slot)
+    {
+        Debug.Log("Character Place Success! " + item.Name + ": " + slot.position);
+        GameObject temp = Instantiate(battleItemPrefab, this.battleItemFather);
+        UIBattleItem battleItem = temp.GetComponent<UIBattleItem>();
+        battleItem.Setup(item);
+        temp.transform.position = slot.transform.position;
+        battleItemDic.Add(slot.position, battleItem);
     }
 
     public void ShowMovePath(UIChessboardSlot chessboardSlot)

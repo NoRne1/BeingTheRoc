@@ -117,6 +117,7 @@
     <Compile Include="Assets/Scripts/Utilities/Extensions/UnityExtensions.cs" />
     <Compile Include="Assets/Scripts/Defines/StoreItemDefine.cs" />
     <Compile Include="Assets/Scripts/Managers/GameManager.cs" />
+    <Compile Include="Assets/Scripts/Models/EnermyModel.cs" />
     <Compile Include="Assets/Scripts/UI/UITownActionPanel.cs" />
     <Compile Include="Assets/Scripts/UI/UIStartGame.cs" />
     <Compile Include="Assets/Scripts/UI/UICharacterSelectPanel.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Assets/Scripts/UI/UITimeLeft.cs" />
     <Compile Include="Assets/Scripts/UI/UIWindow.cs" />
     <Compile Include="Assets/Scripts/Utilities/MonoSingleton.cs" />
+    <Compile Include="Assets/Scripts/Defines/EnemyDefine.cs" />
     <Compile Include="Assets/Scripts/Models/CharacterModel.cs" />
     <Compile Include="Assets/Scripts/UI/UITeamBagPage.cs" />
     <Compile Include="Assets/Scripts/Utilities/CheckPointerEnter.cs" />

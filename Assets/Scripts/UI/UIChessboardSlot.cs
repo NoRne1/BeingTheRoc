@@ -14,7 +14,7 @@ public enum ChessboardSlotColor
 
 public class UIChessboardSlot : MonoBehaviour
 {
-    public Vector2 position;
+    public Vector2Int position;
     public Image colorImage;
     // Start is called before the first frame update
     void Start()

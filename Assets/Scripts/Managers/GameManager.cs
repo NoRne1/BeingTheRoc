@@ -68,7 +68,6 @@ public class GameManager : MonoSingleton<GameManager>
                     NorneStore.Instance.Update<CharacterModel>(model, isFull: true);
                     characterRelays.Add(model.uuid, NorneStore.Instance.ObservableObject(model));
                 }
-                    
             }
         });
     }
