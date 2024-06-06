@@ -17,7 +17,7 @@ public class BattleItem: IStorable
     public string Name { get; set; }
     public string Resource { get; set; }
     public BattleItemType battleItemType { get; set; }
-    public int remainActingTime { get; set; }
+    public float remainActingDistance { get; set; }
     public int Mobility { get; set; }
     public int Speed { get; set; }
     public int MaxHP { get; set; }
@@ -44,7 +44,24 @@ public class BattleItem: IStorable
 
     public string Identifier => this.uuid.ToString();
 
+    public EnemyAI enemyAI;
+
     public BattleItem() {}
+
+    public BattleItem(BattleItemType type) {
+        switch (type)
+        {
+            case BattleItemType.player:
+            case BattleItemType.enemy:
+            case BattleItemType.sceneItem:
+                battleItemType = type;
+                break;
+            case BattleItemType.time:
+                battleItemType = type;
+                Speed = 100;
+                break;
+        }
+    }
 
     public BattleItem(string uuid)
     {

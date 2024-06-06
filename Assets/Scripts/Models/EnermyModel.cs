@@ -15,6 +15,8 @@ public class EnermyModel : CharacterDefine, IStorable
 
     public string uuid;
 
+    public EnemyAIType aiType;
+
     public EnermyModel()
     { }
 
@@ -92,6 +94,24 @@ public class EnermyModel : CharacterDefine, IStorable
         item.Skill1 = difficulty > 1.5 ? define.Skill1 : -1;
         item.Skill2 = difficulty > 2.5 ? define.Skill2 : -1;
         item.Skill3 = difficulty > 4.5 ? define.Skill3 : -1;
+        switch (aiType)
+        {
+            case EnemyAIType.TankAI:
+                item.enemyAI = new TankAI();
+                break;
+            case EnemyAIType.WarriorAI:
+                item.enemyAI = new WarriorAI();
+                break;
+            case EnemyAIType.MagicianAI:
+                item.enemyAI = new MagicianAI();
+                break;
+            case EnemyAIType.AssassinAI:
+                item.enemyAI = new AssassinAI();
+                break;
+            case EnemyAIType.PastorAI:
+                item.enemyAI = new PastorAI();
+                break;
+        }
         return item;
     }
 }

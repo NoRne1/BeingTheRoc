@@ -6,8 +6,6 @@ using UnityEngine.UI;
 using System.Linq;
 using System;
 using Unity.VisualScripting;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEditor.Progress;
 
 public enum RoundTime
 {
@@ -38,7 +36,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public UIBattleBag uiBattleBag;
     public TownBattleInfoModel battleInfo;
 
-    public BehaviorSubject<int> timePass = new BehaviorSubject<int>(-1);
+    public BehaviorSubject<float> timePass = new BehaviorSubject<float>(-1);
     public System.IDisposable timePassDispose;
     public List<BattleItem> battleItems = new List<BattleItem>();
     public List<BattleItem> PlayerItems = new List<BattleItem>();
@@ -201,6 +199,8 @@ public class BattleManager : MonoSingleton<BattleManager>
         BattleInit();
         this.battleInfo = battleInfo;
 
+        battleItems.Add(new BattleItem(BattleItemType.time));
+
         for (int i = 0; i < characterIDs.Count; i++)
         {
             var battleItem = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(characterIDs[i])).Value.ToBattleItem();
@@ -236,25 +236,77 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             case RoundTime.begin:
                 Debug.Log("round begin");
-                battleItemDic.FirstOrDefault(pair => { return pair.Value.item.uuid == battleItems[0].uuid; }).IfNotNull(pair =>
+                switch (battleItems[0].battleItemType)
                 {
-                    pair.Value.roundActive = true;
-                    // auto viewCharacter
-                    clickSlotReason = ClickSlotReason.viewCharacter;
-                    clickedSlot.OnNext(chessBoard.slots[pair.Key]);
-                });
+                    case BattleItemType.player:
+                        battleItemDic.FirstOrDefault(pair => { return pair.Value.item.uuid == battleItems[0].uuid; }).IfNotNull(pair =>
+                        {
+                            pair.Value.roundActive = true;
+                            // auto viewCharacter
+                            clickSlotReason = ClickSlotReason.viewCharacter;
+                            clickedSlot.OnNext(chessBoard.slots[pair.Key]);
+                        });
+                        break;
+                    case BattleItemType.enemy:
+                        battleItemDic.FirstOrDefault(pair => { return pair.Value.item.uuid == battleItems[0].uuid; }).IfNotNull(pair =>
+                        {
+                            pair.Value.roundActive = true;
+                        });
+                        break;
+                    case BattleItemType.time:
+                        GameManager.Instance.TimeChanged(-1);
+                        yield return new WaitForSeconds(1f);
+                        roundTime.OnNext(RoundTime.end);
+                        break;
+                    case BattleItemType.sceneItem:
+                        battleItemDic.FirstOrDefault(pair => { return pair.Value.item.uuid == battleItems[0].uuid; }).IfNotNull(pair =>
+                        {
+                            pair.Value.roundActive = true;
+                        });
+                        break;
+                }
+                
                 yield return new WaitForSeconds(1f);
                 roundTime.OnNext(RoundTime.acting);
                 break;
             case RoundTime.acting:
                 Debug.Log("round acting");
+                switch (battleItems[0].battleItemType)
+                {
+                    case BattleItemType.player:
+                        break;
+                    case BattleItemType.enemy:
+                        StartCoroutine(battleItems[0].enemyAI.TurnAction(battleItems[0].uuid));
+                        break;
+                    case BattleItemType.time:
+                        GameManager.Instance.TimeChanged(-1);
+                        yield return new WaitForSeconds(1f);
+                        roundTime.OnNext(RoundTime.end);
+                        break;
+                    case BattleItemType.sceneItem:
+                        Debug.Log("sceneItem round acting");
+                        yield return new WaitForSeconds(1f);
+                        roundTime.OnNext(RoundTime.end);
+                        break;
+                }
                 break;
             case RoundTime.end:
                 Debug.Log("round end");
-                battleItemDic.Values.First(item => { return item.item.uuid == battleItems[0].uuid; }).roundActive = false;
+                switch (battleItems[0].battleItemType)
+                {
+                    case BattleItemType.player:
+                    case BattleItemType.enemy:
+                    case BattleItemType.sceneItem:
+                        battleItemDic.Values.First(item => { return item.item.uuid == battleItems[0].uuid; }).roundActive = false;
+                        break;
+                    case BattleItemType.time:
+                        break;
+                }
+                
                 int temp = Mathf.CeilToInt(GlobalAccess.roundDistance / battleItems[0].Speed);
-                battleItems[0].remainActingTime = temp + battleItems[1].remainActingTime; // 因为后续还会timePass一次
-                timePass.OnNext(battleItems[1].remainActingTime);
+                float passedTime = battleItems[1].remainActingDistance / battleItems[1].Speed;
+                battleItems[0].remainActingDistance = GlobalAccess.roundDistance + passedTime * battleItems[0].Speed; // 因为后续还会timePass一次
+                timePass.OnNext(passedTime);
                 yield return new WaitForSeconds(1f);
                 roundTime.OnNext(RoundTime.begin);
                 break;
@@ -269,13 +321,13 @@ public class BattleManager : MonoSingleton<BattleManager>
         yield return null;
     }
 
-    public void CalcBattleItemAndShow(int time)
+    public void CalcBattleItemAndShow(float time)
     {
         if (time >= 0)
         {
             foreach (BattleItem item in battleItems)
             {
-                item.remainActingTime -= time;
+                item.remainActingDistance = Mathf.Max(0, item.remainActingDistance - time * item.Speed);
             }
             ResortBattleItems();
             moveBar.Show(battleItems);
@@ -284,7 +336,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             foreach (BattleItem item in battleItems)
             {
-                item.remainActingTime = Mathf.CeilToInt(GlobalAccess.roundDistance / item.Speed);
+                item.remainActingDistance = GlobalAccess.roundDistance;
             }
             ResortBattleItems();
             moveBar.Show(battleItems);
@@ -293,7 +345,12 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public void ResortBattleItems()
     {
-        battleItems.Sort((a, b) => a.remainActingTime.CompareTo(b.remainActingTime));
+        battleItems.Sort((a, b) =>
+        {
+            return Mathf.CeilToInt(a.remainActingDistance / a.Speed)
+                .CompareTo(Mathf.CeilToInt(b.remainActingDistance / b.Speed));
+        });
+        
     }
 
     public void RoundEnd()

@@ -113,13 +113,14 @@ public class DataManager : Singleton<DataManager>
         List<EnermyModel> enermyModels = new List<EnermyModel>();
         //List<int> ids = GameUtil.Instance.GenerateUniqueRandomList(GlobalAccess.subCharacterStartIndex,
         //            GlobalAccess.subCharacterStartIndex + GlobalAccess.subCharacterNum, 2);
-        List<int> ids = new List<int>() { 0 };
+        List<int> ids = new List<int>() { 0, 1, 2 };
         foreach (var id in ids)
         {
             EnemyDefine define = EnemyDefines.Values.Where(define => define.CID == id).ToList().OrderBy(x => UnityEngine.Random.Range(0, 100)).FirstOrDefault();
             if (define != null)
             {
                 EnermyModel model = new EnermyModel(Characters[id]);
+                model.aiType = define.aiType;
                 if (define.equip1 != null)
                 {
                     model.backpack.Place(buildStoreItem(define.equip1), define.equip1.postion);

@@ -38,7 +38,7 @@ public class UIMoveBar : MonoBehaviour
         for (int i = 0; i < Mathf.Min(battleItems.Count, GlobalAccess.moveBarMaxShowNum); i++)
         {
             if (i == 0 && battleItems[i].battleItemType != BattleItemType.time &&
-                battleItems[i].remainActingTime == 0)
+                battleItems[i].remainActingDistance == 0)
             {
                 //有firstItem
                 GameObject firstItem = firstItemPool.GetObjectFromPool();

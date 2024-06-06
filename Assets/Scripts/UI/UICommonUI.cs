@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst.Intrinsics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -95,7 +96,20 @@ public class UICommonUI : MonoBehaviour
 
     public void nextDay()
     {
-        GameManager.Instance.TimeChanged(-1);
+        switch (GameManager.Instance.currentPageType)
+        {
+            case PageType.town:
+            case PageType.bar:
+            case PageType.forge:
+            case PageType.shop:
+            case PageType.train:
+            case PageType.walk:
+                GameManager.Instance.TimeChanged(-1);
+                break;
+            case PageType.battle:
+            case PageType.map:
+                break;
+        }
     }
 
     public void backToMapPage()

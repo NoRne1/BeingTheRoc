@@ -2,6 +2,7 @@
     "0": {
         "ID": 0,
         "CID": 0,
+        "aiType": 1,
         "equip1": {
             "id": 0,
             "postion": {
@@ -32,18 +33,62 @@
     "1": {
         "ID": 1,
         "CID": 1,
-        "equip1": null,
-        "equip2": null,
-        "equip3": null,
+        "aiType": 2,
+        "equip1": {
+            "id": 1,
+            "postion": {
+                "x": 0,
+                "y": 0
+            },
+            "rotation": 0
+        },
+        "equip2": {
+            "id": 2,
+            "postion": {
+                "x": 0,
+                "y": 1
+            },
+            "rotation": 0
+        },
+        "equip3": {
+            "id": 2,
+            "postion": {
+                "x": 0,
+                "y": 2
+            },
+            "rotation": 0
+        },
         "equip4": null,
         "equip5": null
     },
     "2": {
         "ID": 2,
         "CID": 2,
-        "equip1": null,
-        "equip2": null,
-        "equip3": null,
+        "aiType": 0,
+        "equip1": {
+            "id": 2,
+            "postion": {
+                "x": 0,
+                "y": 0
+            },
+            "rotation": 0
+        },
+        "equip2": {
+            "id": 0,
+            "postion": {
+                "x": 0,
+                "y": 1
+            },
+            "rotation": 0
+        },
+        "equip3": {
+            "id": 1,
+            "postion": {
+                "x": 0,
+                "y": 2
+            },
+            "rotation": 0
+        },
         "equip4": null,
         "equip5": null
     }

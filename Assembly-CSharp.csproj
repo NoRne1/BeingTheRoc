@@ -75,6 +75,7 @@
     <Compile Include="Assets/Scripts/Utilities/DragSupport.cs" />
     <Compile Include="Assets/Scripts/Utilities/Config.cs" />
     <Compile Include="Assets/Scripts/UI/UIFeatherButton.cs" />
+    <Compile Include="Assets/Scripts/Utilities/PathFinding.cs" />
     <Compile Include="Assets/Scripts/Managers/SkillManager.cs" />
     <Compile Include="Assets/Scripts/UI/UILoadingPanel.cs" />
     <Compile Include="Assets/Scripts/UI/UIBattleItemInfo.cs" />
@@ -131,9 +132,11 @@
     <Compile Include="Assets/Scripts/Defines/SkillDefine.cs" />
     <Compile Include="Assets/Scripts/Managers/SoundManager.cs" />
     <Compile Include="Assets/Scripts/UI/UIChessboard.cs" />
+    <Compile Include="Assets/Scripts/Models/EnemyAI.cs" />
     <Compile Include="Assets/Scripts/UI/UIEquipSlot.cs" />
     <Compile Include="Assets/Scripts/UI/UIShopItem.cs" />
     <Compile Include="Assets/Scripts/Managers/LoadingManager.cs" />
+    <Compile Include="Assets/Scripts/Utilities/ActionTree.cs" />
     <Compile Include="Assets/Scripts/UI/UIExtraHint.cs" />
     <Compile Include="Assets/Scripts/Utilities/FightText/FightTextComponent.cs" />
     <Compile Include="Assets/Scripts/UI/UIEquipRange.cs" />
@@ -141,8 +144,8 @@
     <Compile Include="Assets/Scripts/Models/StoreItemModel.cs" />
     <Compile Include="Assets/Scripts/UI/UITimeLeft.cs" />
     <Compile Include="Assets/Scripts/UI/UIWindow.cs" />
-    <Compile Include="Assets/Scripts/Utilities/MonoSingleton.cs" />
     <Compile Include="Assets/Scripts/Defines/EnemyDefine.cs" />
+    <Compile Include="Assets/Scripts/Utilities/MonoSingleton.cs" />
     <Compile Include="Assets/Scripts/Models/CharacterModel.cs" />
     <Compile Include="Assets/Scripts/UI/UITeamBagPage.cs" />
     <Compile Include="Assets/Scripts/Utilities/CheckPointerEnter.cs" />

@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
+//用于技能池的区分
 public enum JobType
 {
     General = 0,
     Warrior = 1,
     Magician = 2,
-    Shield = 3,
+    Tank = 3,
     Special = 4,
 }
 
