@@ -7,7 +7,7 @@ using UniRx;
 
 public class UIBattleItemInfo : MonoBehaviour
 {
-    public BattleItem item;
+    public string itemID;
 
     public Transform energyFather;
     public GameObject energyPrefab;
@@ -34,14 +34,14 @@ public class UIBattleItemInfo : MonoBehaviour
         
     }
 
-    public void Setup(BattleItem item)
+    public void Setup(string uuid)
     {
-        this.item = item;
-        this.gameObject.SetActive(item != null);
-        if (item != null)
+        this.itemID = uuid;
+        this.gameObject.SetActive(itemID != "");
+        if (itemID != null)
         {
             disposable.IfNotNull(dis => { dis.Dispose(); });
-            disposable = NorneStore.Instance.ObservableObject<BattleItem>(item)
+            disposable = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(itemID))
             .AsObservable().TakeUntilDestroy(this).Subscribe(item =>
             {
                 switch (item.battleItemType)

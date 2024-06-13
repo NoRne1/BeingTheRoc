@@ -294,11 +294,15 @@ public class FightTextManager: MonoBehaviour
         }
         waitDestoryGroup.Clear();
     }
-    public void CreatFightText(string content, TextAnimationType textAnimationType, TextMoveType textMoveType, Transform targetTranform)
+    public void CreatFightText(string content, TextAnimationType textAnimationType, TextMoveType textMoveType,
+        Transform targetTranform, bool isCritical)
     {
-        CreatFightText(content, textAnimationType, textMoveType, this.delayMoveTime, this.initializedVerticalPositionOffset, this.initializedHorizontalPositionOffset, targetTranform);
+        CreatFightText(content, textAnimationType, textMoveType, this.delayMoveTime,
+            this.initializedVerticalPositionOffset, this.initializedHorizontalPositionOffset,
+            targetTranform, isCritical);
     }
-    public void CreatFightText(string content, TextAnimationType textAnimationType, TextMoveType textMoveType, float delayMoveTime, float initializedVerticalPositionOffset, float initializedHorizontalPositionOffset, Transform tempTransform)
+    public void CreatFightText(string content, TextAnimationType textAnimationType, TextMoveType textMoveType, float delayMoveTime, float initializedVerticalPositionOffset,
+        float initializedHorizontalPositionOffset, Transform tempTransform, bool isCritical)
     {
         FightTextInfo fightTextInfo = new FightTextInfo();
         fightTextInfo.content = content;
@@ -308,6 +312,7 @@ public class FightTextManager: MonoBehaviour
         fightTextInfo.initializedVerticalPositionOffset = initializedVerticalPositionOffset;
         fightTextInfo.initializedHorizontalPositionOffset = initializedHorizontalPositionOffset;
         fightTextInfo.cacheTranform = tempTransform;
+        fightTextInfo.isCritical = isCritical;
 
         CreatFightText(fightTextInfo);
     }
@@ -333,10 +338,11 @@ public class FightTextManager: MonoBehaviour
     private GameObject InstanceFightText(FightTextInfo fightTextInfo)
     {
         GameObject fightText = Instantiate(fightTextPrefab);
-        //先拼装字体，顺序颠倒会造成组件无法找到对应物体
-        BuildNumber(fightTextInfo, fightText.transform);
-
         FightTextComponent tempFightTextComponent = fightText.GetComponent<FightTextComponent>();
+        //先拼装字体，顺序颠倒会造成组件无法找到对应物体
+        BuildNumber(fightTextInfo, tempFightTextComponent.textFather);
+
+        
         tempFightTextComponent.SetInfo(fightTextInfo);
         handleFightTextGroup.Add(tempFightTextComponent);
         return fightText;

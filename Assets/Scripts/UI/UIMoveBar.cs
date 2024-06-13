@@ -30,34 +30,35 @@ public class UIMoveBar : MonoBehaviour
         dayItemPool = new ObjectPool(dayItemPrefab, 1, itemFather);
     }
 
-    public void Show(List<BattleItem> battleItems)
+    public void Show(List<string> battleItems)
     {
         firstItemPool.ReturnAllObject();
         otherItemPool.ReturnAllObject();
         dayItemPool.ReturnAllObject();
         for (int i = 0; i < Mathf.Min(battleItems.Count, GlobalAccess.moveBarMaxShowNum); i++)
         {
-            if (i == 0 && battleItems[i].battleItemType != BattleItemType.time &&
-                battleItems[i].remainActingDistance == 0)
+            var battleItem = GlobalAccess.GetBattleItem(battleItems[i]);
+            if (i == 0 && battleItem.battleItemType != BattleItemType.time &&
+                battleItem.remainActingDistance == 0)
             {
                 //有firstItem
                 GameObject firstItem = firstItemPool.GetObjectFromPool();
-                firstItem.GetComponent<UIMoveBarFirstItem>().Setup(battleItems[i]);
+                firstItem.GetComponent<UIMoveBarFirstItem>().Setup(battleItem);
                 firstItem.transform.SetSiblingIndex(i);
             } else
             {
-                switch (battleItems[i].battleItemType)
+                switch (battleItem.battleItemType)
                 {
                     case BattleItemType.time:
                         GameObject dayItem = dayItemPool.GetObjectFromPool();
-                        dayItem.GetComponent<UIMoveBarDayItem>().Setup(battleItems[i]);
+                        dayItem.GetComponent<UIMoveBarDayItem>().Setup(battleItem);
                         dayItem.transform.SetSiblingIndex(i);
                         break;
                     case BattleItemType.player:
                     case BattleItemType.enemy:
                     case BattleItemType.sceneItem:
                         GameObject otherItem = otherItemPool.GetObjectFromPool();
-                        otherItem.GetComponent<UIMoveBarOtherItem>().Setup(battleItems[i]);
+                        otherItem.GetComponent<UIMoveBarOtherItem>().Setup(battleItem);
                         otherItem.transform.SetSiblingIndex(i);
                         break;
                 }

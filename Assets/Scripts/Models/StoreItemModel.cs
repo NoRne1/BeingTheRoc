@@ -10,6 +10,7 @@ public class StoreItemModel : StoreItemDefine
     public Vector2Int position; // 在背包中的位置
     public int rotationAngle; // 旋转角度
     private int tempRotationAngle; // 旋转角度
+    public List<Effect> effects = new List<Effect>();
 
     public StoreItemModel(StoreItemDefine define)
     {
@@ -28,6 +29,19 @@ public class StoreItemModel : StoreItemDefine
         effect1 = define.effect1;
         effect2 = define.effect2;
         effect3 = define.effect3;
+        if (effect1 != null)
+        {
+            effects.Add(effect1);
+        }
+        if (effect2 != null)
+        {
+            effects.Add(effect2);
+        }
+        if (effect3 != null)
+        {
+            effects.Add(effect3);
+        }
+
         desc = define.desc;
         ExtraEntry1 = define.ExtraEntry1;
         ExtraEntry2 = define.ExtraEntry2;

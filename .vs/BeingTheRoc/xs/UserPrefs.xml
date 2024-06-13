@@ -1,31 +1,40 @@
 ﻿<Properties StartupConfiguration="{BBB342A2-6894-1B0E-77BF-1034E1720682}|">
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Models/EnemyAI.cs">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="22e61f7a-ab01-4eb1-bbd2-769670a6f6fe" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/EquipManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Managers/MapManager.cs" />
-      <File FileName="Assets/Scripts/Managers/BattleManager.cs" />
-      <File FileName="Assets/Scripts/Models/EnermyModel.cs" />
-      <File FileName="Assets/Scripts/Managers/DataManager.cs" />
-      <File FileName="Assets/Scripts/Models/Backpack.cs" />
-      <File FileName="Assets/Scripts/Utilities/PathFinding.cs" />
-      <File FileName="Assets/Scripts/Utilities/ActionTree.cs" />
-      <File FileName="Assets/Scripts/Defines/BattleItem.cs" />
-      <File FileName="Assets/Scripts/Models/EnemyAI.cs" Line="7" Column="17" />
+      <File FileName="Assets/Scripts/Managers/BattleManager.cs" Line="366" Column="6" />
+      <File FileName="Assets/Scripts/Models/EnemyAI.cs" Line="7" Column="33" />
+      <File FileName="Assets/Scripts/Models/StoreItemModel.cs" Line="8" Column="19" />
+      <File FileName="Assets/Scripts/Managers/EquipManager.cs" Line="192" Column="106" />
+      <File FileName="Assets/Scripts/Managers/SkillManager.cs" Line="133" Column="6" />
+      <File FileName="Assets/Scripts/Defines/SkillDefine.cs" Line="10" Column="2" />
+      <File FileName="Assets/Scripts/Defines/BattleItem.cs" Line="23" Column="16" />
+      <File FileName="Assets/Scripts/Utilities/NorneStore.cs" Line="74" Column="26" />
+      <File FileName="Assets/Scripts/Utilities/GlobalAccess.cs" Line="13" Column="7" />
+      <File FileName="Assets/Scripts/UI/UITeamWindow.cs" Line="71" Column="13" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="BeingTheRoc">
             <Node name="Assets" expanded="True">
+              <Node name="Plugins" expanded="True">
+                <Node name="UniRx" expanded="True">
+                  <Node name="Scripts" expanded="True">
+                    <Node name="Operators" expanded="True" />
+                  </Node>
+                </Node>
+              </Node>
               <Node name="Scripts" expanded="True">
                 <Node name="Defines" expanded="True" />
                 <Node name="Managers" expanded="True" />
-                <Node name="Models" expanded="True">
-                  <Node name="EnemyAI.cs" selected="True" />
-                </Node>
+                <Node name="Models" expanded="True" />
+                <Node name="UI" expanded="True" />
                 <Node name="Utilities" expanded="True">
                   <Node name="FightText" expanded="True" />
                 </Node>
@@ -36,7 +45,5 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="7e6c9352-4d25-4874-bb48-ed1996d79efa" />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

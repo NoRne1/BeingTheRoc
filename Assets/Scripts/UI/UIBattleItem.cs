@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-
+using UniRx;
+using static UnityEditor.Progress;
 
 public class UIBattleItem : MonoBehaviour
 {
     public Image itemIcon;
-    public BattleItem item;
+    public string itemID;
     public GameObject border;
     public GameObject indicator;
     public FightTextManager fightTextManager;
     public Animator ani;
+    public Slider hpSlider;
+    public Slider shieldSlider;
 
     public bool Selected
     {
@@ -43,35 +45,59 @@ public class UIBattleItem : MonoBehaviour
 
     }
 
-    public void Setup(BattleItem item)
+    public void Setup(string itemID)
     {
+        this.itemID = itemID;
+        var item = GlobalAccess.GetBattleItem(itemID);
         itemIcon.overrideSprite = Resloader.LoadSprite(item.Resource, ConstValue.playersPath);
-        this.item = item;
+        NorneStore.Instance.ObservableObject(new BattleItem(itemID)).AsObservable().TakeUntilDestroy(this).Subscribe(item =>
+        {
+            hpSlider.maxValue = item.MaxHP;
+            shieldSlider.maxValue = item.MaxHP;
+            hpSlider.maxValue = item.currentHP;
+            shieldSlider.maxValue = item.shield;
+        });
     }
 
-    public void Damage(int damage)
+    public AttackStatus Damage(int damage, bool isCritical)
     {
-        var temp = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(item.uuid)).Value;
-        temp.currentHP -= damage;
-        fightTextManager.CreatFightText("-" + damage.ToString(), TextAnimationType.Burst, TextMoveType.RightParabola, transform);
-        if (temp.currentHP <= 0)
+        //todo Critical UI display
+        Debug.Log("Damage:" + damage + " isCritical:" + isCritical);
+
+        //伤害溢出时，血量允许被扣成负数
+        var item = GlobalAccess.GetBattleItem(itemID);
+        if (item.shield >= damage) {
+            item.shield -= damage;
+        } else
+        {
+            item.currentHP = item.currentHP + item.shield - damage;
+            item.shield = 0;
+        }
+        fightTextManager.CreatFightText("-" + damage.ToString(), TextAnimationType.Burst, TextMoveType.RightParabola, transform, isCritical);
+        if (item.currentHP <= 0)
+        {
             this.Die();
-        NorneStore.Instance.Update<BattleItem>(temp, true);
+            return AttackStatus.toDeath;
+        } else
+        {
+            NorneStore.Instance.Update<BattleItem>(item, true);
+            return AttackStatus.normal;
+        }
+        GlobalAccess.SaveBattleItem(item);
     }
 
-    public void AddHP(int hp)
+    public void AddHP(int hp, bool isCritical)
     {
-        var temp = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(item.uuid)).Value;
-        temp.currentHP += hp;
-        fightTextManager.CreatFightText("+" + hp.ToString(), TextAnimationType.Normal, TextMoveType.RightParabola, transform);
-        if (temp.currentHP > temp.MaxHP)
-            temp.currentHP = temp.MaxHP;
-        NorneStore.Instance.Update<BattleItem>(temp, true);
+        var item = GlobalAccess.GetBattleItem(itemID);
+        item.currentHP = Mathf.Min(item.MaxHP, item.currentHP + hp);
+        fightTextManager.CreatFightText("+" + hp.ToString(), TextAnimationType.Normal, TextMoveType.RightParabola, transform, isCritical);
+        GlobalAccess.SaveBattleItem(item);
     }
 
+    //todo die
     public void Die()
     {
-        Debug.Log(item.Name + "die!");
+        BattleManager.Instance.CharacterDie(itemID);
     }
 }
 

@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using static UnityEditor.Progress;
-using UnityEngine.TextCore.Text;
-using static UnityEngine.GraphicsBuffer;
 
 public class EquipManager : MonoSingleton<EquipManager>
 {
@@ -50,11 +49,11 @@ public class EquipManager : MonoSingleton<EquipManager>
     private IEnumerator TriggerEquipEffect(string selfID, StoreItemModel item, bool characterOrBattleItem)
     {
         targetIDs = null;
-        if (item.invokeType == InvokeType.bagUse || item.invokeType == InvokeType.equipUse)
+        if (item.invokeType == ItemInvokeType.bagUse || item.invokeType == ItemInvokeType.equipUse)
         {
             List<string> selfIDList = new List<string> { selfID };
             ProcessItemUse(selfID, item, selfIDList, characterOrBattleItem);
-        } else if (item.invokeType == InvokeType.equipTarget)
+        } else if (item.invokeType == ItemInvokeType.equipTarget)
         {
             BattleManager.Instance.SelectTargets(item);
             // 等待玩家选择目标，比如点击其他游戏对象
@@ -110,18 +109,7 @@ public class EquipManager : MonoSingleton<EquipManager>
             target.currentEnergy -= item.takeEnergy;
             NorneStore.Instance.Update<BattleItem>(target, true);
         }
-        if (item.effect1 != null)
-        {
-            ProcessEffect(selfID, targetIDs, item.effect1, characterOrBattleItem);
-        }
-        if (item.effect2 != null)
-        {
-            ProcessEffect(selfID, targetIDs, item.effect2, characterOrBattleItem);
-        }
-        if (item.effect3 != null)
-        {
-            ProcessEffect(selfID, targetIDs, item.effect3, characterOrBattleItem);
-        }
+        InvokeEffect(EffectInvokeType.useInstant, selfID, targetIDs, item, characterOrBattleItem);
         if (item.type == ItemType.expendable)
         {
             if (characterOrBattleItem)
@@ -135,19 +123,19 @@ public class EquipManager : MonoSingleton<EquipManager>
         }
     }
 
-    public void ProcessEffect(string selfID, List<string> targetIDs, Effect effect, bool characterOrBattleItem)
+    public void ProcessEffect(string selfID, List<string> targetIDs, StoreItemModel item, Effect effect, bool characterOrBattleItem)
     {
         if (characterOrBattleItem)
         {
-            ProcessEffect_Character(targetIDs, effect);
+            ProcessEffect_Character(selfID, targetIDs, item, effect);
         }
         else
         {
-            ProcessEffect_BattleItem(selfID, targetIDs, effect);
+            ProcessEffect_BattleItem(selfID, targetIDs, item, effect);
         }
     }
 
-    public void ProcessEffect_Character(List<string> targetIDs, Effect effect)
+    public void ProcessEffect_Character(string selfID, List<string> targetIDs, StoreItemModel item, Effect effect)
     {
         foreach (var targetID in targetIDs)
         {
@@ -191,6 +179,9 @@ public class EquipManager : MonoSingleton<EquipManager>
                         case PropertyType.Exp:
                             target.exp += effect.Value;
                             break;
+                        case PropertyType.shield:
+                            Debug.Log("CharacterModel no shield");
+                            break;
                         default:
                             Debug.Log("unknown propertyType");
                             break;
@@ -198,7 +189,7 @@ public class EquipManager : MonoSingleton<EquipManager>
                     NorneStore.Instance.Update<CharacterModel>(target, isFull: true);
                     break;
                 case EffectType.skill:
-                    SkillManager.Instance.InvokeSkill(targetID, effect.methodName);
+                    SkillManager.Instance.InvokeSkill(targetID, targetID, effect.methodName, effect.Value);
                     break;
                 case EffectType.buff:
                     BuffManager.Instance.AddBuff(targetID, effect.methodName);
@@ -209,7 +200,7 @@ public class EquipManager : MonoSingleton<EquipManager>
             }
         }
     }
-    public void ProcessEffect_BattleItem(string selfID, List<string> targetIDs, Effect effect)
+    public void ProcessEffect_BattleItem(string selfID, List<string> targetIDs, StoreItemModel item, Effect effect)
     {
         foreach (var targetID in targetIDs)
         {
@@ -225,7 +216,7 @@ public class EquipManager : MonoSingleton<EquipManager>
                             target.currentHP += effect.Value;
                             break;
                         case PropertyType.HP:
-                            target.currentHP += effect.Value;
+                            BattleManager.Instance.ProcessHealth(selfID, targetIDs, effect.Value);
                             break;
                         case PropertyType.Strength:
                             target.Strength += effect.Value;
@@ -254,6 +245,9 @@ public class EquipManager : MonoSingleton<EquipManager>
                         case PropertyType.Exp:
                             target.exp += effect.Value;
                             break;
+                        case PropertyType.shield:
+                            target.shield += effect.Value;
+                            break;
                         default:
                             Debug.Log("unknown propertyType");
                             break;
@@ -261,14 +255,35 @@ public class EquipManager : MonoSingleton<EquipManager>
                     NorneStore.Instance.Update<BattleItem>(target, isFull: true);
                     break;
                 case EffectType.skill:
-                    SkillManager.Instance.InvokeSkill(targetID, effect.methodName);
+                    SkillManager.Instance.InvokeSkill(selfID, targetID, effect.methodName, effect.Value);
                     break;
                 case EffectType.buff:
                     BuffManager.Instance.AddBuff(targetID, effect.methodName);
                     break;
                 case EffectType.attack:
-                    BattleManager.Instance.ProcessAttack(selfID, targetIDs, effect.Value);
+                    var attackStatus = BattleManager.Instance.ProcessAttack(selfID, targetIDs, effect.Value);
+                    switch (attackStatus)
+                    {
+                        case AttackStatus.normal:
+                            InvokeEffect(EffectInvokeType.damage, selfID, targetIDs, item, false);
+                            break;
+                        case AttackStatus.toDeath:
+                            InvokeEffect(EffectInvokeType.toDeath, selfID, targetIDs, item, false);
+                            break;
+                    }
                     break;
+            }
+        }
+    }
+
+    private void InvokeEffect(EffectInvokeType invokeType, string selfID, List<string> targetIDs, StoreItemModel item, bool characterOrBattleItem)
+    {
+        var useEffects = item.effects.Where(effect => effect.invokeType == invokeType).ToList();
+        if (useEffects.Count > 0)
+        {
+            foreach (var effect in useEffects)
+            {
+                ProcessEffect(selfID, targetIDs, item, effect, characterOrBattleItem);
             }
         }
     }

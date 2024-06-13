@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using System.Linq;
 using System;
 using Unity.VisualScripting;
+using static UnityEditor.Progress;
+using UnityEditor;
 
 public enum RoundTime
 {
@@ -24,6 +26,13 @@ public enum ClickSlotReason
     selectTarget = 4,
 }
 
+public enum AttackStatus
+{
+    normal = 1,
+    miss = 2,
+    toDeath = 3,
+}
+
 public class BattleManager : MonoSingleton<BattleManager>
 {
     public float difficultyExtraFactor = 0f;
@@ -38,8 +47,8 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public BehaviorSubject<float> timePass = new BehaviorSubject<float>(-1);
     public System.IDisposable timePassDispose;
-    public List<BattleItem> battleItems = new List<BattleItem>();
-    public List<BattleItem> PlayerItems = new List<BattleItem>();
+    public List<string> battleItemIDs = new List<string>();
+    public List<string> PlayerItemIDs = new List<string>();
     public BehaviorSubject<RoundTime> roundTime = new BehaviorSubject<RoundTime>(RoundTime.prepare);
     public System.IDisposable roundRelayDispose;
 
@@ -66,7 +75,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         currentPlaceIndex.AsObservable().TakeUntilDestroy(this).Subscribe(index =>
         {
             if (index < 0) { return; }
-            if (index >= PlayerItems.Count)
+            if (index >= PlayerItemIDs.Count)
             {
                 //放置完成，回合正式开始
                 //需要手动把placebox隐藏
@@ -77,7 +86,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 currentPlaceIndex.OnNext(-1);
                 return;
             }
-            placeBox.Setup(PlayerItems[currentPlaceIndex.Value].Resource);
+            placeBox.Setup(GlobalAccess.GetBattleItem(PlayerItemIDs[currentPlaceIndex.Value]).Resource);
         });
         clickedSlot.AsObservable().TakeUntilDestroy(this).Subscribe(slot =>
         {
@@ -187,8 +196,8 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         uiBattleItemInfo.Setup(null);
         uiBattleBag.Setup(null);
-        battleItems.Clear();
-        PlayerItems.Clear();
+        battleItemIDs.Clear();
+        PlayerItemIDs.Clear();
         GameUtil.Instance.DetachChildren(battleItemFather);
         battleItemDic.Clear();
         chessBoard.ResetColors();
@@ -198,23 +207,24 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         BattleInit();
         this.battleInfo = battleInfo;
-
-        battleItems.Add(new BattleItem(BattleItemType.time));
+        var timeItem = new BattleItem(BattleItemType.time);
+        GlobalAccess.SaveBattleItem(timeItem);
+        battleItemIDs.Add(timeItem.uuid);
 
         for (int i = 0; i < characterIDs.Count; i++)
         {
             var battleItem = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(characterIDs[i])).Value.ToBattleItem();
-            battleItems.Add(battleItem);
-            PlayerItems.Add(battleItem);
-            NorneStore.Instance.Update<BattleItem>(battleItem, true);
+            GlobalAccess.SaveBattleItem(battleItem);
+            battleItemIDs.Add(battleItem.uuid);
+            PlayerItemIDs.Add(battleItem.uuid);
         }
 
         foreach (var pair in battleInfo.enermys)
         {
             var battleItem = pair.Value.ToBattleItem(difficultyExtraFactor + battleInfo.battleBaseDifficulty);
-            battleItems.Add(battleItem);
-            NorneStore.Instance.Update<BattleItem>(battleItem, true);
-            PlaceBattleItem(battleItem, chessBoard.slots[pair.Key]);
+            GlobalAccess.SaveBattleItem(battleItem);
+            battleItemIDs.Add(battleItem.uuid);
+            PlaceBattleItem(battleItem.uuid, chessBoard.slots[pair.Key]);
         }
 
         timePassDispose = timePass.AsObservable().TakeUntilDestroy(this).Subscribe(time =>
@@ -232,14 +242,18 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public IEnumerator ProcessRound(RoundTime time)
     {
+        var battleItem0 = GlobalAccess.GetBattleItem(battleItemIDs[0]);
+        var battleItem1 = GlobalAccess.GetBattleItem(battleItemIDs[1]);
         switch (time)
         {
             case RoundTime.begin:
                 Debug.Log("round begin");
-                switch (battleItems[0].battleItemType)
+                switch (battleItem0.battleItemType)
                 {
                     case BattleItemType.player:
-                        battleItemDic.FirstOrDefault(pair => { return pair.Value.item.uuid == battleItems[0].uuid; }).IfNotNull(pair =>
+                        battleItemDic.FirstOrDefault(pair => {
+                            return pair.Value.itemID == battleItem0.uuid;
+                        }).IfNotNull(pair =>
                         {
                             pair.Value.roundActive = true;
                             // auto viewCharacter
@@ -248,7 +262,9 @@ public class BattleManager : MonoSingleton<BattleManager>
                         });
                         break;
                     case BattleItemType.enemy:
-                        battleItemDic.FirstOrDefault(pair => { return pair.Value.item.uuid == battleItems[0].uuid; }).IfNotNull(pair =>
+                        battleItemDic.FirstOrDefault(pair => {
+                            return pair.Value.itemID == battleItem0.uuid;
+                        }).IfNotNull(pair =>
                         {
                             pair.Value.roundActive = true;
                         });
@@ -259,7 +275,9 @@ public class BattleManager : MonoSingleton<BattleManager>
                         roundTime.OnNext(RoundTime.end);
                         break;
                     case BattleItemType.sceneItem:
-                        battleItemDic.FirstOrDefault(pair => { return pair.Value.item.uuid == battleItems[0].uuid; }).IfNotNull(pair =>
+                        battleItemDic.FirstOrDefault(pair => {
+                            return pair.Value.itemID == battleItem0.uuid;
+                        }).IfNotNull(pair =>
                         {
                             pair.Value.roundActive = true;
                         });
@@ -271,12 +289,12 @@ public class BattleManager : MonoSingleton<BattleManager>
                 break;
             case RoundTime.acting:
                 Debug.Log("round acting");
-                switch (battleItems[0].battleItemType)
+                switch (battleItem0.battleItemType)
                 {
                     case BattleItemType.player:
                         break;
                     case BattleItemType.enemy:
-                        StartCoroutine(battleItems[0].enemyAI.TurnAction(battleItems[0].uuid));
+                        StartCoroutine(battleItem0.enemyAI.TurnAction(battleItem0.uuid));
                         break;
                     case BattleItemType.time:
                         GameManager.Instance.TimeChanged(-1);
@@ -292,20 +310,20 @@ public class BattleManager : MonoSingleton<BattleManager>
                 break;
             case RoundTime.end:
                 Debug.Log("round end");
-                switch (battleItems[0].battleItemType)
+                switch (battleItem0.battleItemType)
                 {
                     case BattleItemType.player:
                     case BattleItemType.enemy:
                     case BattleItemType.sceneItem:
-                        battleItemDic.Values.First(item => { return item.item.uuid == battleItems[0].uuid; }).roundActive = false;
+                        battleItemDic.Values.First(item => { return item.itemID == battleItem0.uuid; }).roundActive = false;
                         break;
                     case BattleItemType.time:
                         break;
                 }
                 
-                int temp = Mathf.CeilToInt(GlobalAccess.roundDistance / battleItems[0].Speed);
-                float passedTime = battleItems[1].remainActingDistance / battleItems[1].Speed;
-                battleItems[0].remainActingDistance = GlobalAccess.roundDistance + passedTime * battleItems[0].Speed; // 因为后续还会timePass一次
+                int temp = Mathf.CeilToInt(GlobalAccess.roundDistance / battleItem0.Speed);
+                float passedTime = battleItem1.remainActingDistance / battleItem1.Speed;
+                battleItem0.remainActingDistance = GlobalAccess.roundDistance + passedTime * battleItem0.Speed; // 因为后续还会timePass一次
                 timePass.OnNext(passedTime);
                 yield return new WaitForSeconds(1f);
                 roundTime.OnNext(RoundTime.begin);
@@ -325,32 +343,37 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         if (time >= 0)
         {
-            foreach (BattleItem item in battleItems)
+            foreach (string uuid in battleItemIDs)
             {
+                var item = GlobalAccess.GetBattleItem(uuid);
                 item.remainActingDistance = Mathf.Max(0, item.remainActingDistance - time * item.Speed);
+                GlobalAccess.SaveBattleItem(item);
             }
             ResortBattleItems();
-            moveBar.Show(battleItems);
+            moveBar.Show(battleItemIDs);
         }
         else if (time == -999)
         {
-            foreach (BattleItem item in battleItems)
+            foreach (string uuid in battleItemIDs)
             {
+                var item = GlobalAccess.GetBattleItem(uuid);
                 item.remainActingDistance = GlobalAccess.roundDistance;
+                GlobalAccess.SaveBattleItem(item);
             }
             ResortBattleItems();
-            moveBar.Show(battleItems);
+            moveBar.Show(battleItemIDs);
         }
     }
 
     public void ResortBattleItems()
     {
-        battleItems.Sort((a, b) =>
+        var tempBattleItems = battleItemIDs.Select(uuid => GlobalAccess.GetBattleItem(uuid)).ToList();
+        tempBattleItems.Sort((itemA, itemB) =>
         {
-            return Mathf.CeilToInt(a.remainActingDistance / a.Speed)
-                .CompareTo(Mathf.CeilToInt(b.remainActingDistance / b.Speed));
+            return Mathf.CeilToInt(itemA.remainActingDistance / itemA.Speed)
+                .CompareTo(Mathf.CeilToInt(itemB.remainActingDistance / itemB.Speed));
         });
-        
+        battleItemIDs = tempBattleItems.Select(item => item.uuid).ToList();
     }
 
     public void RoundEnd()
@@ -364,9 +387,8 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             if (!HasBattleItem(slot))
             {
-                BattleItem item = PlayerItems[currentPlaceIndex.Value];
                 //放置成功
-                PlaceBattleItem(item, slot);
+                PlaceBattleItem(PlayerItemIDs[currentPlaceIndex.Value], slot);
                 currentPlaceIndex.OnNext(currentPlaceIndex.Value + 1);
             }
             else
@@ -381,12 +403,11 @@ public class BattleManager : MonoSingleton<BattleManager>
         }
     }
 
-    private void PlaceBattleItem(BattleItem item, UIChessboardSlot slot)
+    private void PlaceBattleItem(string uuid, UIChessboardSlot slot)
     {
-        Debug.Log("Character Place Success! " + item.Name + ": " + slot.position);
         GameObject temp = Instantiate(battleItemPrefab, this.battleItemFather);
         UIBattleItem battleItem = temp.GetComponent<UIBattleItem>();
-        battleItem.Setup(item);
+        battleItem.Setup(uuid);
         temp.transform.position = slot.transform.position;
         battleItemDic.Add(slot.position, battleItem);
     }
@@ -399,7 +420,8 @@ public class BattleManager : MonoSingleton<BattleManager>
             Dictionary<Vector2, ChessboardSlotColor> dic = new Dictionary<Vector2, ChessboardSlotColor>();
             foreach (var slot in chessBoard.slots.Values)
             {
-                if (GameUtil.Instance.CanMoveTo(chessboardSlot.position, slot.position, battleItemDic[chessboardSlot.position].item.Mobility))
+                if (GameUtil.Instance.CanMoveTo(chessboardSlot.position, slot.position,
+                    GlobalAccess.GetBattleItem(battleItemDic[chessboardSlot.position].itemID).Mobility))
                 {
                     dic.Add(slot.position, ChessboardSlotColor.green);
                 }
@@ -417,8 +439,9 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             clickSlotReason = ClickSlotReason.viewCharacter;
             clickedSlot.OnNext(slot);
-        } else if (lastClickedSlot != null && battleItemDic[lastSelectedPos].item.uuid == battleItems[0].uuid && HasBattleItem(lastClickedSlot) &&
-            GameUtil.Instance.CanMoveTo(lastSelectedPos, slot.position, battleItemDic[lastSelectedPos].item.Mobility))
+        } else if (lastClickedSlot != null && battleItemDic[lastSelectedPos].itemID == GlobalAccess.GetBattleItem(battleItemIDs[0]).uuid && HasBattleItem(lastClickedSlot) &&
+            GameUtil.Instance.CanMoveTo(lastSelectedPos, slot.position,
+            GlobalAccess.GetBattleItem(battleItemDic[lastSelectedPos].itemID).Mobility))
         {
             Debug.Log("move success to :" + slot.position);
             battleItemDic.Add(slot.position, battleItemDic[lastSelectedPos]);
@@ -459,7 +482,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             string uuID = battleItem.uuid;
             try
             {
-                Vector2 vect = battleItemDic.First(x => x.Value.item.uuid == uuID).Key;
+                Vector2 vect = battleItemDic.First(x => x.Value.itemID == uuID).Key;
                 clickedSlot.OnNext(chessBoard.slots[vect]);
             }
             catch (InvalidOperationException e)
@@ -480,8 +503,8 @@ public class BattleManager : MonoSingleton<BattleManager>
             });
         }
         battleItemDic[pos].Selected = true;
-        uiBattleItemInfo.Setup(battleItemDic[pos].item);
-        uiBattleBag.Setup(battleItemDic[pos].item);
+        uiBattleItemInfo.Setup(battleItemDic[pos].itemID);
+        uiBattleBag.Setup(battleItemDic[pos].itemID);
         chessBoard.ResetMiddle(false);
         lastSelectedPos = pos;
     }
@@ -502,7 +525,8 @@ public class BattleManager : MonoSingleton<BattleManager>
     }
 
     public void EquipClicked(string uuid, UIEquipItem equipItem) {
-        if (uuid == battleItems[0].uuid && battleItems[0].battleItemType == BattleItemType.player)
+        var battleItem0 = GlobalAccess.GetBattleItem(battleItemIDs[0]);
+        if (uuid == battleItem0.uuid && battleItem0.battleItemType == BattleItemType.player)
         {
             //只处理正在行动的玩家角色的装备点击
             EquipManager.Instance.Use(uuid, equipItem.storeItem, false);
@@ -513,10 +537,10 @@ public class BattleManager : MonoSingleton<BattleManager>
     public void SelectTargets(StoreItemModel storeItem)
     {
         //SetColors
-        string uuID = battleItems[0].uuid;
+        string uuID = GlobalAccess.GetBattleItem(battleItemIDs[0]).uuid;
         try
         {
-            Vector2 vect = battleItemDic.First(x => x.Value.item.uuid == uuID).Key;
+            Vector2 vect = battleItemDic.First(x => x.Value.itemID == uuID).Key;
             List<Vector2> vectList = storeItem.GetTargetRangeList(vect);
             chessBoard.ResetColors();
             Dictionary<Vector2, ChessboardSlotColor> dic = new Dictionary<Vector2, ChessboardSlotColor>();
@@ -537,13 +561,13 @@ public class BattleManager : MonoSingleton<BattleManager>
     public void TargetSelected(UIChessboardSlot slot)
     {
         clickSlotReason = ClickSlotReason.viewCharacter;
-        Vector2 vect = battleItemDic.First(x => x.Value.item.uuid == battleItems[0].uuid).Key;
+        Vector2 vect = battleItemDic.First(x => x.Value.itemID == GlobalAccess.GetBattleItem(battleItemIDs[0]).uuid).Key;
         if (clickedStoreItem.GetTargetRangeList(vect).Contains(slot.position))
         {
             //todo temp one target
             if (battleItemDic.Keys.Contains(slot.position))
             {
-                EquipManager.Instance.targetIDs = new List<string>() { battleItemDic[slot.position].item.uuid };
+                EquipManager.Instance.targetIDs = new List<string>() { battleItemDic[slot.position].itemID };
                 clickSlotReason = ClickSlotReason.move;
                 ShowMovePath(chessBoard.slots[vect]);
             }
@@ -571,22 +595,87 @@ public class BattleManager : MonoSingleton<BattleManager>
         uiBattleItemInfo.BlinkEnergy();
     }
 
-    public void ProcessAttack(string selfID, List<string> targetIDs, int value)
+    public AttackStatus ProcessAttack(string selfID, List<string> targetIDs, int value)
     {
         var self = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(selfID)).Value;
+        List<AttackStatus> statuses = new List<AttackStatus>();
         foreach (var id in targetIDs)
         {
             var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(id)).Value;
+            bool hitFlag = UnityEngine.Random.Range(0, 100) < (100 - target.Dodge + self.Accuracy);
+            bool criticalFlag = UnityEngine.Random.Range(0, 100) < self.Lucky;
+            if (!hitFlag)
+            {
+                statuses.Add(AttackStatus.miss);
+            }
             int damage = (int)(value
                 * (1 + self.Strength / 100.0f)
                 * (1 - target.Defense / (target.Defense + 100.0f))
-                * (UnityEngine.Random.Range(0,1) < (target.Dodge - self.Accuracy) ? 0 : 1)
-                * (UnityEngine.Random.Range(0, 100) < self.Lucky ? 1 : 2));
-            var targetItem = battleItemDic.Values.Where((item) => item.item.uuid == id).ToList().FirstOrDefault();
+                * (hitFlag ? 1 : 0)
+                * (criticalFlag ? 1 : 2));
+            var targetItem = battleItemDic.Values.Where((item) => item.itemID == id).ToList().FirstOrDefault();
             if (targetItem != null)
             {
-                targetItem.Damage(damage);
+                statuses.Add(targetItem.Damage(damage, criticalFlag));
+            } else
+            {
+                statuses.Add(AttackStatus.normal);
             }
+        }
+        if(statuses.Contains(AttackStatus.toDeath))
+        {
+            return AttackStatus.toDeath;
+        } else {
+            foreach(var status in statuses)
+            {
+                switch (status)
+                {
+                    case AttackStatus.normal:
+                        return AttackStatus.normal;
+                    case AttackStatus.miss:
+                        continue;
+                    case AttackStatus.toDeath:
+                        return AttackStatus.toDeath;
+                }
+            }
+            return AttackStatus.miss;
+        }
+    }
+
+    public void ProcessHealth(string selfID, List<string> targetIDs, int value)
+    {
+        var self = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(selfID)).Value;
+        List<AttackStatus> statuses = new List<AttackStatus>();
+        foreach (var id in targetIDs)
+        {
+            var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(id)).Value;
+            bool criticalFlag = UnityEngine.Random.Range(0, 100) < self.Lucky;
+            int healthHp = (int)(value
+                * (1 + self.Strength / 100.0f)
+                * (criticalFlag ? 1 : 2));
+            var targetItem = battleItemDic.Values.Where((item) => item.itemID == id).ToList().FirstOrDefault();
+            if (targetItem != null)
+            {
+                targetItem.AddHP(healthHp, criticalFlag);
+            }
+        }
+    }
+
+    public void CharacterDie(string uuid)
+    {
+        battleItemIDs.RemoveAll(tempid => {
+            var item = GlobalAccess.GetBattleItem(tempid);
+            return item.uuid == uuid;
+            });
+        PlayerItemIDs.RemoveAll(tempid => {
+            var item = GlobalAccess.GetBattleItem(tempid);
+            return item.uuid == uuid;
+            });
+        var pairs = battleItemDic.Where(item => item.Value.itemID == uuid);
+        foreach(var pair in pairs)
+        {
+            Destroy(pair.Value.gameObject);
+            battleItemDic.Remove(pair.Key);
         }
     }
 }

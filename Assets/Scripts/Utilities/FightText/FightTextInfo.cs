@@ -14,5 +14,6 @@ public class FightTextInfo
     public float initializedHorizontalPositionOffset;
     public float xIncrement;
     public float yIncrement;
+    public bool isCritical;
 }
 

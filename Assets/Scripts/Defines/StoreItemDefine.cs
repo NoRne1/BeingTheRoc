@@ -28,7 +28,7 @@ public enum EquipType
     Xz = 9, //z字型的4格
 }
 
-public enum InvokeType
+public enum ItemInvokeType
 {
     none = -1,
     bagUse = 0, // 背包中使用生效
@@ -47,6 +47,14 @@ public enum EffectType
     attack = 3,
 }
 
+public enum EffectInvokeType
+{
+    none = -1,
+    useInstant = 0, // 使用立即生效
+    damage = 1, // 造成伤害生效
+    toDeath = 2, //造成死亡生效
+}
+
 public enum PropertyType
 {
     none = -1,
@@ -61,6 +69,7 @@ public enum PropertyType
     Lucky = 8,
     HP = 9,
     Exp = 10,
+    shield = 11,
 }
 
 public enum TargetRange
@@ -78,11 +87,15 @@ public enum TargetRange
 public class Effect
 {
     public EffectType? effectType;
+    public EffectInvokeType? invokeType;
     public PropertyType? propertyType;
     public string methodName;
     public int? value;
 
-    public int Value { get { return value ?? 0; } }
+    public int Value {
+        get { return value ?? 0; }
+        set { this.value = value; }
+    }
 }
 
 public class StoreItemDefine
@@ -90,7 +103,7 @@ public class StoreItemDefine
     public int ID { get; set; }
     public ItemType type { get; set; }
     public EquipType equipType { get; set; }
-    public InvokeType invokeType { get; set; }
+    public ItemInvokeType invokeType { get; set; }
     public TargetRange targetRange { get; set; }
     public string title { get; set; }
     public GenerlLevel level { get; set; }
@@ -196,13 +209,13 @@ public class StoreItemDefine
     {
         switch (invokeType)
         {
-            case InvokeType.bagUse:
-            case InvokeType.equipTarget:
-            case InvokeType.equipUse:
+            case ItemInvokeType.bagUse:
+            case ItemInvokeType.equipTarget:
+            case ItemInvokeType.equipUse:
                 return true;
-            case InvokeType.none:
-            case InvokeType.equip:
-            case InvokeType.instant:
+            case ItemInvokeType.none:
+            case ItemInvokeType.equip:
+            case ItemInvokeType.instant:
             default:
                 return false;
         }

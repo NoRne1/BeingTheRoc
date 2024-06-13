@@ -30,6 +30,7 @@ public class BattleItem: IStorable
     public string Desc { get; set; }
     public int currentHP;
     public int currentEnergy;
+    public int shield;
     public int level;
     public int remainExp { get { return exp - GlobalAccess.levelUpExp * level; } }
     public int exp;
@@ -57,6 +58,7 @@ public class BattleItem: IStorable
                 battleItemType = type;
                 break;
             case BattleItemType.time:
+                uuid = GameUtil.Instance.GenerateUniqueId();
                 battleItemType = type;
                 Speed = 100;
                 break;

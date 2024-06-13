@@ -72,6 +72,16 @@ class GlobalAccess
         }
     }
 
+    public static BattleItem GetBattleItem(string uuid)
+    {
+        return NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(uuid)).Value;
+    }
+
+    public static void SaveBattleItem(BattleItem battleItem)
+    {
+        NorneStore.Instance.Update<BattleItem>(battleItem, true);
+    }
+
     ~GlobalAccess()
     {
         PlayerPrefs.Save();
