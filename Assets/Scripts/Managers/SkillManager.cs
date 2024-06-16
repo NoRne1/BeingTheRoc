@@ -88,8 +88,8 @@ public class SkillManager : MonoSingleton<SkillManager>
             Effect effect = new Effect();
             effect.effectType = EffectType.skill;
             effect.invokeType = EffectInvokeType.damage;
-            effect.methodName = "";
-            effect.Value = 1;
+            effect.methodName = "MoveChangeSelf";
+            effect.Value = 10;
             hunyuanSword.effects.Add(effect);
         }
     }

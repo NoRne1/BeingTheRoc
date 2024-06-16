@@ -35,6 +35,7 @@ public class BattleItem: IStorable
     public int remainExp { get { return exp - GlobalAccess.levelUpExp * level; } }
     public int exp;
     public Backpack backpack;
+    public BuffCenter buffCenter;
 
     public int BornSkill { get; set; }
     public int Skill1 { get; set; }

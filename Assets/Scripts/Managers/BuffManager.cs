@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using static UnityEngine.GraphicsBuffer;
+using System.Reflection;
 
 public class BuffManager : MonoSingleton<BuffManager>
 {
@@ -15,12 +17,29 @@ public class BuffManager : MonoSingleton<BuffManager>
 			
 	}
 
-    public void AddBuff(string targetID, string methodName)
+    // for normal
+    public void InvokeBuff(BuffModel buff)
     {
-        var method = typeof(BuffManager).GetMethod(methodName);
-        object[] parameters = new object[] { targetID };
+        var method = typeof(BuffManager).GetMethod(buff.MethodName);
+        object[] parameters = new object[] { buff };
         method?.Invoke(BuffManager.Instance, parameters);
-        Debug.Log("buff " + methodName + " has been add");
+    }
+
+    // for BuffInvokeTime.constant
+    public void InvokeBuff(BuffModel buff, bool AddOrRemove)
+    {
+        var method = typeof(BuffManager).GetMethod(buff.MethodName);
+        object[] parameters = new object[] { buff, AddOrRemove };
+        method?.Invoke(BuffManager.Instance, parameters);
+    }
+
+    private void Nothingness(BuffModel buff)
+    {
+        buff.num++;
+        if (buff.num >= 5)
+        {
+            BattleManager.Instance.CharacterDie(buff.ownerID);
+        }
     }
 }
 

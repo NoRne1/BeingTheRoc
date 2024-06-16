@@ -87,6 +87,7 @@
     <Compile Include="Assets/Scripts/Utilities/ShakeEffect.cs" />
     <Compile Include="Assets/Scripts/Defines/SoundDefine.cs" />
     <Compile Include="Assets/Scripts/Managers/MapManager.cs" />
+    <Compile Include="Assets/Scripts/Models/BuffModel.cs" />
     <Compile Include="Assets/Scripts/UI/UITownPage.cs" />
     <Compile Include="Assets/Scripts/UI/UISkillSelect.cs" />
     <Compile Include="Assets/Scripts/Utilities/FightText/FightTextInfo.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Assets/Scripts/Defines/BattleItem.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/DictionaryExtensions.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBarFirstItem.cs" />
+    <Compile Include="Assets/Scripts/Managers/BuffCenter.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBar.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/StringExtensions.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBarDayItem.cs" />
@@ -108,6 +110,7 @@
     <Compile Include="Assets/Scripts/UI/UITip.cs" />
     <Compile Include="Assets/Scripts/UI/UIHintBase.cs" />
     <Compile Include="Assets/Scripts/Defines/TownActionDefine.cs" />
+    <Compile Include="Assets/Scripts/Defines/BuffDefine.cs" />
     <Compile Include="Assets/Scripts/UI/UISetting.cs" />
     <Compile Include="Assets/Scripts/Managers/BattleManager.cs" />
     <Compile Include="Assets/Scripts/UI/UISkillHint.cs" />

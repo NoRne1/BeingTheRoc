@@ -21,6 +21,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, SkillDefine> Skills = null;
     public Dictionary<int, ExtraEntryDesc> ExtraEntrys = null;
     public Dictionary<int, EnemyDefine> EnemyDefines = null;
+    public Dictionary<int, BuffDefine> BuffDefines = null;
     public BehaviorSubject<bool> DataLoaded = new BehaviorSubject<bool>(false);
 
     public DataManager()
@@ -52,6 +53,9 @@ public class DataManager : Singleton<DataManager>
 
         json = File.ReadAllText(this.DataPath + "EnemyDefine.json");
         this.EnemyDefines = JsonConvert.DeserializeObject<Dictionary<int, EnemyDefine>>(json);
+
+        json = File.ReadAllText(this.DataPath + "BuffDefine.json");
+        this.BuffDefines = JsonConvert.DeserializeObject<Dictionary<int, BuffDefine>>(json);
 
         DataLoaded.OnNext(true);
     }
@@ -86,6 +90,10 @@ public class DataManager : Singleton<DataManager>
 
         json = File.ReadAllText(this.DataPath + "EnemyDefine.json");
         this.EnemyDefines = JsonConvert.DeserializeObject<Dictionary<int, EnemyDefine>>(json);
+        yield return null;
+
+        json = File.ReadAllText(this.DataPath + "BuffDefine.json");
+        this.BuffDefines = JsonConvert.DeserializeObject<Dictionary<int, BuffDefine>>(json);
         yield return null;
 
         //json = File.ReadAllText(this.DataPath + "TeleporterDefine.json");

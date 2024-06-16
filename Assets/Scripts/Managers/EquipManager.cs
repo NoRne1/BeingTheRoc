@@ -192,7 +192,7 @@ public class EquipManager : MonoSingleton<EquipManager>
                     SkillManager.Instance.InvokeSkill(targetID, targetID, effect.methodName, effect.Value);
                     break;
                 case EffectType.buff:
-                    BuffManager.Instance.AddBuff(targetID, effect.methodName);
+                    target.buffCenter.AddBuff(DataManager.Instance.BuffDefines[effect.Value], selfID);
                     break;
                 case EffectType.attack:
                     Debug.LogError("角色使用的物品不存在攻击行为");
@@ -258,7 +258,7 @@ public class EquipManager : MonoSingleton<EquipManager>
                     SkillManager.Instance.InvokeSkill(selfID, targetID, effect.methodName, effect.Value);
                     break;
                 case EffectType.buff:
-                    BuffManager.Instance.AddBuff(targetID, effect.methodName);
+                    target.buffCenter.AddBuff(DataManager.Instance.BuffDefines[effect.Value], selfID);
                     break;
                 case EffectType.attack:
                     var attackStatus = BattleManager.Instance.ProcessAttack(selfID, targetIDs, effect.Value);

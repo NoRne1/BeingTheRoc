@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using System.Linq;
 using System;
 using Unity.VisualScripting;
-using static UnityEditor.Progress;
 using UnityEditor;
 
 public enum RoundTime

@@ -13,6 +13,7 @@
         "takeEnergy": 1,
         "effect1": {
             "effectType": 3,
+            "invokeType": 0,
             "propertyType": -1,
             "methodName": null,
             "value": 10
@@ -38,6 +39,7 @@
         "takeEnergy": 1,
         "effect1": {
             "effectType": 3,
+            "invokeType": 0,
             "propertyType": -1,
             "methodName": null,
             "value": 20
@@ -63,6 +65,7 @@
         "takeEnergy": 1,
         "effect1": {
             "effectType": 3,
+            "invokeType": 0,
             "propertyType": -1,
             "methodName": null,
             "value": 30
@@ -88,6 +91,7 @@
         "takeEnergy": 0,
         "effect1": {
             "effectType": 0,
+            "invokeType": 0,
             "propertyType": 7,
             "methodName": null,
             "value": 1
@@ -173,6 +177,7 @@
         "takeEnergy": 1,
         "effect1": {
             "effectType": 3,
+            "invokeType": 0,
             "propertyType": -1,
             "methodName": null,
             "value": 15
@@ -198,6 +203,7 @@
         "takeEnergy": 1,
         "effect1": {
             "effectType": 3,
+            "invokeType": 0,
             "propertyType": -1,
             "methodName": null,
             "value": 10
@@ -223,12 +229,14 @@
         "takeEnergy": 1,
         "effect1": {
             "effectType": 3,
+            "invokeType": 0,
             "propertyType": -1,
             "methodName": null,
             "value": 10
         },
         "effect2": {
             "effectType": 3,
+            "invokeType": null,
             "propertyType": -1,
             "methodName": null,
             "value": 10
@@ -253,12 +261,14 @@
         "takeEnergy": 1,
         "effect1": {
             "effectType": 3,
+            "invokeType": 0,
             "propertyType": -1,
             "methodName": null,
             "value": 6
         },
         "effect2": {
             "effectType": 3,
+            "invokeType": null,
             "propertyType": -1,
             "methodName": null,
             "value": 6
@@ -283,6 +293,7 @@
         "takeEnergy": 1,
         "effect1": {
             "effectType": 3,
+            "invokeType": 0,
             "propertyType": -1,
             "methodName": null,
             "value": 10
@@ -388,6 +399,7 @@
         "takeEnergy": 0,
         "effect1": {
             "effectType": 3,
+            "invokeType": 0,
             "propertyType": -1,
             "methodName": null,
             "value": 20
@@ -493,6 +505,7 @@
         "takeEnergy": 0,
         "effect1": {
             "effectType": 0,
+            "invokeType": 0,
             "propertyType": 7,
             "methodName": null,
             "value": 1
@@ -518,6 +531,7 @@
         "takeEnergy": 0,
         "effect1": {
             "effectType": 0,
+            "invokeType": 0,
             "propertyType": 10,
             "methodName": null,
             "value": 150
@@ -543,6 +557,7 @@
         "takeEnergy": 0,
         "effect1": {
             "effectType": 0,
+            "invokeType": 0,
             "propertyType": 8,
             "methodName": null,
             "value": 10

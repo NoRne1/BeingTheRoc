@@ -9,6 +9,7 @@ public class CharacterModel: CharacterDefine, IStorable
     public int remainExp { get { return exp - GlobalAccess.levelUpExp * level; } }
     public int exp = 0;
     public Backpack backpack;
+    public BuffCenter buffCenter;
 
     public Subject<bool> characterUpdate = new Subject<bool>();
     private System.IDisposable disposable;
@@ -46,6 +47,7 @@ public class CharacterModel: CharacterDefine, IStorable
         Resource = define.Resource;
         Desc = define.Desc;
         backpack = new Backpack(uuid, 3, 3, characterUpdate);
+        buffCenter = new BuffCenter(uuid);
         //只有被动技能，其他技能升级选择后再赋值
         BornSkill = define.BornSkill;
         Skill1 = -1;
@@ -96,6 +98,7 @@ public class CharacterModel: CharacterDefine, IStorable
         item.Skill1 = this.Skill1;
         item.Skill2 = this.Skill2;
         item.Skill3 = this.Skill3;
+        item.buffCenter = buffCenter;
         return item;
     }
 }
