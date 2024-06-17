@@ -74,16 +74,15 @@ public class UIBattleItem : MonoBehaviour
             item.shield = 0;
         }
         fightTextManager.CreatFightText("-" + damage.ToString(), TextAnimationType.Burst, TextMoveType.RightParabola, transform, isCritical);
+        GlobalAccess.SaveBattleItem(item);
         if (item.currentHP <= 0)
         {
             this.Die();
             return AttackStatus.toDeath;
         } else
         {
-            NorneStore.Instance.Update<BattleItem>(item, true);
             return AttackStatus.normal;
         }
-        GlobalAccess.SaveBattleItem(item);
     }
 
     public void AddHP(int hp, bool isCritical)

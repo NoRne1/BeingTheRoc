@@ -27,9 +27,10 @@ public enum ClickSlotReason
 
 public enum AttackStatus
 {
-    normal = 1,
-    miss = 2,
-    toDeath = 3,
+    errorTarget = -1,
+    normal = 0,
+    miss = 1,
+    toDeath = 2,
 }
 
 public class BattleManager : MonoSingleton<BattleManager>
@@ -58,6 +59,8 @@ public class BattleManager : MonoSingleton<BattleManager>
     public Dictionary<Vector2, UIBattleItem> battleItemDic = new Dictionary<Vector2, UIBattleItem>();
 
     private ClickSlotReason clickSlotReason = ClickSlotReason.none;
+    // (string, string, int, bool) => (casterID, targetID, damage, trigger other effect)
+    public Subject<(string, string, int, bool)> battleItemDamageSubject = new Subject<(string, string, int, bool)>();
 
     // Use this for initialization
     void Start()
@@ -247,8 +250,10 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             case RoundTime.begin:
                 Debug.Log("round begin");
+                battleItem0.buffCenter.TurnBegin();
                 switch (battleItem0.battleItemType)
                 {
+
                     case BattleItemType.player:
                         battleItemDic.FirstOrDefault(pair => {
                             return pair.Value.itemID == battleItem0.uuid;
@@ -282,18 +287,32 @@ public class BattleManager : MonoSingleton<BattleManager>
                         });
                         break;
                 }
-                
                 yield return new WaitForSeconds(1f);
                 roundTime.OnNext(RoundTime.acting);
                 break;
             case RoundTime.acting:
                 Debug.Log("round acting");
+                //battleItem0.buffCenter.TurnActing();
                 switch (battleItem0.battleItemType)
                 {
                     case BattleItemType.player:
+                        if (!battleItem0.canActing)
+                        {
+                            roundTime.OnNext(RoundTime.end);
+                            battleItem0.canActing = true;
+                            GlobalAccess.SaveBattleItem(battleItem0);
+                        }
                         break;
                     case BattleItemType.enemy:
-                        StartCoroutine(battleItem0.enemyAI.TurnAction(battleItem0.uuid));
+                        if (!battleItem0.canActing)
+                        {
+                            roundTime.OnNext(RoundTime.end);
+                            battleItem0.canActing = true;
+                            GlobalAccess.SaveBattleItem(battleItem0);
+                        } else
+                        {
+                            StartCoroutine(battleItem0.enemyAI.TurnAction(battleItem0.uuid));
+                        }
                         break;
                     case BattleItemType.time:
                         GameManager.Instance.TimeChanged(-1);
@@ -301,14 +320,23 @@ public class BattleManager : MonoSingleton<BattleManager>
                         roundTime.OnNext(RoundTime.end);
                         break;
                     case BattleItemType.sceneItem:
-                        Debug.Log("sceneItem round acting");
-                        yield return new WaitForSeconds(1f);
-                        roundTime.OnNext(RoundTime.end);
+                        if (!battleItem0.canActing)
+                        {
+                            roundTime.OnNext(RoundTime.end);
+                            battleItem0.canActing = true;
+                            GlobalAccess.SaveBattleItem(battleItem0);
+                        } else
+                        {
+                            Debug.Log("sceneItem round acting");
+                            yield return new WaitForSeconds(1f);
+                            roundTime.OnNext(RoundTime.end);
+                        }
                         break;
                 }
                 break;
             case RoundTime.end:
                 Debug.Log("round end");
+                battleItem0.buffCenter.TurnEnd();
                 switch (battleItem0.battleItemType)
                 {
                     case BattleItemType.player:
@@ -319,7 +347,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                     case BattleItemType.time:
                         break;
                 }
-                
+
                 int temp = Mathf.CeilToInt(GlobalAccess.roundDistance / battleItem0.Speed);
                 float passedTime = battleItem1.remainActingDistance / battleItem1.Speed;
                 battleItem0.remainActingDistance = GlobalAccess.roundDistance + passedTime * battleItem0.Speed; // 因为后续还会timePass一次
@@ -613,12 +641,13 @@ public class BattleManager : MonoSingleton<BattleManager>
                 * (hitFlag ? 1 : 0)
                 * (criticalFlag ? 1 : 2));
             var targetItem = battleItemDic.Values.Where((item) => item.itemID == id).ToList().FirstOrDefault();
+            battleItemDamageSubject.OnNext((selfID, id, damage, true));
             if (targetItem != null)
             {
                 statuses.Add(targetItem.Damage(damage, criticalFlag));
             } else
             {
-                statuses.Add(AttackStatus.normal);
+                return AttackStatus.errorTarget;
             }
         }
         if(statuses.Contains(AttackStatus.toDeath))
@@ -638,6 +667,21 @@ public class BattleManager : MonoSingleton<BattleManager>
                 }
             }
             return AttackStatus.miss;
+        }
+    }
+
+    public AttackStatus ProcessDamage(string casterID, string targetID, int value)
+    {
+        var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(targetID)).Value;
+        var targetItem = battleItemDic.Values.Where((item) => item.itemID == targetID).ToList().FirstOrDefault();
+        battleItemDamageSubject.OnNext((casterID, targetID, value, false));
+        if (targetItem != null)
+        {
+            return targetItem.Damage(value, false);
+        }
+        else
+        {
+            return AttackStatus.errorTarget;
         }
     }
 

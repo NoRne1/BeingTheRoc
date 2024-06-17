@@ -36,6 +36,8 @@ public class BattleItem: IStorable
     public int exp;
     public Backpack backpack;
     public BuffCenter buffCenter;
+    public bool isInvisible;
+    public bool canActing = true;
 
     public int BornSkill { get; set; }
     public int Skill1 { get; set; }

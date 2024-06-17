@@ -141,6 +141,32 @@ public class BuffCenter
         }
     }
 
+    //public void TurnActing()
+    //{
+    //    //执行
+    //    var temp = buffs.Values.Where(buff => buff.InvokeTime == BuffInvokeTime.turnBegin).ToList();
+    //    if (temp.Count > 0)
+    //    {
+    //        foreach (var buff in temp)
+    //        {
+    //            BuffManager.Instance.InvokeBuff(buff);
+    //        }
+    //    }
+    //    //减回合
+    //    var temp2 = buffs.Values.Where(buff => buff.DecreaseTime == BuffDecreaseTime.turnBegin).ToList();
+    //    if (temp2.Count > 0)
+    //    {
+    //        foreach (var buff in temp2)
+    //        {
+    //            buff.Duration = Mathf.Max(0, buff.Duration--);
+    //            if (buff.Duration <= 0)
+    //            {
+    //                RemoveBuff(buff.uuId);
+    //            }
+    //        }
+    //    }
+    //}
+
     public void TurnEnd()
     {
         //执行

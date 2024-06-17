@@ -16241,6 +16241,7 @@ MonoBehaviour:
   - {fileID: 1636012914}
   - {fileID: 1103562762}
   - {fileID: 936153134}
+  itemID: 
 --- !u!1001 &1088926755
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27279,6 +27280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed404d1697c6b4200816ac11ee0fa186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemID: 
   energyFather: {fileID: 681228041}
   energyPrefab: {fileID: 426885084882289273, guid: 1713585111ae445fb88d7083be040c22, type: 3}
   buffFather: {fileID: 937586506}
@@ -29118,6 +29120,8 @@ MonoBehaviour:
   placeBox: {fileID: 1179315900}
   uiBattleItemInfo: {fileID: 1933873081}
   uiBattleBag: {fileID: 1081479268}
+  battleItemIDs: []
+  PlayerItemIDs: []
 --- !u!1001 &2113811758
 PrefabInstance:
   m_ObjectHideFlags: 0

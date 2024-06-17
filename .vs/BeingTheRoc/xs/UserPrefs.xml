@@ -1,18 +1,23 @@
 ﻿<Properties StartupConfiguration="{BBB342A2-6894-1B0E-77BF-1034E1720682}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/BuffCenter.cs">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/BuffManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Managers/BattleManager.cs" Line="531" Column="41" />
-      <File FileName="Assets/Scripts/Models/EnemyAI.cs" />
-      <File FileName="Assets/Scripts/Models/StoreItemModel.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Managers/EquipManager.cs" Line="207" Column="13" />
-      <File FileName="Assets/Scripts/Managers/SkillManager.cs" Line="63" Column="5" />
-      <File FileName="Assets/Scripts/Managers/BuffManager.cs" Line="21" Column="43" />
-      <File FileName="Assets/Scripts/Defines/BattleItem.cs" Line="69" Column="12" />
-      <File FileName="Assets/Scripts/Managers/BuffCenter.cs" Line="147" Column="81" />
+      <File FileName="Assets/Scripts/Managers/BattleManager.cs" Line="688" Column="17" />
+      <File FileName="Assets/Scripts/Models/EnemyAI.cs" Line="7" Column="33" />
+      <File FileName="Assets/Scripts/Models/StoreItemModel.cs" />
+      <File FileName="Assets/Scripts/Managers/EquipManager.cs" Line="212" Column="21" />
+      <File FileName="Assets/Scripts/Managers/SkillManager.cs" />
+      <File FileName="Assets/Scripts/Managers/BuffManager.cs" Line="108" Column="48" />
+      <File FileName="Assets/Scripts/Managers/BuffCenter.cs" Line="168" Column="8" />
       <File FileName="Assets/Scripts/Models/BuffModel.cs" Line="6" Column="14" />
-      <File FileName="Assets/Scripts/Defines/BuffDefine.cs" Line="39" Column="27" />
-      <File FileName="Assets/Scripts/Defines/StoreItemDefine.cs" Line="63" Column="12" />
-      <File FileName="Assets/Scripts/Models/CharacterModel.cs" Line="101" Column="37" />
+      <File FileName="Assets/Scripts/Defines/BuffDefine.cs" Line="42" Column="25" />
+      <File FileName="Assets/Scripts/Models/CharacterModel.cs" />
+      <File FileName="Assets/Scripts/Defines/BattleItem.cs" Line="39" Column="29" />
+      <File FileName="Assets/Scripts/UI/UIBattleItem.cs" Line="88" Column="17" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -22,7 +27,9 @@
               <Node name="Plugins" expanded="True" />
               <Node name="Scripts" expanded="True">
                 <Node name="Defines" expanded="True" />
-                <Node name="Managers" expanded="True" />
+                <Node name="Managers" expanded="True">
+                  <Node name="BuffManager.cs" selected="True" />
+                </Node>
                 <Node name="Models" expanded="True" />
                 <Node name="UI" expanded="True" />
                 <Node name="Utilities" expanded="True">
@@ -35,11 +42,6 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="b16087e7-e637-45a2-b5cd-dfa452ab736c" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="1809e810-fe57-4fc2-8d6f-c3a067216734" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MultiItemStartupConfigurations />
 </Properties>
