@@ -120,9 +120,11 @@
     <Compile Include="Assets/Scripts/UI/UIDescHint.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/UnityExtensions.cs" />
     <Compile Include="Assets/Scripts/Defines/StoreItemDefine.cs" />
+    <Compile Include="Assets/Scripts/Models/AttributeDynamic.cs" />
     <Compile Include="Assets/Scripts/Managers/GameManager.cs" />
     <Compile Include="Assets/Scripts/Models/EnermyModel.cs" />
     <Compile Include="Assets/Scripts/UI/UITownActionPanel.cs" />
+    <Compile Include="Assets/Scripts/Models/Attributes.cs" />
     <Compile Include="Assets/Scripts/UI/UIStartGame.cs" />
     <Compile Include="Assets/Scripts/UI/UICharacterSelectPanel.cs" />
     <Compile Include="Assets/Scripts/UI/UISkillItem.cs" />
@@ -143,6 +145,7 @@
     <Compile Include="Assets/Scripts/UI/UIExtraHint.cs" />
     <Compile Include="Assets/Scripts/Utilities/FightText/FightTextComponent.cs" />
     <Compile Include="Assets/Scripts/UI/UIEquipRange.cs" />
+    <Compile Include="Assets/Scripts/Models/AttributeType.cs" />
     <Compile Include="Assets/Scripts/Utilities/EditorStyleViewer.cs" />
     <Compile Include="Assets/Scripts/Models/StoreItemModel.cs" />
     <Compile Include="Assets/Scripts/UI/UITimeLeft.cs" />
@@ -155,6 +158,7 @@
     <Compile Include="Assets/Scripts/UI/UIEquipItem.cs" />
     <Compile Include="Assets/Scripts/Utilities/Singleton.cs" />
     <Compile Include="Assets/Scripts/UI/UITeamInfoPage.cs" />
+    <Compile Include="Assets/Scripts/Models/AttributeData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />

@@ -192,4 +192,16 @@ public class BuffCenter
             }
         }
     }
+
+    public void CharacterMove(int distance)
+    {
+        var temp = buffs.Values.Where(buff => buff.InvokeTime == BuffInvokeTime.move).ToList();
+        if (temp.Count > 0)
+        {
+            foreach (var buff in temp)
+            {
+                BuffManager.Instance.InvokeBuff(buff, distance);
+            }
+        }
+    }
 }

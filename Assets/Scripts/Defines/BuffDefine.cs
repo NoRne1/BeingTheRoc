@@ -7,7 +7,8 @@ public enum BuffInvokeTime
     none = -1,
     turnBegin = 0, // 回合开始触发
     turnEnd = 1, // 回合结束触发
-    constant = 2, // 持续型
+    constant = 2, // 持续型，施加或移除buff时触发
+    move = 3, // 移动时触发
 }
 
 public enum BuffDecreaseTime

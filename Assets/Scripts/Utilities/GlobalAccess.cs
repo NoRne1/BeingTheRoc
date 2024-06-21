@@ -2,8 +2,9 @@
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using static UnityEngine.GraphicsBuffer;
 
-public enum GenerlLevel
+public enum GeneralLevel
 {
     green = 0,
     blue = 1,
@@ -57,15 +58,15 @@ class GlobalAccess
         }
     }
 
-    public static Color GetLevelColor(GenerlLevel level)
+    public static Color GetLevelColor(GeneralLevel level)
     {
         switch(level)
         {
-            case GenerlLevel.green:
+            case GeneralLevel.green:
                 return GameUtil.Instance.hexToColor("98CF76");
-            case GenerlLevel.blue:
+            case GeneralLevel.blue:
                 return GameUtil.Instance.hexToColor("67CDFF");
-            case GenerlLevel.red:
+            case GeneralLevel.red:
                 return GameUtil.Instance.hexToColor("E36157");
             default:
                 return Color.white;
@@ -80,6 +81,16 @@ class GlobalAccess
     public static void SaveBattleItem(BattleItem battleItem)
     {
         NorneStore.Instance.Update<BattleItem>(battleItem, true);
+    }
+
+    public static bool GetRandomRate(float rate)
+    {
+        return UnityEngine.Random.Range(0, 100) < rate;
+    }
+
+    public static bool GetRandomRate_affected(float rate)
+    {
+        return UnityEngine.Random.Range(0, 100) < rate;
     }
 
     ~GlobalAccess()

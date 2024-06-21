@@ -4,7 +4,6 @@ using System.Linq;
 using UniRx;
 using System.Collections.Generic;
 using System;
-using static UnityEngine.GraphicsBuffer;
 
 public class BuffManager : MonoSingleton<BuffManager>
 {
@@ -30,10 +29,18 @@ public class BuffManager : MonoSingleton<BuffManager>
     }
 
     // for BuffInvokeTime.constant
-    public void InvokeBuff(BuffModel buff, bool AddOrRemove)
+    public void InvokeBuff(BuffModel buff, bool addOrRemove)
     {
         var method = typeof(BuffManager).GetMethod(buff.MethodName);
-        object[] parameters = new object[] { buff, AddOrRemove };
+        object[] parameters = new object[] { buff, addOrRemove };
+        method?.Invoke(BuffManager.Instance, parameters);
+    }
+
+    // for BuffInvokeTime.move
+    public void InvokeBuff(BuffModel buff, int distance)
+    {
+        var method = typeof(BuffManager).GetMethod(buff.MethodName);
+        object[] parameters = new object[] { buff, distance };
         method?.Invoke(BuffManager.Instance, parameters);
     }
 
@@ -46,16 +53,16 @@ public class BuffManager : MonoSingleton<BuffManager>
         }
     }
 
-    private void Invisible(BuffModel buff, bool AddOrRemove)
+    private void Invisible(BuffModel buff, bool addOrRemove)
     {
         var battleItem = GlobalAccess.GetBattleItem(buff.ownerID);
-        battleItem.isInvisible = AddOrRemove;
+        battleItem.isInvisible = addOrRemove;
         GlobalAccess.SaveBattleItem(battleItem);
     }
-
-    private void Bleeding(BuffModel buff, bool AddOrRemove)
+    
+    private void Trauma(BuffModel buff, bool addOrRemove)
     {
-        if (AddOrRemove)
+        if (addOrRemove)
         {
             disposables.Add(buff.uuId, BattleManager.Instance.battleItemDamageSubject.AsObservable().Where(pair => pair.Item2 == buff.ownerID && pair.Item4).Subscribe(pair =>
             {
@@ -67,9 +74,9 @@ public class BuffManager : MonoSingleton<BuffManager>
         }
     }
 
-    private void MentalPower(BuffModel buff, bool AddOrRemove)
+    private void MentalPower(BuffModel buff, bool addOrRemove)
     {
-        if (AddOrRemove)
+        if (addOrRemove)
         {
             disposables.Add(buff.uuId, BattleManager.Instance.battleItemDamageSubject.AsObservable().Where(pair => pair.Item1 == buff.ownerID && pair.Item4).Subscribe(pair =>
             {
@@ -99,7 +106,7 @@ public class BuffManager : MonoSingleton<BuffManager>
         BattleManager.Instance.ProcessAttack(buff.casterID, new List<string> { buff.ownerID }, buff.Value);
     }
 
-    private void ChangeProperty(BuffModel buff, bool AddOrRemove)
+    private void ChangeProperty(BuffModel buff, bool addOrRemove)
     {
         var battleItem = GlobalAccess.GetBattleItem(buff.ownerID);
         switch (buff.PropertyType)
@@ -146,6 +153,11 @@ public class BuffManager : MonoSingleton<BuffManager>
                 break;
         }
         GlobalAccess.SaveBattleItem(battleItem);
+    }
+
+    private void Bleeding(BuffModel buff, int distance)
+    {
+        BattleManager.Instance.ProcessDamage(buff.casterID, buff.ownerID, buff.num * distance);
     }
 }
 

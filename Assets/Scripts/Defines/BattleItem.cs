@@ -18,22 +18,8 @@ public class BattleItem: IStorable
     public string Resource { get; set; }
     public BattleItemType battleItemType { get; set; }
     public float remainActingDistance { get; set; }
-    public int Mobility { get; set; }
-    public int Speed { get; set; }
-    public int MaxHP { get; set; }
-    public int Strength { get; set; }
-    public int Defense { get; set; }
-    public int Dodge { get; set; }
-    public int Accuracy { get; set; }
-    public int Energy { get; set; }
-    public int Lucky { get; set; }
     public string Desc { get; set; }
-    public int currentHP;
-    public int currentEnergy;
-    public int shield;
-    public int level;
-    public int remainExp { get { return exp - GlobalAccess.levelUpExp * level; } }
-    public int exp;
+    public Attributes attributes;
     public Backpack backpack;
     public BuffCenter buffCenter;
     public bool isInvisible;
@@ -71,6 +57,12 @@ public class BattleItem: IStorable
     public BattleItem(string uuid)
     {
         this.uuid = uuid;
+    }
+
+    public void BattleEnd()
+    {
+        this.attributes.Buff.Reset();
+        this.attributes.LoadFinalAttributes();
     }
 }
 

@@ -34,26 +34,15 @@ public class CharacterDefine
 
     public JobType Job { get; set; }
 
-    public GenerlLevel Level { get; set; }
+    public GeneralLevel Level { get; set; }
     //角色名字
     public string Name { get; set; }
-
-    //角色资源名(对应unity中的资源)
-    //public string Resource { get; set; }
-    //角色描述
-    //public string Description { get; set; }
 
     //基本属性
     /// <summary>
     /// 生命
     /// </summary>
     public int MaxHP { get; set; }
-
-    /// <summary>
-    /// 力量成长
-    /// </summary>
-    //public float GrowthSTR { get; set; }
-
     /// <summary>
     /// 力量
     /// </summary>
@@ -82,7 +71,6 @@ public class CharacterDefine
     /// 精力
     /// </summary>
     public int Energy { get; set; }
-
     /// <summary>
     /// 幸运
     /// </summary>

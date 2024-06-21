@@ -257,7 +257,7 @@ public class GameUtil : Singleton<GameUtil>
         return new Vector2(offsetX, offsetY);
     }
 
-    public string GetDIsplayString(string text)
+    public string GetDisplayString(string text)
     {
         return text;
     }

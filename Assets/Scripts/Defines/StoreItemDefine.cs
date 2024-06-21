@@ -106,7 +106,7 @@ public class StoreItemDefine
     public ItemInvokeType invokeType { get; set; }
     public TargetRange targetRange { get; set; }
     public string title { get; set; }
-    public GenerlLevel level { get; set; }
+    public GeneralLevel level { get; set; }
     public int price { get; set; }
     public int takeEnergy { get; set; }
     public string iconResource { get; set; }
@@ -118,7 +118,7 @@ public class StoreItemDefine
     public int ExtraEntry1 { get; set; }
     public int ExtraEntry2 { get; set; }
     public int ExtraEntry3 { get; set; }
-
+    public AttributeData attr = new AttributeData();
 
     public List<Vector2Int> tempOccupiedCells;
     public List<Vector2Int> occupiedCells;

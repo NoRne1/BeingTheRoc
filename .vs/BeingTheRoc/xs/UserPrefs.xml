@@ -1,23 +1,21 @@
 ﻿<Properties StartupConfiguration="{BBB342A2-6894-1B0E-77BF-1034E1720682}|">
-  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/BuffManager.cs">
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="35e905f0-ed12-4d09-828f-4fc3c4359d33" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Models/Attributes.cs">
     <Files>
-      <File FileName="Assets/Scripts/Managers/BattleManager.cs" Line="688" Column="17" />
-      <File FileName="Assets/Scripts/Models/EnemyAI.cs" Line="7" Column="33" />
-      <File FileName="Assets/Scripts/Models/StoreItemModel.cs" />
-      <File FileName="Assets/Scripts/Managers/EquipManager.cs" Line="212" Column="21" />
-      <File FileName="Assets/Scripts/Managers/SkillManager.cs" />
-      <File FileName="Assets/Scripts/Managers/BuffManager.cs" Line="108" Column="48" />
-      <File FileName="Assets/Scripts/Managers/BuffCenter.cs" Line="168" Column="8" />
-      <File FileName="Assets/Scripts/Models/BuffModel.cs" Line="6" Column="14" />
-      <File FileName="Assets/Scripts/Defines/BuffDefine.cs" Line="42" Column="25" />
-      <File FileName="Assets/Scripts/Models/CharacterModel.cs" />
-      <File FileName="Assets/Scripts/Defines/BattleItem.cs" Line="39" Column="29" />
-      <File FileName="Assets/Scripts/UI/UIBattleItem.cs" Line="88" Column="17" />
+      <File FileName="Assets/Scripts/Managers/BattleManager.cs" Line="638" Column="37" />
+      <File FileName="Assets/Scripts/Managers/BuffCenter.cs" Line="8" Column="14" />
+      <File FileName="Assets/Scripts/Models/BuffModel.cs" Line="14" Column="30" />
+      <File FileName="Assets/Scripts/Defines/BattleItem.cs" Line="19" Column="55" />
+      <File FileName="Assets/Scripts/UI/UIBattleItem.cs" />
+      <File FileName="Assets/Scripts/Utilities/GameUtil.cs" />
+      <File FileName="Assets/Scripts/Models/Attributes.cs" Line="5" Column="24" />
+      <File FileName="Assets/Scripts/Defines/CharacterDefine.cs" Line="30" Column="14" />
+      <File FileName="Assets/Scripts/Models/CharacterModel.cs" Line="47" Column="9" />
+      <File FileName="Assets/Scripts/Defines/EnemyDefine.cs" Line="25" Column="30" />
+      <File FileName="Assets/Scripts/Utilities/GlobalAccess.cs" Line="7" Column="25" />
+      <File FileName="Assets/Scripts/Models/EnermyModel.cs" Line="58" Column="21" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -27,10 +25,10 @@
               <Node name="Plugins" expanded="True" />
               <Node name="Scripts" expanded="True">
                 <Node name="Defines" expanded="True" />
-                <Node name="Managers" expanded="True">
-                  <Node name="BuffManager.cs" selected="True" />
+                <Node name="Managers" expanded="True" />
+                <Node name="Models" expanded="True">
+                  <Node name="Attributes.cs" selected="True" />
                 </Node>
-                <Node name="Models" expanded="True" />
                 <Node name="UI" expanded="True" />
                 <Node name="Utilities" expanded="True">
                   <Node name="FightText" expanded="True" />
@@ -42,6 +40,8 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="b16087e7-e637-45a2-b5cd-dfa452ab736c" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>

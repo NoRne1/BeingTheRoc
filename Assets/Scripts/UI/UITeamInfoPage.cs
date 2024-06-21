@@ -92,9 +92,9 @@ public class UITeamInfoPage : MonoBehaviour
                 skillButtons[1].Setup(cm.Skill1 == -1 ? null : DataManager.Instance.Skills[cm.Skill1]);
                 skillButtons[2].Setup(cm.Skill2 == -1 ? null : DataManager.Instance.Skills[cm.Skill2]);
                 skillButtons[3].Setup(cm.Skill3 == -1 ? null : DataManager.Instance.Skills[cm.Skill3]);
-                skillButtons[1].gameObject.SetActive((int)cm.Level >= (int)GenerlLevel.green);
-                skillButtons[2].gameObject.SetActive((int)cm.Level >= (int)GenerlLevel.blue);
-                skillButtons[3].gameObject.SetActive((int)cm.Level >= (int)GenerlLevel.red);
+                skillButtons[1].gameObject.SetActive((int)cm.Level >= (int)GeneralLevel.green);
+                skillButtons[2].gameObject.SetActive((int)cm.Level >= (int)GeneralLevel.blue);
+                skillButtons[3].gameObject.SetActive((int)cm.Level >= (int)GeneralLevel.red);
             });
         } else
         {

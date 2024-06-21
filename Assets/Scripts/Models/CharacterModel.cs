@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
-public class CharacterModel: CharacterDefine, IStorable
+public class CharacterModel: IStorable
 {
-    public int level = 0;
-    public int remainExp { get { return exp - GlobalAccess.levelUpExp * level; } }
-    public int exp = 0;
     public Backpack backpack;
     public BuffCenter buffCenter;
+    public Attributes attributes;
 
     public Subject<bool> characterUpdate = new Subject<bool>();
     private System.IDisposable disposable;
@@ -17,7 +15,18 @@ public class CharacterModel: CharacterDefine, IStorable
 
     //BattleItem
     public string uuid;
-    
+
+    //Define
+    public int ID { get; set; }
+    public JobType Job { get; set; }
+    public GeneralLevel Level { get; set; }
+    public string Name { get; set; }
+    public string Resource { get; set; }
+    public string Desc { get; set; }
+    public int BornSkill { get; set; }
+    public int Skill1 { get; set; }
+    public int Skill2 { get; set; }
+    public int Skill3 { get; set; }
 
     public CharacterModel()
     {}
@@ -35,15 +44,8 @@ public class CharacterModel: CharacterDefine, IStorable
         Job = define.Job;
         Name = define.Name;
         Level = define.Level;
-        MaxHP = define.MaxHP;
-        Strength = define.Strength;
-        Defense = define.Defense;
-        Dodge = define.Dodge;
-        Accuracy = define.Accuracy;
-        Speed = define.Speed;
-        Mobility = define.Mobility;
-        Energy = define.Energy;
-        Lucky = define.Lucky;
+        attributes = new Attributes();
+        attributes.Init(define);
         Resource = define.Resource;
         Desc = define.Desc;
         backpack = new Backpack(uuid, 3, 3, characterUpdate);
@@ -78,21 +80,22 @@ public class CharacterModel: CharacterDefine, IStorable
         item.uuid = this.uuid;
         item.battleItemType = BattleItemType.player;
         item.Name = this.Name;
-        item.MaxHP = this.MaxHP;
-        item.Strength = this.Strength;
-        item.Defense = this.Defense;
-        item.Dodge = this.Dodge;
-        item.Accuracy = this.Accuracy;
-        item.Speed = this.Speed;
-        item.Mobility = this.Mobility;
-        item.Energy = this.Energy;
-        item.Lucky = this.Lucky;
+        item.attributes = this.attributes;
         item.Resource = this.Resource;
         item.Desc = this.Desc;
-        item.currentHP = this.MaxHP;
-        item.currentEnergy = this.Energy;
-        item.exp = this.exp;
-        item.level = this.level;
+        if (item.attributes.dynamicAttr == null)
+        {
+            item.attributes.dynamicAttr = new AttributeDynamic();
+            item.attributes.dynamicAttr.currentHP = item.attributes.MaxHP;
+            item.attributes.dynamicAttr.currentShield = 0;
+            item.attributes.dynamicAttr.currentEnergy = 0;
+        }
+        else
+        {
+            item.attributes.dynamicAttr.currentHP = item.attributes.MaxHP;
+            item.attributes.dynamicAttr.currentShield = 0;
+            item.attributes.dynamicAttr.currentEnergy = 0;
+        }
         item.backpack = this.backpack;
         item.BornSkill = this.BornSkill;
         item.Skill1 = this.Skill1;

@@ -629,8 +629,8 @@ public class BattleManager : MonoSingleton<BattleManager>
         foreach (var id in targetIDs)
         {
             var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(id)).Value;
-            bool hitFlag = UnityEngine.Random.Range(0, 100) < (100 - target.Dodge + self.Accuracy);
-            bool criticalFlag = UnityEngine.Random.Range(0, 100) < self.Lucky;
+            bool hitFlag = GlobalAccess.GetRandomRate(100 - target.Dodge + self.Accuracy);
+            bool criticalFlag = GlobalAccess.GetRandomRate(self.Lucky);
             if (!hitFlag)
             {
                 statuses.Add(AttackStatus.miss);

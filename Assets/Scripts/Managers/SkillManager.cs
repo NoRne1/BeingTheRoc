@@ -32,12 +32,12 @@ public class SkillManager : MonoSingleton<SkillManager>
         sword.equipType = EquipType.X2_1;
         sword.invokeType = ItemInvokeType.equipTarget;
         sword.targetRange = TargetRange.range_2;
-        sword.title = GameUtil.Instance.GetDIsplayString("混元剑坯");
-        sword.level = GenerlLevel.green;
+        sword.title = GameUtil.Instance.GetDisplayString("混元剑坯");
+        sword.level = GeneralLevel.green;
         sword.takeEnergy = 1;
         sword.iconResource = "hunyuan_sword_icon";
         sword.iconResource2 = "hunyuan_sword_icon_big";
-        sword.desc = GameUtil.Instance.GetDIsplayString("混元剑坯balabalabalabala");
+        sword.desc = GameUtil.Instance.GetDisplayString("混元剑坯balabalabalabala");
         Effect effect1 = new Effect();
         effect1.effectType = EffectType.attack;
         effect1.propertyType = PropertyType.none;
@@ -99,10 +99,9 @@ public class SkillManager : MonoSingleton<SkillManager>
         if (hunyuanSword != null)
         {
             Effect effect = new Effect();
-            effect.effectType = EffectType.property;
-            effect.invokeType = EffectInvokeType.toDeath;
-            effect.propertyType = PropertyType.Lucky;
-            effect.Value = 1;
+            effect.effectType = EffectType.buff;
+            effect.invokeType = EffectInvokeType.useInstant;
+            effect.Value = 0;
             hunyuanSword.effects.Add(effect);
         }
     }
@@ -112,11 +111,24 @@ public class SkillManager : MonoSingleton<SkillManager>
         if (hunyuanSword != null)
         {
             Effect effect = new Effect();
-            effect.effectType = EffectType.property;
-            effect.invokeType = EffectInvokeType.toDeath;
-            effect.propertyType = PropertyType.Lucky;
-            effect.Value = 1;
+            effect.effectType = EffectType.skill;
+            effect.invokeType = EffectInvokeType.useInstant;
+            effect.methodName = "ReturnEnergy";
+            effect.Value = hunyuanSword.takeEnergy;
             hunyuanSword.effects.Add(effect);
+        }
+    }
+
+    private void ReturnEnergy(string selfID, string targetID, int value)
+    {
+        if (hunyuanSword != null)
+        {
+            if (GlobalAccess.GetRandomRate_affected(20))
+            {
+                var battleItem = GlobalAccess.GetBattleItem(selfID);
+                battleItem.currentEnergy += value;
+                GlobalAccess.SaveBattleItem(battleItem);
+            }
         }
     }
 
