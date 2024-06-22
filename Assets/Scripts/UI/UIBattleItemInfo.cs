@@ -48,13 +48,13 @@ public class UIBattleItemInfo : MonoBehaviour
                 {
                     case BattleItemType.enemy:
                     case BattleItemType.player:
-                        hpSlider.maxValue = item.MaxHP;
+                        hpSlider.maxValue = item.attributes.MaxHP;
                         icon.overrideSprite = Resloader.LoadSprite(item.Resource, ConstValue.playersPath);
                         nameText.text = item.Name;
-                        hpSlider.value = item.currentHP;
-                        sliderText.text = item.currentHP + "/" + item.MaxHP;
+                        hpSlider.value = item.attributes.currentHP;
+                        sliderText.text = item.attributes.currentHP + "/" + item.attributes.MaxHP;
                         energyPool.ReturnAllObject();
-                        for (int i = 0; i < item.currentEnergy; i++)
+                        for (int i = 0; i < item.attributes.currentEnergy; i++)
                         {
                             energyPool.GetObjectFromPool();
                         }

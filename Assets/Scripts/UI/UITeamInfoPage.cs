@@ -71,21 +71,21 @@ public class UITeamInfoPage : MonoBehaviour
                 .AsObservable().TakeUntilDestroy(this).Subscribe(cm =>
             {
                 descText.text = cm.Desc;
-                levelText.text = "Lv: " + cm.level.ToString();
-                expSlider.value = Mathf.Min(cm.remainExp, GlobalAccess.levelUpExp);
-                expText.text = cm.remainExp.ToString() + "/" + GlobalAccess.levelUpExp.ToString();
+                levelText.text = "Lv: " + cm.attributes.level.ToString();
+                expSlider.value = Mathf.Min(cm.attributes.remainExp, GlobalAccess.levelUpExp);
+                expText.text = cm.attributes.remainExp.ToString() + "/" + GlobalAccess.levelUpExp.ToString();
 
-                levelUpButton.gameObject.SetActive(cm.remainExp > GlobalAccess.levelUpExp &&
-                    cm.level < GlobalAccess.maxLevel);
+                levelUpButton.gameObject.SetActive(cm.attributes.remainExp > GlobalAccess.levelUpExp &&
+                    cm.attributes.level < GlobalAccess.maxLevel);
                 title.text = cm.Name;
-                MaxHP.text = cm.MaxHP.ToString();
-                Strength.text = cm.Strength.ToString();
-                Defense.text = cm.Defense.ToString();
-                Dodge.text = cm.Dodge.ToString();
-                Accuracy.text = cm.Accuracy.ToString();
-                Speed.text = cm.Speed.ToString();
-                Mobility.text = cm.Mobility.ToString();
-                Energy.text = cm.Energy.ToString();
+                MaxHP.text = cm.attributes.MaxHP.ToString();
+                Strength.text = cm.attributes.Strength.ToString();
+                Defense.text = cm.attributes.Defense.ToString();
+                Dodge.text = cm.attributes.Dodge.ToString();
+                Accuracy.text = cm.attributes.Accuracy.ToString();
+                Speed.text = cm.attributes.Speed.ToString();
+                Mobility.text = cm.attributes.Mobility.ToString();
+                Energy.text = cm.attributes.Energy.ToString();
                 Character_icon.overrideSprite = Resloader.LoadSprite(cm.Resource, ConstValue.playersPath);
 
                 skillButtons[0].Setup(cm.BornSkill == -1 ? null : DataManager.Instance.Skills[cm.BornSkill]);
@@ -114,20 +114,20 @@ public class UITeamInfoPage : MonoBehaviour
                 .AsObservable().TakeUntilDestroy(this).Subscribe(bi =>
                 {
                     descText.text = bi.Desc;
-                    levelText.text = "Lv: " + bi.level.ToString();
-                    expSlider.value = Mathf.Min(bi.remainExp, GlobalAccess.levelUpExp);
-                    expText.text = bi.remainExp.ToString() + "/" + GlobalAccess.levelUpExp.ToString();
-                    levelUpButton.gameObject.SetActive(bi.remainExp > GlobalAccess.levelUpExp &&
-                        bi.level < GlobalAccess.maxLevel);
+                    levelText.text = "Lv: " + bi.attributes.level.ToString();
+                    expSlider.value = Mathf.Min(bi.attributes.remainExp, GlobalAccess.levelUpExp);
+                    expText.text = bi.attributes.remainExp.ToString() + "/" + GlobalAccess.levelUpExp.ToString();
+                    levelUpButton.gameObject.SetActive(bi.attributes.remainExp > GlobalAccess.levelUpExp &&
+                        bi.attributes.level < GlobalAccess.maxLevel);
                     title.text = bi.Name;
-                    MaxHP.text = bi.MaxHP.ToString();
-                    Strength.text = bi.Strength.ToString();
-                    Defense.text = bi.Defense.ToString();
-                    Dodge.text = bi.Dodge.ToString();
-                    Accuracy.text = bi.Accuracy.ToString();
-                    Speed.text = bi.Speed.ToString();
-                    Mobility.text = bi.Mobility.ToString();
-                    Energy.text = bi.Energy.ToString();
+                    MaxHP.text = bi.attributes.MaxHP.ToString();
+                    Strength.text = bi.attributes.Strength.ToString();
+                    Defense.text = bi.attributes.Defense.ToString();
+                    Dodge.text = bi.attributes.Dodge.ToString();
+                    Accuracy.text = bi.attributes.Accuracy.ToString();
+                    Speed.text = bi.attributes.Speed.ToString();
+                    Mobility.text = bi.attributes.Mobility.ToString();
+                    Energy.text = bi.attributes.Energy.ToString();
                     Character_icon.overrideSprite = Resloader.LoadSprite(bi.Resource, ConstValue.playersPath);
                 });
         }

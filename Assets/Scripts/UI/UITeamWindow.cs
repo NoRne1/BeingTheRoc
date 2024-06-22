@@ -113,23 +113,23 @@ public class UITeamWindow : UIWindow
         if (normalOrBattleInit)
         {
             var character = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(currentCharacterID.Value)).Value;
-            if (character.remainExp > GlobalAccess.levelUpExp &&
-                character.level < GlobalAccess.maxLevel)
+            if (character.attributes.remainExp > GlobalAccess.levelUpExp &&
+                character.attributes.level < GlobalAccess.maxLevel)
             {
                 //可以升级
                 UISkillSelect skillSelect = UIManager.Instance.Show<UISkillSelect>();
                 skillSelect.Setup(character);
                 skillSelect.selectedAction = (skill) =>
                 {
-                    character.level += 1;
-                    if(character.level == 1)
+                    character.attributes.level += 1;
+                    if(character.attributes.level == 1)
                     {
                         character.Skill1 = skill.ID;
-                    } else if (character.level == 2)
+                    } else if (character.attributes.level == 2)
                     {
                         character.Skill2 = skill.ID;
                     }
-                    else if (character.level == 3)
+                    else if (character.attributes.level == 3)
                     {
                         character.Skill3 = skill.ID;
                     }

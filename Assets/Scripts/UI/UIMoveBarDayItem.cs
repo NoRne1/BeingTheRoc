@@ -21,7 +21,7 @@ public class UIMoveBarDayItem : MonoBehaviour
     {
         if (item.battleItemType == BattleItemType.time)
         {
-            remainActingTime.text = Mathf.CeilToInt(item.remainActingDistance / item.Speed).ToString();
+            remainActingTime.text = Mathf.CeilToInt(item.remainActingDistance / item.attributes.Speed).ToString();
         } else {
             Debug.LogError("UIMoveBarDayItem BattleItemType != time error!");
         }

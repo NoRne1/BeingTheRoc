@@ -348,9 +348,9 @@ public class BattleManager : MonoSingleton<BattleManager>
                         break;
                 }
 
-                int temp = Mathf.CeilToInt(GlobalAccess.roundDistance / battleItem0.Speed);
-                float passedTime = battleItem1.remainActingDistance / battleItem1.Speed;
-                battleItem0.remainActingDistance = GlobalAccess.roundDistance + passedTime * battleItem0.Speed; // 因为后续还会timePass一次
+                int temp = Mathf.CeilToInt(GlobalAccess.roundDistance / battleItem0.attributes.Speed);
+                float passedTime = battleItem1.remainActingDistance / battleItem1.attributes.Speed;
+                battleItem0.remainActingDistance = GlobalAccess.roundDistance + passedTime * battleItem0.attributes.Speed; // 因为后续还会timePass一次
                 timePass.OnNext(passedTime);
                 yield return new WaitForSeconds(1f);
                 roundTime.OnNext(RoundTime.begin);
@@ -373,7 +373,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             foreach (string uuid in battleItemIDs)
             {
                 var item = GlobalAccess.GetBattleItem(uuid);
-                item.remainActingDistance = Mathf.Max(0, item.remainActingDistance - time * item.Speed);
+                item.remainActingDistance = Mathf.Max(0, item.remainActingDistance - time * item.attributes.Speed);
                 GlobalAccess.SaveBattleItem(item);
             }
             ResortBattleItems();
@@ -397,8 +397,8 @@ public class BattleManager : MonoSingleton<BattleManager>
         var tempBattleItems = battleItemIDs.Select(uuid => GlobalAccess.GetBattleItem(uuid)).ToList();
         tempBattleItems.Sort((itemA, itemB) =>
         {
-            return Mathf.CeilToInt(itemA.remainActingDistance / itemA.Speed)
-                .CompareTo(Mathf.CeilToInt(itemB.remainActingDistance / itemB.Speed));
+            return Mathf.CeilToInt(itemA.remainActingDistance / itemA.attributes.Speed)
+                .CompareTo(Mathf.CeilToInt(itemB.remainActingDistance / itemB.attributes.Speed));
         });
         battleItemIDs = tempBattleItems.Select(item => item.uuid).ToList();
     }
@@ -448,7 +448,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             foreach (var slot in chessBoard.slots.Values)
             {
                 if (GameUtil.Instance.CanMoveTo(chessboardSlot.position, slot.position,
-                    GlobalAccess.GetBattleItem(battleItemDic[chessboardSlot.position].itemID).Mobility))
+                    GlobalAccess.GetBattleItem(battleItemDic[chessboardSlot.position].itemID).attributes.Mobility))
                 {
                     dic.Add(slot.position, ChessboardSlotColor.green);
                 }
@@ -468,7 +468,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             clickedSlot.OnNext(slot);
         } else if (lastClickedSlot != null && battleItemDic[lastSelectedPos].itemID == GlobalAccess.GetBattleItem(battleItemIDs[0]).uuid && HasBattleItem(lastClickedSlot) &&
             GameUtil.Instance.CanMoveTo(lastSelectedPos, slot.position,
-            GlobalAccess.GetBattleItem(battleItemDic[lastSelectedPos].itemID).Mobility))
+            GlobalAccess.GetBattleItem(battleItemDic[lastSelectedPos].itemID).attributes.Mobility))
         {
             Debug.Log("move success to :" + slot.position);
             battleItemDic.Add(slot.position, battleItemDic[lastSelectedPos]);
@@ -629,15 +629,15 @@ public class BattleManager : MonoSingleton<BattleManager>
         foreach (var id in targetIDs)
         {
             var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(id)).Value;
-            bool hitFlag = GlobalAccess.GetRandomRate(100 - target.Dodge + self.Accuracy);
-            bool criticalFlag = GlobalAccess.GetRandomRate(self.Lucky);
+            bool hitFlag = GlobalAccess.GetRandomRate(100 - target.attributes.Dodge + self.attributes.Accuracy);
+            bool criticalFlag = GlobalAccess.GetRandomRate(self.attributes.Lucky);
             if (!hitFlag)
             {
                 statuses.Add(AttackStatus.miss);
             }
             int damage = (int)(value
-                * (1 + self.Strength / 100.0f)
-                * (1 - target.Defense / (target.Defense + 100.0f))
+                * (1 + self.attributes.Strength / 100.0f)
+                * (1 - target.attributes.Defense / (target.attributes.Defense + 100.0f))
                 * (hitFlag ? 1 : 0)
                 * (criticalFlag ? 1 : 2));
             var targetItem = battleItemDic.Values.Where((item) => item.itemID == id).ToList().FirstOrDefault();
@@ -692,9 +692,9 @@ public class BattleManager : MonoSingleton<BattleManager>
         foreach (var id in targetIDs)
         {
             var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(id)).Value;
-            bool criticalFlag = UnityEngine.Random.Range(0, 100) < self.Lucky;
+            bool criticalFlag = UnityEngine.Random.Range(0, 100) < self.attributes.Lucky;
             int healthHp = (int)(value
-                * (1 + self.Strength / 100.0f)
+                * (1 + self.attributes.Strength / 100.0f)
                 * (criticalFlag ? 1 : 2));
             var targetItem = battleItemDic.Values.Where((item) => item.itemID == id).ToList().FirstOrDefault();
             if (targetItem != null)

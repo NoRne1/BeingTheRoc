@@ -52,10 +52,10 @@ public class UIBattleItem : MonoBehaviour
         itemIcon.overrideSprite = Resloader.LoadSprite(item.Resource, ConstValue.playersPath);
         NorneStore.Instance.ObservableObject(new BattleItem(itemID)).AsObservable().TakeUntilDestroy(this).Subscribe(item =>
         {
-            hpSlider.maxValue = item.MaxHP;
-            shieldSlider.maxValue = item.MaxHP;
-            hpSlider.maxValue = item.currentHP;
-            shieldSlider.maxValue = item.shield;
+            hpSlider.maxValue = item.attributes.MaxHP;
+            shieldSlider.maxValue = item.attributes.MaxHP;
+            hpSlider.value = item.attributes.currentHP;
+            shieldSlider.value = Mathf.Min(shieldSlider.maxValue, item.attributes.currentShield);
         });
     }
 
@@ -66,16 +66,16 @@ public class UIBattleItem : MonoBehaviour
 
         //伤害溢出时，血量允许被扣成负数
         var item = GlobalAccess.GetBattleItem(itemID);
-        if (item.shield >= damage) {
-            item.shield -= damage;
+        if (item.attributes.currentShield >= damage) {
+            item.attributes.currentShield -= damage;
         } else
         {
-            item.currentHP = item.currentHP + item.shield - damage;
-            item.shield = 0;
+            item.attributes.currentHP = item.attributes.currentHP + item.attributes.currentShield - damage;
+            item.attributes.currentShield = 0;
         }
         fightTextManager.CreatFightText("-" + damage.ToString(), TextAnimationType.Burst, TextMoveType.RightParabola, transform, isCritical);
         GlobalAccess.SaveBattleItem(item);
-        if (item.currentHP <= 0)
+        if (item.attributes.currentHP <= 0)
         {
             this.Die();
             return AttackStatus.toDeath;
@@ -88,7 +88,7 @@ public class UIBattleItem : MonoBehaviour
     public void AddHP(int hp, bool isCritical)
     {
         var item = GlobalAccess.GetBattleItem(itemID);
-        item.currentHP = Mathf.Min(item.MaxHP, item.currentHP + hp);
+        item.attributes.currentHP = Mathf.Min(item.attributes.MaxHP, item.attributes.currentHP + hp);
         fightTextManager.CreatFightText("+" + hp.ToString(), TextAnimationType.Normal, TextMoveType.RightParabola, transform, isCritical);
         GlobalAccess.SaveBattleItem(item);
     }

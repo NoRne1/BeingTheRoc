@@ -15,7 +15,7 @@ public class SkillDefine
     public string Title { get; set; }
     public JobType Job { get; set; }
     public string Resource { get; set; }
-    public JobType InvokeType { get; set; }
+    public SkillInvokeType InvokeType { get; set; }
     public string MethodName { get; set; }
     public string Desc { get; set; }
     public int ExtraEntry1 { get; set; }

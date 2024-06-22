@@ -11,6 +11,10 @@ public class Attributes
     AttributeData Initial = new AttributeData();
     //成长值
     AttributeData Growth = new AttributeData();
+    //物品加成值
+    public AttributeData ItemEffect = new AttributeData();
+    //物品加成值
+    public AttributeData InBattle = new AttributeData();
     //装备值
     AttributeData Equip = new AttributeData();
     //难度修正值
@@ -91,6 +95,13 @@ public class Attributes
         
         this.LoadFinalAttributes();
     }
+
+    public void UpdateInitSpeed(int speed)
+    {
+        Initial.Speed = speed;
+        LoadFinalAttributes();
+    }
+
     //加载初始属性
     private void LoadInitAttribute(AttributeData attr, CharacterDefine define, bool loadFinal = true)
     {
@@ -137,7 +148,9 @@ public class Attributes
     {
         for (int i = (int)AttributeType.MaxHP; i < (int)AttributeType.MAX; i++)
         {
-            this.Final.Data[i] = this.Initial.Data[i] + this.Growth.Data[i] + this.Difficulty.Data[i] + this.Equip.Data[i] + this.Buff.Data[i];
+            this.Final.Data[i] = this.Initial.Data[i] + this.Growth.Data[i] +
+                this.ItemEffect.Data[i] + this.InBattle.Data[i] + this.Difficulty.Data[i] +
+                this.Equip.Data[i] + this.Buff.Data[i];
         }
     }
 }

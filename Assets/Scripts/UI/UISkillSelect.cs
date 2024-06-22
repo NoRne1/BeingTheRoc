@@ -55,13 +55,13 @@ public class UISkillSelect : UIWindow
         {
             return skill.Job == character.Job || skill.Job == JobType.General;
         }).ToList();
-        if (character.level == 0 && character.define.Skill1 != -1)
+        if (character.attributes.level == 0 && character.define.Skill1 != -1)
         {
             result.Add(DataManager.Instance.Skills[character.define.Skill1]);
-        } else if (character.level == 1 && character.define.Skill2 != -1)
+        } else if (character.attributes.level == 1 && character.define.Skill2 != -1)
         {
             result.Add(DataManager.Instance.Skills[character.define.Skill2]);
-        } else if (character.level == 2 && character.define.Skill3 != -1)
+        } else if (character.attributes.level == 2 && character.define.Skill3 != -1)
         {
             result.Add(DataManager.Instance.Skills[character.define.Skill3]);
         }

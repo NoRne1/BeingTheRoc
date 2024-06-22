@@ -30,11 +30,11 @@ public class EquipManager : MonoSingleton<EquipManager>
             {
                 //战斗中存在能量不够的情况
                 var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(selfID)).Value;
-                if (target.currentEnergy >= item.takeEnergy)
+                if (target.attributes.currentEnergy >= item.takeEnergy)
                 {
                     StartCoroutine(TriggerEquipEffect(selfID, item, characterOrBattleItem));
                 }
-                else if (target.currentEnergy > 0)
+                else if (target.attributes.currentEnergy > 0)
                 {
                     BattleManager.Instance.ShakeEnergy();
                 } else
@@ -106,7 +106,7 @@ public class EquipManager : MonoSingleton<EquipManager>
         {
             //战斗需要消耗能量的物品使用时，扣除能量
             var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(selfID)).Value;
-            target.currentEnergy -= item.takeEnergy;
+            target.attributes.currentEnergy -= item.takeEnergy;
             NorneStore.Instance.Update<BattleItem>(target, true);
         }
         InvokeEffect(EffectInvokeType.useInstant, selfID, targetIDs, item, characterOrBattleItem);
@@ -147,37 +147,46 @@ public class EquipManager : MonoSingleton<EquipManager>
                     switch (effect.propertyType)
                     {
                         case PropertyType.MaxHP:
-                            target.MaxHP += effect.Value;
+                            target.attributes.ItemEffect.MaxHP += effect.Value;
+                            target.attributes.LoadFinalAttributes();
                             break;
                         case PropertyType.Strength:
-                            target.Strength += effect.Value;
+                            target.attributes.ItemEffect.Strength += effect.Value;
+                            target.attributes.LoadFinalAttributes();
                             break;
                         case PropertyType.Defense:
-                            target.Defense += effect.Value;
+                            target.attributes.ItemEffect.Defense += effect.Value;
+                            target.attributes.LoadFinalAttributes();
                             break;
                         case PropertyType.Dodge:
-                            target.Dodge += effect.Value;
+                            target.attributes.ItemEffect.Dodge += effect.Value;
+                            target.attributes.LoadFinalAttributes();
                             break;
                         case PropertyType.Accuracy:
-                            target.Accuracy += effect.Value;
+                            target.attributes.ItemEffect.Accuracy += effect.Value;
+                            target.attributes.LoadFinalAttributes();
                             break;
                         case PropertyType.Speed:
-                            target.Speed += effect.Value;
+                            target.attributes.ItemEffect.Speed += effect.Value;
+                            target.attributes.LoadFinalAttributes();
                             break;
                         case PropertyType.Mobility:
-                            target.Mobility += effect.Value;
+                            target.attributes.ItemEffect.Mobility += effect.Value;
+                            target.attributes.LoadFinalAttributes();
                             break;
                         case PropertyType.Energy:
-                            target.Energy += effect.Value;
+                            target.attributes.ItemEffect.Energy += effect.Value;
+                            target.attributes.LoadFinalAttributes();
                             break;
                         case PropertyType.Lucky:
-                            target.Lucky += effect.Value;
+                            target.attributes.ItemEffect.Lucky += effect.Value;
+                            target.attributes.LoadFinalAttributes();
                             break;
                         case PropertyType.HP:
                             Debug.Log("CharacterModel can not add currentHP");
                             break;
                         case PropertyType.Exp:
-                            target.exp += effect.Value;
+                            target.attributes.exp += effect.Value;
                             break;
                         case PropertyType.shield:
                             Debug.Log("CharacterModel no shield");
@@ -192,7 +201,8 @@ public class EquipManager : MonoSingleton<EquipManager>
                     SkillManager.Instance.InvokeSkill(targetID, targetID, effect.methodName, effect.Value);
                     break;
                 case EffectType.buff:
-                    target.buffCenter.AddBuff(DataManager.Instance.BuffDefines[effect.Value], selfID);
+                    //target.buffCenter.AddBuff(DataManager.Instance.BuffDefines[effect.Value], selfID);
+                    Debug.LogError("角色使用的物品没有buff行为");
                     break;
                 case EffectType.attack:
                     Debug.LogError("角色使用的物品不存在攻击行为");
@@ -212,41 +222,49 @@ public class EquipManager : MonoSingleton<EquipManager>
                     switch (effect.propertyType)
                     {
                         case PropertyType.MaxHP:
-                            target.MaxHP += effect.Value;
-                            target.currentHP += effect.Value;
+                            target.attributes.InBattle.MaxHP += effect.Value;
+                            target.attributes.LoadFinalAttributes();
+                            target.attributes.currentHP += effect.Value;
                             break;
                         case PropertyType.HP:
                             BattleManager.Instance.ProcessHealth(selfID, targetIDs, effect.Value);
                             break;
                         case PropertyType.Strength:
-                            target.Strength += effect.Value;
+                            target.attributes.InBattle.Strength += effect.Value;
+                            target.attributes.LoadFinalAttributes();
                             break;
                         case PropertyType.Defense:
-                            target.Defense += effect.Value;
+                            target.attributes.InBattle.Defense += effect.Value;
+                            target.attributes.LoadFinalAttributes();
                             break;
                         case PropertyType.Dodge:
-                            target.Dodge += effect.Value;
+                            target.attributes.InBattle.Dodge += effect.Value;
+                            target.attributes.LoadFinalAttributes();
                             break;
                         case PropertyType.Accuracy:
-                            target.Accuracy += effect.Value;
+                            target.attributes.InBattle.Accuracy += effect.Value;
+                            target.attributes.LoadFinalAttributes();
                             break;
                         case PropertyType.Speed:
-                            target.Speed += effect.Value;
+                            target.attributes.InBattle.Speed += effect.Value;
+                            target.attributes.LoadFinalAttributes();
                             break;
                         case PropertyType.Mobility:
-                            target.Mobility += effect.Value;
+                            target.attributes.InBattle.Mobility += effect.Value;
+                            target.attributes.LoadFinalAttributes();
                             break;
                         case PropertyType.Energy:
-                            target.currentEnergy += effect.Value;
+                            target.attributes.currentEnergy += effect.Value;
                             break;
                         case PropertyType.Lucky:
-                            target.Lucky += effect.Value;
+                            target.attributes.InBattle.Lucky += effect.Value;
+                            target.attributes.LoadFinalAttributes();
                             break;
                         case PropertyType.Exp:
-                            target.exp += effect.Value;
+                            target.attributes.exp += effect.Value;
                             break;
                         case PropertyType.shield:
-                            target.shield += effect.Value;
+                            target.attributes.currentShield+= effect.Value;
                             break;
                         default:
                             Debug.Log("unknown propertyType");

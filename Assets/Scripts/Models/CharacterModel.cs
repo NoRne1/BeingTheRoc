@@ -6,7 +6,6 @@ using UniRx;
 public class CharacterModel: IStorable
 {
     public Backpack backpack;
-    public BuffCenter buffCenter;
     public Attributes attributes;
 
     public Subject<bool> characterUpdate = new Subject<bool>();
@@ -49,7 +48,6 @@ public class CharacterModel: IStorable
         Resource = define.Resource;
         Desc = define.Desc;
         backpack = new Backpack(uuid, 3, 3, characterUpdate);
-        buffCenter = new BuffCenter(uuid);
         //只有被动技能，其他技能升级选择后再赋值
         BornSkill = define.BornSkill;
         Skill1 = -1;
@@ -101,7 +99,7 @@ public class CharacterModel: IStorable
         item.Skill1 = this.Skill1;
         item.Skill2 = this.Skill2;
         item.Skill3 = this.Skill3;
-        item.buffCenter = buffCenter;
+        item.buffCenter = new BuffCenter(this.uuid);
         return item;
     }
 }

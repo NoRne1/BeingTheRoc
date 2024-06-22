@@ -26,7 +26,7 @@ public class UIMoveBarOtherItem : MonoBehaviour
     {
         this.item = item;
         icon.overrideSprite = Resloader.LoadSprite(item.Resource, ConstValue.playersPath);
-        remainActingTime.text = Mathf.CeilToInt(item.remainActingDistance / item.Speed).ToString();
+        remainActingTime.text = Mathf.CeilToInt(item.remainActingDistance / item.attributes.Speed).ToString();
         switch (item.battleItemType)
         {
             case BattleItemType.player:

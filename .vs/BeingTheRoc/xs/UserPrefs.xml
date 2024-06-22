@@ -1,21 +1,15 @@
 ﻿<Properties StartupConfiguration="{BBB342A2-6894-1B0E-77BF-1034E1720682}|">
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="35e905f0-ed12-4d09-828f-4fc3c4359d33" />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Models/Attributes.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/UIBattleItem.cs">
     <Files>
-      <File FileName="Assets/Scripts/Managers/BattleManager.cs" Line="638" Column="37" />
-      <File FileName="Assets/Scripts/Managers/BuffCenter.cs" Line="8" Column="14" />
-      <File FileName="Assets/Scripts/Models/BuffModel.cs" Line="14" Column="30" />
-      <File FileName="Assets/Scripts/Defines/BattleItem.cs" Line="19" Column="55" />
-      <File FileName="Assets/Scripts/UI/UIBattleItem.cs" />
-      <File FileName="Assets/Scripts/Utilities/GameUtil.cs" />
-      <File FileName="Assets/Scripts/Models/Attributes.cs" Line="5" Column="24" />
-      <File FileName="Assets/Scripts/Defines/CharacterDefine.cs" Line="30" Column="14" />
-      <File FileName="Assets/Scripts/Models/CharacterModel.cs" Line="47" Column="9" />
-      <File FileName="Assets/Scripts/Defines/EnemyDefine.cs" Line="25" Column="30" />
-      <File FileName="Assets/Scripts/Utilities/GlobalAccess.cs" Line="7" Column="25" />
-      <File FileName="Assets/Scripts/Models/EnermyModel.cs" Line="58" Column="21" />
+      <File FileName="Assets/Scripts/Defines/BattleItem.cs" Line="44" Column="10" />
+      <File FileName="Assets/Scripts/Models/Attributes.cs" Line="99" Column="17" />
+      <File FileName="Assets/Scripts/Models/CharacterModel.cs" Line="9" Column="19" />
+      <File FileName="Assets/Scripts/Managers/BattleManager.cs" Line="639" Column="58" />
+      <File FileName="Assets/Scripts/UI/UIBattleItem.cs" Line="55" Column="1" />
+      <File FileName="Assets/Scripts/UI/UIMoveBarDayItem.cs" Line="19" Column="6" />
+      <File FileName="Assets/Scripts/Managers/DataManager.cs" Line="49" Column="78" />
+      <File FileName="Assets/Scripts/Defines/SkillDefine.cs" Line="11" Column="1" />
+      <File FileName="Assets/Scripts/Defines/CharacterDefine.cs" Line="6" Column="13" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -26,10 +20,10 @@
               <Node name="Scripts" expanded="True">
                 <Node name="Defines" expanded="True" />
                 <Node name="Managers" expanded="True" />
-                <Node name="Models" expanded="True">
-                  <Node name="Attributes.cs" selected="True" />
+                <Node name="Models" expanded="True" />
+                <Node name="UI" expanded="True">
+                  <Node name="UIBattleItem.cs" selected="True" />
                 </Node>
-                <Node name="UI" expanded="True" />
                 <Node name="Utilities" expanded="True">
                   <Node name="FightText" expanded="True" />
                 </Node>
@@ -40,8 +34,11 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="25e54462-3a60-42db-89ea-f2ebff7e1c3c" />
+  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>

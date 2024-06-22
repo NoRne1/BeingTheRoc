@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Linq;
 using UniRx;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
@@ -49,7 +50,8 @@ public class BattleItem: IStorable
             case BattleItemType.time:
                 uuid = GameUtil.Instance.GenerateUniqueId();
                 battleItemType = type;
-                Speed = 100;
+                attributes = new Attributes();
+                attributes.UpdateInitSpeed(100);
                 break;
         }
     }

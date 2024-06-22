@@ -126,7 +126,7 @@ public class SkillManager : MonoSingleton<SkillManager>
             if (GlobalAccess.GetRandomRate_affected(20))
             {
                 var battleItem = GlobalAccess.GetBattleItem(selfID);
-                battleItem.currentEnergy += value;
+                battleItem.attributes.currentEnergy += value;
                 GlobalAccess.SaveBattleItem(battleItem);
             }
         }

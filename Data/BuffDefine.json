@@ -27,8 +27,8 @@
     },
     "2": {
         "ID": 2,
-        "Name": "流血",
-        "MethodName": "Bleeding",
+        "Name": "外伤",
+        "MethodName": "Trauma",
         "PropertyType": -1,
         "Value": -1,
         "Duration": -1,
@@ -36,7 +36,7 @@
         "DecreaseTime": -1,
         "MergeType": 3,
         "Resource": "buff_bleeding_icon",
-        "Description": "拥有流血状态的角色受到伤害时，额外受到流血层数的伤害"
+        "Description": "拥有外伤状态的角色受到伤害时，额外受到外伤层数的伤害"
     },
     "3": {
         "ID": 3,
@@ -102,5 +102,18 @@
         "MergeType": 1,
         "Resource": "buff_changeProperty_icon",
         "Description": "防御降低"
+    },
+    "8": {
+        "ID": 8,
+        "Name": "流血",
+        "MethodName": "Bleeding",
+        "PropertyType": -1,
+        "Value": -1,
+        "Duration": -1,
+        "InvokeTime": 3,
+        "DecreaseTime": -1,
+        "MergeType": 3,
+        "Resource": "buff_bleeding_icon",
+        "Description": "拥有流血状态的角色移动时，受到流血层数*移动步数的伤害"
     }
 }
