@@ -1,14 +1,18 @@
 using System;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 public class SkillManager : MonoSingleton<SkillManager>
 {
     private StoreItemModel hunyuanSword;
+    private DisposablePool disposablePool;
+    private Timer timer;
     // Start is called before the first frame update 
     void Start()
     {
-        
+        disposablePool = new DisposablePool();
+        timer = new Timer();
     }
 
     // Update is called once per frame
@@ -17,15 +21,20 @@ public class SkillManager : MonoSingleton<SkillManager>
         
     }
 
-    public void InvokeSkill(string selfID, string targetID, string methodName, int value)
+    ~SkillManager()
+    {
+        disposablePool.CleanDisposables();
+    }
+
+    public void InvokeSkill(string casterID, string targetID, string methodName)
     {
         var method = typeof(SkillManager).GetMethod(methodName);
-        object[] parameters = new object[] { selfID, targetID, value };
+        object[] parameters = new object[] { casterID, targetID };
         method?.Invoke(SkillManager.Instance, parameters);
         Debug.Log("skill " + methodName + " has been invoked");
     }
 
-    private void HunYuanSword_0(string selfID, string targetID, int value)
+    private void HunYuanSword_0(string casterID, string targetID)
     {
         StoreItemDefine sword = new StoreItemDefine();
         sword.type = ItemType.equip;
@@ -47,7 +56,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         GameManager.Instance.repository.AddItem(new StoreItemModel(sword));
     }
 
-    private void HunYuanYu(string selfID, string targetID, int value)
+    private void HunYuanYu(string casterID, string targetID)
     {
         if (hunyuanSword != null)
         {
@@ -60,7 +69,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         }
     }
 
-    private void HunYuanLi(string selfID, string targetID, int value)
+    private void HunYuanLi(string casterID, string targetID)
     {
         if (hunyuanSword != null)
         {
@@ -68,7 +77,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         }
     }
 
-    private void HunYuanCheng(string selfID, string targetID, int value)
+    private void HunYuanCheng(string casterID, string targetID)
     {
         if (hunyuanSword != null)
         {
@@ -81,20 +90,17 @@ public class SkillManager : MonoSingleton<SkillManager>
         }
     }
 
-    private void HunYuanJi(string selfID, string targetID, int value)
+    private void HunYuanJi(string casterID, string targetID)
     {
         if (hunyuanSword != null)
         {
-            Effect effect = new Effect();
-            effect.effectType = EffectType.skill;
-            effect.invokeType = EffectInvokeType.damage;
-            effect.methodName = "MoveChangeSelf";
-            effect.Value = 10;
-            hunyuanSword.effects.Add(effect);
+            var battleItem = GlobalAccess.GetBattleItem(casterID);
+            battleItem.moveAdvancedDistance += (int)(GlobalAccess.roundDistance * 10 / 100.0f);
+            GlobalAccess.SaveBattleItem(battleItem);
         }
     }
 
-    private void HunYuanWu(string selfID, string targetID, int value)
+    private void HunYuanWu(string casterID, string targetID)
     {
         if (hunyuanSword != null)
         {
@@ -106,7 +112,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         }
     }
 
-    private void HunYuanLing(string selfID, string targetID, int value)
+    private void HunYuanLing(string casterID, string targetID)
     {
         if (hunyuanSword != null)
         {
@@ -119,33 +125,63 @@ public class SkillManager : MonoSingleton<SkillManager>
         }
     }
 
-    private void ReturnEnergy(string selfID, string targetID, int value)
+    private void HuanMie(string casterID, string targetID)
+    {
+        var battleItem = GlobalAccess.GetBattleItem(casterID);
+        timer.CreateTimer(casterID + "HuanMie", 2);
+        battleItem.defeatSubject.AsObservable().Where(_ => timer.TimerNext(casterID + "HuanMie")).Subscribe(_ =>
+        {
+            BattleManager.Instance.extraRound++;
+        });
+    }
+
+    private void HuanMeng(string casterID, string targetID)
+    {
+        var battleItem = GlobalAccess.GetBattleItem(casterID);
+        battleItem.defeatSubject.AsObservable().Subscribe(_ =>
+        {
+            var battleItem = GlobalAccess.GetBattleItem(casterID);
+            battleItem.buffCenter.AddBuff(DataManager.Instance.BuffDefines[1], casterID);
+            GlobalAccess.SaveBattleItem(battleItem);
+        });
+    }
+
+    //private void HuanShen(string casterID, string targetID)
+    //{
+    //    var battleItem = GlobalAccess.GetBattleItem(casterID);
+    //    battleItem.defeatSubject.AsObservable().Subscribe(_ =>
+    //    {
+    //        var battleItem = GlobalAccess.GetBattleItem(casterID);
+    //        battleItem.buffCenter.AddBuff(DataManager.Instance.BuffDefines[1], casterID);
+    //        GlobalAccess.SaveBattleItem(battleItem);
+    //    });
+    //}
+    
+    private void ReturnEnergy(string casterID, string targetID, int value)
     {
         if (hunyuanSword != null)
         {
             if (GlobalAccess.GetRandomRate_affected(20))
             {
-                var battleItem = GlobalAccess.GetBattleItem(selfID);
+                var battleItem = GlobalAccess.GetBattleItem(casterID);
                 battleItem.attributes.currentEnergy += value;
                 GlobalAccess.SaveBattleItem(battleItem);
             }
         }
     }
 
-    private void MoveChangeSelf(string selfID, string targetID, int value)
+    private void MoveChangeSelf(string casterID, string targetID, int value)
     {
-        var battleItem = GlobalAccess.GetBattleItem(selfID);
-        battleItem.remainActingDistance = Mathf.Max(0,
-            battleItem.remainActingDistance - GlobalAccess.roundDistance * value / 100.0f);
+        var battleItem = GlobalAccess.GetBattleItem(casterID);
+        battleItem.remainActingDistance = (int)(battleItem.remainActingDistance * (1 - (value / 100.0f)));
         GlobalAccess.SaveBattleItem(battleItem);
         BattleManager.Instance.CalcBattleItemAndShow(0);
     }
 
-    private void MoveChangeTarget(string selfID, string targetID, int value)
+    private void MoveChangeTarget(string casterID, string targetID, int value)
     {
         var battleItem = GlobalAccess.GetBattleItem(targetID);
-        battleItem.remainActingDistance = Mathf.Max(0,
-            battleItem.remainActingDistance - GlobalAccess.roundDistance * value / 100.0f);
+        battleItem.remainActingDistance = (int)(battleItem.remainActingDistance * (1 - (value / 100.0f)));
         GlobalAccess.SaveBattleItem(battleItem);
         BattleManager.Instance.CalcBattleItemAndShow(0);
     }

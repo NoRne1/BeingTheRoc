@@ -106,55 +106,72 @@ public class BuffManager : MonoSingleton<BuffManager>
         BattleManager.Instance.ProcessAttack(buff.casterID, new List<string> { buff.ownerID }, buff.Value);
     }
 
-    private void ChangeProperty(BuffModel buff, bool addOrRemove)
+    private void ChangeProperty(BuffModel buff, bool addOrRemove = true)
     {
         var battleItem = GlobalAccess.GetBattleItem(buff.ownerID);
         switch (buff.PropertyType)
         {
             case PropertyType.MaxHP:
-                battleItem.attributes.Buff.MaxHP += buff.Value;
+                battleItem.attributes.Buff.MaxHP += addOrRemove ? buff.Value : -buff.Value;
                 battleItem.attributes.LoadFinalAttributes();
-                battleItem.attributes.currentHP += buff.Value;
                 break;
             case PropertyType.HP:
-                BattleManager.Instance.ProcessHealth(buff.casterID, new List<string> { buff.ownerID }, buff.Value);
+                //加血不存在返还
+                if (addOrRemove)
+                {
+                    BattleManager.Instance.ProcessHealth(buff.casterID, new List<string> { buff.ownerID }, buff.Value);
+                }
                 break;
             case PropertyType.Strength:
-                battleItem.attributes.Buff.Strength += buff.Value;
+                battleItem.attributes.Buff.Strength += addOrRemove ? buff.Value : -buff.Value;
                 battleItem.attributes.LoadFinalAttributes();
                 break;
             case PropertyType.Defense:
-                battleItem.attributes.Buff.Defense += buff.Value;
+                battleItem.attributes.Buff.Defense += addOrRemove ? buff.Value : -buff.Value;
                 battleItem.attributes.LoadFinalAttributes();
                 break;
             case PropertyType.Dodge:
-                battleItem.attributes.Buff.Dodge += buff.Value;
+                battleItem.attributes.Buff.Dodge += addOrRemove ? buff.Value : -buff.Value;
                 battleItem.attributes.LoadFinalAttributes();
                 break;
             case PropertyType.Accuracy:
-                battleItem.attributes.Buff.Accuracy += buff.Value;
+                battleItem.attributes.Buff.Accuracy += addOrRemove ? buff.Value : -buff.Value;
                 battleItem.attributes.LoadFinalAttributes();
                 break;
             case PropertyType.Speed:
-                battleItem.attributes.Buff.Speed += buff.Value;
+                battleItem.attributes.Buff.Speed += addOrRemove ? buff.Value : -buff.Value;
                 battleItem.attributes.LoadFinalAttributes();
                 break;
             case PropertyType.Mobility:
-                battleItem.attributes.Buff.Mobility += buff.Value;
+                battleItem.attributes.Buff.Mobility += addOrRemove ? buff.Value : -buff.Value;
                 battleItem.attributes.LoadFinalAttributes();
                 break;
             case PropertyType.Energy:
-                battleItem.attributes.currentEnergy += buff.Value;
+                battleItem.attributes.Buff.Energy += addOrRemove ? buff.Value : -buff.Value;
+                battleItem.attributes.LoadFinalAttributes();
+                // 当前精力只加不减
+                if (addOrRemove)
+                {
+                    battleItem.attributes.currentEnergy += buff.Value;
+                }
                 break;
             case PropertyType.Lucky:
-                battleItem.attributes.Buff.Lucky += buff.Value;
+                battleItem.attributes.Buff.Lucky += addOrRemove ? buff.Value : -buff.Value;
                 battleItem.attributes.LoadFinalAttributes();
                 break;
             case PropertyType.Exp:
-                battleItem.attributes.exp += buff.Value;
+                // 当前经验只加不减
+                if (addOrRemove)
+                {
+                    battleItem.attributes.exp += buff.Value;
+                }
                 break;
             case PropertyType.shield:
-                battleItem.attributes.currentShield += buff.Value;
+                // 当前护盾只加不减
+                if (addOrRemove)
+                {
+                    battleItem.attributes.currentShield += buff.Value;
+                }
                 break;
             default:
                 Debug.Log("unknown propertyType");

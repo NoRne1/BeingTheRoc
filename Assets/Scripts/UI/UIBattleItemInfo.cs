@@ -14,6 +14,7 @@ public class UIBattleItemInfo : MonoBehaviour
     public Transform buffFather;
     public GameObject buffPrefab;
     public Slider hpSlider;
+    public Slider shieldSlider;
     public TextMeshProUGUI sliderText;
     public Image icon;
     public TextMeshProUGUI nameText;
@@ -49,9 +50,12 @@ public class UIBattleItemInfo : MonoBehaviour
                     case BattleItemType.enemy:
                     case BattleItemType.player:
                         hpSlider.maxValue = item.attributes.MaxHP;
+                        shieldSlider.maxValue = item.attributes.MaxHP;
                         icon.overrideSprite = Resloader.LoadSprite(item.Resource, ConstValue.playersPath);
                         nameText.text = item.Name;
                         hpSlider.value = item.attributes.currentHP;
+                        //value只是为了显示
+                        shieldSlider.value = Mathf.Min(shieldSlider.maxValue, item.attributes.currentShield);
                         sliderText.text = item.attributes.currentHP + "/" + item.attributes.MaxHP;
                         energyPool.ReturnAllObject();
                         for (int i = 0; i < item.attributes.currentEnergy; i++)

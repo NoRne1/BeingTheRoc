@@ -58,6 +58,9 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public Dictionary<Vector2, UIBattleItem> battleItemDic = new Dictionary<Vector2, UIBattleItem>();
 
+    public int extraRound = 0;
+    public bool isInExtraRound = false;
+
     private ClickSlotReason clickSlotReason = ClickSlotReason.none;
     // (string, string, int, bool) => (casterID, targetID, damage, trigger other effect)
     public Subject<(string, string, int, bool)> battleItemDamageSubject = new Subject<(string, string, int, bool)>();
@@ -250,10 +253,17 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             case RoundTime.begin:
                 Debug.Log("round begin");
-                battleItem0.buffCenter.TurnBegin();
+                if (extraRound > 0)
+                {
+                    extraRound --;
+                    isInExtraRound = true;
+                }
+                if (!isInExtraRound)
+                {
+                    battleItem0.buffCenter.TurnBegin();
+                }
                 switch (battleItem0.battleItemType)
                 {
-
                     case BattleItemType.player:
                         battleItemDic.FirstOrDefault(pair => {
                             return pair.Value.itemID == battleItem0.uuid;
@@ -336,7 +346,11 @@ public class BattleManager : MonoSingleton<BattleManager>
                 break;
             case RoundTime.end:
                 Debug.Log("round end");
-                battleItem0.buffCenter.TurnEnd();
+                if (!isInExtraRound)
+                {
+                    battleItem0.buffCenter.TurnEnd();
+                }
+                
                 switch (battleItem0.battleItemType)
                 {
                     case BattleItemType.player:
@@ -347,10 +361,29 @@ public class BattleManager : MonoSingleton<BattleManager>
                     case BattleItemType.time:
                         break;
                 }
+                float passedTime;
+                if (extraRound > 0)
+                {
+                    battleItem0.remainActingDistance = 0;
+                    passedTime = Mathf.Min(battleItem1.remainActingDistance / battleItem1.attributes.Speed,
+                        battleItem0.remainActingDistance / battleItem0.attributes.Speed);
+                    battleItem0.remainActingDistance += passedTime * battleItem0.attributes.Speed;// 因为后续还会timePass一次
+                } else
+                {
+                    //先计算行动提前效果
+                    battleItem0.remainActingDistance = Mathf.Max(0, GlobalAccess.roundDistance - battleItem0.moveAdvancedDistance);
+                    //重置行动提前
+                    battleItem0.moveAdvancedDistance = 0;
 
-                int temp = Mathf.CeilToInt(GlobalAccess.roundDistance / battleItem0.attributes.Speed);
-                float passedTime = battleItem1.remainActingDistance / battleItem1.attributes.Speed;
-                battleItem0.remainActingDistance = GlobalAccess.roundDistance + passedTime * battleItem0.attributes.Speed; // 因为后续还会timePass一次
+                    passedTime = Mathf.Min(battleItem1.remainActingDistance / battleItem1.attributes.Speed,
+                        battleItem0.remainActingDistance / battleItem0.attributes.Speed);
+                    battleItem0.remainActingDistance += passedTime * battleItem0.attributes.Speed;// 因为后续还会timePass一次
+                }
+                if (isInExtraRound && extraRound <= 0)
+                {
+                    isInExtraRound = false;
+                }
+                
                 timePass.OnNext(passedTime);
                 yield return new WaitForSeconds(1f);
                 roundTime.OnNext(RoundTime.begin);

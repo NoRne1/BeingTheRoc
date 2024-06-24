@@ -31,11 +31,17 @@ public class BattleItem: IStorable
     public int Skill2 { get; set; }
     public int Skill3 { get; set; }
 
+    public int moveAdvancedDistance;
+    public bool isInExtraRound = false;
+
     public string StorableCategory => "BattleItem";
 
     public string Identifier => this.uuid.ToString();
 
     public EnemyAI enemyAI;
+
+    // Subject
+    public Subject<Unit> defeatSubject = new Subject<Unit>();
 
     public BattleItem() {}
 

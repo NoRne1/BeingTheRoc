@@ -1,15 +1,19 @@
 ﻿<Properties StartupConfiguration="{BBB342A2-6894-1B0E-77BF-1034E1720682}|">
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/UIBattleItem.cs">
     <Files>
-      <File FileName="Assets/Scripts/Defines/BattleItem.cs" Line="44" Column="10" />
-      <File FileName="Assets/Scripts/Models/Attributes.cs" Line="99" Column="17" />
-      <File FileName="Assets/Scripts/Models/CharacterModel.cs" Line="9" Column="19" />
-      <File FileName="Assets/Scripts/Managers/BattleManager.cs" Line="639" Column="58" />
-      <File FileName="Assets/Scripts/UI/UIBattleItem.cs" Line="55" Column="1" />
-      <File FileName="Assets/Scripts/UI/UIMoveBarDayItem.cs" Line="19" Column="6" />
-      <File FileName="Assets/Scripts/Managers/DataManager.cs" Line="49" Column="78" />
-      <File FileName="Assets/Scripts/Defines/SkillDefine.cs" Line="11" Column="1" />
-      <File FileName="Assets/Scripts/Defines/CharacterDefine.cs" Line="6" Column="13" />
+      <File FileName="Assets/Scripts/Defines/BattleItem.cs" />
+      <File FileName="Assets/Scripts/Models/Attributes.cs" />
+      <File FileName="Assets/Scripts/Models/CharacterModel.cs" />
+      <File FileName="Assets/Scripts/Managers/BattleManager.cs" />
+      <File FileName="Assets/Scripts/UI/UIBattleItem.cs" Line="59" Column="12" />
+      <File FileName="Assets/Scripts/UI/UIMoveBarDayItem.cs" />
+      <File FileName="Assets/Scripts/Managers/DataManager.cs" />
+      <File FileName="Assets/Scripts/Defines/SkillDefine.cs" />
+      <File FileName="Assets/Scripts/Defines/CharacterDefine.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -34,11 +38,7 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="25e54462-3a60-42db-89ea-f2ebff7e1c3c" />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="dddf6fcd-c11b-4f20-b01c-f0584125cae0" />
 </Properties>

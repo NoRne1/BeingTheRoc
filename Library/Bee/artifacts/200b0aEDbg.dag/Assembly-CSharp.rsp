@@ -460,6 +460,7 @@
 "Assets/Scripts/Utilities/CheckPointerEnter.cs"
 "Assets/Scripts/Utilities/Config.cs"
 "Assets/Scripts/Utilities/ConstValue.cs"
+"Assets/Scripts/Utilities/DisposablePool.cs"
 "Assets/Scripts/Utilities/DragSupport.cs"
 "Assets/Scripts/Utilities/EditorStyleViewer.cs"
 "Assets/Scripts/Utilities/Extensions/DictionaryExtensions.cs"
@@ -479,6 +480,7 @@
 "Assets/Scripts/Utilities/Resloader.cs"
 "Assets/Scripts/Utilities/ShakeEffect.cs"
 "Assets/Scripts/Utilities/Singleton.cs"
+"Assets/Scripts/Utilities/Timer.cs"
 -langversion:9.0
 
 /deterministic

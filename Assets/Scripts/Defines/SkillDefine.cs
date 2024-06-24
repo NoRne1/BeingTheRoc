@@ -4,8 +4,9 @@ using System.Collections;
 
 public enum SkillInvokeType
 {
-    none = -1,
+    none = -1, // 不触发
     instant = 0, // 获得立即生效
+    battleStart = 1, // 战斗开始时触发
     //equip = 1, // 装备生效
 }
 
