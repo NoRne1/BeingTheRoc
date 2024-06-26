@@ -6,6 +6,7 @@ using UniRx;
 using System.Linq;
 using DG.Tweening;
 using TMPro;
+using Unity.VisualScripting;
 
 
 public class MapManager : MonoSingleton<MapManager>
@@ -293,6 +294,7 @@ public class MapManager : MonoSingleton<MapManager>
         yield return new WaitForSeconds(GlobalAccess.switchPageTime);
         MovePlayerPos(beforeBattleTownId, true);
         battleResultSubject.OnNext(false);
+        BattleManager.Instance.BattleEnd(false);
     }
 
     public void BattleSuccess()
@@ -300,5 +302,6 @@ public class MapManager : MonoSingleton<MapManager>
         townList[currentTownId].Status = TownNodeStatus.passed;
         GameManager.Instance.SwitchPage(PageType.map);
         battleResultSubject.OnNext(true);
+        BattleManager.Instance.BattleEnd(true);
     }
 }

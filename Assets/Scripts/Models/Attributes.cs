@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
+using static UnityEditor.Progress;
 
 public class Attributes
 {
@@ -19,18 +21,33 @@ public class Attributes
     AttributeData Equip = new AttributeData();
     //难度修正值
     public AttributeData Difficulty = new AttributeData();
+    //skill值
+    public AttributeData Skill = new AttributeData();
     //buff值
     public AttributeData Buff = new AttributeData();
     //最终值
     public AttributeData Final = new AttributeData();
     //等级
     //动态属性(HP,MP)
-    public AttributeDynamic dynamicAttr;
+    private AttributeDynamic dynamicAttr;
+
+    public Subject<int> hpChangeSubject = new Subject<int>();
 
     public int currentHP
     {
         get { return dynamicAttr.currentHP; }
-        set { dynamicAttr.currentHP = Mathf.Min(MaxHP, value); }
+        set {
+            int newHp = Mathf.Min(MaxHP, value);
+            int change = newHp - dynamicAttr.currentHP;
+            dynamicAttr.currentHP = newHp;
+
+            if (change < 0)
+            {
+                dynamicAttr.lostHP -= change;
+            }
+            
+            hpChangeSubject.OnNext(change);
+        }
     }
     public int currentShield
     {
@@ -41,6 +58,11 @@ public class Attributes
     {
         get { return dynamicAttr.currentEnergy; }
         set { dynamicAttr.currentEnergy = Mathf.Min(Energy, value); }
+    }
+    public int lostHP
+    {
+        get { return dynamicAttr.lostHP; }
+        set { dynamicAttr.lostHP = value; }
     }
     /// <summary>
     /// 生命
@@ -78,6 +100,19 @@ public class Attributes
     /// 幸运
     /// </summary>
     public int Lucky { get { return this.Final.Lucky; } }
+    /// <summary>
+    /// 减伤
+    /// </summary>
+    public int Protection { get { return this.Final.Protection; } }
+    /// <summary>
+    /// 增伤
+    /// </summary>
+    public int EnchanceDamage { get { return this.Final.EnchanceDamage; } }
+    /// <summary>
+    /// 增伤
+    /// </summary>
+    public int Taunt { get { return this.Final.Taunt; } }
+
     //初始化自己的角色
     public void Init(CharacterDefine define)
     {
@@ -94,6 +129,25 @@ public class Attributes
         this.LoadEquipAttributes(this.Equip, equips, false);
         
         this.LoadFinalAttributes();
+    }
+
+    public void BattleInit()
+    {
+        if (dynamicAttr == null)
+        {
+            dynamicAttr = new AttributeDynamic();
+            dynamicAttr.currentHP = MaxHP;
+            dynamicAttr.currentShield = 0;
+            dynamicAttr.currentEnergy = 0;
+            dynamicAttr.lostHP = 0;
+        }
+        else
+        {
+            dynamicAttr.currentHP = MaxHP;
+            dynamicAttr.currentShield = 0;
+            dynamicAttr.currentEnergy = 0;
+            dynamicAttr.lostHP = 0;
+        }
     }
 
     public void UpdateInitSpeed(int speed)
@@ -114,6 +168,11 @@ public class Attributes
         attr.Mobility = define.Mobility;
         attr.Energy = define.Energy;
         attr.Lucky = define.Lucky;
+        attr.Taunt = define.Taunt;
+        // 默认就为0，所以不用赋值0
+        //attr.Protection = 0;
+        //attr.EnchanceDamage = 0;
+
         if (loadFinal)
         {
             LoadFinalAttributes();
@@ -150,7 +209,7 @@ public class Attributes
         {
             this.Final.Data[i] = this.Initial.Data[i] + this.Growth.Data[i] +
                 this.ItemEffect.Data[i] + this.InBattle.Data[i] + this.Difficulty.Data[i] +
-                this.Equip.Data[i] + this.Buff.Data[i];
+                this.Equip.Data[i] + this.Skill.Data[i] + this.Buff.Data[i];
         }
     }
 }

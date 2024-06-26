@@ -258,10 +258,8 @@ public class BattleManager : MonoSingleton<BattleManager>
                     extraRound --;
                     isInExtraRound = true;
                 }
-                if (!isInExtraRound)
-                {
-                    battleItem0.buffCenter.TurnBegin();
-                }
+                battleItem0.RoundBegin();
+                
                 switch (battleItem0.battleItemType)
                 {
                     case BattleItemType.player:
@@ -348,7 +346,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 Debug.Log("round end");
                 if (!isInExtraRound)
                 {
-                    battleItem0.buffCenter.TurnEnd();
+                    battleItem0.buffCenter.RoundEnd();
                 }
                 
                 switch (battleItem0.battleItemType)
@@ -497,21 +495,27 @@ public class BattleManager : MonoSingleton<BattleManager>
         UIChessboardSlot lastClickedSlot = chessBoard.slots.GetValueOrDefault(lastSelectedPos);
         if (HasBattleItem(slot))
         {
+            // 点击了被其他BattleItem占用的地点
             clickSlotReason = ClickSlotReason.viewCharacter;
             clickedSlot.OnNext(slot);
         } else if (lastClickedSlot != null && battleItemDic[lastSelectedPos].itemID == GlobalAccess.GetBattleItem(battleItemIDs[0]).uuid && HasBattleItem(lastClickedSlot) &&
             GameUtil.Instance.CanMoveTo(lastSelectedPos, slot.position,
             GlobalAccess.GetBattleItem(battleItemDic[lastSelectedPos].itemID).attributes.Mobility))
         {
+            // 移动成功
             Debug.Log("move success to :" + slot.position);
             battleItemDic.Add(slot.position, battleItemDic[lastSelectedPos]);
             battleItemDic.Remove(lastSelectedPos);
             battleItemDic[slot.position].transform.position = slot.transform.position;
             ShowMovePath(slot);
             SelectItem(slot.position);
+
+            var battleItem = GlobalAccess.GetBattleItem(battleItemDic[slot.position].itemID);
+            battleItem.moveSubject.OnNext(slot.position);
         }
         else
         {
+            //移动失败
             Debug.Log("move failure to :" + slot.position);
             chessBoard.ResetColors();
             clickSlotReason = ClickSlotReason.viewCharacter;
@@ -601,7 +605,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         try
         {
             Vector2 vect = battleItemDic.First(x => x.Value.itemID == uuID).Key;
-            List<Vector2> vectList = storeItem.GetTargetRangeList(vect);
+            List<Vector2> vectList = GameUtil.Instance.GetTargetRangeList(vect, storeItem.targetRange);
             chessBoard.ResetColors();
             Dictionary<Vector2, ChessboardSlotColor> dic = new Dictionary<Vector2, ChessboardSlotColor>();
             foreach (var vector in vectList)
@@ -622,7 +626,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         clickSlotReason = ClickSlotReason.viewCharacter;
         Vector2 vect = battleItemDic.First(x => x.Value.itemID == GlobalAccess.GetBattleItem(battleItemIDs[0]).uuid).Key;
-        if (clickedStoreItem.GetTargetRangeList(vect).Contains(slot.position))
+        if (GameUtil.Instance.GetTargetRangeList(vect, clickedStoreItem.targetRange).Contains(slot.position))
         {
             //todo temp one target
             if (battleItemDic.Keys.Contains(slot.position))
@@ -659,6 +663,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         var self = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(selfID)).Value;
         List<AttackStatus> statuses = new List<AttackStatus>();
+        List<string> hurtSubjectList = new List<string>();
         foreach (var id in targetIDs)
         {
             var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(id)).Value;
@@ -669,19 +674,27 @@ public class BattleManager : MonoSingleton<BattleManager>
                 statuses.Add(AttackStatus.miss);
             }
             int damage = (int)(value
-                * (1 + self.attributes.Strength / 100.0f)
-                * (1 - target.attributes.Defense / (target.attributes.Defense + 100.0f))
-                * (hitFlag ? 1 : 0)
-                * (criticalFlag ? 1 : 2));
+                * (1 + self.attributes.Strength / 100.0f) //力量乘区
+                * (1 - target.attributes.Defense / (target.attributes.Defense + 100.0f)) //防御乘区
+                * (hitFlag ? 1 : 0) //命中乘区
+                * (criticalFlag ? 1 : 2) //暴击乘区
+                * (1 - (self.attributes.Protection / 100.0f)) //减伤乘区
+                * (1 + (self.attributes.EnchanceDamage / 100.0f))); //增伤乘区
+
             var targetItem = battleItemDic.Values.Where((item) => item.itemID == id).ToList().FirstOrDefault();
             battleItemDamageSubject.OnNext((selfID, id, damage, true));
             if (targetItem != null)
             {
                 statuses.Add(targetItem.Damage(damage, criticalFlag));
+                hurtSubjectList.Add(id);
             } else
             {
                 return AttackStatus.errorTarget;
             }
+        }
+        if (hurtSubjectList.Count > 0)
+        {
+            self.hurtSubject.OnNext(hurtSubjectList);
         }
         if(statuses.Contains(AttackStatus.toDeath))
         {
@@ -725,9 +738,9 @@ public class BattleManager : MonoSingleton<BattleManager>
         foreach (var id in targetIDs)
         {
             var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(id)).Value;
-            bool criticalFlag = UnityEngine.Random.Range(0, 100) < self.attributes.Lucky;
+            bool criticalFlag = UnityEngine.Random.Range(0, 100) < (self.attributes != null ? self.attributes.Lucky : 0);
             int healthHp = (int)(value
-                * (1 + self.attributes.Strength / 100.0f)
+                * (1 + (self.attributes != null ? self.attributes.Strength : 0) / 100.0f)
                 * (criticalFlag ? 1 : 2));
             var targetItem = battleItemDic.Values.Where((item) => item.itemID == id).ToList().FirstOrDefault();
             if (targetItem != null)
@@ -753,5 +766,40 @@ public class BattleManager : MonoSingleton<BattleManager>
             Destroy(pair.Value.gameObject);
             battleItemDic.Remove(pair.Key);
         }
+    }
+    
+    public List<string> GetBattleItemsByRange(Vector2 pos, TargetRange range, BattleItemType battleItemType) 
+    {
+        List<string> results = new List<string>();
+        List<Vector2> vectList = GameUtil.Instance.GetTargetRangeList(pos, range);
+        foreach(var vect in vectList)
+        {
+            if (battleItemDic.ContainsKey(vect))
+            {
+                var battleItem = GlobalAccess.GetBattleItem(battleItemDic[vect].itemID);
+                if ((battleItemType & battleItem.battleItemType) != 0)
+                {
+                    results.Add(battleItemDic[vect].itemID);
+                }
+            }
+        }
+        return results;
+    }
+
+    public void BattleEnd(bool result)
+    {
+        SkillManager.Instance.BattleEnd();
+        foreach (var id in battleItemIDs)
+        {
+            var item = GlobalAccess.GetBattleItem(id);
+            item.BattleEnd();
+        }
+        //if (result)
+        //{
+
+        //} else
+        //{
+
+        //}
     }
 }

@@ -115,10 +115,10 @@ public class BuffCenter
         }
     }
 
-    public void TurnBegin()
+    public void RoundBegin()
     {
         //执行
-        var temp = buffs.Values.Where(buff => buff.InvokeTime == BuffInvokeTime.turnBegin).ToList();
+        var temp = buffs.Values.Where(buff => buff.InvokeTime == BuffInvokeTime.roundBegin).ToList();
         if (temp.Count > 0)
         {
             foreach (var buff in temp)
@@ -127,7 +127,7 @@ public class BuffCenter
             }
         }
         //减回合
-        var temp2 = buffs.Values.Where(buff => buff.DecreaseTime == BuffDecreaseTime.turnBegin).ToList();
+        var temp2 = buffs.Values.Where(buff => buff.DecreaseTime == BuffDecreaseTime.roundBegin).ToList();
         if (temp2.Count > 0)
         {
             foreach (var buff in temp2)
@@ -167,10 +167,10 @@ public class BuffCenter
     //    }
     //}
 
-    public void TurnEnd()
+    public void RoundEnd()
     {
         //执行
-        var temp = buffs.Values.Where(buff => buff.InvokeTime == BuffInvokeTime.turnEnd).ToList();
+        var temp = buffs.Values.Where(buff => buff.InvokeTime == BuffInvokeTime.roundEnd).ToList();
         if (temp.Count > 0)
         {
             foreach (var buff in temp)
@@ -179,7 +179,7 @@ public class BuffCenter
             }
         }
         //减回合
-        var temp2 = buffs.Values.Where(buff => buff.DecreaseTime == BuffDecreaseTime.turnEnd).ToList();
+        var temp2 = buffs.Values.Where(buff => buff.DecreaseTime == BuffDecreaseTime.roundEnd).ToList();
         if (temp2.Count > 0)
         {
             foreach (var buff in temp2)

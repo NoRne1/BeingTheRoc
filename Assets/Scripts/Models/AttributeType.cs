@@ -40,6 +40,18 @@ public enum AttributeType
     /// 幸运
     /// </summary>
     Lucky = 8,
+    /// <summary>
+    /// 减伤
+    /// </summary>
+    Protection = 9,
+    /// <summary>
+    /// 增伤
+    /// </summary>
+    EnchanceDamage = 10,
+    /// <summary>
+    /// 嘲讽值
+    /// </summary>
+    Taunt = 11,
     MAX
 }
 

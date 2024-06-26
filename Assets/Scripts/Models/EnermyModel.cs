@@ -88,19 +88,6 @@ public class EnermyModel: IStorable
         item.attributes.Difficulty.Strength = (int)(this.attributes.Strength * (difficulty - 1));
         item.attributes.Difficulty.Defense = (int)(this.attributes.Defense * (difficulty - 1));
 
-        if (item.attributes.dynamicAttr == null)
-        {
-            item.attributes.dynamicAttr = new AttributeDynamic();
-            item.attributes.dynamicAttr.currentHP = item.attributes.MaxHP;
-            item.attributes.dynamicAttr.currentShield = 0;
-            item.attributes.dynamicAttr.currentEnergy = 0;
-        }
-        else
-        {
-            item.attributes.dynamicAttr.currentHP = item.attributes.MaxHP;
-            item.attributes.dynamicAttr.currentShield = 0;
-            item.attributes.dynamicAttr.currentEnergy = 0;
-        }
         item.Resource = this.Resource;
         item.Desc = this.Desc;
         item.backpack = this.backpack;

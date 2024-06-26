@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Linq;
 using UniRx;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
+[Flags]
 public enum BattleItemType
 {
-    player = 0,
-    enemy = 1,
-    time = 2,
-    sceneItem = 3
+    player = 1,
+    enemy = 2,
+    time = 4,
+    sceneItem = 8
 }
 
 public class BattleItem: IStorable
@@ -32,7 +35,7 @@ public class BattleItem: IStorable
     public int Skill3 { get; set; }
 
     public int moveAdvancedDistance;
-    public bool isInExtraRound = false;
+    //public bool isInExtraRound = false;
 
     public string StorableCategory => "BattleItem";
 
@@ -40,8 +43,10 @@ public class BattleItem: IStorable
 
     public EnemyAI enemyAI;
 
-    // Subject
+    // Subjects
     public Subject<Unit> defeatSubject = new Subject<Unit>();
+    public Subject<Vector2> moveSubject = new Subject<Vector2>();
+    public Subject<List<string>> hurtSubject = new Subject<List<string>>();
 
     public BattleItem() {}
 
@@ -65,6 +70,16 @@ public class BattleItem: IStorable
     public BattleItem(string uuid)
     {
         this.uuid = uuid;
+    }
+
+    public void RoundBegin()
+    {
+        if (!BattleManager.Instance.isInExtraRound)
+        {
+            buffCenter.RoundBegin();
+        }
+        attributes.currentShield = (int)(attributes.currentShield / 2.0f);
+        attributes.currentEnergy = attributes.Energy;
     }
 
     public void BattleEnd()

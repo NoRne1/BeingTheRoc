@@ -102,6 +102,7 @@
     <Compile Include="Assets/Scripts/Defines/BattleItem.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/DictionaryExtensions.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBarFirstItem.cs" />
+    <Compile Include="Assets/Scripts/Utilities/BattleCommonMethods.cs" />
     <Compile Include="Assets/Scripts/Managers/BuffCenter.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBar.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/StringExtensions.cs" />

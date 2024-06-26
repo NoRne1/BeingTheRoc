@@ -5,8 +5,8 @@ using UnityEngine;
 public enum BuffInvokeTime
 {
     none = -1,
-    turnBegin = 0, // 回合开始触发
-    turnEnd = 1, // 回合结束触发
+    roundBegin = 0, // 回合开始触发
+    roundEnd = 1, // 回合结束触发
     constant = 2, // 持续型，施加或移除buff时触发
     move = 3, // 移动时触发
 }
@@ -14,8 +14,8 @@ public enum BuffInvokeTime
 public enum BuffDecreaseTime
 {
     none = -1,
-    turnBegin = 0, // 回合开始触发
-    turnEnd = 1, // 回合结束触发
+    roundBegin = 0, // 回合开始触发
+    roundEnd = 1, // 回合结束触发
 }
 
 public enum BuffMergeType
@@ -30,23 +30,40 @@ public enum BuffMergeType
 
 public class BuffDefine
 {
-    //ID
+    // ID
     public int ID { get; set; }
-    //名字
+    // 名字
     public string Name { get; set; }
-    //描述
+    // 描述
     public string Description { get; set; }
-    //图标
+    // 图标
     public string Resource { get; set; }
-    //方法名
+    // 方法名
     public string MethodName { get; set; }
-    public PropertyType PropertyType;
+    public PropertyType PropertyType { get; set; }
     public int Value { get; set; }
 
-    //buff的持续时间
+    // buff的持续时间
     public int Duration { get; set; }
 
     public BuffInvokeTime InvokeTime { get; set; }
     public BuffDecreaseTime DecreaseTime { get; set; }
     public BuffMergeType MergeType { get; set; }
+
+    public BuffDefine Copy()
+    {
+        BuffDefine copy = new BuffDefine();
+        copy.ID = this.ID;
+        copy.Name = this.Name;
+        copy.Description = this.Description;
+        copy.Resource = this.Resource;
+        copy.MethodName = this.MethodName;
+        copy.PropertyType = this.PropertyType;
+        copy.Value = this.Value;
+        copy.Duration = this.Duration;
+        copy.InvokeTime = this.InvokeTime;
+        copy.DecreaseTime = this.DecreaseTime;
+        copy.MergeType = this.MergeType;
+        return copy;
+    }
 }

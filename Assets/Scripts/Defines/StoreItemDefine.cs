@@ -23,7 +23,7 @@ public enum EquipType
     X3_1 = 3, //占用三个相邻格子
     X2_2 = 4, // 占用2x2的格子
     X3_2 = 5,
-    Xtu = 6, //土字形的四格
+    Xtu = 6, // 土字形的四格
     Xcorner = 7, //拐角形状的三格
     Xz = 9, //z字型的4格
 }
@@ -69,7 +69,9 @@ public enum PropertyType
     Lucky = 8,
     HP = 9,
     Exp = 10,
-    shield = 11,
+    Shield = 11,
+    Protection = 12,
+    EnchanceDamage = 13,
 }
 
 public enum TargetRange
@@ -304,149 +306,6 @@ public class StoreItemDefine
                 return "equip_attack_range_6";
             default:
                 return null;
-        }
-    }
-
-    public List<Vector2> GetTargetRangeList(Vector2 vect)
-    {
-        List<Vector2> result;
-        bool flag = true;
-        switch (targetRange)
-        {
-            case TargetRange.range_1:
-                result = new List<Vector2>()
-                {
-                    new Vector2(0, 1),
-                    new Vector2(0, -1),
-                    new Vector2(1, 0),
-                    new Vector2(-1, 0),
-                };
-                break;
-            case TargetRange.range_2:
-                result = new List<Vector2>()
-                {
-                    new Vector2(0, 1),
-                    new Vector2(0, -1),
-                    new Vector2(1, 0),
-                    new Vector2(-1, 0),
-                    new Vector2(-2, 0),
-                    new Vector2(2, 0),
-                    new Vector2(0, 2),
-                    new Vector2(0, -2),
-                    new Vector2(1, 1),
-                    new Vector2(1, -1),
-                    new Vector2(-1, 1),
-                    new Vector2(-1, -1),
-                };
-                break;
-            case TargetRange.range_3:
-                result = new List<Vector2>()
-                {
-                    new Vector2(0, 1),
-                    new Vector2(0, -1),
-                    new Vector2(1, 0),
-                    new Vector2(-1, 0),
-                    new Vector2(-2, 0),
-                    new Vector2(2, 0),
-                    new Vector2(0, 2),
-                    new Vector2(0, -2),
-                    new Vector2(-3, 0),
-                    new Vector2(3, 0),
-                    new Vector2(0, 3),
-                    new Vector2(0, -3),
-                    new Vector2(1, 1),
-                    new Vector2(1, -1),
-                    new Vector2(-1, 1),
-                    new Vector2(-1, -1),
-                    new Vector2(2, 1),
-                    new Vector2(2, -1),
-                    new Vector2(-2, 1),
-                    new Vector2(-2, -1),
-                    new Vector2(1, 2),
-                    new Vector2(1, -2),
-                    new Vector2(-1, 2),
-                    new Vector2(-1, -2),
-                };
-                break;
-            case TargetRange.archer:
-                result = new List<Vector2>()
-                {
-                    new Vector2(-2, 0),
-                    new Vector2(2, 0),
-                    new Vector2(0, 2),
-                    new Vector2(0, -2),
-                    new Vector2(1, 1),
-                    new Vector2(1, -1),
-                    new Vector2(-1, 1),
-                    new Vector2(-1, -1),
-                };
-                break;
-            case TargetRange.archer_long:
-                result = new List<Vector2>()
-                {
-                    new Vector2(-3, 0),
-                    new Vector2(3, 0),
-                    new Vector2(0, 3),
-                    new Vector2(0, -3),
-                    new Vector2(2, 1),
-                    new Vector2(2, -1),
-                    new Vector2(-2, 1),
-                    new Vector2(-2, -1),
-                    new Vector2(1, 2),
-                    new Vector2(1, -2),
-                    new Vector2(-1, 2),
-                    new Vector2(-1, -2),
-                };
-                break;
-            case TargetRange.around_8:
-                result = new List<Vector2>()
-                {
-                    new Vector2(0, 1),
-                    new Vector2(0, -1),
-                    new Vector2(1, 0),
-                    new Vector2(-1, 0),
-                    new Vector2(1, 1),
-                    new Vector2(1, -1),
-                    new Vector2(-1, 1),
-                    new Vector2(-1, -1),
-                };
-                break;
-            case TargetRange.line:
-                int boardSize = 8;
-                List<Vector2> tempList = new List<Vector2>();
-                // 获取同行的坐标
-                for (int x = 0; x < boardSize; x++)
-                {
-                    if (x != vect.x) // 排除传入坐标本身
-                    {
-                        tempList.Add(new Vector2(x, vect.y));
-                    }
-                }
-
-                // 获取同列的坐标
-                for (int y = 0; y < boardSize; y++)
-                {
-                    if (y != vect.y && y != vect.y) // 排除传入坐标本身
-                    {
-                        tempList.Add(new Vector2(vect.x, y));
-                    }
-                }
-                result = tempList;
-                flag = false;
-                break;
-            case TargetRange.none:
-            default:
-                result = new List<Vector2>();
-                break;
-        }
-        if (flag)
-        {
-            return result.Select(temp => { return temp + vect; })
-                .Where(temp => { return GameUtil.Instance.InChessBoard(temp); }).ToList();
-        }
-        else
-        {
-            return result;
         }
     }
 }

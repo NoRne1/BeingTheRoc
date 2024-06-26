@@ -75,6 +75,10 @@ public class CharacterDefine
     /// 幸运
     /// </summary>
     public int Lucky { get; set; }
+    /// <summary>
+    /// 嘲讽值
+    /// </summary>
+    public int Taunt { get; set; }
 
     /// <summary>
     /// 图片资源

@@ -4,6 +4,7 @@ using System.Linq;
 using UniRx;
 using System.Collections.Generic;
 using System;
+using static UnityEngine.GraphicsBuffer;
 
 public class BuffManager : MonoSingleton<BuffManager>
 {
@@ -166,12 +167,20 @@ public class BuffManager : MonoSingleton<BuffManager>
                     battleItem.attributes.exp += buff.Value;
                 }
                 break;
-            case PropertyType.shield:
+            case PropertyType.Shield:
                 // 当前护盾只加不减
                 if (addOrRemove)
                 {
                     battleItem.attributes.currentShield += buff.Value;
                 }
+                break;
+            case PropertyType.Protection:
+                battleItem.attributes.Buff.Protection += addOrRemove ? buff.Value : -buff.Value;
+                battleItem.attributes.LoadFinalAttributes();
+                break;
+            case PropertyType.EnchanceDamage:
+                battleItem.attributes.Buff.EnchanceDamage += addOrRemove ? buff.Value : -buff.Value;
+                battleItem.attributes.LoadFinalAttributes();
                 break;
             default:
                 Debug.Log("unknown propertyType");

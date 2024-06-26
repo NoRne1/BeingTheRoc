@@ -457,6 +457,7 @@
 "Assets/Scripts/UI/UIWeatherPanel.cs"
 "Assets/Scripts/UI/UIWindow.cs"
 "Assets/Scripts/Utilities/ActionTree.cs"
+"Assets/Scripts/Utilities/BattleCommonMethods.cs"
 "Assets/Scripts/Utilities/CheckPointerEnter.cs"
 "Assets/Scripts/Utilities/Config.cs"
 "Assets/Scripts/Utilities/ConstValue.cs"

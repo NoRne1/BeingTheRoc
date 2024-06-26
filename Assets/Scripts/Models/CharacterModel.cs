@@ -81,19 +81,6 @@ public class CharacterModel: IStorable
         item.attributes = this.attributes;
         item.Resource = this.Resource;
         item.Desc = this.Desc;
-        if (item.attributes.dynamicAttr == null)
-        {
-            item.attributes.dynamicAttr = new AttributeDynamic();
-            item.attributes.dynamicAttr.currentHP = item.attributes.MaxHP;
-            item.attributes.dynamicAttr.currentShield = 0;
-            item.attributes.dynamicAttr.currentEnergy = 0;
-        }
-        else
-        {
-            item.attributes.dynamicAttr.currentHP = item.attributes.MaxHP;
-            item.attributes.dynamicAttr.currentShield = 0;
-            item.attributes.dynamicAttr.currentEnergy = 0;
-        }
         item.backpack = this.backpack;
         item.BornSkill = this.BornSkill;
         item.Skill1 = this.Skill1;

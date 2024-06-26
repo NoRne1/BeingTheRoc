@@ -189,8 +189,14 @@ public class EquipManager : MonoSingleton<EquipManager>
                         case PropertyType.Exp:
                             target.attributes.exp += effect.Value;
                             break;
-                        case PropertyType.shield:
+                        case PropertyType.Shield:
                             Debug.Log("CharacterModel no shield");
+                            break;
+                        case PropertyType.Protection:
+                            Debug.Log("CharacterModel can not add Protection");
+                            break;
+                        case PropertyType.EnchanceDamage:
+                            Debug.Log("CharacterModel can not add EnchanceDamage");
                             break;
                         default:
                             Debug.Log("unknown propertyType");
@@ -199,7 +205,7 @@ public class EquipManager : MonoSingleton<EquipManager>
                     NorneStore.Instance.Update<CharacterModel>(target, isFull: true);
                     break;
                 case EffectType.skill:
-                    SkillManager.Instance.InvokeSkill(targetID, targetID, effect.methodName);
+                    SkillManager.Instance.InvokeSkill(targetID, effect.methodName, effect.propertyType ?? PropertyType.none, effect.Value);
                     break;
                 case EffectType.buff:
                     //target.buffCenter.AddBuff(DataManager.Instance.BuffDefines[effect.Value], casterID);
@@ -264,8 +270,16 @@ public class EquipManager : MonoSingleton<EquipManager>
                         case PropertyType.Exp:
                             target.attributes.exp += effect.Value;
                             break;
-                        case PropertyType.shield:
+                        case PropertyType.Shield:
                             target.attributes.currentShield+= effect.Value;
+                            break;
+                        case PropertyType.Protection:
+                            target.attributes.InBattle.Protection += effect.Value;
+                            target.attributes.LoadFinalAttributes();
+                            break;
+                        case PropertyType.EnchanceDamage:
+                            target.attributes.InBattle.EnchanceDamage += effect.Value;
+                            target.attributes.LoadFinalAttributes();
                             break;
                         default:
                             Debug.Log("unknown propertyType");
@@ -274,7 +288,7 @@ public class EquipManager : MonoSingleton<EquipManager>
                     NorneStore.Instance.Update<BattleItem>(target, isFull: true);
                     break;
                 case EffectType.skill:
-                    SkillManager.Instance.InvokeSkill(casterID, targetID, effect.methodName);
+                    SkillManager.Instance.InvokeSkill(casterID, effect.methodName, effect.propertyType ?? PropertyType.none, effect.Value);
                     break;
                 case EffectType.buff:
                     target.buffCenter.AddBuff(DataManager.Instance.BuffDefines[effect.Value], casterID);
@@ -289,7 +303,6 @@ public class EquipManager : MonoSingleton<EquipManager>
                         case AttackStatus.toDeath:
                             var caster = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
                             caster.defeatSubject.OnNext(Unit.Default);
-
                             InvokeEffect(EffectInvokeType.toDeath, casterID, targetIDs, item, false);
                             break;
                     }

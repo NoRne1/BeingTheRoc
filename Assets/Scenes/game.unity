@@ -14765,7 +14765,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: 0, y: 0.16}
+  m_AnchoredPosition: {x: 0, y: 0.15999985}
   m_SizeDelta: {x: -12, y: 9.05}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &950401135
@@ -29363,6 +29363,8 @@ MonoBehaviour:
   uiBattleBag: {fileID: 1081479268}
   battleItemIDs: []
   PlayerItemIDs: []
+  extraRound: 0
+  isInExtraRound: 0
 --- !u!1001 &2113811758
 PrefabInstance:
   m_ObjectHideFlags: 0

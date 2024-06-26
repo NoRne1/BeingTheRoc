@@ -40,7 +40,20 @@ public class AttributeData
     /// 幸运
     /// </summary>
     public int Lucky { get { return Data[(int)AttributeType.Lucky]; } set { Data[(int)AttributeType.Lucky] = value; } }
+    /// <summary>
+    /// 减伤
+    /// </summary>
+    public int Protection { get { return Data[(int)AttributeType.Protection]; } set { Data[(int)AttributeType.Protection] = value; } }
+    /// <summary>
+    /// 增伤
+    /// </summary>
+    public int EnchanceDamage { get { return Data[(int)AttributeType.EnchanceDamage]; } set { Data[(int)AttributeType.EnchanceDamage] = value; } }
+    /// <summary>
+    /// 嘲讽值
+    /// </summary>
+    public int Taunt { get { return Data[(int)AttributeType.Taunt]; } set { Data[(int)AttributeType.Taunt] = value; } }
     
+
     public void Reset()
     {
         for (int i = 0; i < (int)AttributeType.MAX; i++)

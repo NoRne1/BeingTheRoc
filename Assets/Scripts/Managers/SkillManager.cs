@@ -13,6 +13,12 @@ public class SkillManager : MonoSingleton<SkillManager>
     {
         disposablePool = new DisposablePool();
         timer = new Timer();
+        BattleManager.Instance.roundTime.AsObservable().TakeUntilDestroy(this)
+            .Where(roundTime => roundTime == RoundTime.begin && BattleManager.Instance.extraRound == 0)
+            .Subscribe(_ =>
+        {
+            timer.NextRound();
+        });
     }
 
     // Update is called once per frame
@@ -26,15 +32,21 @@ public class SkillManager : MonoSingleton<SkillManager>
         disposablePool.CleanDisposables();
     }
 
-    public void InvokeSkill(string casterID, string targetID, string methodName)
+    public void BattleEnd()
+    {
+        disposablePool.CleanDisposables();
+        timer.Clean();
+    }
+
+    public void InvokeSkill(string casterID, string methodName, PropertyType type = PropertyType.none, int value = 0)
     {
         var method = typeof(SkillManager).GetMethod(methodName);
-        object[] parameters = new object[] { casterID, targetID };
+        object[] parameters = new object[] { casterID, type, value };
         method?.Invoke(SkillManager.Instance, parameters);
         Debug.Log("skill " + methodName + " has been invoked");
     }
 
-    private void HunYuanSword_0(string casterID, string targetID)
+    private void HunYuanSword_0(string casterID, PropertyType type, int value)
     {
         StoreItemDefine sword = new StoreItemDefine();
         sword.type = ItemType.equip;
@@ -56,20 +68,20 @@ public class SkillManager : MonoSingleton<SkillManager>
         GameManager.Instance.repository.AddItem(new StoreItemModel(sword));
     }
 
-    private void HunYuanYu(string casterID, string targetID)
+    private void HunYuanYu(string casterID, PropertyType type, int value)
     {
         if (hunyuanSword != null)
         {
             Effect effect = new Effect();
             effect.effectType = EffectType.property;
             effect.invokeType = EffectInvokeType.useInstant;
-            effect.propertyType = PropertyType.shield;
+            effect.propertyType = PropertyType.Shield;
             effect.Value = 8;
             hunyuanSword.effects.Add(effect);
         }
     }
 
-    private void HunYuanLi(string casterID, string targetID)
+    private void HunYuanLi(string casterID, PropertyType type, int value)
     {
         if (hunyuanSword != null)
         {
@@ -77,7 +89,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         }
     }
 
-    private void HunYuanCheng(string casterID, string targetID)
+    private void HunYuanCheng(string casterID, PropertyType type, int value)
     {
         if (hunyuanSword != null)
         {
@@ -90,7 +102,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         }
     }
 
-    private void HunYuanJi(string casterID, string targetID)
+    private void HunYuanJi(string casterID, PropertyType type, int value)
     {
         if (hunyuanSword != null)
         {
@@ -100,7 +112,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         }
     }
 
-    private void HunYuanWu(string casterID, string targetID)
+    private void HunYuanWu(string casterID, PropertyType type, int value)
     {
         if (hunyuanSword != null)
         {
@@ -112,7 +124,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         }
     }
 
-    private void HunYuanLing(string casterID, string targetID)
+    private void HunYuanLing(string casterID, PropertyType type, int value)
     {
         if (hunyuanSword != null)
         {
@@ -125,39 +137,110 @@ public class SkillManager : MonoSingleton<SkillManager>
         }
     }
 
-    private void HuanMie(string casterID, string targetID)
+    private void HuanMie(string casterID, PropertyType type, int value)
     {
         var battleItem = GlobalAccess.GetBattleItem(casterID);
-        timer.CreateTimer(casterID + "HuanMie", 2);
-        battleItem.defeatSubject.AsObservable().Where(_ => timer.TimerNext(casterID + "HuanMie")).Subscribe(_ =>
+        timer.CreateTimer(TimerType.normal, casterID + "HuanMie", 2);
+        disposablePool.SaveDisposable(casterID + "HuanMie", battleItem.defeatSubject.AsObservable().Where(_ => timer.TimerNext(casterID + "HuanMie")).Subscribe(_ =>
         {
             BattleManager.Instance.extraRound++;
-        });
+        }));
     }
 
-    private void HuanMeng(string casterID, string targetID)
+    private void HuanMeng(string casterID, PropertyType type, int value)
     {
         var battleItem = GlobalAccess.GetBattleItem(casterID);
-        battleItem.defeatSubject.AsObservable().Subscribe(_ =>
+        disposablePool.SaveDisposable(casterID + "HuanMeng", battleItem.defeatSubject.AsObservable().Subscribe(_ =>
         {
             var battleItem = GlobalAccess.GetBattleItem(casterID);
             battleItem.buffCenter.AddBuff(DataManager.Instance.BuffDefines[1], casterID);
             GlobalAccess.SaveBattleItem(battleItem);
-        });
+        }));
     }
 
-    //private void HuanShen(string casterID, string targetID)
-    //{
-    //    var battleItem = GlobalAccess.GetBattleItem(casterID);
-    //    battleItem.defeatSubject.AsObservable().Subscribe(_ =>
-    //    {
-    //        var battleItem = GlobalAccess.GetBattleItem(casterID);
-    //        battleItem.buffCenter.AddBuff(DataManager.Instance.BuffDefines[1], casterID);
-    //        GlobalAccess.SaveBattleItem(battleItem);
-    //    });
-    //}
-    
-    private void ReturnEnergy(string casterID, string targetID, int value)
+    private void HuanShen(string casterID, PropertyType type, int value)
+    {
+        var battleItem = GlobalAccess.GetBattleItem(casterID);
+        disposablePool.SaveDisposable(casterID + "HuanShen", battleItem.defeatSubject.AsObservable().Subscribe(_ =>
+        {
+            var battleItem = GlobalAccess.GetBattleItem(casterID);
+            battleItem.attributes.currentEnergy += 1;
+            GlobalAccess.SaveBattleItem(battleItem);
+        }));
+    }
+
+    private void HuanYing(string casterID, PropertyType type, int value)
+    {
+        var battleItem = GlobalAccess.GetBattleItem(casterID);
+        disposablePool.SaveDisposable(casterID + "HuanYing", battleItem.attributes.hpChangeSubject.AsObservable().Where(hp =>
+        {
+            var temp = GlobalAccess.GetBattleItem(casterID);
+            return temp.attributes.currentHP < 0.3f * temp.attributes.MaxHP && hp + temp.attributes.currentHP > 0.3f * temp.attributes.MaxHP;
+        }).Subscribe(hp =>
+        {
+            var temp = GlobalAccess.GetBattleItem(casterID);
+            temp.buffCenter.AddBuff(DataManager.Instance.BuffDefines[1], casterID);
+            GlobalAccess.SaveBattleItem(temp);
+        }));
+    }
+
+    private void StrongBone(string casterID, PropertyType type, int value)
+    {
+        var battleItem = GlobalAccess.GetBattleItem(casterID);
+        // 虽然这里是技能赋予的，也没有独立buff，但是是战斗开始赋予，结束时需要清除，所以算到buff里
+        battleItem.attributes.Skill.Protection += 20;
+        GlobalAccess.SaveBattleItem(battleItem);
+        disposablePool.SaveDisposable(casterID + "StrongBone", battleItem.moveSubject.AsObservable().Subscribe(vect =>
+        {
+            var targetIDs = BattleManager.Instance.GetBattleItemsByRange(vect, TargetRange.range_1, BattleItemType.player);
+            foreach (var targetID in targetIDs)
+            {
+                var battleItem = GlobalAccess.GetBattleItem(casterID);
+                var buffCopy = DataManager.Instance.BuffDefines[1].Copy();
+                buffCopy.Value = 10;
+                buffCopy.Duration = 2;
+                battleItem.buffCenter.AddBuff(buffCopy, casterID);
+                GlobalAccess.SaveBattleItem(battleItem);
+            }
+        }));
+    }
+
+    private void UnstoppableAspiration(string casterID, PropertyType type, int value)
+    {
+        var battleItem = GlobalAccess.GetBattleItem(casterID);
+        timer.CreateTimer(TimerType.normal, casterID + "UnstoppableAspiration", 2);
+        disposablePool.SaveDisposable(casterID + "StrongBone", battleItem.attributes.hpChangeSubject.AsObservable().Where(hp =>
+        {
+            var temp = GlobalAccess.GetBattleItem(casterID);
+            return timer.TimerNext(casterID + "UnstoppableAspiration") &&
+                hp > 0.15f * temp.attributes.MaxHP;
+        }).Subscribe(hp =>
+        {
+            var temp = GlobalAccess.GetBattleItem(casterID);
+            BattleManager.Instance.ProcessHealth("", new List<string> { casterID }, (int)(temp.attributes.MaxHP * 0.05));
+        }));
+    }
+
+    private void WeAreBrother(string casterID, PropertyType type, int value)
+    {
+        var battleItem = GlobalAccess.GetBattleItem(casterID);
+        battleItem.attributes.Skill.Taunt += 100;
+        GlobalAccess.SaveBattleItem(battleItem);
+    }
+
+    private void TreeAngry(string casterID, PropertyType type, int value)
+    {
+        var caster = GlobalAccess.GetBattleItem(casterID);
+        disposablePool.SaveDisposable(casterID + "TreeAngry", caster.hurtSubject.AsObservable().Subscribe(hurtedIds =>
+        {
+            foreach(var id in hurtedIds)
+            {
+                BattleManager.Instance.ProcessDamage(casterID, id, (int)(caster.attributes.lostHP * 0.1f));
+            }
+        }));
+    }
+
+    private void ReturnEnergy(string casterID, PropertyType type, int value)
     {
         if (hunyuanSword != null)
         {
@@ -170,19 +253,69 @@ public class SkillManager : MonoSingleton<SkillManager>
         }
     }
 
-    private void MoveChangeSelf(string casterID, string targetID, int value)
+    private void ChangeProperty(string casterID, PropertyType type, int value)
     {
-        var battleItem = GlobalAccess.GetBattleItem(casterID);
-        battleItem.remainActingDistance = (int)(battleItem.remainActingDistance * (1 - (value / 100.0f)));
-        GlobalAccess.SaveBattleItem(battleItem);
-        BattleManager.Instance.CalcBattleItemAndShow(0);
-    }
-
-    private void MoveChangeTarget(string casterID, string targetID, int value)
-    {
-        var battleItem = GlobalAccess.GetBattleItem(targetID);
-        battleItem.remainActingDistance = (int)(battleItem.remainActingDistance * (1 - (value / 100.0f)));
-        GlobalAccess.SaveBattleItem(battleItem);
-        BattleManager.Instance.CalcBattleItemAndShow(0);
+        //由于战斗中不能升级，所以提升属性的技能只可能对于characterModel生效
+        var characterModel = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(casterID)).Value;
+        switch (type)
+        {
+            case PropertyType.MaxHP:
+                characterModel.attributes.Skill.MaxHP += value;
+                characterModel.attributes.LoadFinalAttributes();
+                break;
+            case PropertyType.HP:
+                Debug.Log("skill will not change HP");
+                break;
+            case PropertyType.Strength:
+                characterModel.attributes.Skill.Strength += value;
+                characterModel.attributes.LoadFinalAttributes();
+                break;
+            case PropertyType.Defense:
+                characterModel.attributes.Skill.Defense += value;
+                characterModel.attributes.LoadFinalAttributes();
+                break;
+            case PropertyType.Dodge:
+                characterModel.attributes.Skill.Dodge += value;
+                characterModel.attributes.LoadFinalAttributes();
+                break;
+            case PropertyType.Accuracy:
+                characterModel.attributes.Skill.Accuracy += value;
+                characterModel.attributes.LoadFinalAttributes();
+                break;
+            case PropertyType.Speed:
+                characterModel.attributes.Skill.Speed += value;
+                characterModel.attributes.LoadFinalAttributes();
+                break;
+            case PropertyType.Mobility:
+                characterModel.attributes.Skill.Mobility += value;
+                characterModel.attributes.LoadFinalAttributes();
+                break;
+            case PropertyType.Energy:
+                characterModel.attributes.Skill.Energy += value;
+                characterModel.attributes.LoadFinalAttributes();
+                break;
+            case PropertyType.Lucky:
+                characterModel.attributes.Skill.Lucky += value;
+                characterModel.attributes.LoadFinalAttributes();
+                break;
+            case PropertyType.Exp:
+                characterModel.attributes.exp += value;
+                break;
+            case PropertyType.Shield:
+                Debug.Log("skill will not change Shield");
+                break;
+            case PropertyType.Protection:
+                characterModel.attributes.Skill.Protection += value;
+                characterModel.attributes.LoadFinalAttributes();
+                break;
+            case PropertyType.EnchanceDamage:
+                characterModel.attributes.Skill.EnchanceDamage += value;
+                characterModel.attributes.LoadFinalAttributes();
+                break;
+            default:
+                Debug.Log("unknown propertyType");
+                break;
+        }
+        NorneStore.Instance.Update<CharacterModel>(characterModel, true);
     }
 }
