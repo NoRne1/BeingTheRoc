@@ -198,6 +198,10 @@ public class EquipManager : MonoSingleton<EquipManager>
                         case PropertyType.EnchanceDamage:
                             Debug.Log("CharacterModel can not add EnchanceDamage");
                             break;
+                        case PropertyType.Hematophagia:
+                            target.attributes.ItemEffect.Hematophagia += effect.Value;
+                            target.attributes.LoadFinalAttributes();
+                            break;
                         default:
                             Debug.Log("unknown propertyType");
                             break;
@@ -234,7 +238,7 @@ public class EquipManager : MonoSingleton<EquipManager>
                             target.attributes.currentHP += effect.Value;
                             break;
                         case PropertyType.HP:
-                            BattleManager.Instance.ProcessHealth(casterID, targetIDs, effect.Value);
+                            BattleManager.Instance.ProcessNormalHealth(casterID, targetIDs, effect.Value);
                             break;
                         case PropertyType.Strength:
                             target.attributes.InBattle.Strength += effect.Value;
@@ -281,6 +285,10 @@ public class EquipManager : MonoSingleton<EquipManager>
                             target.attributes.InBattle.EnchanceDamage += effect.Value;
                             target.attributes.LoadFinalAttributes();
                             break;
+                        case PropertyType.Hematophagia:
+                            target.attributes.InBattle.Hematophagia += effect.Value;
+                            target.attributes.LoadFinalAttributes();
+                            break;
                         default:
                             Debug.Log("unknown propertyType");
                             break;
@@ -294,18 +302,19 @@ public class EquipManager : MonoSingleton<EquipManager>
                     target.buffCenter.AddBuff(DataManager.Instance.BuffDefines[effect.Value], casterID);
                     break;
                 case EffectType.attack:
-                    var attackStatus = BattleManager.Instance.ProcessAttack(casterID, targetIDs, effect.Value);
+                    var attackStatus = BattleManager.Instance.ProcessNormalAttack(casterID, targetIDs, effect.Value);
+                    var caster = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
                     switch (attackStatus)
                     {
                         case AttackStatus.normal:
                             InvokeEffect(EffectInvokeType.damage, casterID, targetIDs, item, false);
                             break;
                         case AttackStatus.toDeath:
-                            var caster = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
                             caster.defeatSubject.OnNext(Unit.Default);
                             InvokeEffect(EffectInvokeType.toDeath, casterID, targetIDs, item, false);
                             break;
                     }
+                    caster.haveAttackedInRound = true;
                     break;
             }
         }

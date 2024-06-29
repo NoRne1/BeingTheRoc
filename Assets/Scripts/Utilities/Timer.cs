@@ -13,11 +13,11 @@ public class Timer
     public Dictionary<string, int> normalTimers = new Dictionary<string, int>();
     public Dictionary<string, (int, bool)> roundTimers = new Dictionary<string, (int, bool)>();
     public Dictionary<string, int> loopTimes = new Dictionary<string, int>();
-    public int round;
+    public Dictionary<string, int> round = new Dictionary<string, int>();
 
     public Timer()
     {
-        round = 0;
+
     }
 
     public void Clean()
@@ -25,11 +25,15 @@ public class Timer
         normalTimers.Clear();
         roundTimers.Clear();
         loopTimes.Clear();
+        round.Clear();
     }
 
-    public void NextRound()
+    public void NextRound(string uuid)
     {
-        round++;
+        if (round.ContainsKey(uuid))
+        {
+            round[uuid]++;
+        }
     }
 
     public bool CreateTimer(TimerType type, string id, int loopTime)
@@ -54,7 +58,8 @@ public class Timer
                 }
                 else
                 {
-                    roundTimers[id] = (round, false);
+                    round.Add(id, 0);
+                    roundTimers[id] = (round[id], false);
                     loopTimes[id] = loopTime;
                     return true;
                 }
@@ -71,10 +76,10 @@ public class Timer
             return normalTimers[id] % loopTimes[id] == 1;
         } else if (roundTimers.ContainsKey(id))
         {
-            if (!roundTimers[id].Item2 || (round - roundTimers[id].Item1) % loopTimes[id] == loopTimes[id] - 1)
+            if (!roundTimers[id].Item2 || (round[id] - roundTimers[id].Item1) % loopTimes[id] == loopTimes[id] - 1)
             {
                 // 没有触发过 或者 上次触发过，但是已经过了冷却回合数
-                roundTimers[id] = (round, true);
+                roundTimers[id] = (round[id], true);
                 return true;
             } else
             {

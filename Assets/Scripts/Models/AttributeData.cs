@@ -52,7 +52,15 @@ public class AttributeData
     /// 嘲讽值
     /// </summary>
     public int Taunt { get { return Data[(int)AttributeType.Taunt]; } set { Data[(int)AttributeType.Taunt] = value; } }
-    
+    /// <summary>
+    /// 吸血
+    /// </summary>
+    public int Hematophagia { get { return Data[(int)AttributeType.Hematophagia]; } set { Data[(int)AttributeType.Hematophagia] = value; } }
+    /// <summary>
+    /// 距离增伤
+    /// </summary>
+    public int DistanceDamage { get { return Data[(int)AttributeType.DistanceDamage]; } set { Data[(int)AttributeType.DistanceDamage] = value; } }
+
 
     public void Reset()
     {

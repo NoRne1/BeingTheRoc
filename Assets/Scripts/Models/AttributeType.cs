@@ -52,6 +52,14 @@ public enum AttributeType
     /// 嘲讽值
     /// </summary>
     Taunt = 11,
+    /// <summary>
+    /// 吸血
+    /// </summary>
+    Hematophagia = 12,
+    /// <summary>
+    /// 距离增伤
+    /// </summary>
+    DistanceDamage = 13,
     MAX
 }
 

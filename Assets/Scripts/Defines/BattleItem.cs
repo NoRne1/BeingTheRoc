@@ -26,9 +26,7 @@ public class BattleItem: IStorable
     public Attributes attributes;
     public Backpack backpack;
     public BuffCenter buffCenter;
-    public bool isInvisible;
-    public bool canActing = true;
-
+    
     public int BornSkill { get; set; }
     public int Skill1 { get; set; }
     public int Skill2 { get; set; }
@@ -43,10 +41,16 @@ public class BattleItem: IStorable
 
     public EnemyAI enemyAI;
 
+    // other attribute
+    public bool isInvisible = false;
+    public bool canActing = true;
+    public bool haveAttackedInRound = false;
+    public bool isInvincible = false;
+    public bool avoidDeath = false;
+    public Action<string> avoidDeathFunc;
     // Subjects
     public Subject<Unit> defeatSubject = new Subject<Unit>();
     public Subject<Vector2> moveSubject = new Subject<Vector2>();
-    public Subject<List<string>> hurtSubject = new Subject<List<string>>();
 
     public BattleItem() {}
 
@@ -80,6 +84,15 @@ public class BattleItem: IStorable
         }
         attributes.currentShield = (int)(attributes.currentShield / 2.0f);
         attributes.currentEnergy = attributes.Energy;
+        haveAttackedInRound = false;
+    }
+
+    public void RoundEnd()
+    {
+        if (!BattleManager.Instance.isInExtraRound)
+        {
+            buffCenter.RoundEnd();
+        }
     }
 
     public void BattleEnd()

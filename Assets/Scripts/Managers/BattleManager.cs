@@ -31,6 +31,7 @@ public enum AttackStatus
     normal = 0,
     miss = 1,
     toDeath = 2,
+    block = 3,
 }
 
 public class BattleManager : MonoSingleton<BattleManager>
@@ -49,7 +50,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public System.IDisposable timePassDispose;
     public List<string> battleItemIDs = new List<string>();
     public List<string> PlayerItemIDs = new List<string>();
-    public BehaviorSubject<RoundTime> roundTime = new BehaviorSubject<RoundTime>(RoundTime.prepare);
+    public BehaviorSubject<(string, RoundTime)> roundTime = new BehaviorSubject<(string, RoundTime)>((null, RoundTime.prepare));
     public System.IDisposable roundRelayDispose;
 
     private BehaviorSubject<int> currentPlaceIndex = new BehaviorSubject<int>(-1);
@@ -62,8 +63,8 @@ public class BattleManager : MonoSingleton<BattleManager>
     public bool isInExtraRound = false;
 
     private ClickSlotReason clickSlotReason = ClickSlotReason.none;
-    // (string, string, int, bool) => (casterID, targetID, damage, trigger other effect)
-    public Subject<(string, string, int, bool)> battleItemDamageSubject = new Subject<(string, string, int, bool)>();
+    // (string, string, int, AttackStatus, bool) => (casterID, targetID, damage, attackStatus, trigger other effect)
+    public Subject<(string, string, int, AttackStatus, bool)> battleItemDamageSubject = new Subject<(string, string, int, AttackStatus, bool)>();
 
     // Use this for initialization
     void Start()
@@ -87,7 +88,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 placeBox.gameObject.SetActive(false);
                 chessBoard.ResetColors();
                 clickSlotReason = ClickSlotReason.viewCharacter;
-                roundTime.OnNext(RoundTime.end);
+                roundTime.OnNext((null, RoundTime.end));
                 currentPlaceIndex.OnNext(-1);
                 return;
             }
@@ -196,7 +197,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         roundRelayDispose = null;
 
         timePass.OnNext(-1);
-        roundTime.OnNext(RoundTime.prepare);
+        roundTime.OnNext((null, RoundTime.prepare));
         currentPlaceIndex.OnNext(-1);
 
         uiBattleItemInfo.Setup(null);
@@ -241,11 +242,11 @@ public class BattleManager : MonoSingleton<BattleManager>
         //正式开始回合流程
         roundRelayDispose = roundTime.AsObservable().TakeUntilDestroy(this).Subscribe(time =>
         {
-            StartCoroutine(ProcessRound(time));
+            StartCoroutine(ProcessRound(time.Item1, time.Item2));
         });
     }
 
-    public IEnumerator ProcessRound(RoundTime time)
+    public IEnumerator ProcessRound(string uuid, RoundTime time)
     {
         var battleItem0 = GlobalAccess.GetBattleItem(battleItemIDs[0]);
         var battleItem1 = GlobalAccess.GetBattleItem(battleItemIDs[1]);
@@ -284,7 +285,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                     case BattleItemType.time:
                         GameManager.Instance.TimeChanged(-1);
                         yield return new WaitForSeconds(1f);
-                        roundTime.OnNext(RoundTime.end);
+                        roundTime.OnNext((uuid, RoundTime.end));
                         break;
                     case BattleItemType.sceneItem:
                         battleItemDic.FirstOrDefault(pair => {
@@ -296,7 +297,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                         break;
                 }
                 yield return new WaitForSeconds(1f);
-                roundTime.OnNext(RoundTime.acting);
+                roundTime.OnNext((uuid, RoundTime.acting));
                 break;
             case RoundTime.acting:
                 Debug.Log("round acting");
@@ -306,7 +307,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                     case BattleItemType.player:
                         if (!battleItem0.canActing)
                         {
-                            roundTime.OnNext(RoundTime.end);
+                            roundTime.OnNext((uuid, RoundTime.end));
                             battleItem0.canActing = true;
                             GlobalAccess.SaveBattleItem(battleItem0);
                         }
@@ -314,7 +315,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                     case BattleItemType.enemy:
                         if (!battleItem0.canActing)
                         {
-                            roundTime.OnNext(RoundTime.end);
+                            roundTime.OnNext((uuid, RoundTime.end));
                             battleItem0.canActing = true;
                             GlobalAccess.SaveBattleItem(battleItem0);
                         } else
@@ -325,30 +326,27 @@ public class BattleManager : MonoSingleton<BattleManager>
                     case BattleItemType.time:
                         GameManager.Instance.TimeChanged(-1);
                         yield return new WaitForSeconds(1f);
-                        roundTime.OnNext(RoundTime.end);
+                        roundTime.OnNext((uuid, RoundTime.end));
                         break;
                     case BattleItemType.sceneItem:
                         if (!battleItem0.canActing)
                         {
-                            roundTime.OnNext(RoundTime.end);
+                            roundTime.OnNext((uuid, RoundTime.end));
                             battleItem0.canActing = true;
                             GlobalAccess.SaveBattleItem(battleItem0);
                         } else
                         {
                             Debug.Log("sceneItem round acting");
                             yield return new WaitForSeconds(1f);
-                            roundTime.OnNext(RoundTime.end);
+                            roundTime.OnNext((uuid, RoundTime.end));
                         }
                         break;
                 }
                 break;
             case RoundTime.end:
                 Debug.Log("round end");
-                if (!isInExtraRound)
-                {
-                    battleItem0.buffCenter.RoundEnd();
-                }
-                
+                battleItem0.RoundBegin();
+
                 switch (battleItem0.battleItemType)
                 {
                     case BattleItemType.player:
@@ -384,7 +382,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 
                 timePass.OnNext(passedTime);
                 yield return new WaitForSeconds(1f);
-                roundTime.OnNext(RoundTime.begin);
+                roundTime.OnNext((uuid, RoundTime.begin));
                 break;
             case RoundTime.prepare:
                 //开始放置角色
@@ -436,7 +434,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public void RoundEnd()
     {
-        roundTime.OnNext(RoundTime.end);
+        roundTime.OnNext((battleItemIDs[0], RoundTime.end));
     }
 
     public void PlaceCharacter(UIChessboardSlot slot)
@@ -659,13 +657,16 @@ public class BattleManager : MonoSingleton<BattleManager>
         uiBattleItemInfo.BlinkEnergy();
     }
 
-    public AttackStatus ProcessAttack(string selfID, List<string> targetIDs, int value)
+    // 常规攻击（受属性影响，会暴击，触发特效）
+    // 此处返回的AttackStatus是为了触发击伤和击杀效果
+    public AttackStatus ProcessNormalAttack(string selfID, List<string> targetIDs, int value)
     {
         var self = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(selfID)).Value;
         List<AttackStatus> statuses = new List<AttackStatus>();
-        List<string> hurtSubjectList = new List<string>();
+        int totalDamage = 0;
         foreach (var id in targetIDs)
         {
+            AttackStatus tempStatus;
             var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(id)).Value;
             bool hitFlag = GlobalAccess.GetRandomRate(100 - target.attributes.Dodge + self.attributes.Accuracy);
             bool criticalFlag = GlobalAccess.GetRandomRate(self.attributes.Lucky);
@@ -682,19 +683,24 @@ public class BattleManager : MonoSingleton<BattleManager>
                 * (1 + (self.attributes.EnchanceDamage / 100.0f))); //增伤乘区
 
             var targetItem = battleItemDic.Values.Where((item) => item.itemID == id).ToList().FirstOrDefault();
-            battleItemDamageSubject.OnNext((selfID, id, damage, true));
+            
             if (targetItem != null)
             {
-                statuses.Add(targetItem.Damage(damage, criticalFlag));
-                hurtSubjectList.Add(id);
+                tempStatus = targetItem.Damage(damage, criticalFlag, hitFlag);
+                statuses.Add(tempStatus);
             } else
             {
-                return AttackStatus.errorTarget;
+                tempStatus = AttackStatus.errorTarget;
+                statuses.Add(tempStatus);
             }
+            totalDamage += damage;
+            battleItemDamageSubject.OnNext((selfID, id, damage, tempStatus, true));
         }
-        if (hurtSubjectList.Count > 0)
+
+        int hemato = (int)(totalDamage * (self.attributes.Hematophagia / 100.0f));
+        if (hemato > 0)
         {
-            self.hurtSubject.OnNext(hurtSubjectList);
+            ProcessDirectHealth(selfID, selfID, hemato);
         }
         if(statuses.Contains(AttackStatus.toDeath))
         {
@@ -716,14 +722,17 @@ public class BattleManager : MonoSingleton<BattleManager>
         }
     }
 
-    public AttackStatus ProcessDamage(string casterID, string targetID, int value)
+    // 直接伤害
+    public AttackStatus ProcessDirectAttack(string casterID, string targetID, int value)
     {
         var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(targetID)).Value;
         var targetItem = battleItemDic.Values.Where((item) => item.itemID == targetID).ToList().FirstOrDefault();
-        battleItemDamageSubject.OnNext((casterID, targetID, value, false));
+        
         if (targetItem != null)
         {
-            return targetItem.Damage(value, false);
+            var attackStatus = targetItem.Damage(value, false, true);
+            battleItemDamageSubject.OnNext((casterID, targetID, value, attackStatus, false));
+            return attackStatus;
         }
         else
         {
@@ -731,7 +740,8 @@ public class BattleManager : MonoSingleton<BattleManager>
         }
     }
 
-    public void ProcessHealth(string selfID, List<string> targetIDs, int value)
+    // 常规回血（受属性影响，会暴击，触发特效）
+    public void ProcessNormalHealth(string selfID, List<string> targetIDs, int value)
     {
         var self = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(selfID)).Value;
         List<AttackStatus> statuses = new List<AttackStatus>();
@@ -747,6 +757,19 @@ public class BattleManager : MonoSingleton<BattleManager>
             {
                 targetItem.AddHP(healthHp, criticalFlag);
             }
+        }
+    }
+
+    // 直接回血
+    public void ProcessDirectHealth(string selfID, string targetID, int value)
+    {
+        var self = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(selfID)).Value;
+        List<AttackStatus> statuses = new List<AttackStatus>();
+        var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(targetID)).Value;
+        var targetItem = battleItemDic.Values.Where((item) => item.itemID == targetID).ToList().FirstOrDefault();
+        if (targetItem != null)
+        {
+            targetItem.AddHP(value, false);
         }
     }
 

@@ -72,6 +72,8 @@ public enum PropertyType
     Shield = 11,
     Protection = 12,
     EnchanceDamage = 13,
+    Hematophagia = 14,
+    DistanceDamage = 15,
 }
 
 public enum TargetRange

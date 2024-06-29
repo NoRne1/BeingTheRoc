@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UniRx;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SkillManager : MonoSingleton<SkillManager>
@@ -14,10 +15,10 @@ public class SkillManager : MonoSingleton<SkillManager>
         disposablePool = new DisposablePool();
         timer = new Timer();
         BattleManager.Instance.roundTime.AsObservable().TakeUntilDestroy(this)
-            .Where(roundTime => roundTime == RoundTime.begin && BattleManager.Instance.extraRound == 0)
-            .Subscribe(_ =>
+            .Where(round => round.Item2 == RoundTime.begin && BattleManager.Instance.extraRound == 0)
+            .Subscribe(round =>
         {
-            timer.NextRound();
+            timer.NextRound(round.Item1);
         });
     }
 
@@ -217,7 +218,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         }).Subscribe(hp =>
         {
             var temp = GlobalAccess.GetBattleItem(casterID);
-            BattleManager.Instance.ProcessHealth("", new List<string> { casterID }, (int)(temp.attributes.MaxHP * 0.05));
+            BattleManager.Instance.ProcessNormalHealth("", new List<string> { casterID }, (int)(temp.attributes.MaxHP * 0.05));
         }));
     }
 
@@ -230,14 +231,101 @@ public class SkillManager : MonoSingleton<SkillManager>
 
     private void TreeAngry(string casterID, PropertyType type, int value)
     {
-        var caster = GlobalAccess.GetBattleItem(casterID);
-        disposablePool.SaveDisposable(casterID + "TreeAngry", caster.hurtSubject.AsObservable().Subscribe(hurtedIds =>
-        {
-            foreach(var id in hurtedIds)
+        disposablePool.SaveDisposable(casterID + "TreeAngry", BattleManager.Instance.battleItemDamageSubject.AsObservable()
+            .Where(pair => {
+                switch (pair.Item4)
+                {
+                    case AttackStatus.normal:
+                        return pair.Item1 == casterID && pair.Item5;
+                    default:
+                        return false;
+                }
+            }).Subscribe(pair =>
             {
-                BattleManager.Instance.ProcessDamage(casterID, id, (int)(caster.attributes.lostHP * 0.1f));
-            }
-        }));
+                var caster = GlobalAccess.GetBattleItem(casterID);
+                BattleManager.Instance.ProcessDirectAttack(casterID, pair.Item2, (int)(caster.attributes.lostHP * 0.1f));
+            }));
+    }
+
+    private void MoneyToStrength(string casterID, PropertyType type, int value)
+    {
+        var battleItem = GlobalAccess.GetBattleItem(casterID);
+        battleItem.attributes.Buff.Strength += (int)(GameManager.Instance.featherCoin.Value * (value / 100.0f));
+        GlobalAccess.SaveBattleItem(battleItem);
+    }
+
+    private void RecoverBody(string casterID, PropertyType type, int value)
+    {
+        disposablePool.SaveDisposable(casterID + "RecoverBody",
+            BattleManager.Instance.roundTime.AsObservable().Where(roundTime =>
+                {
+                    var caster = GlobalAccess.GetBattleItem(casterID);
+                    return roundTime.Item1 == casterID && roundTime.Item2 == RoundTime.end && !caster.haveAttackedInRound;
+                }).Subscribe(roundTime =>
+                {
+                    var battleItem = GlobalAccess.GetBattleItem(casterID);
+                    battleItem.attributes.currentShield += value;
+                    GlobalAccess.SaveBattleItem(battleItem);
+                })
+        );
+    }
+
+    private void LuckyChance(string casterID, PropertyType type, int value)
+    {
+        //todo LuckyChance
+    }
+
+    private void AngryTexture(string casterID, PropertyType type, int value)
+    {
+        var caster = GlobalAccess.GetBattleItem(casterID);
+        disposablePool.SaveDisposable(casterID + "AngryTexture",
+            caster.attributes.hpChangeSubject.AsObservable().Subscribe(hpChange =>
+            {
+                var battleItem = GlobalAccess.GetBattleItem(casterID);
+                int lastHpPercent = (int)((battleItem.attributes.currentHP - hpChange) * 1.0f / battleItem.attributes.MaxHP);
+                int currentHpPercent = (int)(battleItem.attributes.currentHP * 1.0f / battleItem.attributes.MaxHP);
+                battleItem.attributes.Buff.Strength += GameUtil.Instance.CalculateStrengthAngryTexture(currentHpPercent) -
+                    GameUtil.Instance.CalculateStrengthAngryTexture(lastHpPercent);
+                GlobalAccess.SaveBattleItem(battleItem);
+            })
+        );
+    }
+
+    private void BleedEnchant(string casterID, PropertyType type, int value)
+    {
+        disposablePool.SaveDisposable(casterID + "BleedEnchant", BattleManager.Instance.battleItemDamageSubject.AsObservable()
+            .Where(pair => {
+                switch (pair.Item4)
+                {
+                    case AttackStatus.normal:
+                        return pair.Item1 == casterID && pair.Item5;
+                    default:
+                        return false;
+                }
+            }).Subscribe(pair =>
+            {
+                var battleItem = GlobalAccess.GetBattleItem(casterID);
+                battleItem.buffCenter.AddBuff(DataManager.Instance.BuffDefines[8], casterID);
+                GlobalAccess.SaveBattleItem(battleItem);
+            }));
+    }
+
+    private void MingDao(string casterID, PropertyType type, int value)
+    {
+        var battleItem = GlobalAccess.GetBattleItem(casterID);
+        battleItem.avoidDeath = true;
+        battleItem.avoidDeathFunc = MingDaoAction;
+        GlobalAccess.SaveBattleItem(battleItem);
+    }
+
+    private void MingDaoAction(string targetID)
+    {
+        var battleItem = GlobalAccess.GetBattleItem(targetID);
+        battleItem.avoidDeath = false;
+        battleItem.attributes.currentHP = 1;
+        battleItem.attributes.currentShield = 0;
+        battleItem.buffCenter.AddBuff(DataManager.Instance.BuffDefines[10], targetID);
+        GlobalAccess.SaveBattleItem(battleItem);
     }
 
     private void ReturnEnergy(string casterID, PropertyType type, int value)
@@ -310,6 +398,14 @@ public class SkillManager : MonoSingleton<SkillManager>
                 break;
             case PropertyType.EnchanceDamage:
                 characterModel.attributes.Skill.EnchanceDamage += value;
+                characterModel.attributes.LoadFinalAttributes();
+                break;
+            case PropertyType.Hematophagia:
+                characterModel.attributes.Skill.Hematophagia += value;
+                characterModel.attributes.LoadFinalAttributes();
+                break;
+            case PropertyType.DistanceDamage:
+                characterModel.attributes.Skill.DistanceDamage += value;
                 characterModel.attributes.LoadFinalAttributes();
                 break;
             default:

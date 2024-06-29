@@ -59,26 +59,55 @@ public class UIBattleItem : MonoBehaviour
         });
     }
 
-    public AttackStatus Damage(int damage, bool isCritical)
+    public AttackStatus Damage(int damage, bool isCritical, bool missFlag)
     {
         //todo Critical UI display
         Debug.Log("Damage:" + damage + " isCritical:" + isCritical);
 
+        if (missFlag)
+        {
+            return AttackStatus.miss;
+        }
+        bool isBlock = false;
+        
         //伤害溢出时，血量允许被扣成负数
         var item = GlobalAccess.GetBattleItem(itemID);
+        int tempHP = item.attributes.currentHP;
+
         if (item.attributes.currentShield >= damage) {
             item.attributes.currentShield -= damage;
+            isBlock = true;
         } else
         {
-            item.attributes.currentHP = item.attributes.currentHP + item.attributes.currentShield - damage;
+            if (item.isInvincible)
+            {
+                isBlock = true;
+            } else
+            {
+                tempHP = item.attributes.currentHP + item.attributes.currentShield - damage;
+            }
             item.attributes.currentShield = 0;
         }
         fightTextManager.CreatFightText("-" + damage.ToString(), TextAnimationType.Burst, TextMoveType.RightParabola, transform, isCritical);
+        
+
+        if (tempHP <= 0 && item.avoidDeath && item.avoidDeathFunc != null)
+        {
+            item.avoidDeathFunc(itemID);
+            return AttackStatus.normal;
+        } else
+        {
+            item.attributes.currentHP = tempHP;
+        }
         GlobalAccess.SaveBattleItem(item);
+
         if (item.attributes.currentHP <= 0)
         {
             this.Die();
             return AttackStatus.toDeath;
+        } else if (isBlock)
+        {
+            return AttackStatus.block;
         } else
         {
             return AttackStatus.normal;

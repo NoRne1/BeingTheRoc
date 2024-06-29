@@ -405,4 +405,20 @@ public class GameUtil : Singleton<GameUtil>
             return result;
         }
     }
+
+    public int CalculateStrengthAngryTexture(int healthPercentage)
+    {
+        // 确保输入在0到100之间
+        healthPercentage = Math.Max(0, Math.Min(100, healthPercentage));
+
+        // 二次插值的力量值
+        double a = 0.004;
+        double b = 0.2;
+        double strength = a * Math.Pow(healthPercentage, 2) + b * healthPercentage;
+
+        // 确保输出在0到60之间
+        strength = Math.Max(0, Math.Min(60, strength));
+
+        return (int)strength;
+    }
 }

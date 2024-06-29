@@ -112,6 +112,10 @@ public class Attributes
     /// 增伤
     /// </summary>
     public int Taunt { get { return this.Final.Taunt; } }
+    /// <summary>
+    /// 吸血
+    /// </summary>
+    public int Hematophagia { get { return this.Final.Hematophagia; } }
 
     //初始化自己的角色
     public void Init(CharacterDefine define)
