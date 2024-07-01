@@ -13,7 +13,7 @@ public class TankAI: EnemyAI
     {
         Debug.Log("TankAI TurnAction");
         yield return new WaitForSeconds(1f);
-        BattleManager.Instance.roundTime.OnNext(RoundTime.end);
+        BattleManager.Instance.roundTime.OnNext((uuid, RoundTime.end));
     }
 }
 
@@ -23,7 +23,7 @@ public class WarriorAI : EnemyAI
     {
         Debug.Log("WarriorAI TurnAction");
         yield return new WaitForSeconds(1f);
-        BattleManager.Instance.roundTime.OnNext(RoundTime.end);
+        BattleManager.Instance.roundTime.OnNext((uuid, RoundTime.end));
     }
 }
 
@@ -33,7 +33,7 @@ public class AssassinAI: EnemyAI
     {
         Debug.Log("AssassinAI TurnAction");
         yield return new WaitForSeconds(1f);
-        BattleManager.Instance.roundTime.OnNext(RoundTime.end);
+        BattleManager.Instance.roundTime.OnNext((uuid, RoundTime.end));
     }
 }
 
@@ -43,7 +43,7 @@ public class MagicianAI : EnemyAI
     {
         Debug.Log("MagicianAI TurnAction");
         yield return new WaitForSeconds(1f);
-        BattleManager.Instance.roundTime.OnNext(RoundTime.end);
+        BattleManager.Instance.roundTime.OnNext((uuid, RoundTime.end));
     }
 }
 
@@ -53,6 +53,6 @@ public class PastorAI : EnemyAI
     {
         Debug.Log("PastorAI TurnAction");
         yield return new WaitForSeconds(1f);
-        BattleManager.Instance.roundTime.OnNext(RoundTime.end);
+        BattleManager.Instance.roundTime.OnNext((uuid, RoundTime.end));
     }
 }

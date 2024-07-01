@@ -79,7 +79,6 @@ public class CharacterDefine
     /// 嘲讽值
     /// </summary>
     public int Taunt { get; set; }
-
     /// <summary>
     /// 图片资源
     /// </summary>

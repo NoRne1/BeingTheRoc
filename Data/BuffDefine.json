@@ -49,7 +49,7 @@
         "DecreaseTime": -1,
         "MergeType": 3,
         "Resource": "buff_mentalPower_icon",
-        "Description": "拥有念力的角色在造成伤害时，额外造成念力层数的伤害"
+        "Description": "拥有念力的角色在进行攻击时，额外造成念力层数的伤害"
     },
     "4": {
         "ID": 4,
@@ -95,12 +95,12 @@
         "Name": "减防",
         "MethodName": "ChangeProperty",
         "PropertyType": 2,
-        "Value": -1,
+        "Value": -10,
         "Duration": 2,
         "InvokeTime": 2,
         "DecreaseTime": 1,
         "MergeType": 1,
-        "Resource": "buff_changeProperty_icon",
+        "Resource": "buff_decreaseDefense_icon",
         "Description": "防御降低"
     },
     "8": {
@@ -115,5 +115,31 @@
         "MergeType": 3,
         "Resource": "buff_bleeding_icon",
         "Description": "拥有流血状态的角色移动时，受到流血层数*移动步数的伤害"
+    },
+    "9": {
+        "ID": 9,
+        "Name": "减伤",
+        "MethodName": "ChangeProperty",
+        "PropertyType": 12,
+        "Value": 10,
+        "Duration": 2,
+        "InvokeTime": 2,
+        "DecreaseTime": 1,
+        "MergeType": 1,
+        "Resource": "buff_protection_icon",
+        "Description": "伤害减免"
+    },
+    "10": {
+        "ID": 10,
+        "Name": "无敌",
+        "MethodName": "Invincible",
+        "PropertyType": -1,
+        "Value": -1,
+        "Duration": 1,
+        "InvokeTime": 2,
+        "DecreaseTime": 0,
+        "MergeType": 0,
+        "Resource": "buff_invincible_icon",
+        "Description": "免疫所有伤害"
     }
 }

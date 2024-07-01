@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
+using System.Linq;
+using static UnityEngine.GraphicsBuffer;
 
 public class SkillManager : MonoSingleton<SkillManager>
 {
@@ -226,6 +228,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     {
         var battleItem = GlobalAccess.GetBattleItem(casterID);
         battleItem.attributes.Skill.Taunt += 100;
+        battleItem.attributes.LoadFinalAttributes();
         GlobalAccess.SaveBattleItem(battleItem);
     }
 
@@ -236,7 +239,7 @@ public class SkillManager : MonoSingleton<SkillManager>
                 switch (pair.Item4)
                 {
                     case AttackStatus.normal:
-                        return pair.Item1 == casterID && pair.Item5;
+                        return pair.Item1 == casterID && pair.Item6;
                     default:
                         return false;
                 }
@@ -298,7 +301,7 @@ public class SkillManager : MonoSingleton<SkillManager>
                 switch (pair.Item4)
                 {
                     case AttackStatus.normal:
-                        return pair.Item1 == casterID && pair.Item5;
+                        return pair.Item1 == casterID && pair.Item6;
                     default:
                         return false;
                 }
@@ -326,6 +329,157 @@ public class SkillManager : MonoSingleton<SkillManager>
         battleItem.attributes.currentShield = 0;
         battleItem.buffCenter.AddBuff(DataManager.Instance.BuffDefines[10], targetID);
         GlobalAccess.SaveBattleItem(battleItem);
+    }
+
+    private void PoseidonBlessing(string casterID, PropertyType type, int value)
+    {
+        disposablePool.SaveDisposable(casterID + "PoseidonBlessing", BattleManager.Instance.battleItemDamageSubject.AsObservable()
+            .Where(pair => {
+                switch(pair.Item4)
+                {
+                    case AttackStatus.miss:
+                    case AttackStatus.errorTarget:
+                    case AttackStatus.toDeath:
+                        return false;
+                    case AttackStatus.normal:
+                    case AttackStatus.block:
+                        return pair.Item1 == casterID;
+                    default:
+                        throw new InvalidOperationException($"Unhandled enum value: {pair.Item4}");
+                }
+            }).Subscribe(pair =>
+            {
+                //todo
+            }));
+    }
+
+    private void GoForward(string casterID, PropertyType type, int value)
+    {
+        disposablePool.SaveDisposable(casterID + "GoForward", BattleManager.Instance.battleItemDamageSubject.AsObservable()
+            .Where(pair => {
+                //自己被攻击并闪避
+                return pair.Item2 == casterID && pair.Item4 == AttackStatus.miss;
+            }).Subscribe(pair =>
+            {
+                BattleManager.Instance.ProcessDirectAttack(pair.Item2, pair.Item1, value);
+            }));
+    }
+
+    private void BeforeDawn(string casterID, PropertyType type, int value)
+    {
+        timer.CreateTimer(TimerType.round, casterID + "BeforeDawn", 2);
+        disposablePool.SaveDisposable(casterID + "BeforeDawn", BattleManager.Instance.battleItemDamageSubject.AsObservable()
+            .Where(pair => {
+                //自己的攻击暴击，且技能冷却完毕
+                return pair.Item1 == casterID && pair.Item5 && timer.TimerNext(casterID + "BeforeDawn");
+            }).Subscribe(pair =>
+            {
+                var battleItem = GlobalAccess.GetBattleItem(casterID);
+                battleItem.attributes.currentEnergy += 1;
+                GlobalAccess.SaveBattleItem(battleItem);
+            }));
+    }
+
+    private void ExtremeOperation(string casterID, PropertyType type, int value)
+    {
+        timer.CreateTimer(TimerType.round, casterID + "ExtremeOperation", 1);
+        var battleItem = GlobalAccess.GetBattleItem(casterID);
+        disposablePool.SaveDisposable(casterID + "ExtremeOperation", battleItem.lastEnergyAttackSubject.AsObservable()
+            .Where(_ => {
+                return timer.TimerNext(casterID + "ExtremeOperation");
+            }).Subscribe(_ =>
+            {
+                var buffCopy = DataManager.Instance.BuffDefines[11].Copy();
+                buffCopy.Value = value;
+                buffCopy.Duration = 1;
+                battleItem.buffCenter.AddBuff(buffCopy, casterID);
+                GlobalAccess.SaveBattleItem(battleItem);
+            }));
+    }
+
+    private void PrepareEscape(string casterID, PropertyType type, int value)
+    {
+        var battleItem = GlobalAccess.GetBattleItem(casterID);
+        battleItem.avoidDeath = true;
+        battleItem.avoidDeathFunc = PrepareEscapeAction;
+        GlobalAccess.SaveBattleItem(battleItem);
+    }
+
+    private void PrepareEscapeAction(string targetID)
+    {
+        var battleItem = GlobalAccess.GetBattleItem(targetID);
+        battleItem.avoidDeath = false;
+        battleItem.attributes.currentHP = 1;
+        battleItem.attributes.currentShield = 0;
+        BattleManager.Instance.CharacterLeave(targetID);
+        GlobalAccess.SaveBattleItem(battleItem);
+    }
+
+    private void VeryHeavy(string casterID, PropertyType type, int value)
+    {
+        var battleItem = GlobalAccess.GetBattleItem(casterID);
+        battleItem.attributes.Skill.MaxHP += 50;
+        battleItem.attributes.Skill.Defense += 50;
+        battleItem.attributes.Skill.Strength -= 20;
+        battleItem.attributes.Skill.Dodge -= 10;
+        battleItem.attributes.Skill.Accuracy -= 10;
+        battleItem.attributes.Skill.Speed -= 20;
+        battleItem.attributes.LoadFinalAttributes();
+        GlobalAccess.SaveBattleItem(battleItem);
+    }
+
+    private void AgainstDamage(string casterID, PropertyType type, int value)
+    {
+        var battleItem = GlobalAccess.GetBattleItem(casterID);
+        battleItem.attributes.Skill.AgainstDamage += value;
+        battleItem.attributes.LoadFinalAttributes();
+        GlobalAccess.SaveBattleItem(battleItem);
+    }
+
+    private void ReinforceDefense(string casterID, PropertyType type, int value)
+    {
+        var battleItem = GlobalAccess.GetBattleItem(casterID);
+        battleItem.reinforceDefense = true;
+        GlobalAccess.SaveBattleItem(battleItem);
+    }
+
+    private void LookMe(string casterID, PropertyType type, int value)
+    {
+        var battleItem = GlobalAccess.GetBattleItem(casterID);
+        battleItem.attributes.Skill.Taunt += (int)(battleItem.attributes.Taunt * value / 100.0f);
+        battleItem.attributes.LoadFinalAttributes();
+        GlobalAccess.SaveBattleItem(battleItem);
+    }
+
+    private void LastContribution(string casterID, PropertyType type, int value)
+    {
+        var battleItem = GlobalAccess.GetBattleItem(casterID);
+        battleItem.avoidDeath = true;
+        battleItem.avoidDeathFunc = LastContributionAction;
+        GlobalAccess.SaveBattleItem(battleItem);
+    }
+
+    private void LastContributionAction(string targetID)
+    {
+        var battleItem = GlobalAccess.GetBattleItem(targetID);
+        battleItem.avoidDeath = false;
+        GlobalAccess.SaveBattleItem(battleItem);
+        var targetIDs = BattleManager.Instance.battleItemIDs.Where(id =>
+        {
+            var item = GlobalAccess.GetBattleItem(id);
+            switch (item.battleItemType)
+            {
+                case BattleItemType.enemy:
+                    return true;
+                default:
+                    return false;
+            }
+        }).ToList();
+        foreach (var id in targetIDs)
+        {
+            BattleManager.Instance.ProcessDirectAttack(targetID, id, (int)(battleItem.attributes.MaxHP * 0.2f));
+        }
+        
     }
 
     private void ReturnEnergy(string casterID, PropertyType type, int value)

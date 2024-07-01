@@ -109,7 +109,7 @@ public class Attributes
     /// </summary>
     public int EnchanceDamage { get { return this.Final.EnchanceDamage; } }
     /// <summary>
-    /// 增伤
+    /// 嘲讽
     /// </summary>
     public int Taunt { get { return this.Final.Taunt; } }
     /// <summary>
@@ -176,6 +176,7 @@ public class Attributes
         // 默认就为0，所以不用赋值0
         //attr.Protection = 0;
         //attr.EnchanceDamage = 0;
+        //attr.AgainstDamage = 0;
 
         if (loadFinal)
         {

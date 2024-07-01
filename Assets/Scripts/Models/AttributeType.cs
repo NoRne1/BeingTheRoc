@@ -60,6 +60,10 @@ public enum AttributeType
     /// 距离增伤
     /// </summary>
     DistanceDamage = 13,
+    /// <summary>
+    /// 反伤
+    /// </summary>
+    AgainstDamage = 14,
     MAX
 }
 

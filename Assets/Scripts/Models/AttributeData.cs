@@ -60,6 +60,10 @@ public class AttributeData
     /// 距离增伤
     /// </summary>
     public int DistanceDamage { get { return Data[(int)AttributeType.DistanceDamage]; } set { Data[(int)AttributeType.DistanceDamage] = value; } }
+    /// <summary>
+    /// 反伤
+    /// </summary>
+    public int AgainstDamage { get { return Data[(int)AttributeType.AgainstDamage]; } set { Data[(int)AttributeType.AgainstDamage] = value; } }
 
 
     public void Reset()

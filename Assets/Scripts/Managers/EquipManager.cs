@@ -108,6 +108,13 @@ public class EquipManager : MonoSingleton<EquipManager>
             //战斗需要消耗能量的物品使用时，扣除能量
             var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
             target.attributes.currentEnergy -= item.takeEnergy;
+            if (target.attributes.currentEnergy == 0 &&
+                item.effects.Where(effect => effect.invokeType == EffectInvokeType.useInstant &&
+                    effect.effectType == EffectType.attack).ToList().Count > 0)
+            {
+                //能量为0，并且是攻击行为
+                target.lastEnergyAttackSubject.OnNext(Unit.Default);
+            }
             NorneStore.Instance.Update<BattleItem>(target, true);
         }
         InvokeEffect(EffectInvokeType.useInstant, casterID, targetIDs, item, characterOrBattleItem);

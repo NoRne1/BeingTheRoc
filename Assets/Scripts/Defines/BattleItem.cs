@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using UniRx;
 using UnityEngine;
+using static UnityEditor.Progress;
 using static UnityEngine.EventSystems.EventTrigger;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
@@ -47,10 +48,12 @@ public class BattleItem: IStorable
     public bool haveAttackedInRound = false;
     public bool isInvincible = false;
     public bool avoidDeath = false;
+    public bool reinforceDefense = false;
     public Action<string> avoidDeathFunc;
     // Subjects
     public Subject<Unit> defeatSubject = new Subject<Unit>();
     public Subject<Vector2> moveSubject = new Subject<Vector2>();
+    public Subject<Unit> lastEnergyAttackSubject = new Subject<Unit>();
 
     public BattleItem() {}
 
@@ -76,13 +79,25 @@ public class BattleItem: IStorable
         this.uuid = uuid;
     }
 
+    public void BattleInit()
+    {
+        buffCenter = new BuffCenter(this.uuid);
+        this.attributes.BattleInit();
+    }
+
     public void RoundBegin()
     {
         if (!BattleManager.Instance.isInExtraRound)
         {
             buffCenter.RoundBegin();
         }
-        attributes.currentShield = (int)(attributes.currentShield / 2.0f);
+        if (reinforceDefense)
+        {
+            attributes.currentShield = Mathf.Max(0, attributes.currentShield - 10);
+        } else
+        {
+            attributes.currentShield = (int)(attributes.currentShield / 2.0f);
+        }
         attributes.currentEnergy = attributes.Energy;
         haveAttackedInRound = false;
     }

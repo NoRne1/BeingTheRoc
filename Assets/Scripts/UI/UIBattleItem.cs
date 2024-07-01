@@ -59,12 +59,12 @@ public class UIBattleItem : MonoBehaviour
         });
     }
 
-    public AttackStatus Damage(int damage, bool isCritical, bool missFlag)
+    public AttackStatus Damage(int damage, bool isCritical, bool hitFlag)
     {
         //todo Critical UI display
         Debug.Log("Damage:" + damage + " isCritical:" + isCritical);
 
-        if (missFlag)
+        if (!hitFlag)
         {
             return AttackStatus.miss;
         }

@@ -71,7 +71,7 @@ public class BuffManager : MonoSingleton<BuffManager>
                     switch (pair.Item4)
                     {
                         case AttackStatus.normal:
-                            return pair.Item2 == buff.ownerID && pair.Item5;
+                            return pair.Item2 == buff.ownerID && pair.Item6;
                         default:
                             return false;
                     }
@@ -96,7 +96,7 @@ public class BuffManager : MonoSingleton<BuffManager>
                         switch (pair.Item4)
                         {
                             case AttackStatus.normal:
-                                return pair.Item1 == buff.ownerID && pair.Item5;
+                                return pair.Item1 == buff.ownerID && pair.Item6;
                             default:
                                 return false;
                         }

@@ -165,4 +165,18 @@ public class GameManager : MonoSingleton<GameManager>
     {
         timeLeft.OnNext(timeLeft.Value + change);
     }
+
+    public void AddCharacter(CharacterModel cm)
+    {
+        NorneStore.Instance.Update<CharacterModel>(cm, true);
+        characterRelays.Add(cm.uuid, NorneStore.Instance.ObservableObject(cm));
+    }
+
+    public void RemoveCharacter(string uuid)
+    {
+        if (characterRelays.ContainsKey(uuid))
+        {
+            characterRelays.Remove(uuid);
+        }
+    }
 }

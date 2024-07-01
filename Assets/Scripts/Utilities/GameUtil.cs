@@ -146,6 +146,7 @@ public class GameUtil : Singleton<GameUtil>
         isRotating.OnNext(false);
     }
 
+    //仅判断行动力的范围（显示可行动范围）
     public bool CanMoveTo(Vector2 source, Vector2 dest, int mobility)
     {
         float temp = Mathf.Abs(source.x - dest.x) + Mathf.Abs(source.y - dest.y);

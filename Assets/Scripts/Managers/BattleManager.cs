@@ -63,8 +63,8 @@ public class BattleManager : MonoSingleton<BattleManager>
     public bool isInExtraRound = false;
 
     private ClickSlotReason clickSlotReason = ClickSlotReason.none;
-    // (string, string, int, AttackStatus, bool) => (casterID, targetID, damage, attackStatus, trigger other effect)
-    public Subject<(string, string, int, AttackStatus, bool)> battleItemDamageSubject = new Subject<(string, string, int, AttackStatus, bool)>();
+    // (string, string, int, AttackStatus, bool, bool) => (casterID, targetID, damage, attackStatus, isCritical, trigger other effect)
+    public Subject<(string, string, int, AttackStatus, bool, bool)> battleItemDamageSubject = new Subject<(string, string, int, AttackStatus, bool, bool)>();
 
     // Use this for initialization
     void Start()
@@ -214,12 +214,14 @@ public class BattleManager : MonoSingleton<BattleManager>
         BattleInit();
         this.battleInfo = battleInfo;
         var timeItem = new BattleItem(BattleItemType.time);
+        timeItem.BattleInit();
         GlobalAccess.SaveBattleItem(timeItem);
         battleItemIDs.Add(timeItem.uuid);
 
         for (int i = 0; i < characterIDs.Count; i++)
         {
             var battleItem = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(characterIDs[i])).Value.ToBattleItem();
+            battleItem.BattleInit();
             GlobalAccess.SaveBattleItem(battleItem);
             battleItemIDs.Add(battleItem.uuid);
             PlayerItemIDs.Add(battleItem.uuid);
@@ -228,6 +230,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         foreach (var pair in battleInfo.enermys)
         {
             var battleItem = pair.Value.ToBattleItem(difficultyExtraFactor + battleInfo.battleBaseDifficulty);
+            battleItem.BattleInit();
             GlobalAccess.SaveBattleItem(battleItem);
             battleItemIDs.Add(battleItem.uuid);
             PlaceBattleItem(battleItem.uuid, chessBoard.slots[pair.Key]);
@@ -345,7 +348,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 break;
             case RoundTime.end:
                 Debug.Log("round end");
-                battleItem0.RoundBegin();
+                battleItem0.RoundEnd();
 
                 switch (battleItem0.battleItemType)
                 {
@@ -496,20 +499,23 @@ public class BattleManager : MonoSingleton<BattleManager>
             // 点击了被其他BattleItem占用的地点
             clickSlotReason = ClickSlotReason.viewCharacter;
             clickedSlot.OnNext(slot);
-        } else if (lastClickedSlot != null && battleItemDic[lastSelectedPos].itemID == GlobalAccess.GetBattleItem(battleItemIDs[0]).uuid && HasBattleItem(lastClickedSlot) &&
-            GameUtil.Instance.CanMoveTo(lastSelectedPos, slot.position,
-            GlobalAccess.GetBattleItem(battleItemDic[lastSelectedPos].itemID).attributes.Mobility))
+        } else if (lastClickedSlot != null && battleItemDic[lastSelectedPos].itemID == GlobalAccess.GetBattleItem(battleItemIDs[0]).uuid && HasBattleItem(lastClickedSlot))
         {
-            // 移动成功
-            Debug.Log("move success to :" + slot.position);
-            battleItemDic.Add(slot.position, battleItemDic[lastSelectedPos]);
-            battleItemDic.Remove(lastSelectedPos);
-            battleItemDic[slot.position].transform.position = slot.transform.position;
-            ShowMovePath(slot);
-            SelectItem(slot.position);
-
-            var battleItem = GlobalAccess.GetBattleItem(battleItemDic[slot.position].itemID);
-            battleItem.moveSubject.OnNext(slot.position);
+            var result = BattleCommonMethods.CanMoveTo(lastSelectedPos, slot.position,
+            GlobalAccess.GetBattleItem(battleItemDic[lastSelectedPos].itemID).attributes.Mobility, battleItemDic.Keys.ToList());
+            if (result.Item1)
+            {
+                // 移动成功
+                Debug.Log("move success to :" + slot.position);
+                battleItemDic.Add(slot.position, battleItemDic[lastSelectedPos]);
+                battleItemDic.Remove(lastSelectedPos);
+                //battleItemDic[slot.position].transform.position = slot.transform.position;
+                BattleCommonMethods.MoveAlongPath(result.Item2.Select(pos => chessBoard.slots[pos].transform.position).ToList(), battleItemDic[slot.position].transform);
+                ShowMovePath(slot);
+                SelectItem(slot.position);
+                var battleItem = GlobalAccess.GetBattleItem(battleItemDic[slot.position].itemID);
+                battleItem.moveSubject.OnNext(slot.position);
+            }
         }
         else
         {
@@ -694,7 +700,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 statuses.Add(tempStatus);
             }
             totalDamage += damage;
-            battleItemDamageSubject.OnNext((selfID, id, damage, tempStatus, true));
+            battleItemDamageSubject.OnNext((selfID, id, damage, tempStatus, criticalFlag, true));
         }
 
         int hemato = (int)(totalDamage * (self.attributes.Hematophagia / 100.0f));
@@ -731,7 +737,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         if (targetItem != null)
         {
             var attackStatus = targetItem.Damage(value, false, true);
-            battleItemDamageSubject.OnNext((casterID, targetID, value, attackStatus, false));
+            battleItemDamageSubject.OnNext((casterID, targetID, value, attackStatus, false, false));
             return attackStatus;
         }
         else
@@ -789,8 +795,28 @@ public class BattleManager : MonoSingleton<BattleManager>
             Destroy(pair.Value.gameObject);
             battleItemDic.Remove(pair.Key);
         }
+        GameManager.Instance.RemoveCharacter(uuid);
     }
-    
+
+    //离开战场（非死亡）
+    public void CharacterLeave(string uuid)
+    {
+        battleItemIDs.RemoveAll(tempid => {
+            var item = GlobalAccess.GetBattleItem(tempid);
+            return item.uuid == uuid;
+        });
+        PlayerItemIDs.RemoveAll(tempid => {
+            var item = GlobalAccess.GetBattleItem(tempid);
+            return item.uuid == uuid;
+        });
+        var pairs = battleItemDic.Where(item => item.Value.itemID == uuid);
+        foreach (var pair in pairs)
+        {
+            Destroy(pair.Value.gameObject);
+            battleItemDic.Remove(pair.Key);
+        }
+    }
+
     public List<string> GetBattleItemsByRange(Vector2 pos, TargetRange range, BattleItemType battleItemType) 
     {
         List<string> results = new List<string>();

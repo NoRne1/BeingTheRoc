@@ -30,12 +30,13 @@ public class Timer
 
     public void NextRound(string uuid)
     {
-        if (round.ContainsKey(uuid))
+        if (uuid != null && round.ContainsKey(uuid))
         {
             round[uuid]++;
         }
     }
 
+    //loopTime = 冷却时间+1
     public bool CreateTimer(TimerType type, string id, int loopTime)
     {
         switch (type)
