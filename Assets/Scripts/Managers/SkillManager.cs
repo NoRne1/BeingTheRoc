@@ -349,7 +349,7 @@ public class SkillManager : MonoSingleton<SkillManager>
                 }
             }).Subscribe(pair =>
             {
-                //todo
+                BattleCommonMethods.KnockbackTarget(pair.Item1, pair.Item2, value);
             }));
     }
 
@@ -505,7 +505,7 @@ public class SkillManager : MonoSingleton<SkillManager>
                 characterModel.attributes.Skill.MaxHP += value;
                 characterModel.attributes.LoadFinalAttributes();
                 break;
-            case PropertyType.HP:
+            case PropertyType.Health:
                 Debug.Log("skill will not change HP");
                 break;
             case PropertyType.Strength:

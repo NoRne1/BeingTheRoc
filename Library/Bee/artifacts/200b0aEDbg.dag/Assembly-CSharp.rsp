@@ -388,6 +388,7 @@
 "Assets/Scripts/Defines/StoreItemDefine.cs"
 "Assets/Scripts/Defines/TownActionDefine.cs"
 "Assets/Scripts/Managers/BattleManager.cs"
+"Assets/Scripts/Managers/BlackBarManager.cs"
 "Assets/Scripts/Managers/BuffCenter.cs"
 "Assets/Scripts/Managers/BuffManager.cs"
 "Assets/Scripts/Managers/DataManager.cs"

@@ -6,7 +6,6 @@ using UniRx;
 using System.Linq;
 using DG.Tweening;
 using TMPro;
-using Unity.VisualScripting;
 
 
 public class MapManager : MonoSingleton<MapManager>
@@ -303,5 +302,10 @@ public class MapManager : MonoSingleton<MapManager>
         GameManager.Instance.SwitchPage(PageType.map);
         battleResultSubject.OnNext(true);
         BattleManager.Instance.BattleEnd(true);
+    }
+
+    public void AddMessage()
+    {
+        BlackBarManager.Instance.AddMessage(System.DateTime.Now.ToLongTimeString());
     }
 }

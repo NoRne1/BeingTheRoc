@@ -501,9 +501,10 @@ public class BattleManager : MonoSingleton<BattleManager>
             clickedSlot.OnNext(slot);
         } else if (lastClickedSlot != null && battleItemDic[lastSelectedPos].itemID == GlobalAccess.GetBattleItem(battleItemIDs[0]).uuid && HasBattleItem(lastClickedSlot))
         {
+            var battleItem = GlobalAccess.GetBattleItem(battleItemDic[lastSelectedPos].itemID);
             var result = BattleCommonMethods.CanMoveTo(lastSelectedPos, slot.position,
-            GlobalAccess.GetBattleItem(battleItemDic[lastSelectedPos].itemID).attributes.Mobility, battleItemDic.Keys.ToList());
-            if (result.Item1)
+            battleItem.attributes.Mobility, battleItemDic.Keys.ToList());
+            if (!battleItem.isConfine && battleItem.attributes.currentEnergy > 0 && result.Item1)
             {
                 // 移动成功
                 Debug.Log("move success to :" + slot.position);
@@ -513,8 +514,16 @@ public class BattleManager : MonoSingleton<BattleManager>
                 BattleCommonMethods.MoveAlongPath(result.Item2.Select(pos => chessBoard.slots[pos].transform.position).ToList(), battleItemDic[slot.position].transform);
                 ShowMovePath(slot);
                 SelectItem(slot.position);
-                var battleItem = GlobalAccess.GetBattleItem(battleItemDic[slot.position].itemID);
+                battleItem.attributes.currentEnergy -= 1;
                 battleItem.moveSubject.OnNext(slot.position);
+            }
+            else
+            {
+                //移动失败
+                Debug.Log("move failure to :" + slot.position);
+                chessBoard.ResetColors();
+                clickSlotReason = ClickSlotReason.viewCharacter;
+                UnselectItem();
             }
         }
         else

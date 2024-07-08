@@ -190,7 +190,7 @@ public class EquipManager : MonoSingleton<EquipManager>
                             target.attributes.ItemEffect.Lucky += effect.Value;
                             target.attributes.LoadFinalAttributes();
                             break;
-                        case PropertyType.HP:
+                        case PropertyType.Health:
                             Debug.Log("CharacterModel can not add currentHP");
                             break;
                         case PropertyType.Exp:
@@ -244,7 +244,7 @@ public class EquipManager : MonoSingleton<EquipManager>
                             target.attributes.LoadFinalAttributes();
                             target.attributes.currentHP += effect.Value;
                             break;
-                        case PropertyType.HP:
+                        case PropertyType.Health:
                             BattleManager.Instance.ProcessNormalHealth(casterID, targetIDs, effect.Value);
                             break;
                         case PropertyType.Strength:
@@ -309,19 +309,25 @@ public class EquipManager : MonoSingleton<EquipManager>
                     target.buffCenter.AddBuff(DataManager.Instance.BuffDefines[effect.Value], casterID);
                     break;
                 case EffectType.attack:
-                    var attackStatus = BattleManager.Instance.ProcessNormalAttack(casterID, targetIDs, effect.Value);
                     var caster = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
-                    switch (attackStatus)
+                    if (!caster.isSilent)
                     {
-                        case AttackStatus.normal:
-                            InvokeEffect(EffectInvokeType.damage, casterID, targetIDs, item, false);
-                            break;
-                        case AttackStatus.toDeath:
-                            caster.defeatSubject.OnNext(Unit.Default);
-                            InvokeEffect(EffectInvokeType.toDeath, casterID, targetIDs, item, false);
-                            break;
+                        var attackStatus = BattleManager.Instance.ProcessNormalAttack(casterID, targetIDs, effect.Value);
+                        switch (attackStatus)
+                        {
+                            case AttackStatus.normal:
+                                InvokeEffect(EffectInvokeType.damage, casterID, targetIDs, item, false);
+                                break;
+                            case AttackStatus.toDeath:
+                                caster.defeatSubject.OnNext(Unit.Default);
+                                InvokeEffect(EffectInvokeType.toDeath, casterID, targetIDs, item, false);
+                                break;
+                        }
+                        caster.haveAttackedInRound = true;
+                    } else
+                    {
+                        Debug.Log("沉默状态攻击失败");
                     }
-                    caster.haveAttackedInRound = true;
                     break;
             }
         }

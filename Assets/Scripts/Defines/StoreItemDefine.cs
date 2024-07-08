@@ -67,7 +67,7 @@ public enum PropertyType
     Mobility = 6,
     Energy = 7,
     Lucky = 8,
-    HP = 9,
+    Health = 9,
     Exp = 10,
     Shield = 11,
     Protection = 12,

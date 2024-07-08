@@ -49,6 +49,8 @@ public class BattleItem: IStorable
     public bool isInvincible = false;
     public bool avoidDeath = false;
     public bool reinforceDefense = false;
+    public bool isSilent = false;
+    public bool isConfine = false;
     public Action<string> avoidDeathFunc;
     // Subjects
     public Subject<Unit> defeatSubject = new Subject<Unit>();

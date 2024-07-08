@@ -29,6 +29,8 @@ class GlobalAccess
     public static float timeLeftAnimTime = 0.5f;
     public static float switchPageTime = 0.85f;
 
+    public static int knockbackDirectDamage = 20;
+
     public static int subCharacterNum
     {
         get { return DataManager.Instance.Characters.Count - mainCharacterNum; }

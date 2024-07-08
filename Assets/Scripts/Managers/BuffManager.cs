@@ -137,7 +137,7 @@ public class BuffManager : MonoSingleton<BuffManager>
             battleItem.isInvincible = true;
             GlobalAccess.SaveBattleItem(battleItem);
         }
-        else if (disposables.ContainsKey(buff.uuId))
+        else
         {
             var battleItem = GlobalAccess.GetBattleItem(buff.ownerID);
             battleItem.isInvincible = false;
@@ -154,7 +154,7 @@ public class BuffManager : MonoSingleton<BuffManager>
                 battleItem.attributes.Buff.MaxHP += addOrRemove ? buff.Value : -buff.Value;
                 battleItem.attributes.LoadFinalAttributes();
                 break;
-            case PropertyType.HP:
+            case PropertyType.Health:
                 //加血不存在返还
                 if (addOrRemove)
                 {
@@ -230,6 +230,38 @@ public class BuffManager : MonoSingleton<BuffManager>
     private void Bleeding(BuffModel buff, int distance)
     {
         BattleManager.Instance.ProcessDirectAttack(buff.casterID, buff.ownerID, buff.num * distance);
+    }
+
+    private void Silent(BuffModel buff, bool addOrRemove)
+    {
+        if (addOrRemove)
+        {
+            var battleItem = GlobalAccess.GetBattleItem(buff.ownerID);
+            battleItem.isSilent = true;
+            GlobalAccess.SaveBattleItem(battleItem);
+        }
+        else
+        {
+            var battleItem = GlobalAccess.GetBattleItem(buff.ownerID);
+            battleItem.isSilent = false;
+            GlobalAccess.SaveBattleItem(battleItem);
+        }
+    }
+
+    private void Confine(BuffModel buff, bool addOrRemove)
+    {
+        if (addOrRemove)
+        {
+            var battleItem = GlobalAccess.GetBattleItem(buff.ownerID);
+            battleItem.isConfine = true;
+            GlobalAccess.SaveBattleItem(battleItem);
+        }
+        else
+        {
+            var battleItem = GlobalAccess.GetBattleItem(buff.ownerID);
+            battleItem.isConfine = false;
+            GlobalAccess.SaveBattleItem(battleItem);
+        }
     }
 }
 

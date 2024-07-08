@@ -104,6 +104,7 @@
     <Compile Include="Assets/Scripts/UI/UIMoveBarFirstItem.cs" />
     <Compile Include="Assets/Scripts/Utilities/BattleCommonMethods.cs" />
     <Compile Include="Assets/Scripts/Managers/BuffCenter.cs" />
+    <Compile Include="Assets/Scripts/Managers/BlackBarManager.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBar.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/StringExtensions.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBarDayItem.cs" />
