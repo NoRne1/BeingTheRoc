@@ -10,7 +10,9 @@ public enum TimerType
 
 public class Timer
 {
+    //使用次数计数器
     public Dictionary<string, int> normalTimers = new Dictionary<string, int>();
+    //回合计数器
     public Dictionary<string, (int, bool)> roundTimers = new Dictionary<string, (int, bool)>();
     public Dictionary<string, int> loopTimes = new Dictionary<string, int>();
     public Dictionary<string, int> round = new Dictionary<string, int>();

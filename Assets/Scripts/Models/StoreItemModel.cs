@@ -19,6 +19,7 @@ public class StoreItemModel : StoreItemDefine
         type = define.type;
         equipType = define.equipType;
         invokeType = define.invokeType;
+        equipClass = define.equipClass;
         targetRange = define.targetRange;
         title = define.title;
         level = define.level;

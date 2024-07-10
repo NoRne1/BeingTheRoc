@@ -95,6 +95,7 @@ public class EnermyModel: IStorable
         item.Skill1 = difficulty > 1.5 ? define.Skill1 : -1;
         item.Skill2 = difficulty > 2.5 ? define.Skill2 : -1;
         item.Skill3 = difficulty > 4.5 ? define.Skill3 : -1;
+        item.LoadSkills();
         switch (aiType)
         {
             case EnemyAIType.TankAI:

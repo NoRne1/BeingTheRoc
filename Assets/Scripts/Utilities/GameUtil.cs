@@ -415,7 +415,7 @@ public class GameUtil : Singleton<GameUtil>
         // 二次插值的力量值
         double a = 0.004;
         double b = 0.2;
-        double strength = a * Math.Pow(healthPercentage, 2) + b * healthPercentage;
+        double strength = a * Math.Pow((100 - healthPercentage), 2) + b * (100 - healthPercentage);
 
         // 确保输出在0到60之间
         strength = Math.Max(0, Math.Min(60, strength));

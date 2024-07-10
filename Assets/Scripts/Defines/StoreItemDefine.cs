@@ -31,11 +31,19 @@ public enum EquipType
 public enum ItemInvokeType
 {
     none = -1,
-    bagUse = 0, // 背包中使用生效
+    bagUse = 0, // 使用生效（背包中使用，或treasure0点击生效）
     equip = 1, // 装备生效
     instant = 2, // 获得立即生效
-    equipUse = 3, //装备后使用直接生效
-    equipTarget = 4, //装备后使用并选择目标生效
+    equipUse = 3, // 装备后使用直接生效
+    equipTarget = 4, // 装备后使用并选择目标生效
+    battleStart = 5, // 战斗开始时生效
+}
+
+public enum EquipClass
+{
+    none = -1,
+    sword = 0,
+    arrow = 1,
 }
 
 public enum EffectType
@@ -74,6 +82,7 @@ public enum PropertyType
     EnchanceDamage = 13,
     Hematophagia = 14,
     DistanceDamage = 15,
+    AgainstDamage = 16,
 }
 
 public enum TargetRange
@@ -108,6 +117,7 @@ public class StoreItemDefine
     public ItemType type { get; set; }
     public EquipType equipType { get; set; }
     public ItemInvokeType invokeType { get; set; }
+    public ItemInvokeType equipClass { get; set; }
     public TargetRange targetRange { get; set; }
     public string title { get; set; }
     public GeneralLevel level { get; set; }

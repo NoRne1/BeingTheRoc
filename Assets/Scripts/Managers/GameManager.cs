@@ -34,10 +34,11 @@ public class GameManager : MonoSingleton<GameManager>
     public Dictionary<string, NorneRelay<CharacterModel>> characterRelays = new Dictionary<string, NorneRelay<CharacterModel>>();
 
     public RepositoryModel repository = new RepositoryModel();
-    public TreasureManager treasureManager = new TreasureManager();
+    public TreasureManager treasureManager;
     // Start is called before the first frame update
     void Start()
     {
+        treasureManager = new TreasureManager();
         if (pages.Count == System.Enum.GetValues(typeof(PageType)).Length)
         {
             for (int i = 0; i < pages.Count; i++)

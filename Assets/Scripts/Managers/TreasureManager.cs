@@ -1,10 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 public class TreasureManager
 {
+    private DisposablePool normalDisposablePool;
+    private DisposablePool battleDisposablePool;
+    private Timer timer;
     private Dictionary<int, (StoreItemModel, int)> treasures;
+
+    public TreasureManager()
+    {
+        normalDisposablePool = new DisposablePool();
+        battleDisposablePool = new DisposablePool();
+        timer = new Timer();
+        BattleManager.Instance.roundManager.roundTime.AsObservable().TakeUntilDestroy(GameManager.Instance)
+            .Where(round => round.Item2 == RoundTime.begin && BattleManager.Instance.roundManager.extraRound == 0)
+            .Subscribe(round =>
+            {
+                timer.NextRound(round.Item1);
+            });
+    }
+
+    ~TreasureManager()
+    {
+        normalDisposablePool.CleanDisposables();
+        battleDisposablePool.CleanDisposables();
+    }
+
+    public void BattleEnd()
+    {
+        battleDisposablePool.CleanDisposables();
+        timer.Clean();
+    }
 
     public bool AddTreasure(StoreItemModel item)
     {

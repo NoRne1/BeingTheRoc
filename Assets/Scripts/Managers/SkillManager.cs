@@ -4,7 +4,6 @@ using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
 using System.Linq;
-using static UnityEngine.GraphicsBuffer;
 
 public class SkillManager : MonoSingleton<SkillManager>
 {
@@ -193,7 +192,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     {
         var battleItem = GlobalAccess.GetBattleItem(casterID);
         // 虽然这里是技能赋予的，也没有独立buff，但是是战斗开始赋予，结束时需要清除，所以算到buff里
-        battleItem.attributes.Skill.Protection += 20;
+        battleItem.attributes.Buff.Protection += 20;
         GlobalAccess.SaveBattleItem(battleItem);
         disposablePool.SaveDisposable(casterID + "StrongBone", battleItem.moveSubject.AsObservable().Subscribe(vect =>
         {
@@ -283,12 +282,15 @@ public class SkillManager : MonoSingleton<SkillManager>
     private void AngryTexture(string casterID, PropertyType type, int value)
     {
         var caster = GlobalAccess.GetBattleItem(casterID);
+        //战斗开始是一定是加0，所以可以不写
+        //int currentHpPercent = (int)(caster.attributes.currentHP * 100.0f / caster.attributes.MaxHP);
+        //caster.attributes.Buff.Strength += GameUtil.Instance.CalculateStrengthAngryTexture(currentHpPercent);
         disposablePool.SaveDisposable(casterID + "AngryTexture",
             caster.attributes.hpChangeSubject.AsObservable().Subscribe(hpChange =>
             {
                 var battleItem = GlobalAccess.GetBattleItem(casterID);
-                int lastHpPercent = (int)((battleItem.attributes.currentHP - hpChange) * 1.0f / battleItem.attributes.MaxHP);
-                int currentHpPercent = (int)(battleItem.attributes.currentHP * 1.0f / battleItem.attributes.MaxHP);
+                int lastHpPercent = (int)((battleItem.attributes.currentHP - hpChange) * 100.0f / battleItem.attributes.MaxHP);
+                int currentHpPercent = (int)(battleItem.attributes.currentHP * 100.0f / battleItem.attributes.MaxHP);
                 battleItem.attributes.Buff.Strength += GameUtil.Instance.CalculateStrengthAngryTexture(currentHpPercent) -
                     GameUtil.Instance.CalculateStrengthAngryTexture(lastHpPercent);
                 GlobalAccess.SaveBattleItem(battleItem);
@@ -430,14 +432,6 @@ public class SkillManager : MonoSingleton<SkillManager>
         GlobalAccess.SaveBattleItem(battleItem);
     }
 
-    private void AgainstDamage(string casterID, PropertyType type, int value)
-    {
-        var battleItem = GlobalAccess.GetBattleItem(casterID);
-        battleItem.attributes.Skill.AgainstDamage += value;
-        battleItem.attributes.LoadFinalAttributes();
-        GlobalAccess.SaveBattleItem(battleItem);
-    }
-
     private void ReinforceDefense(string casterID, PropertyType type, int value)
     {
         var battleItem = GlobalAccess.GetBattleItem(casterID);
@@ -562,6 +556,10 @@ public class SkillManager : MonoSingleton<SkillManager>
                 break;
             case PropertyType.DistanceDamage:
                 characterModel.attributes.Skill.DistanceDamage += value;
+                characterModel.attributes.LoadFinalAttributes();
+                break;
+            case PropertyType.AgainstDamage:
+                characterModel.attributes.Skill.AgainstDamage += value;
                 characterModel.attributes.LoadFinalAttributes();
                 break;
             default:

@@ -86,6 +86,7 @@ public class CharacterModel: IStorable
         item.Skill1 = this.Skill1;
         item.Skill2 = this.Skill2;
         item.Skill3 = this.Skill3;
+        item.LoadSkills();
         return item;
     }
 }

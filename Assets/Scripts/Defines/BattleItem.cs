@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml.Linq;
 using UniRx;
 using UnityEngine;
-using static UnityEditor.Progress;
-using static UnityEngine.EventSystems.EventTrigger;
-using static UnityEngine.RuleTile.TilingRuleOutput;
+using System.Linq;
 
 [Flags]
 public enum BattleItemType
@@ -27,7 +24,8 @@ public class BattleItem: IStorable
     public Attributes attributes;
     public Backpack backpack;
     public BuffCenter buffCenter;
-    
+
+    public List<int> skills;
     public int BornSkill { get; set; }
     public int Skill1 { get; set; }
     public int Skill2 { get; set; }
@@ -74,6 +72,16 @@ public class BattleItem: IStorable
                 attributes.UpdateInitSpeed(100);
                 break;
         }
+    }
+
+    public void LoadSkills()
+    {
+        skills.Clear();
+        skills.Add(BornSkill);
+        skills.Add(Skill1);
+        skills.Add(Skill2);
+        skills.Add(Skill3);
+        skills = skills.Where(id => id != -1).ToList();
     }
 
     public BattleItem(string uuid)

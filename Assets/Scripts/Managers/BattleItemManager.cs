@@ -13,7 +13,7 @@ public class BattleItemManager
     public Dictionary<Vector2, UIBattleItem> pos_uibattleItemDic = new Dictionary<Vector2, UIBattleItem>();
     public Dictionary<string, Vector2> id_posDic = new Dictionary<string, Vector2>();
 
-
+    //战斗开始时初始化
     public void Init(List<string> characterIDs, TownBattleInfoModel battleInfo)
     {
         battleManager = BattleManager.Instance;
@@ -42,6 +42,26 @@ public class BattleItemManager
             GlobalAccess.SaveBattleItem(battleItem);
             battleItemIDs.Add(battleItem.uuid);
             battleManager.chessboardManager.PlaceBattleItem(battleItem.uuid, battleManager.chessBoard.slots[pair.Key]);
+        }
+
+        foreach (var id in battleItemIDs)
+        {
+            var battleItem = GlobalAccess.GetBattleItem(id);
+            foreach (var skillId in battleItem.skills)
+            {
+                if (DataManager.Instance.Skills.ContainsKey(skillId))
+                {
+                    var skill = DataManager.Instance.Skills[skillId];
+                    if (skill.InvokeType == SkillInvokeType.battleStart)
+                    {
+                        SkillManager.Instance.InvokeSkill(id, skill.MethodName, skill.PropertyType, skill.Value);
+                    }
+                } else
+                {
+                    Debug.Log("skill: " + skillId + " not found!");
+                    continue;
+                }
+            }
         }
     }
 
