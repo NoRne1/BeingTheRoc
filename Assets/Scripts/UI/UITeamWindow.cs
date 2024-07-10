@@ -67,7 +67,7 @@ public class UITeamWindow : UIWindow
     public void BattleInit()
     {
         normalOrBattleInit = false;
-        var battleItems = BattleManager.Instance.battleItemIDs.Select(uuid => GlobalAccess.GetBattleItem(uuid))
+        var battleItems = BattleManager.Instance.battleItemManager.battleItemIDs.Select(uuid => GlobalAccess.GetBattleItem(uuid))
             .Where(item => item.battleItemType == BattleItemType.player).ToList();
         currentCharacterID = new BehaviorSubject<string>(battleItems[0].uuid);
         currentCharacterID.AsObservable().DistinctUntilChanged().TakeUntilDestroy(this).Subscribe(cid =>

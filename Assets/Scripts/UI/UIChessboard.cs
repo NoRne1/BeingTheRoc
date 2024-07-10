@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class UIChessboard : MonoBehaviour
@@ -40,10 +41,19 @@ public class UIChessboard : MonoBehaviour
         }
     }
 
-    public void ResetMiddle(bool flag)
+    public void ResetMiddle(bool flag, bool animated = true)
     {
         var rectTransform = GetComponent<RectTransform>();
-        rectTransform.anchoredPosition = flag ? new Vector2(0, rectTransform.anchoredPosition.y)
-            : new Vector2(255, rectTransform.anchoredPosition.y);
+        Vector2 targetPosition = flag ? new Vector2(0, rectTransform.anchoredPosition.y) : new Vector2(255, rectTransform.anchoredPosition.y);
+        if (animated)
+        {
+            // 动画时长可以根据需要调整，这里设置为0.5秒
+            float duration = 0.5f;
+            // 使用 DOAnchorPos 方法来做插值动画
+            rectTransform.DOAnchorPos(targetPosition, duration);
+        } else
+        {
+            rectTransform.anchoredPosition = targetPosition;
+        }
     }
 }

@@ -38,7 +38,7 @@ public class UIBattleItemInfo : MonoBehaviour
     public void Setup(string uuid)
     {
         this.itemID = uuid;
-        this.gameObject.SetActive(itemID != "");
+        gameObject.SetActive(itemID != null);
         if (itemID != null)
         {
             disposable.IfNotNull(dis => { dis.Dispose(); });

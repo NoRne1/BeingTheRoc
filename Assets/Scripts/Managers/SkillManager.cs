@@ -11,13 +11,15 @@ public class SkillManager : MonoSingleton<SkillManager>
     private StoreItemModel hunyuanSword;
     private DisposablePool disposablePool;
     private Timer timer;
+
     // Start is called before the first frame update 
     void Start()
     {
         disposablePool = new DisposablePool();
         timer = new Timer();
-        BattleManager.Instance.roundTime.AsObservable().TakeUntilDestroy(this)
-            .Where(round => round.Item2 == RoundTime.begin && BattleManager.Instance.extraRound == 0)
+
+        BattleManager.Instance.roundManager.roundTime.AsObservable().TakeUntilDestroy(this)
+            .Where(round => round.Item2 == RoundTime.begin && BattleManager.Instance.roundManager.extraRound == 0)
             .Subscribe(round =>
         {
             timer.NextRound(round.Item1);
@@ -146,7 +148,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         timer.CreateTimer(TimerType.normal, casterID + "HuanMie", 2);
         disposablePool.SaveDisposable(casterID + "HuanMie", battleItem.defeatSubject.AsObservable().Where(_ => timer.TimerNext(casterID + "HuanMie")).Subscribe(_ =>
         {
-            BattleManager.Instance.extraRound++;
+            BattleManager.Instance.roundManager.extraRound++;
         }));
     }
 
@@ -195,7 +197,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         GlobalAccess.SaveBattleItem(battleItem);
         disposablePool.SaveDisposable(casterID + "StrongBone", battleItem.moveSubject.AsObservable().Subscribe(vect =>
         {
-            var targetIDs = BattleManager.Instance.GetBattleItemsByRange(vect, TargetRange.range_1, BattleItemType.player);
+            var targetIDs = BattleManager.Instance.battleItemManager.GetBattleItemsByRange(vect, TargetRange.range_1, BattleItemType.player);
             foreach (var targetID in targetIDs)
             {
                 var battleItem = GlobalAccess.GetBattleItem(casterID);
@@ -260,7 +262,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     private void RecoverBody(string casterID, PropertyType type, int value)
     {
         disposablePool.SaveDisposable(casterID + "RecoverBody",
-            BattleManager.Instance.roundTime.AsObservable().Where(roundTime =>
+            BattleManager.Instance.roundManager.roundTime.AsObservable().Where(roundTime =>
                 {
                     var caster = GlobalAccess.GetBattleItem(casterID);
                     return roundTime.Item1 == casterID && roundTime.Item2 == RoundTime.end && !caster.haveAttackedInRound;
@@ -464,7 +466,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         var battleItem = GlobalAccess.GetBattleItem(targetID);
         battleItem.avoidDeath = false;
         GlobalAccess.SaveBattleItem(battleItem);
-        var targetIDs = BattleManager.Instance.battleItemIDs.Where(id =>
+        var targetIDs = BattleManager.Instance.battleItemManager.battleItemIDs.Where(id =>
         {
             var item = GlobalAccess.GetBattleItem(id);
             switch (item.battleItemType)

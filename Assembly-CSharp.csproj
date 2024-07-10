@@ -65,6 +65,7 @@
     <Compile Include="Assets/Scripts/Utilities/HintComponent.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/ObjectExtensions.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBarOtherItem.cs" />
+    <Compile Include="Assets/Scripts/Managers/BattleMoveBarManager.cs" />
     <Compile Include="Assets/Scripts/Defines/CharacterDefine.cs" />
     <Compile Include="Assets/Scripts/Managers/EquipManager.cs" />
     <Compile Include="Assets/Scripts/UI/UIRepositorSlot.cs" />
@@ -105,10 +106,12 @@
     <Compile Include="Assets/Scripts/Utilities/BattleCommonMethods.cs" />
     <Compile Include="Assets/Scripts/Managers/BuffCenter.cs" />
     <Compile Include="Assets/Scripts/Managers/BlackBarManager.cs" />
+    <Compile Include="Assets/Scripts/Managers/TreasureManager.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBar.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/StringExtensions.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBarDayItem.cs" />
     <Compile Include="Assets/Scripts/UI/UIEquipButtons.cs" />
+    <Compile Include="Assets/Scripts/Managers/BattleRoundManager.cs" />
     <Compile Include="Assets/Scripts/UI/UITip.cs" />
     <Compile Include="Assets/Scripts/UI/UIHintBase.cs" />
     <Compile Include="Assets/Scripts/Defines/TownActionDefine.cs" />
@@ -143,12 +146,14 @@
     <Compile Include="Assets/Scripts/Models/EnemyAI.cs" />
     <Compile Include="Assets/Scripts/UI/UIEquipSlot.cs" />
     <Compile Include="Assets/Scripts/UI/UIShopItem.cs" />
+    <Compile Include="Assets/Scripts/Managers/BattleChessboardManager.cs" />
     <Compile Include="Assets/Scripts/Managers/LoadingManager.cs" />
     <Compile Include="Assets/Scripts/Utilities/ActionTree.cs" />
     <Compile Include="Assets/Scripts/UI/UIExtraHint.cs" />
     <Compile Include="Assets/Scripts/Utilities/FightText/FightTextComponent.cs" />
     <Compile Include="Assets/Scripts/UI/UIEquipRange.cs" />
     <Compile Include="Assets/Scripts/Models/AttributeType.cs" />
+    <Compile Include="Assets/Scripts/Managers/BattleItemManager.cs" />
     <Compile Include="Assets/Scripts/Utilities/EditorStyleViewer.cs" />
     <Compile Include="Assets/Scripts/Models/StoreItemModel.cs" />
     <Compile Include="Assets/Scripts/UI/UITimeLeft.cs" />

@@ -89,7 +89,7 @@ public class BattleItem: IStorable
 
     public void RoundBegin()
     {
-        if (!BattleManager.Instance.isInExtraRound)
+        if (!BattleManager.Instance.roundManager.isInExtraRound)
         {
             buffCenter.RoundBegin();
         }
@@ -106,7 +106,7 @@ public class BattleItem: IStorable
 
     public void RoundEnd()
     {
-        if (!BattleManager.Instance.isInExtraRound)
+        if (!BattleManager.Instance.roundManager.isInExtraRound)
         {
             buffCenter.RoundEnd();
         }

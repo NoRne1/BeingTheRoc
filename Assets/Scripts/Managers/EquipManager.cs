@@ -56,7 +56,7 @@ public class EquipManager : MonoSingleton<EquipManager>
             ProcessItemUse(casterID, item, casterIDList, characterOrBattleItem);
         } else if (item.invokeType == ItemInvokeType.equipTarget)
         {
-            BattleManager.Instance.SelectTargets(item);
+            BattleManager.Instance.chessboardManager.SelectTargets(item);
             // 等待玩家选择目标，比如点击其他游戏对象
             while (true)
             {

@@ -67,6 +67,9 @@ public class UIShopPage : MonoBehaviour
             UITip tip = UIManager.Instance.Show<UITip>();
             //todo
             tip.UpdateTip(DataManager.Instance.Language["go_next_town_tip"]);
+        } else if (shopItems[index].info.type == ItemType.treasure) {
+            //treasure不占仓库，需特殊处理
+            GameManager.Instance.treasureManager.AddTreasure(new StoreItemModel(shopItems[index].info));
         } else if (!GameManager.Instance.repository.remainOpacity)
         {
             //仓库空间不够了

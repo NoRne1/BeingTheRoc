@@ -5,6 +5,7 @@ using System.Linq;
 using UniRx;
 using Unity.Burst.Intrinsics;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public enum PageType
 {
@@ -33,6 +34,7 @@ public class GameManager : MonoSingleton<GameManager>
     public Dictionary<string, NorneRelay<CharacterModel>> characterRelays = new Dictionary<string, NorneRelay<CharacterModel>>();
 
     public RepositoryModel repository = new RepositoryModel();
+    public TreasureManager treasureManager = new TreasureManager();
     // Start is called before the first frame update
     void Start()
     {
@@ -146,7 +148,7 @@ public class GameManager : MonoSingleton<GameManager>
                 break;
             }
         }
-        
+
     }
 
     public void CoinChanged(int change)

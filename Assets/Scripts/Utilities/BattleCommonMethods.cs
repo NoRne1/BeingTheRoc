@@ -20,17 +20,17 @@ public static class BattleCommonMethods
         var battleItem = GlobalAccess.GetBattleItem(targetID);
         battleItem.remainActingDistance = (int)(battleItem.remainActingDistance * (1 - (value / 100.0f)));
         GlobalAccess.SaveBattleItem(battleItem);
-        BattleManager.Instance.CalcBattleItemAndShow(0);
+        BattleManager.Instance.moveBarManager.CalcBattleItemAndShow(0);
     }
 
     public static KnockbackStatus KnockbackCaster(string casterID, string targetID, int casterKnockbackDistance)
     {
         if (GlobalAccess.GetBattleItem(casterID).isConfine) { return KnockbackStatus.failure; }
         KnockbackStatus status = KnockbackStatus.success;
-        Vector2 casterPos = BattleManager.Instance.battleItemDic.ToList()
+        Vector2 casterPos = BattleManager.Instance.battleItemManager.pos_uibattleItemDic.ToList()
             .Where(pair => pair.Value.itemID == casterID)
             .Select(pair => pair.Key).FirstOrDefault();
-        Vector2 targetPos = BattleManager.Instance.battleItemDic.ToList()
+        Vector2 targetPos = BattleManager.Instance.battleItemManager.pos_uibattleItemDic.ToList()
             .Where(pair => pair.Value.itemID == targetID)
             .Select(pair => pair.Key).FirstOrDefault();
         int dx = (int)(casterPos.x - targetPos.x);
@@ -42,7 +42,7 @@ public static class BattleCommonMethods
             int newX = (int)casterPos.x;
             int newY = (int)casterPos.y;
 
-            var uiBattleItem = BattleManager.Instance.battleItemDic[casterPos];
+            var uiBattleItem = BattleManager.Instance.battleItemManager.pos_uibattleItemDic[casterPos];
 
             for (int i = 0; i < casterKnockbackDistance; i++)
             {
@@ -55,10 +55,10 @@ public static class BattleCommonMethods
                     break;
                 }
 
-                if (BattleManager.Instance.battleItemDic.Keys.Contains(new Vector2(nextX, nextY)))
+                if (BattleManager.Instance.battleItemManager.pos_uibattleItemDic.Keys.Contains(new Vector2(nextX, nextY)))
                 {
                     // 如果下一步与其他battleItem相撞，截止击退，并造成碰撞伤害
-                    var uiBattleItem2 = BattleManager.Instance.battleItemDic[new Vector2(nextX, nextY)];
+                    var uiBattleItem2 = BattleManager.Instance.battleItemManager.pos_uibattleItemDic[new Vector2(nextX, nextY)];
                     BattleManager.Instance.ProcessDirectAttack(uiBattleItem.itemID, uiBattleItem2.itemID, GlobalAccess.knockbackDirectDamage);
                     BattleManager.Instance.ProcessDirectAttack(uiBattleItem2.itemID, uiBattleItem.itemID, GlobalAccess.knockbackDirectDamage);
                     status = KnockbackStatus.toBorder;
@@ -76,7 +76,7 @@ public static class BattleCommonMethods
                 case KnockbackStatus.crash:
                     int nextX = newX + (dx != 0 ? Math.Sign(dx) : 0);
                     int nextY = newY + (dy != 0 ? Math.Sign(dy) : 0);
-                    if (BattleManager.Instance.battleItemDic.Keys.Contains(new Vector2(nextX, nextY)))
+                    if (BattleManager.Instance.battleItemManager.pos_uibattleItemDic.Keys.Contains(new Vector2(nextX, nextY)))
                     {
                         // 创建一个序列
                         Sequence mySequence = DOTween.Sequence();
@@ -109,10 +109,10 @@ public static class BattleCommonMethods
     {
         if (GlobalAccess.GetBattleItem(targetID).isConfine) { return KnockbackStatus.failure; }
         KnockbackStatus status = KnockbackStatus.success;
-        Vector2 casterPos = BattleManager.Instance.battleItemDic.ToList()
+        Vector2 casterPos = BattleManager.Instance.battleItemManager.pos_uibattleItemDic.ToList()
             .Where(pair => pair.Value.itemID == casterID)
             .Select(pair => pair.Key).FirstOrDefault();
-        Vector2 targetPos = BattleManager.Instance.battleItemDic.ToList()
+        Vector2 targetPos = BattleManager.Instance.battleItemManager.pos_uibattleItemDic.ToList()
             .Where(pair => pair.Value.itemID == targetID)
             .Select(pair => pair.Key).FirstOrDefault();
         int dx = (int)(targetPos.x - casterPos.x);
@@ -124,7 +124,7 @@ public static class BattleCommonMethods
             int newX = (int)targetPos.x;
             int newY = (int)targetPos.y;
 
-            var uiBattleItem = BattleManager.Instance.battleItemDic[targetPos];
+            var uiBattleItem = BattleManager.Instance.battleItemManager.pos_uibattleItemDic[targetPos];
 
             for (int i = 0; i < targetKnockbackDistance; i++)
             {
@@ -137,10 +137,10 @@ public static class BattleCommonMethods
                     break;
                 }
 
-                if (BattleManager.Instance.battleItemDic.Keys.Contains(new Vector2(nextX, nextY)))
+                if (BattleManager.Instance.battleItemManager.pos_uibattleItemDic.Keys.Contains(new Vector2(nextX, nextY)))
                 {
                     // 如果下一步与其他battleItem相撞，截止击退，并造成碰撞伤害
-                    var uiBattleItem2 = BattleManager.Instance.battleItemDic[new Vector2(nextX, nextY)];
+                    var uiBattleItem2 = BattleManager.Instance.battleItemManager.pos_uibattleItemDic[new Vector2(nextX, nextY)];
                     BattleManager.Instance.ProcessDirectAttack(uiBattleItem.itemID, uiBattleItem2.itemID, GlobalAccess.knockbackDirectDamage);
                     BattleManager.Instance.ProcessDirectAttack(uiBattleItem2.itemID, uiBattleItem.itemID, GlobalAccess.knockbackDirectDamage);
                     status = KnockbackStatus.toBorder;
@@ -158,7 +158,7 @@ public static class BattleCommonMethods
                 case KnockbackStatus.crash:
                     int nextX = newX + (dx != 0 ? Math.Sign(dx) : 0);
                     int nextY = newY + (dy != 0 ? Math.Sign(dy) : 0);
-                    if (BattleManager.Instance.battleItemDic.Keys.Contains(new Vector2(nextX, nextY)))
+                    if (BattleManager.Instance.battleItemManager.pos_uibattleItemDic.Keys.Contains(new Vector2(nextX, nextY)))
                     {
                         // 创建一个序列
                         Sequence mySequence = DOTween.Sequence();

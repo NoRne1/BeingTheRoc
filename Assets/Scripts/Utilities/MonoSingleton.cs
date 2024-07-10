@@ -6,44 +6,49 @@
 /// <typeparam name="T"></typeparam>
 public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    //是否是全局对象
     public bool global = true;
-    //泛型实例
-    static T instance;
+    private static T instance;
+    private static bool isInitialized = false;
+    private static readonly object lockObject = new object();
+
     public static T Instance
     {
         get
         {
-            if (instance == null)
+            if (!isInitialized)
             {
-                instance = (T)FindObjectOfType<T>();
+                Debug.LogError($"Instance of {typeof(T)} is not initialized yet. Make sure it's accessed after Awake.");
             }
             return instance;
         }
-
     }
 
-    void Awake()
+    protected virtual void Awake()
     {
-        //不销毁对象
-        if (global)
+        lock (lockObject)
         {
-            if (instance != null && instance != this.gameObject.GetComponent<T>())
+            if (instance == null)
             {
-                //已经存在实例且不是当前物体绑定的,就销毁他
-                Destroy(this.gameObject);
+                instance = this as T;
+                isInitialized = true;
+
+                if (global)
+                {
+                    DontDestroyOnLoad(this.gameObject);
+                }
+            }
+            else if (instance != this)
+            {
+                Destroy(gameObject);
                 return;
             }
-            DontDestroyOnLoad(this.gameObject);
-            //在初始化脚本时就赋值,避免没有调用instance就创建两个对象
-            instance = this.gameObject.GetComponent<T>();
+
+            OnStart();
         }
-        //初始化方法
-        this.OnStart();
     }
 
     protected virtual void OnStart()
     {
-
+        // 子类可以重写此方法进行初始化
     }
 }
