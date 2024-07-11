@@ -3,16 +3,18 @@
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Defines/StoreItemDefine.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/EquipManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Managers/BattleManager.cs" Line="152" Column="29" />
-      <File FileName="Assets/Scripts/Managers/BattleMoveBarManager.cs" Line="13" Column="18" />
-      <File FileName="Assets/Scripts/Managers/BattleItemManager.cs" Line="63" Column="18" />
-      <File FileName="Assets/Scripts/Managers/BattleChessboardManager.cs" Line="110" Column="6" />
-      <File FileName="Assets/Scripts/Managers/BattleRoundManager.cs" Line="14" Column="49" />
-      <File FileName="Assets/Scripts/Managers/TreasureManager.cs" Line="10" Column="25" />
-      <File FileName="Assets/Scripts/Managers/SkillManager.cs" Line="39" Column="28" />
-      <File FileName="Assets/Scripts/Defines/StoreItemDefine.cs" Line="38" Column="37" />
+      <File FileName="Assets/Scripts/Managers/BattleManager.cs" />
+      <File FileName="Assets/Scripts/Defines/StoreItemDefine.cs" Line="116" Column="6" />
+      <File FileName="Assets/Scripts/Defines/EquipDefine.cs" Line="227" Column="35" />
+      <File FileName="Assets/Scripts/Defines/TreasureDefine.cs" Line="14" Column="2" />
+      <File FileName="Assets/Scripts/Defines/ExpendableItemDefine.cs" Line="13" Column="29" />
+      <File FileName="Assets/Scripts/Defines/GoodsDefine.cs" Line="11" Column="5" />
+      <File FileName="Assets/Scripts/Defines/SpecialItemDefine.cs" Line="11" Column="52" />
+      <File FileName="Assets/Scripts/Managers/EquipManager.cs" Line="24" Column="27" />
+      <File FileName="Assets/Scripts/Managers/DataManager.cs" Line="12" Column="15" />
+      <File FileName="Assets/Scripts/Models/StoreItemModel.cs" Line="118" Column="32" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -23,10 +25,10 @@
                 <Node name="UniRx" expanded="True" />
               </Node>
               <Node name="Scripts" expanded="True">
-                <Node name="Defines" expanded="True">
-                  <Node name="StoreItemDefine.cs" selected="True" />
+                <Node name="Defines" expanded="True" />
+                <Node name="Managers" expanded="True">
+                  <Node name="EquipManager.cs" selected="True" />
                 </Node>
-                <Node name="Managers" expanded="True" />
                 <Node name="Models" expanded="True" />
                 <Node name="UI" expanded="True" />
                 <Node name="Utilities" expanded="True">

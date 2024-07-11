@@ -1,0 +1,401 @@
+{
+    "0": {
+        "ID": 0,
+        "title": "wood_sword",
+        "equipType": 2,
+        "invokeType": 4,
+        "equipClass": 0,
+        "isExpendable": false,
+        "equipResource": "wood_sword_icon_big",
+        "targetRange": 3,
+        "takeEnergy": 1,
+        "effect1": {
+            "effectType": 3,
+            "invokeType": 0,
+            "invokeNum": 1,
+            "propertyType": -1,
+            "methodName": null,
+            "value": 10
+        },
+        "effect2": null,
+        "effect3": null
+    },
+    "1": {
+        "ID": 1,
+        "title": "iron_sword",
+        "equipType": 2,
+        "invokeType": 4,
+        "equipClass": 0,
+        "isExpendable": false,
+        "equipResource": "iron_sword_icon_big",
+        "targetRange": 3,
+        "takeEnergy": 1,
+        "effect1": {
+            "effectType": 3,
+            "invokeType": 0,
+            "invokeNum": 1,
+            "propertyType": -1,
+            "methodName": null,
+            "value": 20
+        },
+        "effect2": null,
+        "effect3": null
+    },
+    "2": {
+        "ID": 2,
+        "title": "magic_sword",
+        "equipType": 3,
+        "invokeType": 4,
+        "equipClass": 0,
+        "isExpendable": false,
+        "equipResource": "magic_sword_icon_big",
+        "targetRange": 4,
+        "takeEnergy": 1,
+        "effect1": {
+            "effectType": 3,
+            "invokeType": 0,
+            "invokeNum": 1,
+            "propertyType": -1,
+            "methodName": null,
+            "value": 30
+        },
+        "effect2": null,
+        "effect3": null
+    },
+    "3": {
+        "ID": 3,
+        "title": "fast_shoes",
+        "equipType": 1,
+        "invokeType": 3,
+        "equipClass": -1,
+        "isExpendable": false,
+        "equipResource": "fast_shoes_icon_big",
+        "targetRange": -1,
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": 0,
+            "invokeType": 0,
+            "invokeNum": 1,
+            "propertyType": 7,
+            "methodName": null,
+            "value": 1
+        },
+        "effect2": null,
+        "effect3": null
+    },
+    "4": {
+        "ID": 4,
+        "title": "stab_shield",
+        "equipType": 4,
+        "invokeType": 3,
+        "equipClass": -1,
+        "isExpendable": false,
+        "equipResource": "stab_shield_icon_big",
+        "targetRange": -1,
+        "takeEnergy": 1,
+        "effect1": {
+            "effectType": 0,
+            "invokeType": 0,
+            "invokeNum": 1,
+            "propertyType": 11,
+            "methodName": null,
+            "value": 30
+        },
+        "effect2": null,
+        "effect3": null
+    },
+    "5": {
+        "ID": 5,
+        "title": "arm_shield",
+        "equipType": 4,
+        "invokeType": 3,
+        "equipClass": -1,
+        "isExpendable": false,
+        "equipResource": "arm_shield_icon_big",
+        "targetRange": -1,
+        "takeEnergy": 1,
+        "effect1": {
+            "effectType": 0,
+            "invokeType": 0,
+            "invokeNum": 1,
+            "propertyType": 11,
+            "methodName": null,
+            "value": 20
+        },
+        "effect2": null,
+        "effect3": null
+    },
+    "6": {
+        "ID": 6,
+        "title": "wood_shield",
+        "equipType": 4,
+        "invokeType": 3,
+        "equipClass": -1,
+        "isExpendable": false,
+        "equipResource": "wood_shield_icon_big",
+        "targetRange": -1,
+        "takeEnergy": 1,
+        "effect1": {
+            "effectType": 0,
+            "invokeType": 0,
+            "invokeNum": 1,
+            "propertyType": 11,
+            "methodName": null,
+            "value": 10
+        },
+        "effect2": null,
+        "effect3": null
+    },
+    "7": {
+        "ID": 7,
+        "title": "long_arch",
+        "equipType": 3,
+        "invokeType": 4,
+        "equipClass": -1,
+        "isExpendable": false,
+        "equipResource": "long_arch_icon_big",
+        "targetRange": 2,
+        "takeEnergy": 1,
+        "effect1": {
+            "effectType": 3,
+            "invokeType": 0,
+            "invokeNum": 1,
+            "propertyType": -1,
+            "methodName": null,
+            "value": 15
+        },
+        "effect2": null,
+        "effect3": null
+    },
+    "8": {
+        "ID": 8,
+        "title": "wood_arch",
+        "equipType": 2,
+        "invokeType": 4,
+        "equipClass": -1,
+        "isExpendable": false,
+        "equipResource": "wood_arch_icon_big",
+        "targetRange": 1,
+        "takeEnergy": 1,
+        "effect1": {
+            "effectType": 3,
+            "invokeType": 0,
+            "invokeNum": 1,
+            "propertyType": -1,
+            "methodName": null,
+            "value": 10
+        },
+        "effect2": null,
+        "effect3": null
+    },
+    "9": {
+        "ID": 9,
+        "title": "zhuge_bow",
+        "equipType": 4,
+        "invokeType": 4,
+        "equipClass": -1,
+        "isExpendable": false,
+        "equipResource": "zhuge_bow_icon_big",
+        "targetRange": 5,
+        "takeEnergy": 1,
+        "effect1": {
+            "effectType": 3,
+            "invokeType": 0,
+            "invokeNum": 2,
+            "propertyType": -1,
+            "methodName": null,
+            "value": 10
+        },
+        "effect2": null,
+        "effect3": null
+    },
+    "10": {
+        "ID": 10,
+        "title": "multi_bow",
+        "equipType": 1,
+        "invokeType": 4,
+        "equipClass": -1,
+        "isExpendable": false,
+        "equipResource": "multi_bow_icon_big",
+        "targetRange": 4,
+        "takeEnergy": 1,
+        "effect1": {
+            "effectType": 3,
+            "invokeType": 0,
+            "invokeNum": 2,
+            "propertyType": -1,
+            "methodName": null,
+            "value": 6
+        },
+        "effect2": null,
+        "effect3": null
+    },
+    "11": {
+        "ID": 11,
+        "title": "hand_bow",
+        "equipType": 0,
+        "invokeType": 4,
+        "equipClass": -1,
+        "isExpendable": false,
+        "equipResource": "hand_bow_icon",
+        "targetRange": 4,
+        "takeEnergy": 1,
+        "effect1": {
+            "effectType": 3,
+            "invokeType": 0,
+            "invokeNum": 1,
+            "propertyType": -1,
+            "methodName": null,
+            "value": 10
+        },
+        "effect2": null,
+        "effect3": null
+    },
+    "12": {
+        "ID": 12,
+        "title": "shadow_charm",
+        "equipType": 0,
+        "invokeType": 3,
+        "equipClass": -1,
+        "isExpendable": true,
+        "equipResource": "shadow_charm_icon",
+        "targetRange": -1,
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": 1,
+            "invokeType": 0,
+            "invokeNum": 1,
+            "propertyType": null,
+            "methodName": null,
+            "value": 1
+        },
+        "effect2": null,
+        "effect3": null
+    },
+    "13": {
+        "ID": 13,
+        "title": "exchange_charm",
+        "equipType": 0,
+        "invokeType": 4,
+        "equipClass": -1,
+        "isExpendable": true,
+        "equipResource": "exchange_charm_icon",
+        "targetRange": 5,
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": 2,
+            "invokeType": 0,
+            "invokeNum": 1,
+            "propertyType": null,
+            "methodName": null,
+            "value": null
+        },
+        "effect2": null,
+        "effect3": null
+    },
+    "14": {
+        "ID": 14,
+        "title": "silent_charm",
+        "equipType": 0,
+        "invokeType": 4,
+        "equipClass": -1,
+        "isExpendable": true,
+        "equipResource": "silent_charm_icon",
+        "targetRange": 4,
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": 1,
+            "invokeType": 0,
+            "invokeNum": 1,
+            "propertyType": null,
+            "methodName": null,
+            "value": 12
+        },
+        "effect2": null,
+        "effect3": null
+    },
+    "15": {
+        "ID": 15,
+        "title": "confine_charm",
+        "equipType": 0,
+        "invokeType": 4,
+        "equipClass": -1,
+        "isExpendable": true,
+        "equipResource": "confine_charm_icon",
+        "targetRange": 4,
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": 1,
+            "invokeType": 0,
+            "invokeNum": 1,
+            "propertyType": null,
+            "methodName": null,
+            "value": 13
+        },
+        "effect2": null,
+        "effect3": null
+    },
+    "16": {
+        "ID": 16,
+        "title": "thunder_charm",
+        "equipType": 0,
+        "invokeType": 4,
+        "equipClass": -1,
+        "isExpendable": true,
+        "equipResource": "thunder_charm_icon",
+        "targetRange": 4,
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": 3,
+            "invokeType": 0,
+            "invokeNum": 1,
+            "propertyType": -1,
+            "methodName": null,
+            "value": 20
+        },
+        "effect2": null,
+        "effect3": null
+    },
+    "17": {
+        "ID": 17,
+        "title": "energy_potion",
+        "equipType": -1,
+        "invokeType": 3,
+        "equipClass": -1,
+        "isExpendable": true,
+        "equipResource": null,
+        "targetRange": -1,
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": 0,
+            "invokeType": 0,
+            "invokeNum": 1,
+            "propertyType": 7,
+            "methodName": null,
+            "value": 1
+        },
+        "effect2": null,
+        "effect3": null
+    },
+    "18": {
+        "ID": 18,
+        "title": "angry_potion",
+        "equipType": -1,
+        "invokeType": 3,
+        "equipClass": -1,
+        "isExpendable": true,
+        "equipResource": null,
+        "targetRange": -1,
+        "takeEnergy": 0,
+        "effect1": {
+            "effectType": 0,
+            "invokeType": 0,
+            "invokeNum": 1,
+            "propertyType": 10,
+            "methodName": null,
+            "value": 150
+        },
+        "effect2": null,
+        "effect3": null
+    }
+}

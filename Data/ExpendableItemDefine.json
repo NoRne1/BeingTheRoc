@@ -1,0 +1,14 @@
+{
+    "0": {
+        "ID": 0,
+        "title": "lucky_potion",
+        "effect": {
+            "effectType": 0,
+            "invokeType": 0,
+            "invokeNum": 1,
+            "propertyType": 8,
+            "value": 10,
+            "methodName": null
+        }
+    }
+}

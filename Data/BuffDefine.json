@@ -141,5 +141,44 @@
         "MergeType": 0,
         "Resource": "buff_invincible_icon",
         "Description": "免疫所有伤害"
+    },
+    "11": {
+        "ID": 11,
+        "Name": "闪避",
+        "MethodName": "ChangeProperty",
+        "PropertyType": 3,
+        "Value": 20,
+        "Duration": 1,
+        "InvokeTime": 2,
+        "DecreaseTime": 0,
+        "MergeType": 1,
+        "Resource": "buff_dodge_icon",
+        "Description": "增加闪避率"
+    },
+    "12": {
+        "ID": 12,
+        "Name": "沉默",
+        "MethodName": "Silent",
+        "PropertyType": -1,
+        "Value": -1,
+        "Duration": 1,
+        "InvokeTime": 2,
+        "DecreaseTime": 1,
+        "MergeType": 0,
+        "Resource": "buff_silent_icon",
+        "Description": "沉默的单位无法进行攻击"
+    },
+    "13": {
+        "ID": 13,
+        "Name": "禁锢",
+        "MethodName": "Confine",
+        "PropertyType": -1,
+        "Value": -1,
+        "Duration": 1,
+        "InvokeTime": 2,
+        "DecreaseTime": 1,
+        "MergeType": 0,
+        "Resource": "buff_confine_icon",
+        "Description": "禁锢的单位无法移动"
     }
 }

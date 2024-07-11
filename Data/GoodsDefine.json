@@ -1,0 +1,26 @@
+{
+    "0": {
+        "ID": 0,
+        "title": "boutique_feather",
+        "minPrice": 200,
+        "maxPrice": 600
+    },
+    "1": {
+        "ID": 1,
+        "title": "boutique_rice",
+        "minPrice": 50,
+        "maxPrice": 300
+    },
+    "2": {
+        "ID": 2,
+        "title": "trophy",
+        "minPrice": 100,
+        "maxPrice": 350
+    },
+    "3": {
+        "ID": 3,
+        "title": "jerky",
+        "minPrice": 50,
+        "maxPrice": 250
+    }
+}

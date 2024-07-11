@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets/Scripts/UI/UITownNode.cs" />
+    <Compile Include="Assets/Scripts/Defines/SpecialItemDefine.cs" />
     <Compile Include="Assets/Scripts/Managers/DataManager.cs" />
     <Compile Include="Assets/Scripts/Utilities/ConstValue.cs" />
     <Compile Include="Assets/Scripts/UI/UIOptions.cs" />
@@ -99,8 +100,10 @@
     <Compile Include="Assets/Scripts/UI/UIMainMenu.cs" />
     <Compile Include="Assets/Scripts/UI/UICommonUI.cs" />
     <Compile Include="Assets/Scripts/UI/UISkillButton.cs" />
+    <Compile Include="Assets/Scripts/Defines/GoodsDefine.cs" />
     <Compile Include="Assets/Scripts/Utilities/ObjectPool.cs" />
     <Compile Include="Assets/Scripts/Defines/BattleItem.cs" />
+    <Compile Include="Assets/Scripts/Defines/EquipDefine.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/DictionaryExtensions.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBarFirstItem.cs" />
     <Compile Include="Assets/Scripts/Utilities/BattleCommonMethods.cs" />
@@ -121,6 +124,7 @@
     <Compile Include="Assets/Scripts/UI/UISkillHint.cs" />
     <Compile Include="Assets/Scripts/Models/RepositoryModel.cs" />
     <Compile Include="Assets/Scripts/UI/UICharacterPlaceBox.cs" />
+    <Compile Include="Assets/Scripts/Defines/TreasureDefine.cs" />
     <Compile Include="Assets/Scripts/Managers/UIManager.cs" />
     <Compile Include="Assets/Scripts/UI/UIDescHint.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/UnityExtensions.cs" />
@@ -130,6 +134,7 @@
     <Compile Include="Assets/Scripts/Models/EnermyModel.cs" />
     <Compile Include="Assets/Scripts/UI/UITownActionPanel.cs" />
     <Compile Include="Assets/Scripts/Utilities/DisposablePool.cs" />
+    <Compile Include="Assets/Scripts/Defines/ExpendableItemDefine.cs" />
     <Compile Include="Assets/Scripts/Models/Attributes.cs" />
     <Compile Include="Assets/Scripts/UI/UIStartGame.cs" />
     <Compile Include="Assets/Scripts/UI/UICharacterSelectPanel.cs" />

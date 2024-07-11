@@ -1,0 +1,26 @@
+{
+    "0": {
+        "ID": 0,
+        "title": "king_arrow",
+        "invokeType": 2,
+        "methodName": "KingArrow"
+    },
+    "1": {
+        "ID": 1,
+        "title": "treasure_bowl",
+        "invokeType": 0,
+        "methodName": "TreasureBowl"
+    },
+    "2": {
+        "ID": 2,
+        "title": "shield_token",
+        "invokeType": 2,
+        "methodName": "ShieldToken"
+    },
+    "3": {
+        "ID": 3,
+        "title": "sword_stone",
+        "invokeType": 2,
+        "methodName": "SwordStone"
+    }
+}
