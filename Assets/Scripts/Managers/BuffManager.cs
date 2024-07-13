@@ -126,7 +126,7 @@ public class BuffManager : MonoSingleton<BuffManager>
 
     private void Burning(BuffModel buff)
     {
-        BattleManager.Instance.ProcessNormalAttack(buff.casterID, new List<string> { buff.ownerID }, buff.Value);
+        BattleManager.Instance.ProcessNormalAttack(buff.casterID, new List<string> { buff.ownerID }, 100, buff.Value);
     }
 
     private void Invincible(BuffModel buff, bool addOrRemove)

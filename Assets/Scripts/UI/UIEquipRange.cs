@@ -24,18 +24,27 @@ public class UIEquipRange : MonoBehaviour
         {
             slot.gameObject.SetActive(false);
         }
-        if (item.OccupiedCells == null)
+        if (item.type == ItemType.equip && DataManager.Instance.EquipDefines.ContainsKey(item.subID))
+        {
+            EquipDefine equipDefine = DataManager.Instance.EquipDefines[item.subID];
+            if (equipDefine.OccupiedCells == null)
+            {
+                gameObject.SetActive(false);
+                return false;
+            }
+            else
+            {
+                foreach (var slotPos in equipDefine.OccupiedCells)
+                {
+                    slots[slotPos].gameObject.SetActive(true);
+                }
+                gameObject.SetActive(true);
+                return true;
+            }
+        } else
         {
             gameObject.SetActive(false);
             return false;
-        } else
-        {
-            foreach (var slotPos in item.OccupiedCells)
-            {
-                slots[slotPos].gameObject.SetActive(true);
-            }
-            gameObject.SetActive(true);
-            return true;
         }
     }
 }

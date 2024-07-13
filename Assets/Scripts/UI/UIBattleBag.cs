@@ -48,13 +48,13 @@ public class UIBattleBag : MonoBehaviour
                             UIEquipItem equipItem = temp.GetComponent<UIEquipItem>();
                             equipItem.storeItem = equip;
                             equipItem.ownerID = battleItem.uuid;
-                            temp.GetComponent<Image>().overrideSprite = Resloader.LoadSprite(equip.iconResource2, ConstValue.equipsPath);
+                            temp.GetComponent<Image>().overrideSprite = Resloader.LoadSprite(equip.equipDefine.equipResource, ConstValue.equipsPath);
                             temp.transform.rotation = temp.transform.rotation * Quaternion.Euler(0, 0, equip.rotationAngle);
                             Vector3 tempVector = equipSlots[equip.position.x * 3 + equip.position.y].position;
                             temp.transform.position = tempVector;
-                            tempVector = temp.transform.TransformPoint(-equip.originOffset * GlobalAccess.equipSizeBattleMultiply);
+                            tempVector = temp.transform.TransformPoint(-equip.equipDefine.originOffset * GlobalAccess.equipSizeBattleMultiply);
                             temp.transform.position = tempVector;
-                            temp.GetComponent<RectTransform>().sizeDelta = equip.occupiedRect * GlobalAccess.equipSizeBattleMultiply;
+                            temp.GetComponent<RectTransform>().sizeDelta = equip.equipDefine.occupiedRect * GlobalAccess.equipSizeBattleMultiply;
                             equipItem.SetAndRecord(tempVector);
                             temp.GetComponent<Button>().OnClickAsObservable().TakeUntilDestroy(this).Subscribe(_ =>
                             {

@@ -25,7 +25,7 @@ public class BattleItem: IStorable
     public Backpack backpack;
     public BuffCenter buffCenter;
 
-    public List<int> skills;
+    public List<int> skills = new List<int>();
     public int BornSkill { get; set; }
     public int Skill1 { get; set; }
     public int Skill2 { get; set; }

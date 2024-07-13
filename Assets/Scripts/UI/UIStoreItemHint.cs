@@ -38,27 +38,33 @@ public class UIStoreItemHint : UIHintBase
         titleBorder.color = GlobalAccess.GetLevelColor(item.level);
         title.text = item.title;
         energyPool.ReturnAllObject();
-        if (item.takeEnergy == 0)
+        if (item.type == ItemType.equip && DataManager.Instance.EquipDefines.ContainsKey(item.subID))
         {
-            energyFather.gameObject.SetActive(false);
-        } else
-        {
-            for (int i = 0; i < item.takeEnergy; i++)
+            EquipDefine equipDefine = DataManager.Instance.EquipDefines[item.subID];
+            if (equipDefine.takeEnergy == 0)
             {
-                energyPool.GetObjectFromPool();
+                energyFather.gameObject.SetActive(false);
             }
-            energyFather.gameObject.SetActive(true);
-        }
-        
-        if(item.GetTargetRangeResource() != null)
-        {
-            attackRange.overrideSprite = Resloader.LoadSprite(item.GetTargetRangeResource(), ConstValue.equipAttackRangePath);
-            attackRange.gameObject.SetActive(true);
-            rightPlaceHolder.SetActive(false);
-        } else
-        {
-            attackRange.gameObject.SetActive(false);
-            rightPlaceHolder.SetActive(true);
+            else
+            {
+                for (int i = 0; i < equipDefine.takeEnergy; i++)
+                {
+                    energyPool.GetObjectFromPool();
+                }
+                energyFather.gameObject.SetActive(true);
+            }
+
+            if (equipDefine.GetTargetRangeResource() != null)
+            {
+                attackRange.overrideSprite = Resloader.LoadSprite(equipDefine.GetTargetRangeResource(), ConstValue.equipAttackRangePath);
+                attackRange.gameObject.SetActive(true);
+                rightPlaceHolder.SetActive(false);
+            }
+            else
+            {
+                attackRange.gameObject.SetActive(false);
+                rightPlaceHolder.SetActive(true);
+            }
         }
 
         desc.text = item.desc;

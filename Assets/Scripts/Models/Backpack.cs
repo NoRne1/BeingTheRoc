@@ -32,7 +32,7 @@ public class Backpack
 
     public bool CanPlace(StoreItemModel item, Vector2Int position, Dictionary<Vector2Int, StoreItemModel> grid)
     {
-        foreach (Vector2Int cell in item.OccupiedCells)
+        foreach (Vector2Int cell in item.equipDefine.OccupiedCells)
         {
             Vector2Int cellPosition = position + cell;
             if (!grid.ContainsKey(cellPosition) || grid[cellPosition] != null)
@@ -47,7 +47,7 @@ public class Backpack
     {
         if (CanPlace(item, position))
         {
-            foreach (Vector2Int cell in item.OccupiedCells)
+            foreach (Vector2Int cell in item.equipDefine.OccupiedCells)
             {
                 Vector2Int cellPosition = position + cell;
                 grid[cellPosition] = item;
@@ -68,7 +68,7 @@ public class Backpack
         if (CanPlace(item, position, copiedGrid))
         {
             RemoveItemsByUUID(item.uuid);
-            foreach (Vector2Int cell in item.OccupiedCells)
+            foreach (Vector2Int cell in item.equipDefine.OccupiedCells)
             {
                 Vector2Int cellPosition = position + cell;
                 grid[cellPosition] = item;

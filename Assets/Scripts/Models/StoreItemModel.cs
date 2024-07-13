@@ -36,7 +36,7 @@ public class StoreItemModel : StoreItemDefine
         switch (type)
         {
             case ItemType.equip:
-                equipDefine = DataManager.Instance.EquipDefines[subID].Copy();
+                equipDefine = GameUtil.Instance.DeepCopy(DataManager.Instance.EquipDefines[subID]);
                 if (equipDefine.effect1 != null)
                 {
                     effects.Add(equipDefine.effect1);
@@ -52,20 +52,20 @@ public class StoreItemModel : StoreItemDefine
                 equipDefine.OccupiedCellsInit();
                 break;
             case ItemType.expendable:
-                expendableItemDefine = DataManager.Instance.ExpendableItemDefines[subID].Copy();
+                expendableItemDefine = GameUtil.Instance.DeepCopy(DataManager.Instance.ExpendableItemDefines[subID]);
                 if (expendableItemDefine.effect != null)
                 {
                     effects.Add(expendableItemDefine.effect);
                 }
                 break;
             case ItemType.treasure:
-                treasureDefine = DataManager.Instance.TreasureDefines[subID].Copy();
+                treasureDefine = GameUtil.Instance.DeepCopy(DataManager.Instance.TreasureDefines[subID]);
                 break;
             case ItemType.economicGoods:
-                goodsDefine = DataManager.Instance.GoodsDefines[subID].Copy();
+                goodsDefine = GameUtil.Instance.DeepCopy(DataManager.Instance.GoodsDefines[subID]);
                 break;
             case ItemType.special:
-                specialItemDefine = DataManager.Instance.SpecialItemDefines[subID].Copy();
+                specialItemDefine = GameUtil.Instance.DeepCopy(DataManager.Instance.SpecialItemDefines[subID]);
                 break;
         }
     }

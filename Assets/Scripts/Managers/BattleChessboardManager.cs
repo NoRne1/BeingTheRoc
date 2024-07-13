@@ -229,7 +229,7 @@ public class BattleChessboardManager
         try
         {
             Vector2 vect = battleManager.battleItemManager.pos_uibattleItemDic.First(x => x.Value.itemID == uuID).Key;
-            List<Vector2> vectList = GameUtil.Instance.GetTargetRangeList(vect, storeItem.targetRange);
+            List<Vector2> vectList = GameUtil.Instance.GetTargetRangeList(vect, storeItem.equipDefine.targetRange);
             chessBoard.ResetColors();
             Dictionary<Vector2, ChessboardSlotColor> dic = new Dictionary<Vector2, ChessboardSlotColor>();
             foreach (var vector in vectList)
@@ -251,25 +251,25 @@ public class BattleChessboardManager
         clickSlotReason = ClickSlotReason.viewCharacter;
         Vector2 vect = battleManager.battleItemManager.pos_uibattleItemDic.First(x =>
             x.Value.itemID == GlobalAccess.GetBattleItem(battleManager.battleItemManager.battleItemIDs[0]).uuid).Key;
-        if (GameUtil.Instance.GetTargetRangeList(vect, clickedStoreItem.targetRange).Contains(slot.position))
+        if (GameUtil.Instance.GetTargetRangeList(vect, clickedStoreItem.equipDefine.targetRange).Contains(slot.position))
         {
             //todo temp one target
             if (battleManager.battleItemManager.pos_uibattleItemDic.Keys.Contains(slot.position))
             {
-                EquipManager.Instance.targetIDs = new List<string>() { battleManager.battleItemManager.pos_uibattleItemDic[slot.position].itemID };
+                ItemUseManager.Instance.targetIDs = new List<string>() { battleManager.battleItemManager.pos_uibattleItemDic[slot.position].itemID };
                 clickSlotReason = ClickSlotReason.move;
                 ShowMovePath(chessBoard.slots[vect]);
             }
             else
             {
-                EquipManager.Instance.targetIDs = new List<string>();
+                ItemUseManager.Instance.targetIDs = new List<string>();
                 clickSlotReason = ClickSlotReason.move;
                 ShowMovePath(chessBoard.slots[vect]);
             }
         }
         else
         {
-            EquipManager.Instance.targetIDs = new List<string>();
+            ItemUseManager.Instance.targetIDs = new List<string>();
             clickSlotReason = ClickSlotReason.move;
             ShowMovePath(chessBoard.slots[vect]);
         }

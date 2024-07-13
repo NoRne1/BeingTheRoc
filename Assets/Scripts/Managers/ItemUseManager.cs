@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using static UnityEditor.Progress;
 using UniRx;
 
-public class EquipManager : MonoSingleton<EquipManager>
+public class ItemUseManager : MonoSingleton<ItemUseManager>
 {
     // Start is called before the first frame update
     void Start()
@@ -19,57 +18,100 @@ public class EquipManager : MonoSingleton<EquipManager>
         
     }
 
-    public void Use(string casterID, StoreItemModel item, bool characterOrBattleItem)
+    public void Use(string casterID, StoreItemModel item)
     {
-        if (item.CanUse())
+        switch(item.type)
         {
-            if (characterOrBattleItem)
-            {
-                StartCoroutine(TriggerEquipEffect(casterID, item, characterOrBattleItem));
-            }
-            else
-            {
+            case ItemType.equip:
                 //战斗中存在能量不够的情况
                 var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
-                if (target.attributes.currentEnergy >= item.takeEnergy)
+                if (target.attributes.currentEnergy >= item.equipDefine.takeEnergy)
                 {
-                    StartCoroutine(TriggerEquipEffect(casterID, item, characterOrBattleItem));
+                    StartCoroutine(TriggerEffect(casterID, item));
                 }
                 else if (target.attributes.currentEnergy > 0)
                 {
                     BattleManager.Instance.ShakeEnergy();
-                } else
+                }
+                else
                 {
                     BattleManager.Instance.BlinkEnergy();
                 }
-            }
+                break;
+            case ItemType.expendable:
+                StartCoroutine(TriggerEffect(casterID, item));
+                break;
+            case ItemType.treasure:
+                StartCoroutine(TriggerEffect(casterID, item));
+                break;
+            default:
+                Debug.LogError("EquipManager use unknown type item");
+                break;
         }
     }
 
     public List<string> targetIDs = null;
-    private IEnumerator TriggerEquipEffect(string casterID, StoreItemModel item, bool characterOrBattleItem)
+    private IEnumerator TriggerEffect(string casterID, StoreItemModel item)
     {
-        targetIDs = null;
-        if (item.invokeType == ItemInvokeType.bagUse || item.invokeType == ItemInvokeType.equipUse)
+        switch (item.type)
         {
-            List<string> casterIDList = new List<string> { casterID };
-            ProcessItemUse(casterID, item, casterIDList, characterOrBattleItem);
-        } else if (item.invokeType == ItemInvokeType.equipTarget)
-        {
-            BattleManager.Instance.chessboardManager.SelectTargets(item);
-            // 等待玩家选择目标，比如点击其他游戏对象
-            while (true)
-            {
-                if (targetIDs != null && targetIDs.Count == 0)
+            case ItemType.equip:
+                switch (item.equipDefine.invokeType)
                 {
-                    break;
-                } else if (targetIDs != null && targetIDs.Count > 0)
-                {
-                    ProcessItemUse(casterID, item, targetIDs, characterOrBattleItem);
-                    break;
+                    case EquipInvokeType.use:
+                        ProcessItemUse(casterID, item, new List<string> { casterID });
+                        break;
+                    case EquipInvokeType.targetItem:
+                        targetIDs = null;
+                        BattleManager.Instance.chessboardManager.SelectTargets(item);
+                        // 等待玩家选择目标，比如点击其他游戏对象
+                        while (true)
+                        {
+                            if (targetIDs != null && targetIDs.Count == 0)
+                            {
+                                break;
+                            }
+                            else if (targetIDs != null && targetIDs.Count > 0)
+                            {
+                                ProcessItemUse(casterID, item, targetIDs);
+                                break;
+                            }
+                            yield return null;
+                        }
+                        break;
+                    case EquipInvokeType.targetPos:
+                        //todo 暂时不支持，目前复制的选择目标对象逻辑
+                        targetIDs = null;
+                        BattleManager.Instance.chessboardManager.SelectTargets(item);
+                        // 等待玩家选择目标，比如点击其他游戏对象
+                        while (true)
+                        {
+                            if (targetIDs != null && targetIDs.Count == 0)
+                            {
+                                break;
+                            }
+                            else if (targetIDs != null && targetIDs.Count > 0)
+                            {
+                                ProcessItemUse(casterID, item, targetIDs);
+                                break;
+                            }
+                            yield return null;
+                        }
+                        break;
+                    default:
+                        Debug.LogError("TriggerEffect unknown item.equipDefine.invokeType");
+                        break;
                 }
-                yield return null;
-            }
+                break;
+            case ItemType.expendable:
+                ProcessItemUse(casterID, item, new List<string> { casterID });
+                break;
+            case ItemType.treasure:
+                ProcessItemUse(casterID, item, new List<string> { casterID });
+                break;
+            default:
+                Debug.LogError("TriggerEffect unknown item type");
+                break;
         }
     }
 
@@ -101,45 +143,58 @@ public class EquipManager : MonoSingleton<EquipManager>
         item.Unequip();
     }
 
-    public void ProcessItemUse(string casterID, StoreItemModel item, List<string> targetIDs, bool characterOrBattleItem)
+    public void ProcessItemUse(string casterID, StoreItemModel item, List<string> targetIDs)
     {
-        if (!characterOrBattleItem && item.takeEnergy > 0)
+        switch (item.type)
         {
-            //战斗需要消耗能量的物品使用时，扣除能量
-            var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
-            target.attributes.currentEnergy -= item.takeEnergy;
-            if (target.attributes.currentEnergy == 0 &&
-                item.effects.Where(effect => effect.invokeType == EffectInvokeType.useInstant &&
-                    effect.effectType == EffectType.attack).ToList().Count > 0)
-            {
-                //能量为0，并且是攻击行为
-                target.lastEnergyAttackSubject.OnNext(Unit.Default);
-            }
-            NorneStore.Instance.Update<BattleItem>(target, true);
-        }
-        InvokeEffect(EffectInvokeType.useInstant, casterID, targetIDs, item, characterOrBattleItem);
-        if (item.type == ItemType.expendable)
-        {
-            if (characterOrBattleItem)
-            {
+            case ItemType.equip:
+                if (item.equipDefine.takeEnergy > 0)
+                {
+                    //战斗需要消耗能量的物品使用时，扣除能量
+                    var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
+                    target.attributes.currentEnergy -= item.equipDefine.takeEnergy;
+                    if (target.attributes.currentEnergy == 0 &&
+                        item.effects.Where(effect => effect.invokeType == EffectInvokeType.useInstant &&
+                            effect.effectType == EffectType.attack).ToList().Count > 0)
+                    {
+                        //能量为0，并且是攻击行为
+                        target.lastEnergyAttackSubject.OnNext(Unit.Default);
+                    }
+                    NorneStore.Instance.Update<BattleItem>(target, true);
+                }
+                InvokeEffect(EffectInvokeType.useInstant, casterID, targetIDs, item);
+                if (item.equipDefine.isExpendable)
+                {
+                    var target = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(casterID)).Value;
+                    EquipDrop(target, item);
+                }
+                break;
+            case ItemType.expendable:
+                InvokeEffect(EffectInvokeType.useInstant, casterID, targetIDs, item);
                 RepoDrop(item);
-            } else
-            {
-                var target = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(casterID)).Value;
-                EquipDrop(target, item);
-            }
+                break;
+            case ItemType.treasure:
+                GameManager.Instance.treasureManager.InvokeTreasureEffect(item.treasureDefine.ID);
+                break;
+            default:
+                Debug.LogError("TriggerEffect unknown item type");
+                break;
         }
     }
 
-    public void ProcessEffect(string casterID, List<string> targetIDs, StoreItemModel item, Effect effect, bool characterOrBattleItem)
+    public void ProcessEffect(string casterID, List<string> targetIDs, StoreItemModel item, Effect effect)
     {
-        if (characterOrBattleItem)
+        switch (item.type)
         {
-            ProcessEffect_Character(casterID, targetIDs, item, effect);
-        }
-        else
-        {
-            ProcessEffect_BattleItem(casterID, targetIDs, item, effect);
+            case ItemType.equip:
+                ProcessEffect_BattleItem(casterID, targetIDs, item, effect);
+                break;
+            case ItemType.expendable:
+                ProcessEffect_Character(casterID, targetIDs, item, effect);
+                break;
+            default:
+                Debug.LogError("ProcessEffect unknown item type");
+                break;
         }
     }
 
@@ -312,15 +367,15 @@ public class EquipManager : MonoSingleton<EquipManager>
                     var caster = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
                     if (!caster.isSilent)
                     {
-                        var attackStatus = BattleManager.Instance.ProcessNormalAttack(casterID, targetIDs, effect.Value);
+                        var attackStatus = BattleManager.Instance.ProcessNormalAttack(casterID, targetIDs, item.equipDefine.baseAccuracy, effect.Value, item.equipDefine.equipClass);
                         switch (attackStatus)
                         {
                             case AttackStatus.normal:
-                                InvokeEffect(EffectInvokeType.damage, casterID, targetIDs, item, false);
+                                InvokeEffect(EffectInvokeType.damage, casterID, targetIDs, item);
                                 break;
                             case AttackStatus.toDeath:
                                 caster.defeatSubject.OnNext(Unit.Default);
-                                InvokeEffect(EffectInvokeType.toDeath, casterID, targetIDs, item, false);
+                                InvokeEffect(EffectInvokeType.toDeath, casterID, targetIDs, item);
                                 break;
                         }
                         caster.haveAttackedInRound = true;
@@ -333,14 +388,14 @@ public class EquipManager : MonoSingleton<EquipManager>
         }
     }
 
-    private void InvokeEffect(EffectInvokeType invokeType, string casterID, List<string> targetIDs, StoreItemModel item, bool characterOrBattleItem)
+    private void InvokeEffect(EffectInvokeType invokeType, string casterID, List<string> targetIDs, StoreItemModel item)
     {
         var useEffects = item.effects.Where(effect => effect.invokeType == invokeType).ToList();
         if (useEffects.Count > 0)
         {
             foreach (var effect in useEffects)
             {
-                ProcessEffect(casterID, targetIDs, item, effect, characterOrBattleItem);
+                ProcessEffect(casterID, targetIDs, item, effect);
             }
         }
     }

@@ -89,13 +89,6 @@ public class Effect
         get { return value ?? 0; }
         set { this.value = value; }
     }
-
-    public Effect Copy()
-    {
-        Effect copy = (Effect)this.MemberwiseClone();
-
-        return copy;
-    }
 }
 
 public class StoreItemDefine

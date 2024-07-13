@@ -125,13 +125,11 @@ public class Attributes
         this.LoadFinalAttributes();
     }
     //初始化预制的角色
-    public void Init(CharacterDefine define, int level, List<StoreItemDefine> equips)
+    public void Init(CharacterDefine define, int level)
     {
         this.LoadInitAttribute(this.Initial, define, false);
         this.level = level;
         this.LoadGrowthAttribute(this.Growth, define.Job, level, false);
-        this.LoadEquipAttributes(this.Equip, equips, false);
-        
         this.LoadFinalAttributes();
     }
 
@@ -193,14 +191,14 @@ public class Attributes
         }
     }
     //加载装备属性
-    private void LoadEquipAttributes(AttributeData attr, List<StoreItemDefine> equips, bool loadFinal = true)
+    private void LoadEquipAttributes(AttributeData attr, List<StoreItemModel> equips, bool loadFinal = true)
     {
         attr.Reset();
         if (equips == null) return;
         //所有装备加成加起来得到装备总属性加成
         foreach (var define in equips)
         {
-            attr = attr + define.attr;
+            attr = attr + define.equipDefine.attr;
         }
         if (loadFinal)
         {

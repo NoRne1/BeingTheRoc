@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Newtonsoft.Json;
 using UniRx;
 using UnityEngine;
 
@@ -47,17 +48,6 @@ public class GameUtil : Singleton<GameUtil>
         else
         {
             return false;
-        }
-    }
-
-    public int CalcDamage(float power, float agile, float attack, float armor)
-    {
-        if (UnityEngine.Random.Range(0f, 100f) < agile)
-        {
-            return 0;
-        } else
-        {
-            return (int)Mathf.Floor(power * (1f + attack / 100f) * (1 - (armor * 0.05f / (1f + armor * 0.05f))));
         }
     }
 
@@ -421,5 +411,11 @@ public class GameUtil : Singleton<GameUtil>
         strength = Math.Max(0, Math.Min(60, strength));
 
         return (int)strength;
+    }
+
+    public T DeepCopy<T>(T obj)
+    {
+        string json = JsonConvert.SerializeObject(obj);
+        return JsonConvert.DeserializeObject<T>(json);
     }
 }

@@ -3,9 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UniRx;
-using Unity.Burst.Intrinsics;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public enum PageType
 {
@@ -25,7 +23,6 @@ public class GameManager : MonoSingleton<GameManager>
     public UICommonUI commonUI;
     public CanvasGroup taBlackPanel;
     public Dictionary<PageType, GameObject> pagesDic = new Dictionary<PageType, GameObject>();
-
 
     public BehaviorSubject<int> featherCoin = new BehaviorSubject<int>(1000);
     public BehaviorSubject<int> timeLeft = new BehaviorSubject<int>(30);

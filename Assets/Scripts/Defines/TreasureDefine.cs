@@ -13,13 +13,9 @@ public enum TreasureInvokeType
 public class TreasureDefine
 {
     public int ID { get; set; }
+    public bool allowMulti { get; set; }
     public TreasureInvokeType invokeType { get; set; }
     public string methodName { get; set; }
-
-    public TreasureDefine Copy()
-    {
-        TreasureDefine copy = (TreasureDefine)this.MemberwiseClone();
-
-        return copy;
-    }
+    public int value { get; set; }
+    public int counter = 0;
 }

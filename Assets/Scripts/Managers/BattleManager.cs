@@ -159,6 +159,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         this.battleInfo = battleInfo;
         
         roundManager.StartBattle();
+        GameManager.Instance.treasureManager.BattleStart();
     }
 
     public void RoundEnd()
@@ -199,7 +200,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         if (uuid == battleItem0.uuid && battleItem0.battleItemType == BattleItemType.player)
         {
             //只处理正在行动的玩家角色的装备点击
-            EquipManager.Instance.Use(uuid, equipItem.storeItem, false);
+            ItemUseManager.Instance.Use(uuid, equipItem.storeItem);
         }
     }
 
@@ -215,7 +216,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     // 常规攻击（受属性影响，会暴击，触发特效）
     // 此处返回的AttackStatus是为了触发击伤和击杀效果
-    public AttackStatus ProcessNormalAttack(string selfID, List<string> targetIDs, int value)
+    public AttackStatus ProcessNormalAttack(string selfID, List<string> targetIDs, int baseAccuracy, int value, EquipClass equipClass = EquipClass.none)
     {
         var self = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(selfID)).Value;
         List<AttackStatus> statuses = new List<AttackStatus>();
@@ -224,13 +225,19 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             AttackStatus tempStatus;
             var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(id)).Value;
-            bool hitFlag = GlobalAccess.GetRandomRate(100 - target.attributes.Dodge + self.attributes.Accuracy);
+            int[] Data = new int[(int)EquipClass.MAX];
+            Data[(int)equipClass] = GameManager.Instance.treasureManager.equipClassEffect.ContainsKey(equipClass) ?
+                GameManager.Instance.treasureManager.equipClassEffect[equipClass] : 0;
+            bool hitFlag = GlobalAccess.GetRandomRate(baseAccuracy *
+                    (1 - target.attributes.Dodge / 100.0f) *
+                    (1 + (self.attributes.Accuracy + Data[(int)EquipClass.arrow]) / 100.0f)
+                );
             bool criticalFlag = GlobalAccess.GetRandomRate(self.attributes.Lucky);
             if (!hitFlag)
             {
                 statuses.Add(AttackStatus.miss);
             }
-            int damage = (int)(value
+            int damage = (int)((value + Data[(int)EquipClass.sword])
                 * (1 + self.attributes.Strength / 100.0f) //力量乘区
                 * (1 - target.attributes.Defense / (target.attributes.Defense + 100.0f)) //防御乘区
                 * (hitFlag ? 1 : 0) //命中乘区

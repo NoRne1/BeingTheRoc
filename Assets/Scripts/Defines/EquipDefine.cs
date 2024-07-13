@@ -22,6 +22,7 @@ public enum EquipClass
     none = -1,
     sword = 0,
     arrow = 1,
+    MAX
 }
 
 public enum EquipInvokeType
@@ -43,6 +44,8 @@ public class EquipDefine
     public int takeEnergy { get; set; }
     public string equipResource { get; set; }
     public string desc { get; set; }
+    // just for attack
+    public int baseAccuracy { get; set; }
     public Effect effect1 { get; set; }
     public Effect effect2 { get; set; }
     public Effect effect3 { get; set; }
@@ -215,20 +218,5 @@ public class EquipDefine
             default:
                 return null;
         }
-    }
-
-    public EquipDefine Copy()
-    {
-        EquipDefine copy = (EquipDefine)this.MemberwiseClone();
-
-        // Deep copy for reference types
-        copy.attr = new AttributeData();
-        copy.tempOccupiedCells = null;
-        copy.occupiedCells = null;
-        copy.effect1 = effect1.Copy();
-        copy.effect2 = effect2.Copy();
-        copy.effect3 = effect3.Copy();
-
-        return copy;
     }
 }

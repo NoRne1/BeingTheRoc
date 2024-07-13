@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UniRx;
 using UnityEngine;
+using System.Linq;
 
 public class TreasureManager
 {
@@ -9,6 +11,7 @@ public class TreasureManager
     private DisposablePool battleDisposablePool;
     private Timer timer;
     private Dictionary<int, (StoreItemModel, int)> treasures;
+    public Dictionary<EquipClass, int> equipClassEffect = new Dictionary<EquipClass, int>();
 
     public TreasureManager()
     {
@@ -29,10 +32,45 @@ public class TreasureManager
         battleDisposablePool.CleanDisposables();
     }
 
+    public void BattleStart()
+    {
+        var list = treasures.Values.Where(pair => pair.Item1.treasureDefine.invokeType == TreasureInvokeType.battleStart).ToList();
+        foreach(var pair in list)
+        {
+            InvokeTreasureEffect(pair.Item1.subID);
+        }
+    }
+
     public void BattleEnd()
     {
         battleDisposablePool.CleanDisposables();
         timer.Clean();
+        equipClassEffect.Clear();
+    }
+
+
+    public void InvokeTreasureEffect(int id)
+    {
+        if (treasures.ContainsKey(id))
+        {
+            switch (treasures[id].Item1.treasureDefine.invokeType)
+            {
+                case TreasureInvokeType.normalUse:
+                case TreasureInvokeType.battleUse:
+                case TreasureInvokeType.battleStart:
+                    Debug.Log("Treasure " + treasures[id].Item1.title + " effect invoked");
+                    var method = typeof(TreasureManager).GetMethod(treasures[id].Item1.treasureDefine.methodName);
+                    object[] parameters = new object[] { treasures[id].Item1, treasures[id].Item2, treasures[id].Item1.treasureDefine.value };
+                    method?.Invoke(this, parameters);
+                    break;
+                default:
+                    Debug.LogError("Invoke unknown invokeType Effect");
+                    break;
+            }
+        } else
+        {
+            Debug.LogWarning("Invoke not contained Effect");
+        }
     }
 
     public bool AddTreasure(StoreItemModel item)
@@ -79,6 +117,53 @@ public class TreasureManager
         } else
         {
             return (null, 0);
+        }
+    }
+
+
+    private void KingArrow(StoreItemModel item, int num, int value)
+    {
+        if (!equipClassEffect.ContainsKey(EquipClass.arrow))
+        {
+            equipClassEffect.Add(EquipClass.arrow, num * value);
+        }
+    }
+
+    private void TreasureBowl(StoreItemModel item, int num, int value)
+    {
+        if (GlobalAccess.GetRandomRate_affected(value))
+        {
+            //存储失败，储蓄罐破裂
+            GameManager.Instance.CoinChanged(item.treasureDefine.counter * 2);
+            RemoveTreasure(item.subID);
+        } else
+        {
+            GameManager.Instance.CoinChanged(-100);
+            item.treasureDefine.counter += 100;
+        }
+    }
+
+    private void ShieldToken(StoreItemModel item, int num, int value)
+    {
+        battleDisposablePool.SaveDisposable(item.uuid + "ShieldToken", BattleManager.Instance.roundManager.roundTime.AsObservable().TakeUntilDestroy(GameManager.Instance)
+            .Where(round => {
+                    var battleItem = GlobalAccess.GetBattleItem(round.Item1);
+                    return round.Item2 == RoundTime.begin && BattleManager.Instance.roundManager.extraRound == 0 &&
+                    battleItem.battleItemType == BattleItemType.player;
+                })
+            .Subscribe(round =>
+            {
+                var battleItem = GlobalAccess.GetBattleItem(round.Item1);
+                battleItem.attributes.currentShield += value * num;
+                GlobalAccess.SaveBattleItem(battleItem);
+            }));
+    }
+
+    private void SwordStone(StoreItemModel item, int num, int value)
+    {
+        if (!equipClassEffect.ContainsKey(EquipClass.sword))
+        {
+            equipClassEffect.Add(EquipClass.sword, num * value);
         }
     }
 }

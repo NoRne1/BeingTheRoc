@@ -52,24 +52,8 @@ public class SkillManager : MonoSingleton<SkillManager>
 
     private void HunYuanSword_0(string casterID, PropertyType type, int value)
     {
-        StoreItemDefine sword = new StoreItemDefine();
-        sword.type = ItemType.equip;
-        sword.equipType = EquipType.X2_1;
-        sword.invokeType = ItemInvokeType.equipTarget;
-        sword.targetRange = TargetRange.range_2;
-        sword.title = GameUtil.Instance.GetDisplayString("混元剑坯");
-        sword.level = GeneralLevel.green;
-        sword.takeEnergy = 1;
-        sword.iconResource = "hunyuan_sword_icon";
-        sword.iconResource2 = "hunyuan_sword_icon_big";
-        sword.desc = GameUtil.Instance.GetDisplayString("混元剑坯balabalabalabala");
-        Effect effect1 = new Effect();
-        effect1.effectType = EffectType.attack;
-        effect1.propertyType = PropertyType.none;
-        effect1.Value = 10;
-        sword.effect1 = effect1;
-        hunyuanSword = new StoreItemModel(sword);
-        GameManager.Instance.repository.AddItem(new StoreItemModel(sword));
+        StoreItemDefine sword = DataManager.Instance.StoreItems[19];
+        GameManager.Instance.repository.AddItem(new StoreItemModel(DataManager.Instance.StoreItems[19]));
     }
 
     private void HunYuanYu(string casterID, PropertyType type, int value)
@@ -89,7 +73,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     {
         if (hunyuanSword != null)
         {
-            hunyuanSword.effect1.value += 5;
+            hunyuanSword.equipDefine.effect1.value += 5;
         }
     }
 
@@ -136,7 +120,7 @@ public class SkillManager : MonoSingleton<SkillManager>
             effect.effectType = EffectType.skill;
             effect.invokeType = EffectInvokeType.useInstant;
             effect.methodName = "ReturnEnergy";
-            effect.Value = hunyuanSword.takeEnergy;
+            effect.Value = hunyuanSword.equipDefine.takeEnergy;
             hunyuanSword.effects.Add(effect);
         }
     }
