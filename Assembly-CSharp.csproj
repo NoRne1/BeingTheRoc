@@ -101,6 +101,7 @@
     <Compile Include="Assets/Scripts/UI/UISkillButton.cs" />
     <Compile Include="Assets/Scripts/Defines/GoodsDefine.cs" />
     <Compile Include="Assets/Scripts/Utilities/ObjectPool.cs" />
+    <Compile Include="Assets/Scripts/UI/UITreasureItem.cs" />
     <Compile Include="Assets/Scripts/Defines/BattleItem.cs" />
     <Compile Include="Assets/Scripts/Defines/EquipDefine.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/DictionaryExtensions.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Assets/Scripts/Defines/TownActionDefine.cs" />
     <Compile Include="Assets/Scripts/Defines/BuffDefine.cs" />
     <Compile Include="Assets/Scripts/UI/UISetting.cs" />
+    <Compile Include="Assets/Scripts/UI/UITreasuresRect.cs" />
     <Compile Include="Assets/Scripts/Managers/BattleManager.cs" />
     <Compile Include="Assets/Scripts/UI/UISkillHint.cs" />
     <Compile Include="Assets/Scripts/Models/RepositoryModel.cs" />

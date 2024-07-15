@@ -9,7 +9,7 @@ public class EnermyModel: IStorable
     public int remainExp = 0;
     public Backpack backpack;
 
-    public Subject<bool> enermyUpdate = new Subject<bool>();
+    public Subject<Unit> enermyUpdate = new Subject<Unit>();
     private System.IDisposable disposable;
     public CharacterDefine define;
     public Attributes attributes;

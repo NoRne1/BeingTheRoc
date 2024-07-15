@@ -40,6 +40,9 @@ public class BattleItem: IStorable
 
     public EnemyAI enemyAI;
 
+    public Subject<Unit> battleItemUpdate = new Subject<Unit>();
+    private System.IDisposable updateDisposable;
+
     // other attribute
     public bool isInvisible = false;
     public bool canActing = true;
@@ -55,9 +58,22 @@ public class BattleItem: IStorable
     public Subject<Vector2> moveSubject = new Subject<Vector2>();
     public Subject<Unit> lastEnergyAttackSubject = new Subject<Unit>();
 
-    public BattleItem() {}
+    public BattleItem()
+    {
+        updateDisposable = battleItemUpdate.AsObservable().Subscribe(_ =>
+        {
+            NorneStore.Instance.Update<BattleItem>(this, isFull: true);
+        });
+    }
 
-    public BattleItem(BattleItemType type) {
+    // just for NorneStore
+    public BattleItem(string uuid)
+    {
+        this.uuid = uuid;
+    }
+
+    public BattleItem(BattleItemType type)
+    {
         switch (type)
         {
             case BattleItemType.player:
@@ -74,6 +90,15 @@ public class BattleItem: IStorable
         }
     }
 
+    ~BattleItem()
+    {
+        if (updateDisposable != null)
+        {
+            updateDisposable.Dispose();
+            updateDisposable = null;
+        }
+    }
+
     public void LoadSkills()
     {
         skills.Clear();
@@ -84,14 +109,9 @@ public class BattleItem: IStorable
         skills = skills.Where(id => id != -1).ToList();
     }
 
-    public BattleItem(string uuid)
-    {
-        this.uuid = uuid;
-    }
-
     public void BattleInit()
     {
-        buffCenter = new BuffCenter(this.uuid);
+        buffCenter = new BuffCenter(this.uuid, battleItemUpdate);
         this.attributes.BattleInit();
     }
 

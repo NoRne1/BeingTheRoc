@@ -10,8 +10,11 @@ public class TreasureManager
     private DisposablePool normalDisposablePool;
     private DisposablePool battleDisposablePool;
     private Timer timer;
-    private Dictionary<int, (StoreItemModel, int)> treasures;
+    //item.ID not item.subID
+    private Dictionary<int, (StoreItemModel, int)> treasures = new Dictionary<int, (StoreItemModel, int)>();
     public Dictionary<EquipClass, int> equipClassEffect = new Dictionary<EquipClass, int>();
+
+    public Subject<Unit> treasuresUpdate = new Subject<Unit>();
 
     public TreasureManager()
     {
@@ -37,7 +40,7 @@ public class TreasureManager
         var list = treasures.Values.Where(pair => pair.Item1.treasureDefine.invokeType == TreasureInvokeType.battleStart).ToList();
         foreach(var pair in list)
         {
-            InvokeTreasureEffect(pair.Item1.subID);
+            InvokeTreasureEffect(pair.Item1.ID);
         }
     }
 
@@ -89,6 +92,7 @@ public class TreasureManager
         {
             treasures.Add(item.ID, (item, 1));
         }
+        treasuresUpdate.OnNext(Unit.Default);
         return true;
     }
 
@@ -106,7 +110,13 @@ public class TreasureManager
             {
                 treasures[id] = (treasures[id].Item1, tempNum - num);
             }
+            treasuresUpdate.OnNext(Unit.Default);
         }
+    }
+
+    public List<(StoreItemModel, int)> GetTreasuresList()
+    {
+        return treasures.Values.ToList();
     }
 
     public (StoreItemModel, int) FindTreasure(int id)
@@ -135,7 +145,7 @@ public class TreasureManager
         {
             //存储失败，储蓄罐破裂
             GameManager.Instance.CoinChanged(item.treasureDefine.counter * 2);
-            RemoveTreasure(item.subID);
+            RemoveTreasure(item.ID);
         } else
         {
             GameManager.Instance.CoinChanged(-100);

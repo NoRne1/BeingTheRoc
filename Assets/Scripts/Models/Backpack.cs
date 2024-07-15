@@ -7,11 +7,11 @@ using static UnityEditor.Progress;
 public class Backpack
 {
     public string characterID;
-    public Subject<bool> characterUpdate;
+    public Subject<Unit> characterUpdate;
     public List<StoreItemModel> equips = new List<StoreItemModel>();
     public Dictionary<Vector2Int, StoreItemModel> grid = new Dictionary<Vector2Int, StoreItemModel>();
     
-    public Backpack(string characterID, int sizeX, int sizeY, Subject<bool> subject)
+    public Backpack(string characterID, int sizeX, int sizeY, Subject<Unit> subject)
     {
         this.characterID = characterID;
         // 初始化背包，所有位置都为空
@@ -54,13 +54,12 @@ public class Backpack
             }
             equips.Add(item);
             item.Equip(characterID, position);
-            characterUpdate.OnNext(true);
+            characterUpdate.OnNext(Unit.Default);
             return true;
         }
         return false;
     }
 
-    //没写完
     public bool MoveTo(StoreItemModel item, Vector2Int position)
     {
         Dictionary<Vector2Int, StoreItemModel> copiedGrid = grid.ToDictionary(entry => entry.Key, entry => entry.Value);
@@ -77,7 +76,7 @@ public class Backpack
             //RemoveItemsByUUID中删除了装备，需要加回来
             equips.Add(item);
             item.Equip(characterID, position);
-            characterUpdate.OnNext(true);
+            characterUpdate.OnNext(Unit.Default);
             //只需要更新装备位置，旋转自动更新
             return true;
         }
@@ -98,7 +97,7 @@ public class Backpack
         equips.RemoveAll(item => item.uuid == uuid);
         if (this.RemoveItemsByUUID(uuid, grid))
         {
-            characterUpdate.OnNext(true);
+            characterUpdate.OnNext(Unit.Default);
         }
     }
 

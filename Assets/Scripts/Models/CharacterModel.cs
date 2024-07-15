@@ -8,7 +8,7 @@ public class CharacterModel: IStorable
     public Backpack backpack;
     public Attributes attributes;
 
-    public Subject<bool> characterUpdate = new Subject<bool>();
+    public Subject<Unit> characterUpdate = new Subject<Unit>();
     private System.IDisposable disposable;
     public CharacterDefine define;
 

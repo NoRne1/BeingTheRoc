@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class UIBattleBuffIcon : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Image icon;
+    public GameObject buffNumObject;
+    public TextMeshProUGUI buffNumText;
 
-    // Update is called once per frame
-    void Update()
+    public void Setup(BuffModel buff)
     {
-        
+        icon.overrideSprite = Resloader.LoadSprite(buff.Resource, ConstValue.buffsPath);
+        buffNumObject.SetActive(buff.num > 1);
+        buffNumText.text = buff.num.ToString();
     }
 }

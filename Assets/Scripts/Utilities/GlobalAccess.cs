@@ -15,7 +15,7 @@ class GlobalAccess
 {
     public static int levelUpExp = 100;
     public static int maxLevel = 3;
-    public static int teamOpacity = 5;
+    public static int teamOpacity = 6;
     public static int mainCharacterNum = 3;
     public static int subCharacterStartIndex = 100;
     public static float roundDistance = 10000.0f;

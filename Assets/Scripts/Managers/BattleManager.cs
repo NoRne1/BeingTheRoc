@@ -51,6 +51,8 @@ public class BattleManager : MonoSingleton<BattleManager>
     public UIBattleItemInfo uiBattleItemInfo;
     public UIBattleBag uiBattleBag;
     public TownBattleInfoModel battleInfo;
+    public UITreasuresRect treasuresRect;
+    
 
     // Data
     public float difficultyExtraFactor = 0f;
@@ -70,6 +72,12 @@ public class BattleManager : MonoSingleton<BattleManager>
             {
                 difficultyExtraFactor += 0.2f;
             }
+        });
+        treasuresRect.Setup(GameManager.Instance.treasureManager.GetTreasuresList());
+        GameManager.Instance.treasureManager.treasuresUpdate.AsObservable()
+            .TakeUntilDestroy(this).Subscribe(_ =>
+        {
+            treasuresRect.Setup(GameManager.Instance.treasureManager.GetTreasuresList());
         });
     }
 

@@ -465,6 +465,8 @@
 "Assets/Scripts/UI/UITownActionPanel.cs"
 "Assets/Scripts/UI/UITownNode.cs"
 "Assets/Scripts/UI/UITownPage.cs"
+"Assets/Scripts/UI/UITreasureItem.cs"
+"Assets/Scripts/UI/UITreasuresRect.cs"
 "Assets/Scripts/UI/UIWeatherPanel.cs"
 "Assets/Scripts/UI/UIWindow.cs"
 "Assets/Scripts/Utilities/ActionTree.cs"

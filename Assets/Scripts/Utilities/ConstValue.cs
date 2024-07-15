@@ -8,6 +8,7 @@ public static class ConstValue
     public const string moveBarPath = "MoveBar/";
     public const string playersPath = "Players/";
     public const string skillsPath = "Skills/";
+    public const string buffsPath = "Buffs/";
     public const string townActionPath = "TownAction/";
 
     public const string musicPath = "Music/";

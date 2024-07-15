@@ -8,12 +8,14 @@ using UniRx;
 public class BuffCenter
 {
     private string ownerID;
-    // (string, string): (buff.ID, casterID)
+    // (int, string): (buff.ID, casterID)
     private Dictionary<(int, string), BuffModel> buffs = new Dictionary<(int, string), BuffModel>();
+    public Subject<Unit> battleItemUpdate;
 
-    public BuffCenter(string ownerID)
+    public BuffCenter(string ownerID, Subject<Unit> subject)
     {
         this.ownerID = ownerID;
+        battleItemUpdate = subject;
     }
 
     public void AddBuff(BuffDefine buffDefine, string casterID)
@@ -85,6 +87,7 @@ public class BuffCenter
                 }
                 break;
         }
+        battleItemUpdate.OnNext(Unit.Default);
     }
 
     //public void RemoveBuff(int buffDefineID)
@@ -113,6 +116,7 @@ public class BuffCenter
                 }
             }
         }
+        battleItemUpdate.OnNext(Unit.Default);
     }
 
     public void RoundBegin()
@@ -138,6 +142,7 @@ public class BuffCenter
                     RemoveBuff(buff.uuId);
                 }
             }
+            battleItemUpdate.OnNext(Unit.Default);
         }
     }
 
@@ -190,6 +195,7 @@ public class BuffCenter
                     RemoveBuff(buff.uuId);
                 }
             }
+            battleItemUpdate.OnNext(Unit.Default);
         }
     }
 
@@ -203,5 +209,16 @@ public class BuffCenter
                 BuffManager.Instance.InvokeBuff(buff, distance);
             }
         }
+    }
+
+    public List<BuffModel> GetNewestBuffs(int num)
+    {
+        if (num <= 0)
+        {
+            return new List<BuffModel>(); // 返回一个空列表
+        }
+
+        int start = Math.Max(0, buffs.Values.Count - num);
+        return buffs.Values.Skip(start).ToList();
     }
 }

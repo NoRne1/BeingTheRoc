@@ -64,9 +64,10 @@ public class UIBattleItemInfo : MonoBehaviour
                         }
                         //todo actual buff
                         buffPool.ReturnAllObject();
-                        for (int i = 0; i < Random.Range(1, 3); i++)
+                        var buffList = item.buffCenter.GetNewestBuffs(5);
+                        for (int i = 0; i < buffList.Count; i++)
                         {
-                            buffPool.GetObjectFromPool();
+                            buffPool.GetObjectFromPool().GetComponent<UIBattleBuffIcon>().Setup(buffList[i]);
                         }
                         break;
                     case BattleItemType.sceneItem:
