@@ -69,6 +69,8 @@ public class UIShopPage : MonoBehaviour
             tip.UpdateTip(DataManager.Instance.Language["go_next_town_tip"]);
         } else if (shopItems[index].info.type == ItemType.treasure) {
             //treasure不占仓库，需特殊处理
+            shopItems[index].ItemSold(true);
+            GameManager.Instance.CoinChanged(-shopItems[index].info.price);
             GameManager.Instance.treasureManager.AddTreasure(new StoreItemModel(shopItems[index].info));
         } else if (!GameManager.Instance.repository.remainOpacity)
         {

@@ -86,7 +86,7 @@ public class TreasureManager
         if (treasures.ContainsKey(item.ID))
         {
             var tempNum = treasures[item.ID].Item2;
-            treasures[item.ID] = (treasures[item.ID].Item1, tempNum++);
+            treasures[item.ID] = (treasures[item.ID].Item1, ++tempNum);
         }
         else
         {

@@ -213,9 +213,13 @@ public class BuffCenter
 
     public List<BuffModel> GetNewestBuffs(int num)
     {
-        if (num <= 0)
+        if (num == 0)
         {
             return new List<BuffModel>(); // 返回一个空列表
+        }
+        if (num < 0)
+        {
+            return buffs.Values.ToList(); // 返回全部buff
         }
 
         int start = Math.Max(0, buffs.Values.Count - num);

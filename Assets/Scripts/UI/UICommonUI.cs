@@ -11,7 +11,6 @@ public enum CommonUIStyle
     town = 1,
     actionPage = 2,
     battle = 3,
-    
 }
 
 public class UICommonUI : MonoBehaviour
@@ -21,7 +20,8 @@ public class UICommonUI : MonoBehaviour
     public UIWeatherPanel weatherPanel;
     public GameObject timeLeftGroup;
     public GameObject rightButtonGroup;
-    public UIPopButtonGroup uIPopButtonGroup;
+    public PopObjComponent uIPopButtonGroup;
+    public UITreasuresRect treasuresRect;
     // Start is called before the first frame update
     void Start()
     {
@@ -50,29 +50,35 @@ public class UICommonUI : MonoBehaviour
             case CommonUIStyle.town:
                 gameObject.SetActive(true);
                 setLeftButtonStyle(true);
-                setPopButtonAutoHide(false);
+                setBottomPopButtonAutoHide(false);
                 hideRightButtonGroup(false);
                 hideTimeLeftGroup(false);
                 weatherPanel.gameObject.SetActive(false);
                 uIPopButtonGroup.gameObject.SetActive(true);
+                setLeftRectAutoHide(true);
+                treasuresRect.gameObject.SetActive(true);
                 break;
             case CommonUIStyle.actionPage:
                 gameObject.SetActive(true);
                 setLeftButtonStyle(false);
-                setPopButtonAutoHide(true);
+                setBottomPopButtonAutoHide(true);
                 hideRightButtonGroup(false);
                 hideTimeLeftGroup(false);
                 weatherPanel.gameObject.SetActive(false);
                 uIPopButtonGroup.gameObject.SetActive(true);
+                setLeftRectAutoHide(true);
+                treasuresRect.gameObject.SetActive(true);
                 break;
             case CommonUIStyle.battle:
                 gameObject.SetActive(true);
                 setLeftButtonStyle(false);
-                setPopButtonAutoHide(true);
+                setBottomPopButtonAutoHide(true);
                 hideRightButtonGroup(true);
                 hideTimeLeftGroup(false);
                 weatherPanel.gameObject.SetActive(true);
                 uIPopButtonGroup.gameObject.SetActive(true);
+                setLeftRectAutoHide(true);
+                treasuresRect.gameObject.SetActive(true);
                 break;
         }
         
@@ -89,7 +95,12 @@ public class UICommonUI : MonoBehaviour
         GameManager.Instance.SwitchPage(PageType.town);
     }
 
-    public void setPopButtonAutoHide(bool autoHide)
+    public void setLeftRectAutoHide(bool autoHide)
+    {
+        treasuresRect.GetComponent<PopObjComponent>().AutoHidden = autoHide;
+    }
+
+    public void setBottomPopButtonAutoHide(bool autoHide)
     {
         uIPopButtonGroup.AutoHidden = autoHide;
     }

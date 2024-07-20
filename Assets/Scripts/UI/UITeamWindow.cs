@@ -19,9 +19,7 @@ public class UITeamWindow : UIWindow
     // Start is called before the first frame update
     void Start()
     {
-        infoPage.levelUpButton.OnClickAsObservable().Subscribe(_ => {
-            LevelUp();
-        });
+
     }
 
     // Update is called once per frame

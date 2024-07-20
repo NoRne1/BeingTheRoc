@@ -40,8 +40,7 @@ public class UITeamBagPage : MonoBehaviour
     public Transform equipFather;
     public GameObject repositor;
     public System.IDisposable disposable;
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         disposable = GameManager.Instance.repository.itemsRelay.AsObservable()
             .TakeUntilDestroy(this).Subscribe(items =>

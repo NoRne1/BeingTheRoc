@@ -48,7 +48,7 @@ public class UITreasureItem : MonoBehaviour
         switch (model.type)
         {
             case ItemType.treasure:
-                icon.overrideSprite = Resloader.LoadSprite(ConstValue.equipsPath, model.iconResource);
+                icon.overrideSprite = Resloader.LoadSprite(model.iconResource, ConstValue.equipsPath);
                 switch (model.treasureDefine.invokeType)
                 {
                     case TreasureInvokeType.battleUse:
@@ -63,7 +63,6 @@ public class UITreasureItem : MonoBehaviour
 
                 numText.text = num.ToString();
                 numObject.SetActive(num > 1);
-                
                 break;
             default:
                 Debug.LogError("UITreasureItem Setup not a treasure");

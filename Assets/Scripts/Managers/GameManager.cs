@@ -32,10 +32,17 @@ public class GameManager : MonoSingleton<GameManager>
 
     public RepositoryModel repository = new RepositoryModel();
     public TreasureManager treasureManager;
+    public UITreasuresRect treasuresRect;
     // Start is called before the first frame update
     void Start()
     {
         treasureManager = new TreasureManager();
+        treasuresRect.Setup(treasureManager.GetTreasuresList());
+        treasureManager.treasuresUpdate.AsObservable()
+            .TakeUntilDestroy(this).Subscribe(_ =>
+            {
+                treasuresRect.Setup(treasureManager.GetTreasuresList());
+            });
         if (pages.Count == System.Enum.GetValues(typeof(PageType)).Length)
         {
             for (int i = 0; i < pages.Count; i++)
@@ -114,7 +121,7 @@ public class GameManager : MonoSingleton<GameManager>
                 commonUI.setUIStyle(CommonUIStyle.battle);
                 commonUI.gameObject.SetActive(true);
                 commonUI.setLeftButtonStyle(false);
-                commonUI.setPopButtonAutoHide(true);
+                commonUI.setBottomPopButtonAutoHide(true);
                 break;
             case PageType.bar:
                 commonUI.setUIStyle(CommonUIStyle.actionPage);
@@ -146,7 +153,6 @@ public class GameManager : MonoSingleton<GameManager>
                 break;
             }
         }
-
     }
 
     public void CoinChanged(int change)
