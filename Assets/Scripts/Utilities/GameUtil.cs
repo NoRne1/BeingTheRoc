@@ -215,34 +215,74 @@ public class GameUtil : Singleton<GameUtil>
         float screenWidth = Screen.width;
         float screenHeight = Screen.height;
 
-        // 获取相机的视野范围
-        float cameraOrthographicSize = Camera.main.orthographicSize;
-        float cameraAspect = Camera.main.aspect;
-
-        // 计算相机的宽度和高度
-        float cameraWidth = cameraOrthographicSize * 2 * cameraAspect;
-        float cameraHeight = cameraOrthographicSize * 2;
-
-        // 计算偏移量
+        // 偏移量变量
         float offsetX = 0f;
         float offsetY = 0f;
 
-        // 如果物体越过了屏幕边界，则调整偏移量使其保持在屏幕内
-        if (screenPosition.x + prefabSize.x <= screenWidth)
+        // 四个角落的可用空间和超出屏幕的面积
+        float topLeftOverflow = 0f;
+        float topRightOverflow = 0f;
+        float bottomLeftOverflow = 0f;
+        float bottomRightOverflow = 0f;
+
+        // 判断物体是否能够完全放在四个角落之一，并计算超出屏幕的面积
+        bool canFitTopLeft = screenPosition.x - prefabSize.x >= 0 && screenPosition.y + prefabSize.y <= screenHeight;
+        bool canFitTopRight = screenPosition.x + prefabSize.x <= screenWidth && screenPosition.y + prefabSize.y <= screenHeight;
+        bool canFitBottomLeft = screenPosition.x - prefabSize.x >= 0 && screenPosition.y - prefabSize.y >= 0;
+        bool canFitBottomRight = screenPosition.x + prefabSize.x <= screenWidth && screenPosition.y - prefabSize.y >= 0;
+
+        if (canFitBottomRight)
         {
             offsetX = prefabSize.x / 2;
+            offsetY = -prefabSize.y / 2;
+            return new Vector2(offsetX, offsetY);
         }
-        else
+        else if (canFitTopRight)
+        {
+            offsetX = prefabSize.x / 2;
+            offsetY = prefabSize.y / 2;
+            return new Vector2(offsetX, offsetY);
+        }
+        else if (canFitBottomLeft)
         {
             offsetX = -prefabSize.x / 2;
+            offsetY = -prefabSize.y / 2;
+            return new Vector2(offsetX, offsetY);
+        }
+        else if (canFitTopLeft)
+        {
+            offsetX = -prefabSize.x / 2;
+            offsetY = prefabSize.y / 2;
+            return new Vector2(offsetX, offsetY);
         }
 
-        if (screenPosition.y - prefabSize.y >= 0)
+        // 计算每个角落超出屏幕的面积
+        topLeftOverflow = Mathf.Max(0, prefabSize.x - screenPosition.x) * prefabSize.y + Mathf.Max(0, prefabSize.y + screenPosition.y - screenHeight) * prefabSize.x;
+        topRightOverflow = Mathf.Max(0, prefabSize.x + screenPosition.x - screenWidth) * prefabSize.y + Mathf.Max(0, prefabSize.y + screenPosition.y - screenHeight) * prefabSize.x;
+        bottomLeftOverflow = Mathf.Max(0, prefabSize.x - screenPosition.x) * prefabSize.y + Mathf.Max(0, prefabSize.y - screenPosition.y) * prefabSize.x;
+        bottomRightOverflow = Mathf.Max(0, prefabSize.x + screenPosition.x - screenWidth) * prefabSize.y + Mathf.Max(0, prefabSize.y - screenPosition.y) * prefabSize.x;
+
+        // 找到最小超出面积的角落
+        float minOverflow = Mathf.Min(topLeftOverflow, topRightOverflow, bottomLeftOverflow, bottomRightOverflow);
+ 
+        if (minOverflow == bottomRightOverflow)
         {
+            offsetX = prefabSize.x / 2;
             offsetY = -prefabSize.y / 2;
         }
-        else
+        else if (minOverflow == topRightOverflow)
         {
+            offsetX = prefabSize.x / 2;
+            offsetY = prefabSize.y / 2;
+        }
+        else if (minOverflow == bottomLeftOverflow)
+        {
+            offsetX = -prefabSize.x / 2;
+            offsetY = -prefabSize.y / 2;
+        }
+        else if (minOverflow == topLeftOverflow)
+        {
+            offsetX = -prefabSize.x / 2;
             offsetY = prefabSize.y / 2;
         }
 

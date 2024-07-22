@@ -11,11 +11,13 @@ public class CheckPointerEnter : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Debug.Log("CheckPointerEnter OnPointerEnter: " + eventData.ToString());
         isMouseEnter.OnNext(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        Debug.Log("CheckPointerEnter OnPointerExit: " + eventData.ToString());
         // 取消之前的延迟更新
         if (exitCoroutine != null)
             StopCoroutine(exitCoroutine);

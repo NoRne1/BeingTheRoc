@@ -1,6 +1,7 @@
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public enum HintType
 {
@@ -73,10 +74,12 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Debug.Log("HintComponent OnPointerEnter: " + eventData.ToString());
         isMouseEnter.OnNext(true);
     }
     public void OnPointerExit(PointerEventData eventData)
     {
+        Debug.Log("HintComponent OnPointerExit: " + eventData.ToString());
         isMouseEnter.OnNext(false);
     }
 
@@ -91,7 +94,7 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void Setup(string text)
     {
         type = HintType.normal;
-        hint_text = DataManager.Instance.Language[text];
+        hint_text = GameUtil.Instance.GetDisplayString(text);
     }
 
     public void Setup(StoreItemDefine storeItem)

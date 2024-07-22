@@ -51,7 +51,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public UIBattleItemInfo uiBattleItemInfo;
     public UIBattleBag uiBattleBag;
     public TownBattleInfoModel battleInfo;
-
+    public bool isInBattle = false;
     // Data
     public float difficultyExtraFactor = 0f;
 
@@ -154,6 +154,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public void StartBattle(List<string> characterIDs, TownBattleInfoModel battleInfo)
     {
+        isInBattle = true;
         BattleInit(characterIDs, battleInfo);
         
         this.battleInfo = battleInfo;
@@ -374,6 +375,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public void BattleEnd(bool result)
     {
+        isInBattle = false;
         SkillManager.Instance.BattleEnd();
         foreach (var id in battleItemManager.battleItemIDs)
         {

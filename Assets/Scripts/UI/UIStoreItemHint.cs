@@ -6,6 +6,7 @@ using TMPro;
 
 public class UIStoreItemHint : UIHintBase
 {
+    public RectTransform mainHint;
     public UIEquipRange equipRange;
     public Image titleBorder;
     public TextMeshProUGUI title;

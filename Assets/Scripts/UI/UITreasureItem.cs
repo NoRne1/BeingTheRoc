@@ -16,24 +16,42 @@ public class UITreasureItem : MonoBehaviour
     public TextMeshProUGUI numText;
 
     public StoreItemModel model;
-    private bool colorBlink = false;
+    private bool canClick = false;
 
 
     void Start()
     {
         button.OnClickAsObservable().Subscribe(_ => {
-            if (this.model != null)
+            if (this.model != null && canClick)
             {
-                GameManager.Instance.treasureManager.InvokeTreasureEffect(this.model.ID);
+                switch (model.treasureDefine.invokeType)
+                {
+                    case TreasureInvokeType.battleUse:
+                        if (BattleManager.Instance.isInBattle)
+                        {
+                            GameManager.Instance.treasureManager.InvokeTreasureEffect(this.model.ID);
+                        }
+                        break;
+                    case TreasureInvokeType.normalUse:
+                        if (!BattleManager.Instance.isInBattle)
+                        {
+                            GameManager.Instance.treasureManager.InvokeTreasureEffect(this.model.ID);
+                        }
+                        break;
+                    default:
+                        Debug.LogError("UITreasureItem clicked but invokeType can not click");
+                        break;
+                }
             }
         });
     }
 
     void Update()
     {
-        if (colorBlink)
+        if (canClick)
         {
-            var alpha = Mathf.PingPong(Time.time * 0.3f, 0.3f) + 0.5f;
+            //Time.time * 0.7f,自增值,0.7控制速率
+            var alpha = Mathf.PingPong(Time.time * 0.7f, 0.7f) + 0.3f;
             bg.color = GameUtil.Instance.hexToColor("FFEC00", alpha);
         }
         else
@@ -52,12 +70,13 @@ public class UITreasureItem : MonoBehaviour
                 switch (model.treasureDefine.invokeType)
                 {
                     case TreasureInvokeType.battleUse:
-                        button.interactable = true;
-                        colorBlink = true;
+                        canClick = true;
+                        break;
+                    case TreasureInvokeType.normalUse:
+                        canClick = true;
                         break;
                     default:
-                        button.interactable = false;
-                        colorBlink = false;
+                        canClick = false;
                         break;
                 }
 

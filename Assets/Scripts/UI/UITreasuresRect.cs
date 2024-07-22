@@ -15,6 +15,7 @@ public class UITreasuresRect : MonoBehaviour
         for(int i = 0; i < Mathf.Min(treasureItems.Count, treasures.Count); i++)
         {
             treasureItems[i].Setup(treasures[i].Item1, treasures[i].Item2);
+            treasureItems[i].GetComponent<HintComponent>().Setup(treasures[i].Item1.desc);
             treasureItems[i].gameObject.SetActive(true);
         }
         moreButton.gameObject.SetActive(treasures.Count > treasureItems.Count);

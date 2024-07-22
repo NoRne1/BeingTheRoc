@@ -9,14 +9,12 @@ public class UIDescHint: UIHintBase
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     public void Update()
     {
-        var position = Input.mousePosition;
-        transform.position = position + new Vector3(10, 10, 0);
+        updatePostion();
     }
 
     public void Setup(string text)

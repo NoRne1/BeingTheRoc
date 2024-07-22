@@ -1,24 +1,22 @@
 ﻿<Properties StartupConfiguration="{BBB342A2-6894-1B0E-77BF-1034E1720682}|">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="3803e865-9e88-43fa-a175-9923c57c2d4c" />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="0f994a1c-d731-40e5-8c6b-6b97a231b4a7" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/TreasureManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/UITreasureItem.cs">
     <Files>
-      <File FileName="Assets/Scripts/UI/UITeamWindow.cs" Line="71" Column="1" />
-      <File FileName="Assets/Scripts/Managers/BattleManager.cs" Line="53" Column="43" />
+      <File FileName="Assets/Scripts/UI/UITeamWindow.cs" />
+      <File FileName="Assets/Scripts/Managers/BattleManager.cs" Line="378" Column="27" />
       <File FileName="Assets/Scripts/Defines/StoreItemDefine.cs" />
       <File FileName="Assets/Scripts/UI/UIBattleBuffIcon.cs" />
-      <File FileName="Assets/Scripts/Managers/TreasureManager.cs" Line="90" Column="10" />
-      <File FileName="Assets/Scripts/UI/UITreasuresRect.cs" Line="17" Column="32" />
-      <File FileName="Assets/Scripts/UI/UITreasureItem.cs" Line="53" Column="18" />
-      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="155" Column="10" />
-      <File FileName="Assets/Scripts/UI/UIShopPage.cs" Line="74" Column="1" />
-      <File FileName="Assets/Scripts/Component/MonoSingleton.cs" Line="20" Column="1" />
+      <File FileName="Assets/Scripts/Managers/TreasureManager.cs" Line="85" Column="10" />
+      <File FileName="Assets/Scripts/UI/UITreasuresRect.cs" Line="18" Column="1" />
+      <File FileName="Assets/Scripts/UI/UITreasureItem.cs" Line="62" Column="1" />
+      <File FileName="Assets/Scripts/Utilities/GameUtil.cs" Line="234" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="BeingTheRoc" expanded="True">
+          <Node name="BeingTheRoc">
             <Node name="Assets" expanded="True">
               <Node name="Editor" expanded="True" />
               <Node name="Plugins" expanded="True">
@@ -26,6 +24,9 @@
                   <Node name="Scripts" expanded="True">
                     <Node name="InternalUtil" expanded="True" />
                     <Node name="Operators" expanded="True" />
+                    <Node name="UnityEngineBridge" expanded="True">
+                      <Node name="Triggers" expanded="True" />
+                    </Node>
                   </Node>
                 </Node>
               </Node>
@@ -43,13 +44,10 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/norne/dev/BeingTheRoc/Assets/Scripts/UI/UITeamInfoPage.cs" relfile="Assets/Scripts/UI/UITeamInfoPage.cs" line="30" column="1" />
-      <Breakpoint file="/Users/norne/dev/BeingTheRoc/Assets/Scripts/Managers/GameManager.cs" relfile="Assets/Scripts/Managers/GameManager.cs" line="44" column="1" />
-      <Breakpoint file="/Users/norne/dev/BeingTheRoc/Assets/Scripts/UI/UIShopPage.cs" relfile="Assets/Scripts/UI/UIShopPage.cs" line="72" column="1" />
-      <Breakpoint file="/Users/norne/dev/BeingTheRoc/Assets/Scripts/Managers/TreasureManager.cs" relfile="Assets/Scripts/Managers/TreasureManager.cs" line="81" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>

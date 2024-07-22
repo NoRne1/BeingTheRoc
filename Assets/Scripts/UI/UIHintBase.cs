@@ -23,8 +23,8 @@ public class UIHintBase : UIWindow
 
     public IEnumerator InitLayoutPosition()
     {
-        yield return null;
-        LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
         updatePostion();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
+        yield return null;
     }
 }
