@@ -29,7 +29,7 @@ public class UITownPage : MonoBehaviour
 		else
 		{
 			UITip tip = UIManager.Instance.Show<UITip>();
-			tip.UpdateTip(DataManager.Instance.Language["town_action_init_error"]);
+			tip.UpdateTip(GameUtil.Instance.GetDisplayString("town_action_init_error"));
 		}
 	}
 }

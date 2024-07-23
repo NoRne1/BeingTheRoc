@@ -36,7 +36,7 @@ public class UIShopItem : MonoBehaviour
             iconBG.color = GlobalAccess.GetLevelColor(info.level);
             icon.overrideSprite = Resloader.LoadSprite(info.iconResource, ConstValue.equipsPath);
             title.color = GlobalAccess.GetLevelColor(info.level);
-            title.text = DataManager.Instance.Language[info.title];
+            title.text = GameUtil.Instance.GetDisplayString(info.title);
             price.text = info.price.ToString();
             hintComponent.Setup(info);
             this.gameObject.SetActive(true);

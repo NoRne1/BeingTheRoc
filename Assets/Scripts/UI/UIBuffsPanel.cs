@@ -24,7 +24,7 @@ public class UIBuffsPanel : MonoBehaviour
     {
         if (battleItem != null)
         {
-            disposable.IfNotNull(dis => { dis.Dispose(); });
+            disposable?.Dispose();
             disposable = NorneStore.Instance.ObservableObject<BattleItem>(battleItem)
                 .AsObservable().TakeUntilDestroy(this).Subscribe(bi =>
                 {
@@ -40,5 +40,11 @@ public class UIBuffsPanel : MonoBehaviour
         {
             Debug.Log("UIBuffsPanel setup battleItem is null");
         }
+    }
+
+    private void OnDestroy()
+    {
+        // 确保在对象销毁时取消订阅
+        disposable?.Dispose();
     }
 }

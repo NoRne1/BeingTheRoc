@@ -20,6 +20,11 @@ public class UITip : UIWindow
 
     public void UpdateTip(string text)
     {
-        tip.text = text;
+        tip.text = GameUtil.Instance.GetDisplayString(text);
+    }
+
+    public void UpdateGeneralTip(string text)
+    {
+        tip.text = GameUtil.Instance.GetDisplayString("general_error_tip") + text;
     }
 }

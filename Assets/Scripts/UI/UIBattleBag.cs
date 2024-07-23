@@ -40,6 +40,7 @@ public class UIBattleBag : MonoBehaviour
                 {
                     if (CheckEquipsChanged(equips))
                     {
+                        oldEquips = equips;
                         GameUtil.Instance.DetachChildren(equipFather);
                         equipItems.Clear();
                         foreach (var equip in equips)

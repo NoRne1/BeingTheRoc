@@ -52,7 +52,7 @@ public class GameManager : MonoSingleton<GameManager>
         } else
         {
             UITip tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateTip(DataManager.Instance.Language["general_error_tip"] + "0001");
+            tip.UpdateGeneralTip("0001");
         }
 
         //todo
@@ -161,7 +161,7 @@ public class GameManager : MonoSingleton<GameManager>
         {
             //错误请求(扣成负的了)
             UITip tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateTip(DataManager.Instance.Language["general_error_tip"] + "0003");
+            tip.UpdateGeneralTip("0003");
             return;
         }
         featherCoin.OnNext(featherCoin.Value + change);

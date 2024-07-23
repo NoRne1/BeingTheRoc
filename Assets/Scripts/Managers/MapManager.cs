@@ -70,7 +70,7 @@ public class MapManager : MonoSingleton<MapManager>
                 } else
                 {
                     UITip tip = UIManager.Instance.Show<UITip>();
-                    tip.UpdateTip(DataManager.Instance.Language["go_next_town_tip"]);
+                    tip.UpdateTip(GameUtil.Instance.GetDisplayString("go_next_town_tip"));
                 }
             }
         });

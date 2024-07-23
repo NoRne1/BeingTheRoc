@@ -35,7 +35,7 @@
         "InvokeTime": 2,
         "DecreaseTime": -1,
         "MergeType": 3,
-        "Resource": "buff_bleeding_icon",
+        "Resource": "buff_Trauma_icon",
         "Description": "拥有外伤状态的角色受到伤害时，额外受到外伤层数的伤害"
     },
     "3": {

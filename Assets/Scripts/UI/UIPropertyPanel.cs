@@ -38,14 +38,14 @@ public class UIPropertyPanel : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        MaxHP_key.text = DataManager.Instance.Language["health"];
-        Strength_key.text = DataManager.Instance.Language["strength"];
-        Defense_key.text = DataManager.Instance.Language["defense"];
-        Dodge_key.text = DataManager.Instance.Language["dodge"];
-        Accuracy_key.text = DataManager.Instance.Language["accuracy"];
-        Speed_key.text = DataManager.Instance.Language["speed"];
-        Mobility_key.text = DataManager.Instance.Language["mobility"];
-        Energy_key.text = DataManager.Instance.Language["energy"];
+        MaxHP_key.text = GameUtil.Instance.GetDisplayString("health");
+        Strength_key.text = GameUtil.Instance.GetDisplayString("strength");
+        Defense_key.text = GameUtil.Instance.GetDisplayString("defense");
+        Dodge_key.text = GameUtil.Instance.GetDisplayString("dodge");
+        Accuracy_key.text = GameUtil.Instance.GetDisplayString("accuracy");
+        Speed_key.text = GameUtil.Instance.GetDisplayString("speed");
+        Mobility_key.text = GameUtil.Instance.GetDisplayString("mobility");
+        Energy_key.text = GameUtil.Instance.GetDisplayString("energy");
     }
 
     // Update is called once per frame

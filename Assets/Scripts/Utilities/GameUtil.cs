@@ -292,6 +292,7 @@ public class GameUtil : Singleton<GameUtil>
     public string GetDisplayString(string text)
     {
         return text;
+        // 换成DataManager.Instance.Language[""]时,记得要.ReplaceNewLines()
     }
 
     public List<Vector2> GetTargetRangeList(Vector2 vect, TargetRange targetRange)

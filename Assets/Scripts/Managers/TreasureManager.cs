@@ -62,7 +62,8 @@ public class TreasureManager
                 case TreasureInvokeType.battleUse:
                 case TreasureInvokeType.battleStart:
                     Debug.Log("Treasure " + treasures[id].Item1.title + " effect invoked");
-                    var method = typeof(TreasureManager).GetMethod(treasures[id].Item1.treasureDefine.methodName);
+                    var method = typeof(TreasureManager).GetMethod(treasures[id].Item1.treasureDefine.methodName,
+    BindingFlags.NonPublic | BindingFlags.Instance);
                     object[] parameters = new object[] { treasures[id].Item1, treasures[id].Item2, treasures[id].Item1.treasureDefine.value };
                     method?.Invoke(this, parameters);
                     break;

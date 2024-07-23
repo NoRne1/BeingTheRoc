@@ -81,9 +81,9 @@ class UIOptions : UIWindow
             DropdownValueChanged(languageSelect);
         });
 
-        music_title.text = DataManager.Instance.Language["music"];
-        sound_title.text = DataManager.Instance.Language["sound"];
-        language_title.text = DataManager.Instance.Language["language"];
+        music_title.text = GameUtil.Instance.GetDisplayString("music");
+        sound_title.text = GameUtil.Instance.GetDisplayString("sound");
+        language_title.text = GameUtil.Instance.GetDisplayString("language");
     }
 
     public override void OnCloseClick()

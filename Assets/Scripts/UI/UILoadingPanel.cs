@@ -28,6 +28,6 @@ public class UILoadingPanel : MonoBehaviour
 
     public void Init()
     {
-        loading_tip.text = DataManager.Instance.Language["loading_tip"];
+        loading_tip.text = GameUtil.Instance.GetDisplayString("loading_tip");
     }
 }

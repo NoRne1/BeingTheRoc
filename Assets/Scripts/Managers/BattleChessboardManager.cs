@@ -102,7 +102,7 @@ public class BattleChessboardManager
         else
         {
             UITip tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateTip(DataManager.Instance.Language["general_error_tip"] + "0005");
+            tip.UpdateGeneralTip("0005");
         }
     }
 
@@ -168,6 +168,7 @@ public class BattleChessboardManager
                 ShowMovePath(slot);
                 SelectItem(slot.position);
                 battleItem.attributes.currentEnergy -= 1;
+                GlobalAccess.SaveBattleItem(battleItem);
                 battleItem.moveSubject.OnNext(slot.position);
             }
             else

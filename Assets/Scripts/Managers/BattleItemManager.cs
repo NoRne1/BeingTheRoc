@@ -19,6 +19,7 @@ public class BattleItemManager
         battleManager = BattleManager.Instance;
         battleItemIDs.Clear();
         PlayerItemIDs.Clear();
+        id_posDic.Clear();
         pos_uibattleItemDic.Clear();
 
         var timeItem = new BattleItem(BattleItemType.time);

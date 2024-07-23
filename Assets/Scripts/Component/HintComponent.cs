@@ -1,3 +1,4 @@
+using System;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -14,7 +15,7 @@ public enum HintType
 public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private HintType type;
-
+    private UIHintBase hintObject;
     private string hint_text = null;
     private StoreItemDefine storeItem = null;
     private SkillDefine skill = null;
@@ -22,14 +23,6 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void Start()
     {
-        //DataManager.Instance.DataLoaded.AsObservable().TakeUntilDestroy(this).Subscribe(loaded =>
-        //{
-        //    if (loaded)
-        //    {
-        //        hint_text = DataManager.Instance.Language[text];
-        //    }
-        //});
-
         this.isMouseEnter.AsObservable().DistinctUntilChanged().TakeUntilDestroy(this).Subscribe(isEnter =>
         {
             if (isEnter)
@@ -41,14 +34,17 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                     case HintType.normal:
                         UIDescHint descHint = UIManager.Instance.Show<UIDescHint>(CanvasType.tooltip);
                         descHint.Setup(hint_text);
+                        hintObject = descHint;
                         break;
                     case HintType.storeItem:
                         UIStoreItemHint storeItemHint = UIManager.Instance.Show<UIStoreItemHint>(CanvasType.tooltip);
                         storeItemHint.Setup(storeItem);
+                        hintObject = storeItemHint;
                         break;
                     case HintType.skill:
                         UISkillHint skillHint = UIManager.Instance.Show<UISkillHint>(CanvasType.tooltip);
                         skillHint.Setup(skill);
+                        hintObject = skillHint;
                         break;
                 }
             }
@@ -70,6 +66,14 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                 }
             }
         });
+    }
+
+    private void OnDestroy()
+    {
+        if (hintObject != null)
+        {
+            Destroy(hintObject.gameObject);
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)

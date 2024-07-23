@@ -4,6 +4,7 @@ using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
 using System.Linq;
+using System.Reflection;
 
 public class SkillManager : MonoSingleton<SkillManager>
 {
@@ -44,7 +45,8 @@ public class SkillManager : MonoSingleton<SkillManager>
 
     public void InvokeSkill(string casterID, string methodName, PropertyType type = PropertyType.none, int value = 0)
     {
-        var method = typeof(SkillManager).GetMethod(methodName);
+        var method = typeof(SkillManager).GetMethod(methodName,
+    BindingFlags.NonPublic | BindingFlags.Instance);
         object[] parameters = new object[] { casterID, type, value };
         method?.Invoke(SkillManager.Instance, parameters);
         Debug.Log("skill " + methodName + " has been invoked");
@@ -197,7 +199,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     {
         var battleItem = GlobalAccess.GetBattleItem(casterID);
         timer.CreateTimer(TimerType.normal, casterID + "UnstoppableAspiration", 2);
-        disposablePool.SaveDisposable(casterID + "StrongBone", battleItem.attributes.hpChangeSubject.AsObservable().Where(hp =>
+        disposablePool.SaveDisposable(casterID + "UnstoppableAspiration", battleItem.attributes.hpChangeSubject.AsObservable().Where(hp =>
         {
             var temp = GlobalAccess.GetBattleItem(casterID);
             return timer.TimerNext(casterID + "UnstoppableAspiration") &&

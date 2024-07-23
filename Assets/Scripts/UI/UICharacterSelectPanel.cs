@@ -46,7 +46,7 @@ public class UICharacterSelectPanel : MonoBehaviour
                 this.Init();
             }
         });
-        please_select_tip.text = DataManager.Instance.Language["select_character"];
+        please_select_tip.text = GameUtil.Instance.GetDisplayString("select_character");
         please_select_tip.gameObject.SetActive(true);
         character_info_panel.SetActive(false);
     }
@@ -59,16 +59,16 @@ public class UICharacterSelectPanel : MonoBehaviour
 
     public void Init()
     {
-        MaxHP_key.text = DataManager.Instance.Language["health"];
-        Strength_key.text = DataManager.Instance.Language["strength"];
-        Defense_key.text = DataManager.Instance.Language["defense"];
-        Dodge_key.text = DataManager.Instance.Language["dodge"];
-        Accuracy_key.text = DataManager.Instance.Language["accuracy"];
-        Speed_key.text = DataManager.Instance.Language["speed"];
-        Mobility_key.text = DataManager.Instance.Language["mobility"];
-        Energy_key.text = DataManager.Instance.Language["energy"];
+        MaxHP_key.text = GameUtil.Instance.GetDisplayString("health");
+        Strength_key.text = GameUtil.Instance.GetDisplayString("strength");
+        Defense_key.text = GameUtil.Instance.GetDisplayString("defense");
+        Dodge_key.text = GameUtil.Instance.GetDisplayString("dodge");
+        Accuracy_key.text = GameUtil.Instance.GetDisplayString("accuracy");
+        Speed_key.text = GameUtil.Instance.GetDisplayString("speed");
+        Mobility_key.text = GameUtil.Instance.GetDisplayString("mobility");
+        Energy_key.text = GameUtil.Instance.GetDisplayString("energy");
 
-        Go_ahead_key.text = DataManager.Instance.Language["go_ahead"];
+        Go_ahead_key.text = GameUtil.Instance.GetDisplayString("go_ahead");
     }
 
     public void SelectedCharacter(int id)
@@ -96,7 +96,7 @@ public class UICharacterSelectPanel : MonoBehaviour
         } else
         {
             UITip tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateTip(DataManager.Instance.Language["wrong_character_selected_tip"]);
+            tip.UpdateTip(GameUtil.Instance.GetDisplayString("wrong_character_selected_tip"));
         }
         
     }
@@ -106,14 +106,14 @@ public class UICharacterSelectPanel : MonoBehaviour
         if (SelectedCharacterId == -1)
         {
             UITip tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateTip(DataManager.Instance.Language["no_character_selected_tip"]);
+            tip.UpdateTip(GameUtil.Instance.GetDisplayString("no_character_selected_tip"));
         } else if (DataManager.Instance.Characters.Keys.ToList().Contains(SelectedCharacterId))
         {
             GlobalAccess.CurrentCharacterId = SelectedCharacterId;
             SceneManager.Instance.LoadScene("game");
         } else {
             UITip tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateTip(DataManager.Instance.Language["wrong_character_selected_tip"]);
+            tip.UpdateTip(GameUtil.Instance.GetDisplayString("wrong_character_selected_tip"));
         }
 
     }

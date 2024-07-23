@@ -29,8 +29,8 @@ public class UIMainMenu : MonoBehaviour
 
     public void Init()
     {
-        startGame.text = DataManager.Instance.Language["start_game"];
-        options.text = DataManager.Instance.Language["options"];
-        exit.text = DataManager.Instance.Language["exit"];
+        startGame.text = GameUtil.Instance.GetDisplayString("start_game");
+        options.text = GameUtil.Instance.GetDisplayString("options");
+        exit.text = GameUtil.Instance.GetDisplayString("exit");
     }
 }

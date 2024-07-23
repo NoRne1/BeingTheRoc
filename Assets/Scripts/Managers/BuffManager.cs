@@ -24,7 +24,8 @@ public class BuffManager : MonoSingleton<BuffManager>
     // for normal
     public void InvokeBuff(BuffModel buff)
     {
-        var method = typeof(BuffManager).GetMethod(buff.MethodName);
+        var method = typeof(BuffManager).GetMethod(buff.MethodName,
+    BindingFlags.NonPublic | BindingFlags.Instance);
         object[] parameters = new object[] { buff };
         method?.Invoke(BuffManager.Instance, parameters);
     }
@@ -32,7 +33,8 @@ public class BuffManager : MonoSingleton<BuffManager>
     // for BuffInvokeTime.constant
     public void InvokeBuff(BuffModel buff, bool addOrRemove)
     {
-        var method = typeof(BuffManager).GetMethod(buff.MethodName);
+        var method = typeof(BuffManager).GetMethod(buff.MethodName,
+    BindingFlags.NonPublic | BindingFlags.Instance);
         object[] parameters = new object[] { buff, addOrRemove };
         method?.Invoke(BuffManager.Instance, parameters);
     }
@@ -40,7 +42,8 @@ public class BuffManager : MonoSingleton<BuffManager>
     // for BuffInvokeTime.move
     public void InvokeBuff(BuffModel buff, int distance)
     {
-        var method = typeof(BuffManager).GetMethod(buff.MethodName);
+        var method = typeof(BuffManager).GetMethod(buff.MethodName,
+    BindingFlags.NonPublic | BindingFlags.Instance);
         object[] parameters = new object[] { buff, distance };
         method?.Invoke(BuffManager.Instance, parameters);
     }
