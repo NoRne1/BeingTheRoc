@@ -14,7 +14,7 @@ public class DragSupport : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !UIManager.Instance.HasActiveUIWindow())
         {
             StartCoroutine(OnMouseDown());
         }

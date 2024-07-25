@@ -82,7 +82,10 @@ public class GameManager : MonoSingleton<GameManager>
     // Update is called once per frame
     void Update()
     {
-
+        if(Input.GetKeyDown(KeyCode.Return) && !UIManager.Instance.HasActiveUIWindow())
+        {
+            UIManager.Instance.Show<UIGameConsole>();
+        }
     }
 
     public void SwitchPage(PageType pageType, CoroutineAction action = null)

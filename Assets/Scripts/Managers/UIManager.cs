@@ -37,6 +37,7 @@ public class UIManager: Singleton<UIManager>
         this.UIResources.Add(typeof(UIStoreItemHint), new UIElement() { Resource = "Prefabs/UIStoreItemHint", Cache = false });
         this.UIResources.Add(typeof(UISkillHint), new UIElement() { Resource = "Prefabs/UISkillHint", Cache = false });
         this.UIResources.Add(typeof(UISkillSelect), new UIElement() { Resource = "Prefabs/UISkillSelect", Cache = false });
+        this.UIResources.Add(typeof(UIGameConsole), new UIElement() { Resource = "Prefabs/UIGameConsole", Cache = false });
     }
 
     ~UIManager()
@@ -113,8 +114,42 @@ public class UIManager: Singleton<UIManager>
             }
         }
     }
+
     internal void Close<T>()
     {
         this.Close(typeof(T));
+    }
+
+    public T GetUIResource<T>() where T: class
+    {
+        Type type = typeof(T);
+        if (this.UIResources.ContainsKey(type))
+        {
+            //UI资源包含该类型,则获取该资源
+            UIElement info = this.UIResources[type];
+            if (info.Instance != null)
+            {
+                return info.Instance.GetComponent<T>();
+            } else
+            {
+                return null;
+            }
+        } else
+        {
+            return null;
+        }
+    }
+
+    public bool HasActiveUIWindow()
+    {
+        foreach (var kvp in UIResources)
+        {
+            UIElement element = kvp.Value;
+            if (element.Instance != null && element.Instance.activeInHierarchy)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

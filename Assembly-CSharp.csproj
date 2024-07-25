@@ -101,6 +101,7 @@
     <Compile Include="Assets/Scripts/UI/UIBattleBag.cs" />
     <Compile Include="Assets/Scripts/UI/UIMainMenu.cs" />
     <Compile Include="Assets/Scripts/UI/UICommonUI.cs" />
+    <Compile Include="Assets/Scripts/UI/UIConsoleOutput.cs" />
     <Compile Include="Assets/Scripts/UI/UISkillButton.cs" />
     <Compile Include="Assets/Scripts/Defines/GoodsDefine.cs" />
     <Compile Include="Assets/Scripts/UI/UITreasureItem.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Assets/Scripts/Component/FightText/FightTextComponent.cs" />
     <Compile Include="Assets/Scripts/UI/UITip.cs" />
     <Compile Include="Assets/Scripts/UI/UIHintBase.cs" />
+    <Compile Include="Assets/Scripts/UI/UIGameConsole.cs" />
     <Compile Include="Assets/Scripts/Component/NorneStore.cs" />
     <Compile Include="Assets/Scripts/Defines/TownActionDefine.cs" />
     <Compile Include="Assets/Scripts/Defines/BuffDefine.cs" />
@@ -132,6 +134,7 @@
     <Compile Include="Assets/Scripts/UI/UICharacterPlaceBox.cs" />
     <Compile Include="Assets/Scripts/Defines/TreasureDefine.cs" />
     <Compile Include="Assets/Scripts/Component/FightText/FightTextManager.cs" />
+    <Compile Include="Assets/Scripts/UI/UIConsoleInput.cs" />
     <Compile Include="Assets/Scripts/Managers/UIManager.cs" />
     <Compile Include="Assets/Scripts/UI/UIDescHint.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/UnityExtensions.cs" />

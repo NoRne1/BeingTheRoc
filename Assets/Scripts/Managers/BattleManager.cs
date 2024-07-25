@@ -111,7 +111,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 }
             }
 
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0) && !UIManager.Instance.HasActiveUIWindow())
             {
                 RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosition, Vector2.zero);
                 bool flag = false;
