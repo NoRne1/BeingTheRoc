@@ -178,6 +178,14 @@ public class BattleChessboardManager
                 chessBoard.ResetColors();
                 clickSlotReason = ClickSlotReason.viewCharacter;
                 UnselectItem();
+                if (battleItem.isConfine) 
+                {
+                    BlackBarManager.Instance.AddMessage("禁锢状态，移动失败");
+                } else if (battleItem.attributes.currentEnergy <= 0 ) {
+                    BlackBarManager.Instance.AddMessage("能量不足，移动失败");
+                } else {
+                    BlackBarManager.Instance.AddMessage("目标位置不可用，移动失败");
+                }
             }
         }
         else

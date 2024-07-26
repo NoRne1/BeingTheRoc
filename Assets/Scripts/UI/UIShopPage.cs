@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
+using System.Linq;
 
 public class UIShopPage : MonoBehaviour
 {
     public List<UIShopItem> shopItems;
+    private List<int> lastSelectedItemIDs;
     private int timeLeft;
     // Start is called before the first frame update
     void Start()
@@ -39,19 +41,43 @@ public class UIShopPage : MonoBehaviour
 
     public void GenerateShopItems()
     {
-        int refreshCount = Random.Range(3, shopItems.Count);
+        var itemList = RefreshItems();
         for (int i = 0; i < shopItems.Count; i++)
         {
-            if(i < refreshCount)
+            if(i < itemList.Count)
             {
-                shopItems[i].SetStoreItemInfo(DataManager.Instance.StoreItems
-                    [Random.Range(0, DataManager.Instance.StoreItems.Count)]);
+                shopItems[i].SetStoreItemInfo(itemList[i]);
             } else
             {
                 shopItems[i].SetStoreItemInfo(null);
             }
-            
         }
+    }
+
+    public List<StoreItemDefine> RefreshItems()
+    {
+        List<StoreItemDefine> sellableItemsCopy = new List<StoreItemDefine>(DataManager.Instance.SellableItems);
+        // 随机选取 refreshCount 个物品，确保与上一次选取的物品不同
+        int refreshCount = Random.Range(3, shopItems.Count);
+        System.Random random = new System.Random();
+        List<StoreItemDefine> newSelectedItems = new List<StoreItemDefine>();
+
+        while (newSelectedItems.Count < refreshCount)
+        {
+            int index = random.Next(sellableItemsCopy.Count);
+            StoreItemDefine selectedItemDefine = sellableItemsCopy[index];
+
+            if (!lastSelectedItemIDs.Contains(selectedItemDefine.ID))
+            {
+                newSelectedItems.Add(selectedItemDefine);
+                sellableItemsCopy.RemoveAt(index);
+            }
+        }
+
+        // 更新上一次选取的物品列表
+        lastSelectedItemIDs = newSelectedItems.Select(item => item.ID).ToList();
+
+        return newSelectedItems;
     }
 
     public void BuyItem(int index)

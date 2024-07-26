@@ -18,6 +18,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, Dictionary<String, String>> LanguagesDic = null;
     public Dictionary<int, TownActionDefine> TownActions = null;
     public Dictionary<int, StoreItemDefine> StoreItems = null;
+    public List<StoreItemDefine> SellableItems = null;
     public Dictionary<int, EquipDefine> EquipDefines = null;
     public Dictionary<int, ExpendableItemDefine> ExpendableItemDefines = null;
     public Dictionary<int, TreasureDefine> TreasureDefines = null;
@@ -47,6 +48,7 @@ public class DataManager : Singleton<DataManager>
 
         json = File.ReadAllText(this.DataPath + "StoreItemDefine.json");
         this.StoreItems = JsonConvert.DeserializeObject<Dictionary<int, StoreItemDefine>>(json);
+        this.SellableItems= this.StoreItems.Values.Where(item => item.price != -1).ToList();
 
         json = File.ReadAllText(this.DataPath + "EquipDefine.json");
         this.EquipDefines = JsonConvert.DeserializeObject<Dictionary<int, EquipDefine>>(json);
@@ -94,6 +96,7 @@ public class DataManager : Singleton<DataManager>
 
         json = File.ReadAllText(this.DataPath + "StoreItemDefine.json");
         this.StoreItems = JsonConvert.DeserializeObject<Dictionary<int, StoreItemDefine>>(json);
+        this.SellableItems= this.StoreItems.Values.Where(item => item.price != -1).ToList();
         yield return null;
 
         json = File.ReadAllText(this.DataPath + "EquipDefine.json");

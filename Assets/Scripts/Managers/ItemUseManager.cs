@@ -381,7 +381,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                         caster.haveAttackedInRound = true;
                     } else
                     {
-                        Debug.Log("沉默状态攻击失败");
+                        BlackBarManager.Instance.AddMessage("沉默状态攻击失败");
                     }
                     break;
             }
