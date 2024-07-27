@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using Newtonsoft.Json;
 using UniRx;
 using UnityEngine;
@@ -458,5 +461,50 @@ public class GameUtil : Singleton<GameUtil>
     {
         string json = JsonConvert.SerializeObject(obj);
         return JsonConvert.DeserializeObject<T>(json);
+    }
+
+    public Effect BattleEffectToItemUseEffect(BattleEffect battleEffect)
+    {
+        switch (battleEffect)
+        {
+            case BattleEffect.DashToTarget:
+                return new Effect()
+                {
+                    effectType = EffectType.battleEffect,
+                    invokeType = EffectInvokeType.useInstant,
+                    invokeNum = 1,
+                    methodName = "DashToTarget",
+                    value = 0
+                };
+            case BattleEffect.Backward:
+                return new Effect()
+                {
+                    effectType = EffectType.battleEffect,
+                    invokeType = EffectInvokeType.useInstant,
+                    invokeNum = 1,
+                    methodName = "Backward",
+                    value = 1
+                };
+            case BattleEffect.Knockback:
+                return new Effect()
+                {
+                    effectType = EffectType.battleEffect,
+                    invokeType = EffectInvokeType.useInstant,
+                    invokeNum = 1,
+                    methodName = "Knockback",
+                    value = 1
+                };
+            case BattleEffect.ReturnEnergy:
+                return new Effect()
+                {
+                    effectType = EffectType.battleEffect,
+                    invokeType = EffectInvokeType.useInstant,
+                    invokeNum = 1,
+                    methodName = "ReturnEnergy"
+                };
+            default:
+                Debug.LogError("Unknown battle effect type.");
+                return null;
+        }
     }
 }

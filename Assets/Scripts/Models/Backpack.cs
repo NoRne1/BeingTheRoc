@@ -7,7 +7,7 @@ using static UnityEditor.Progress;
 public class Backpack
 {
     public string characterID;
-    public Subject<Unit> characterUpdate;
+    public Subject<Unit> fatherUpdate;
     public List<StoreItemModel> equips = new List<StoreItemModel>();
     public Dictionary<Vector2Int, StoreItemModel> grid = new Dictionary<Vector2Int, StoreItemModel>();
     
@@ -22,7 +22,7 @@ public class Backpack
                 grid[new Vector2Int(x, y)] = null;
             }
         }
-        characterUpdate = subject;
+        fatherUpdate = subject;
     }
 
     public bool CanPlace(StoreItemModel item, Vector2Int position)
@@ -54,7 +54,7 @@ public class Backpack
             }
             equips.Add(item);
             item.Equip(characterID, position);
-            characterUpdate.OnNext(Unit.Default);
+            fatherUpdate.OnNext(Unit.Default);
             return true;
         }
         return false;
@@ -76,7 +76,7 @@ public class Backpack
             //RemoveItemsByUUID中删除了装备，需要加回来
             equips.Add(item);
             item.Equip(characterID, position);
-            characterUpdate.OnNext(Unit.Default);
+            fatherUpdate.OnNext(Unit.Default);
             //只需要更新装备位置，旋转自动更新
             return true;
         }
@@ -97,7 +97,7 @@ public class Backpack
         equips.RemoveAll(item => item.uuid == uuid);
         if (this.RemoveItemsByUUID(uuid, grid))
         {
-            characterUpdate.OnNext(Unit.Default);
+            fatherUpdate.OnNext(Unit.Default);
         }
     }
 
@@ -112,7 +112,7 @@ public class Backpack
             grid[itemToRemove.Key] = null;
         }
 
-        return itemsToRemove.Count> 0;
+        return itemsToRemove.Count > 0;
     }
 }
 

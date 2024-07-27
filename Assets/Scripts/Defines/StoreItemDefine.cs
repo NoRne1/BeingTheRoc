@@ -14,23 +14,20 @@ public enum ItemType
     special = 4,
 }
 
-//public enum ItemInvokeType
-//{
-//    none = -1,
-//    bagUse = 0, // 使用生效（背包中使用，或treasure0点击生效）
-//    equip = 1, // 装备生效
-//    instant = 2, // 获得立即生效
-//    equipUse = 3, // 装备后使用直接生效
-//    equipTarget = 4, // 装备后使用并选择目标生效
-//    battleStart = 5, // 战斗开始时生效
-//}
+public enum BattleEffect 
+{   
+    DashToTarget = 0, // 突进到目标
+    Backward = 1, // 后退
+    Knockback = 2, // 击退
+    ReturnEnergy = 3, // 返还能量
+}
 
 public enum EffectType
 {
     none = -1,
     property = 0, // 属性改变
-    buff = 1, // buff
-    skill = 2, // skill
+    battleEffect = 1, // 突进击退等特殊词条效果
+    buff = 2, // buff
     attack = 3,
 }
 

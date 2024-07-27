@@ -22,6 +22,7 @@ public class BattleItemManager
         id_posDic.Clear();
         pos_uibattleItemDic.Clear();
 
+        //时间Item没有位置，所以不加入pos_uibattleItemDic
         var timeItem = new BattleItem(BattleItemType.time);
         timeItem.BattleInit();
         GlobalAccess.SaveBattleItem(timeItem);

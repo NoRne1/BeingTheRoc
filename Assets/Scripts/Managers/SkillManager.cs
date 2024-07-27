@@ -52,10 +52,21 @@ public class SkillManager : MonoSingleton<SkillManager>
         Debug.Log("skill " + methodName + " has been invoked");
     }
 
+    public void InvokeBattleEffect(string casterID, string methodName, string targetID, Vector2 targetPos, int value)
+    {
+        var method = typeof(SkillManager).GetMethod(methodName,
+    BindingFlags.NonPublic | BindingFlags.Instance);
+        object[] parameters = new object[] { casterID, targetID, targetPos, value };
+        method?.Invoke(SkillManager.Instance, parameters);
+        Debug.Log("BattleEffect " + methodName + " has been invoked");
+    }
+
+// ----------------------Skill----------------------
     private void HunYuanSword_0(string casterID, PropertyType type, int value)
     {
         StoreItemDefine sword = DataManager.Instance.StoreItems[19];
-        GameManager.Instance.repository.AddItem(new StoreItemModel(DataManager.Instance.StoreItems[19]));
+        hunyuanSword = new StoreItemModel(DataManager.Instance.StoreItems[19]);
+        GameManager.Instance.repository.AddItem(hunyuanSword);
     }
 
     private void HunYuanYu(string casterID, PropertyType type, int value)
@@ -118,10 +129,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     {
         if (hunyuanSword != null)
         {
-            Effect effect = new Effect();
-            effect.effectType = EffectType.skill;
-            effect.invokeType = EffectInvokeType.useInstant;
-            effect.methodName = "ReturnEnergy";
+            Effect effect = GameUtil.Instance.BattleEffectToItemUseEffect(BattleEffect.ReturnEnergy);
             effect.Value = hunyuanSword.equipDefine.takeEnergy;
             hunyuanSword.effects.Add(effect);
         }
@@ -464,19 +472,6 @@ public class SkillManager : MonoSingleton<SkillManager>
         
     }
 
-    private void ReturnEnergy(string casterID, PropertyType type, int value)
-    {
-        if (hunyuanSword != null)
-        {
-            if (GlobalAccess.GetRandomRate_affected(20))
-            {
-                var battleItem = GlobalAccess.GetBattleItem(casterID);
-                battleItem.attributes.currentEnergy += value;
-                GlobalAccess.SaveBattleItem(battleItem);
-            }
-        }
-    }
-
     private void ChangeProperty(string casterID, PropertyType type, int value)
     {
         //由于战斗中不能升级，所以提升属性的技能只可能对于characterModel生效
@@ -553,5 +548,18 @@ public class SkillManager : MonoSingleton<SkillManager>
                 break;
         }
         NorneStore.Instance.Update<CharacterModel>(characterModel, true);
+    }
+// ----------------------BattleEffect----------------------
+    private void ReturnEnergy(string casterID, string targetID, Vector2 targetPos, int value)
+    {
+        if (casterID != null && casterID != "")
+        {
+            if (GlobalAccess.GetRandomRate_affected(20))
+            {
+                var battleItem = GlobalAccess.GetBattleItem(casterID);
+                battleItem.attributes.currentEnergy += value;
+                GlobalAccess.SaveBattleItem(battleItem);
+            }
+        }
     }
 }

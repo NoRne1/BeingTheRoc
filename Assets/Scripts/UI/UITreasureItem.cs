@@ -52,7 +52,7 @@ public class UITreasureItem : MonoBehaviour
         {
             //Time.time * 0.7f,自增值,0.7控制速率
             var alpha = Mathf.PingPong(Time.time * 0.7f, 0.7f) + 0.3f;
-            bg.color = GameUtil.Instance.hexToColor("FFEC00", alpha);
+            bg.color = GameUtil.Instance.hexToColor(buttonHexColor, alpha);
         }
         else
         {

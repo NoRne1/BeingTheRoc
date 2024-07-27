@@ -5,6 +5,16 @@ using System.Linq;
 using UniRx;
 using UnityEngine;
 
+public enum ClickSlotReason
+{
+    none = 0,
+    placeCharacter = 1,
+    viewCharacter = 2,
+    move = 3,
+    selectTargets = 4,
+    selectPosition = 5,
+}
+
 public class BattleChessboardManager
 {
     private BattleManager battleManager = BattleManager.Instance;
@@ -66,8 +76,14 @@ public class BattleChessboardManager
                 case ClickSlotReason.move:
                     ItemMove(slot);
                     break;
-                case ClickSlotReason.selectTarget:
-                    TargetSelected(slot);
+                case ClickSlotReason.selectTargets:
+                    TargetItemsSelected(slot);
+                    break;
+                case ClickSlotReason.selectPosition:
+                    TargetPositionSelected(slot);
+                    break;
+                default:
+                    Debug.LogError("clickSlotReason unknown type");
                     break;
             }
         });
@@ -161,7 +177,7 @@ public class BattleChessboardManager
                 battleManager.battleItemManager.pos_uibattleItemDic.Remove(lastSelectedPos);
                 battleManager.battleItemManager.id_posDic.Remove(itemID);
                 battleManager.battleItemManager.id_posDic.Add(itemID, slot.position);
-                
+
                 //battleItemDic[slot.position].transform.position = slot.transform.position;
                 BattleCommonMethods.MoveAlongPath(result.Item2.Select(pos => chessBoard.slots[pos].transform.position).ToList(),
                     battleManager.battleItemManager.pos_uibattleItemDic[slot.position].transform);
@@ -178,12 +194,16 @@ public class BattleChessboardManager
                 chessBoard.ResetColors();
                 clickSlotReason = ClickSlotReason.viewCharacter;
                 UnselectItem();
-                if (battleItem.isConfine) 
+                if (battleItem.isConfine)
                 {
                     BlackBarManager.Instance.AddMessage("禁锢状态，移动失败");
-                } else if (battleItem.attributes.currentEnergy <= 0 ) {
+                }
+                else if (battleItem.attributes.currentEnergy <= 0)
+                {
                     BlackBarManager.Instance.AddMessage("能量不足，移动失败");
-                } else {
+                }
+                else
+                {
                     BlackBarManager.Instance.AddMessage("目标位置不可用，移动失败");
                 }
             }
@@ -229,9 +249,10 @@ public class BattleChessboardManager
         lastSelectedPos = Vector2.positiveInfinity;
     }
 
+    //用来在使用装备时选择目标
     private StoreItemModel clickedStoreItem;
 
-    public void SelectTargets(StoreItemModel storeItem)
+    public void SelectTargets(StoreItemModel storeItem, ChooseTargetType targetType)
     {
         //SetColors
         string uuID = GlobalAccess.GetBattleItem(battleManager.battleItemManager.battleItemIDs[0]).uuid;
@@ -252,12 +273,21 @@ public class BattleChessboardManager
             Debug.Log("MoveBarItemClicked InvalidOperationException: " + e.Message);
         }
         clickedStoreItem = storeItem;
-        clickSlotReason = ClickSlotReason.selectTarget;
+        switch (targetType)
+        {
+            case ChooseTargetType.items:
+                clickSlotReason = ClickSlotReason.selectTargets;
+                break;
+            case ChooseTargetType.position:
+                clickSlotReason = ClickSlotReason.selectPosition;
+                break;
+        }
     }
 
-    public void TargetSelected(UIChessboardSlot slot)
+    private void TargetItemsSelected(UIChessboardSlot slot)
     {
         clickSlotReason = ClickSlotReason.viewCharacter;
+        //找出正在行动的角色的位置
         Vector2 vect = battleManager.battleItemManager.pos_uibattleItemDic.First(x =>
             x.Value.itemID == GlobalAccess.GetBattleItem(battleManager.battleItemManager.battleItemIDs[0]).uuid).Key;
         if (GameUtil.Instance.GetTargetRangeList(vect, clickedStoreItem.equipDefine.targetRange).Contains(slot.position))
@@ -265,20 +295,55 @@ public class BattleChessboardManager
             //todo temp one target
             if (battleManager.battleItemManager.pos_uibattleItemDic.Keys.Contains(slot.position))
             {
+                //选择的位置有角色,符合条件
                 ItemUseManager.Instance.targetIDs = new List<string>() { battleManager.battleItemManager.pos_uibattleItemDic[slot.position].itemID };
                 clickSlotReason = ClickSlotReason.move;
                 ShowMovePath(chessBoard.slots[vect]);
             }
             else
             {
-                ItemUseManager.Instance.targetIDs = new List<string>();
+                //选择的位置没有角色，装备使用被打断
+                ItemUseManager.Instance.targetChooseBreakFlag = true;
                 clickSlotReason = ClickSlotReason.move;
                 ShowMovePath(chessBoard.slots[vect]);
             }
         }
         else
         {
-            ItemUseManager.Instance.targetIDs = new List<string>();
+            //选择的位置超出装备使用范围，装备使用被打断
+            ItemUseManager.Instance.targetChooseBreakFlag = true;
+            clickSlotReason = ClickSlotReason.move;
+            ShowMovePath(chessBoard.slots[vect]);
+        }
+    }
+
+    private void TargetPositionSelected(UIChessboardSlot slot)
+    {
+        clickSlotReason = ClickSlotReason.viewCharacter;
+        //找出正在行动的角色的位置
+        Vector2 vect = battleManager.battleItemManager.pos_uibattleItemDic.First(x =>
+            x.Value.itemID == GlobalAccess.GetBattleItem(battleManager.battleItemManager.battleItemIDs[0]).uuid).Key;
+        if (GameUtil.Instance.GetTargetRangeList(vect, clickedStoreItem.equipDefine.targetRange).Contains(slot.position))
+        {
+            if (!battleManager.battleItemManager.pos_uibattleItemDic.Keys.Contains(slot.position))
+            {
+                //选择的位置没有角色,符合条件
+                ItemUseManager.Instance.targetPos = slot.position;
+                clickSlotReason = ClickSlotReason.move;
+                ShowMovePath(chessBoard.slots[vect]);
+            }
+            else
+            {
+                //选择的位置有item，装备使用被打断
+                ItemUseManager.Instance.targetChooseBreakFlag = true;
+                clickSlotReason = ClickSlotReason.move;
+                ShowMovePath(chessBoard.slots[vect]);
+            }
+        }
+        else
+        {
+            //选择的位置超出装备使用范围，装备使用被打断
+            ItemUseManager.Instance.targetChooseBreakFlag = true;
             clickSlotReason = ClickSlotReason.move;
             ShowMovePath(chessBoard.slots[vect]);
         }

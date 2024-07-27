@@ -82,7 +82,8 @@ public class CharacterModel: IStorable
         item.attributes = this.attributes;
         item.Resource = this.Resource;
         item.Desc = this.Desc;
-        item.backpack = this.backpack;
+        item.backpack = GameUtil.Instance.DeepCopy(this.backpack);
+        item.backpack.fatherUpdate = item.battleItemUpdate;
         item.BornSkill = this.BornSkill;
         item.Skill1 = this.Skill1;
         item.Skill2 = this.Skill2;

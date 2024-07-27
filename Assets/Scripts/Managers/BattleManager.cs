@@ -17,15 +17,6 @@ public enum RoundTime
     prepare = 3,
 }
 
-public enum ClickSlotReason
-{
-    none = 0,
-    placeCharacter = 1,
-    viewCharacter = 2,
-    move = 3,
-    selectTarget = 4,
-}
-
 public enum AttackStatus
 {
     errorTarget = -1,

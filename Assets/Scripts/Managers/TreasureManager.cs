@@ -56,16 +56,39 @@ public class TreasureManager
     {
         if (treasures.ContainsKey(id))
         {
+            MethodInfo method;
+            object[] parameters;
             switch (treasures[id].Item1.treasureDefine.invokeType)
             {
                 case TreasureInvokeType.normalUse:
+                    if (!BattleManager.Instance.isInBattle)
+                    {
+                        Debug.Log("Treasure " + treasures[id].Item1.title + " effect invoked");
+                        method = typeof(TreasureManager).GetMethod(treasures[id].Item1.treasureDefine.methodName,
+                            BindingFlags.NonPublic | BindingFlags.Instance);
+                        parameters = new object[] { treasures[id].Item1, treasures[id].Item2, treasures[id].Item1.treasureDefine.value };
+                        method?.Invoke(this, parameters);
+                    }
+                    break;
                 case TreasureInvokeType.battleUse:
+                    if (BattleManager.Instance.isInBattle)
+                    {
+                        Debug.Log("Treasure " + treasures[id].Item1.title + " effect invoked");
+                        method = typeof(TreasureManager).GetMethod(treasures[id].Item1.treasureDefine.methodName,
+                            BindingFlags.NonPublic | BindingFlags.Instance);
+                        parameters = new object[] { treasures[id].Item1, treasures[id].Item2, treasures[id].Item1.treasureDefine.value };
+                        method?.Invoke(this, parameters);
+                    }
+                    break;
                 case TreasureInvokeType.battleStart:
-                    Debug.Log("Treasure " + treasures[id].Item1.title + " effect invoked");
-                    var method = typeof(TreasureManager).GetMethod(treasures[id].Item1.treasureDefine.methodName,
-    BindingFlags.NonPublic | BindingFlags.Instance);
-                    object[] parameters = new object[] { treasures[id].Item1, treasures[id].Item2, treasures[id].Item1.treasureDefine.value };
-                    method?.Invoke(this, parameters);
+                    if (!BattleManager.Instance.isInBattle)
+                    {
+                        Debug.Log("Treasure " + treasures[id].Item1.title + " effect invoked");
+                        method = typeof(TreasureManager).GetMethod(treasures[id].Item1.treasureDefine.methodName,
+                            BindingFlags.NonPublic | BindingFlags.Instance);
+                        parameters = new object[] { treasures[id].Item1, treasures[id].Item2, treasures[id].Item1.treasureDefine.value };
+                        method?.Invoke(this, parameters);
+                    }
                     break;
                 default:
                     Debug.LogError("Invoke unknown invokeType Effect");
