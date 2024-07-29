@@ -28,7 +28,7 @@ public class GameManager : MonoSingleton<GameManager>
     public BehaviorSubject<int> timeLeft = new BehaviorSubject<int>(30);
     public PageType currentPageType = PageType.map;
 
-    public Dictionary<string, NorneRelay<CharacterModel>> characterRelays = new Dictionary<string, NorneRelay<CharacterModel>>();
+    public Dictionary<string, NorneRelay<CharacterModel>> characterRelaysDic = new Dictionary<string, NorneRelay<CharacterModel>>();
 
     public RepositoryModel repository = new RepositoryModel();
     public TreasureManager treasureManager;
@@ -65,7 +65,8 @@ public class GameManager : MonoSingleton<GameManager>
                 CharacterDefine playerDefine = DataManager.Instance.Characters[GlobalAccess.CurrentCharacterId];
                 CharacterModel mainCharacter = new CharacterModel(playerDefine);
                 NorneStore.Instance.Update<CharacterModel>(mainCharacter, isFull: true);
-                characterRelays.Add(mainCharacter.uuid, NorneStore.Instance.ObservableObject(mainCharacter));
+                mainCharacter.InitInvokeSkill();
+                characterRelaysDic.Add(mainCharacter.uuid, NorneStore.Instance.ObservableObject(mainCharacter));
                 List<int> ids = GameUtil.Instance.GenerateUniqueRandomList(GlobalAccess.subCharacterStartIndex,
                     GlobalAccess.subCharacterStartIndex + GlobalAccess.subCharacterNum, 2);
                 foreach (var id in ids)
@@ -73,7 +74,8 @@ public class GameManager : MonoSingleton<GameManager>
                     CharacterDefine define = DataManager.Instance.Characters[id];
                     CharacterModel model = new CharacterModel(define);
                     NorneStore.Instance.Update<CharacterModel>(model, isFull: true);
-                    characterRelays.Add(model.uuid, NorneStore.Instance.ObservableObject(model));
+                    model.InitInvokeSkill();
+                    characterRelaysDic.Add(model.uuid, NorneStore.Instance.ObservableObject(model));
                 }
             }
         });
@@ -178,14 +180,14 @@ public class GameManager : MonoSingleton<GameManager>
     public void AddCharacter(CharacterModel cm)
     {
         NorneStore.Instance.Update<CharacterModel>(cm, true);
-        characterRelays.Add(cm.uuid, NorneStore.Instance.ObservableObject(cm));
+        characterRelaysDic.Add(cm.uuid, NorneStore.Instance.ObservableObject(cm));
     }
 
     public void RemoveCharacter(string uuid)
     {
-        if (characterRelays.ContainsKey(uuid))
+        if (characterRelaysDic.ContainsKey(uuid))
         {
-            characterRelays.Remove(uuid);
+            characterRelaysDic.Remove(uuid);
         }
     }
 }

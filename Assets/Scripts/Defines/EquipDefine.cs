@@ -43,7 +43,6 @@ public class EquipDefine
     public TargetRange targetRange { get; set; }
     public int takeEnergy { get; set; }
     public string equipResource { get; set; }
-    public string desc { get; set; }
     // just for attack
     public int baseAccuracy { get; set; }
     public Effect effect1 { get; set; }
@@ -103,7 +102,7 @@ public class EquipDefine
             }
         }
     }
-
+    //这个属性是用来处理记录格子位置和实际摆放中心点的偏移，记录是装备最左上的格子
     public Vector3 originOffset
     {
         get

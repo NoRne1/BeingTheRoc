@@ -13,6 +13,16 @@ using UnityEngine;
 
 public class GameUtil : Singleton<GameUtil>
 {
+    public bool GetRandomRate(float rate)
+    {
+        return UnityEngine.Random.Range(0, 100) < rate;
+    }
+
+    public bool GetRandomRate_affected(float rate)
+    {
+        return UnityEngine.Random.Range(0, 100) < rate;
+    }
+
     public void DetachChildren(Transform nodeFather) {
         foreach (Transform child in nodeFather)
         {
@@ -459,8 +469,17 @@ public class GameUtil : Singleton<GameUtil>
 
     public T DeepCopy<T>(T obj)
     {
-        string json = JsonConvert.SerializeObject(obj);
-        return JsonConvert.DeserializeObject<T>(json);
+        JsonSerializerSettings settings = new JsonSerializerSettings();
+        //后面发现这俩可以处理。但是由于dic的key存储时会被转换为字符串，然后再反序列就回不来了，所以要单独处理
+        // settings.Converters.Add(new Vector2Converter());
+        // settings.Converters.Add(new Vector2IntConverter());
+        settings.Converters.Add(new Vec2DictionaryConverter());
+        
+        string json = JsonConvert.SerializeObject(obj, settings);
+        Debug.Log("Serialized JSON: " + json);
+        var result = JsonConvert.DeserializeObject<T>(json, settings);
+        Debug.Log("Serialized result: " + result);
+        return result;
     }
 
     public Effect BattleEffectToItemUseEffect(BattleEffect battleEffect)

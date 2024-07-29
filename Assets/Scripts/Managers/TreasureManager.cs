@@ -165,7 +165,7 @@ public class TreasureManager
 
     private void TreasureBowl(StoreItemModel item, int num, int value)
     {
-        if (GlobalAccess.GetRandomRate_affected(value))
+        if (GameUtil.Instance.GetRandomRate_affected(value))
         {
             //存储失败，储蓄罐破裂
             GameManager.Instance.CoinChanged(item.treasureDefine.counter * 2);

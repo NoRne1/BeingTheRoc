@@ -1,9 +1,0 @@
-/Users/norne/dev/BeingTheRoc/Temp/bin/Debug/UniRx.deps.json
-/Users/norne/dev/BeingTheRoc/Temp/bin/Debug/UniRx.dll
-/Users/norne/dev/BeingTheRoc/Temp/bin/Debug/UniRx.pdb
-/Users/norne/dev/BeingTheRoc/Temp/obj/Debug/UniRx/UniRx.csproj.AssemblyReference.cache
-/Users/norne/dev/BeingTheRoc/Temp/obj/Debug/UniRx/UniRx.GeneratedMSBuildEditorConfig.editorconfig
-/Users/norne/dev/BeingTheRoc/Temp/obj/Debug/UniRx/UniRx.csproj.CoreCompileInputs.cache
-/Users/norne/dev/BeingTheRoc/Temp/obj/Debug/UniRx/UniRx.sourcelink.json
-/Users/norne/dev/BeingTheRoc/Temp/obj/Debug/UniRx/UniRx.dll
-/Users/norne/dev/BeingTheRoc/Temp/obj/Debug/UniRx/UniRx.pdb

@@ -167,6 +167,7 @@ public class DataManager : Singleton<DataManager>
         List<int> ids = new List<int>() { 0, 1, 2 };
         foreach (var id in ids)
         {
+            //相同CID的敌人，随机选择一个
             EnemyDefine define = EnemyDefines.Values.Where(define => define.CID == id).ToList().OrderBy(x => UnityEngine.Random.Range(0, 100)).FirstOrDefault();
             if (define != null)
             {

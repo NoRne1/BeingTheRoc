@@ -40,7 +40,7 @@ class GlobalAccess
     {
         get
         {
-            return 1;
+            return 0;
             //return PlayerPrefs.GetInt("CurrentCharacterId", -1);
         }
         set
@@ -83,16 +83,6 @@ class GlobalAccess
     public static void SaveBattleItem(BattleItem battleItem)
     {
         NorneStore.Instance.Update<BattleItem>(battleItem, true);
-    }
-
-    public static bool GetRandomRate(float rate)
-    {
-        return UnityEngine.Random.Range(0, 100) < rate;
-    }
-
-    public static bool GetRandomRate_affected(float rate)
-    {
-        return UnityEngine.Random.Range(0, 100) < rate;
     }
 
     ~GlobalAccess()

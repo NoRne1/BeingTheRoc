@@ -11,6 +11,9 @@ public class Backpack
     public List<StoreItemModel> equips = new List<StoreItemModel>();
     public Dictionary<Vector2Int, StoreItemModel> grid = new Dictionary<Vector2Int, StoreItemModel>();
     
+    //just for deepcopy
+    public Backpack()
+    {}
     public Backpack(string characterID, int sizeX, int sizeY, Subject<Unit> subject)
     {
         this.characterID = characterID;

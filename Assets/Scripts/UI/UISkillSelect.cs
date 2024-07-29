@@ -57,12 +57,51 @@ public class UISkillSelect : UIWindow
         }).ToList();
         if (character.attributes.level == 0 && character.define.Skill1 != -1)
         {
-            result.Add(DataManager.Instance.Skills[character.define.Skill1]);
+            if (character.define.Skill1 == 1) 
+            {
+                //混元剑坯技能需要特殊处理
+                if (GameUtil.Instance.GetRandomRate(50))
+                {
+                    result.Add(DataManager.Instance.Skills[2]);
+                } else
+                {
+                    result.Add(DataManager.Instance.Skills[3]);
+                }
+            } else 
+            {
+                result.Add(DataManager.Instance.Skills[character.define.Skill1]);
+            }
         } else if (character.attributes.level == 1 && character.define.Skill2 != -1)
         {
+            if (character.define.Skill1 == 4) 
+            {
+                if (GameUtil.Instance.GetRandomRate(50))
+                {
+                    result.Add(DataManager.Instance.Skills[5]);
+                } else
+                {
+                    result.Add(DataManager.Instance.Skills[6]);
+                }
+            } else 
+            {
+                result.Add(DataManager.Instance.Skills[character.define.Skill2]);
+            }
             result.Add(DataManager.Instance.Skills[character.define.Skill2]);
         } else if (character.attributes.level == 2 && character.define.Skill3 != -1)
         {
+            if (character.define.Skill1 == 7) 
+            {
+                if (GameUtil.Instance.GetRandomRate(50))
+                {
+                    result.Add(DataManager.Instance.Skills[8]);
+                } else
+                {
+                    result.Add(DataManager.Instance.Skills[9]);
+                }
+            } else 
+            {
+                result.Add(DataManager.Instance.Skills[character.define.Skill3]);
+            }
             result.Add(DataManager.Instance.Skills[character.define.Skill3]);
         }
         while (result.Count < 3)

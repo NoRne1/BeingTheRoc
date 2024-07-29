@@ -105,6 +105,7 @@
     <Compile Include="Assets/Scripts/Models/TownBattleInfoModel.cs" />
     <Compile Include="Assets/Scripts/Managers/BuffManager.cs" />
     <Compile Include="Assets/Scripts/UI/UIBattleBag.cs" />
+    <Compile Include="Assets/Scripts/Utilities/Extensions/Vec2DictionaryConverter.cs" />
     <Compile Include="Assets/Scripts/UI/UIMainMenu.cs" />
     <Compile Include="Assets/Scripts/UI/UIConsoleOutput.cs" />
     <Compile Include="Assets/Scripts/UI/UICommonUI.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Assets/Scripts/Defines/StoreItemDefine.cs" />
     <Compile Include="Assets/Scripts/Models/AttributeDynamic.cs" />
     <Compile Include="Assets/Scripts/Managers/GameManager.cs" />
+    <Compile Include="Assets/Scripts/Utilities/Extensions/Vector2IntConverter.cs" />
     <Compile Include="Assets/Scripts/Models/EnermyModel.cs" />
     <Compile Include="Assets/Scripts/UI/UITownActionPanel.cs" />
     <Compile Include="Assets/Scripts/Defines/ExpendableItemDefine.cs" />
@@ -165,6 +167,7 @@
     <Compile Include="Assets/Scripts/UI/UIChessboard.cs" />
     <Compile Include="Assets/Scripts/Models/EnemyAI.cs" />
     <Compile Include="Assets/Scripts/UI/UIEquipSlot.cs" />
+    <Compile Include="Assets/Scripts/Utilities/Extensions/Vector2Converter.cs" />
     <Compile Include="Assets/Scripts/UI/UIShopItem.cs" />
     <Compile Include="Assets/Scripts/Managers/BattleChessboardManager.cs" />
     <Compile Include="Assets/Scripts/Managers/LoadingManager.cs" />

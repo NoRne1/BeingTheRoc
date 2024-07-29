@@ -273,7 +273,7 @@ public class MapManager : MonoSingleton<MapManager>
                 //todo StartBattle
                 GameManager.Instance.SwitchPage(PageType.battle, () =>
                 {
-                    BattleManager.Instance.StartBattle(GameManager.Instance.characterRelays.Keys.ToList(), townList[currentTownId].battleInfo);
+                    BattleManager.Instance.StartBattle(GameManager.Instance.characterRelaysDic.Keys.ToList(), townList[currentTownId].battleInfo);
                 });
                 break;
         }                                                                                                                                                                                                                                                 

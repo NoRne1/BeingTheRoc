@@ -31,7 +31,7 @@ public class UITeamWindow : UIWindow
     public void NormalInit()
     {
         normalOrBattleInit = true;
-        currentCharacterID = new BehaviorSubject<string>(GameManager.Instance.characterRelays.GetValueByIndex(0).Value.uuid);
+        currentCharacterID = new BehaviorSubject<string>(GameManager.Instance.characterRelaysDic.GetValueByIndex(0).Value.uuid);
         currentCharacterID.AsObservable().DistinctUntilChanged().TakeUntilDestroy(this).Subscribe(cid =>
         {
             if(disposable != null) { disposable.Dispose(); }
@@ -43,15 +43,15 @@ public class UITeamWindow : UIWindow
         });
         for(int i = 0; i < characterButtons.Count; i++)
         {
-            if (i < GameManager.Instance.characterRelays.Count)
+            if (i < GameManager.Instance.characterRelaysDic.Count)
             {
-                string characterID = GameManager.Instance.characterRelays.GetValueByIndex(i).Value.uuid;
+                string characterID = GameManager.Instance.characterRelaysDic.GetValueByIndex(i).Value.uuid;
                 characterButtons[i].OnClickAsObservable().TakeUntilDestroy(this).Subscribe(_ =>
                 {
                     currentCharacterID.OnNext(characterID);
                 });
                 characterButtons[i].transform.GetChild(0).GetComponent<Image>().overrideSprite =
-                    Resloader.LoadSprite(GameManager.Instance.characterRelays[characterID].Value.Resource, ConstValue.playersPath);
+                    Resloader.LoadSprite(GameManager.Instance.characterRelaysDic[characterID].Value.Resource, ConstValue.playersPath);
                 characterButtons[i].gameObject.SetActive(true);
             } else
             {
@@ -79,7 +79,7 @@ public class UITeamWindow : UIWindow
         });
         for (int i = 0; i < characterButtons.Count; i++)
         {
-            if (i < GameManager.Instance.characterRelays.Count)
+            if (i < GameManager.Instance.characterRelaysDic.Count)
             {
                 string characterID = battleItems[i].uuid;
                 characterButtons[i].OnClickAsObservable().TakeUntilDestroy(this).Subscribe(_ =>

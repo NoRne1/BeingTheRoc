@@ -220,11 +220,11 @@ public class BattleManager : MonoSingleton<BattleManager>
             int[] Data = new int[(int)EquipClass.MAX];
             Data[(int)equipClass] = GameManager.Instance.treasureManager.equipClassEffect.ContainsKey(equipClass) ?
                 GameManager.Instance.treasureManager.equipClassEffect[equipClass] : 0;
-            bool hitFlag = GlobalAccess.GetRandomRate(baseAccuracy *
+            bool hitFlag = GameUtil.Instance.GetRandomRate(baseAccuracy *
                     (1 - target.attributes.Dodge / 100.0f) *
                     (1 + (self.attributes.Accuracy + Data[(int)EquipClass.arrow]) / 100.0f)
                 );
-            bool criticalFlag = GlobalAccess.GetRandomRate(self.attributes.Lucky);
+            bool criticalFlag = GameUtil.Instance.GetRandomRate(self.attributes.Lucky);
             if (!hitFlag)
             {
                 statuses.Add(AttackStatus.miss);

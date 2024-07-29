@@ -17,7 +17,8 @@ public class StoreItemModel : StoreItemDefine
     public TreasureDefine treasureDefine;
     public GoodsDefine goodsDefine;
     public SpecialItemDefine specialItemDefine;
-
+    public StoreItemModel()
+    {}
     public StoreItemModel(StoreItemDefine define)
     {
         uuid = GameUtil.Instance.GenerateUniqueId();

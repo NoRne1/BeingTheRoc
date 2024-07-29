@@ -72,6 +72,21 @@ public class CharacterModel: IStorable
         }
     }
 
+    public void InitInvokeSkill() 
+    {
+        if (DataManager.Instance.Skills.ContainsKey(BornSkill)) 
+        {
+            var skill = DataManager.Instance.Skills[BornSkill];
+            if (skill.InvokeType == SkillInvokeType.instant) 
+            {
+                SkillManager.Instance.InvokeSkill(uuid, skill.MethodName, skill.PropertyType, skill.Value);
+            }
+        } else 
+        {
+            Debug.Log("skill: " + BornSkill + " not found!");
+        }
+    }
+
     public BattleItem ToBattleItem()
     {
         BattleItem item = new BattleItem();

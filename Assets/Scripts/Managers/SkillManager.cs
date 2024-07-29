@@ -64,9 +64,11 @@ public class SkillManager : MonoSingleton<SkillManager>
 // ----------------------Skill----------------------
     private void HunYuanSword_0(string casterID, PropertyType type, int value)
     {
-        StoreItemDefine sword = DataManager.Instance.StoreItems[19];
-        hunyuanSword = new StoreItemModel(DataManager.Instance.StoreItems[19]);
-        GameManager.Instance.repository.AddItem(hunyuanSword);
+        var character = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(casterID)).Value;
+        StoreItemDefine sword = DataManager.Instance.StoreItems[29];
+        hunyuanSword = new StoreItemModel(sword);
+        // GameManager.Instance.repository.AddItem(hunyuanSword);
+        ItemUseManager.Instance.Equip(character, hunyuanSword, new Vector2Int(1, 0));
     }
 
     private void HunYuanYu(string casterID, PropertyType type, int value)
@@ -554,7 +556,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     {
         if (casterID != null && casterID != "")
         {
-            if (GlobalAccess.GetRandomRate_affected(20))
+            if (GameUtil.Instance.GetRandomRate_affected(20))
             {
                 var battleItem = GlobalAccess.GetBattleItem(casterID);
                 battleItem.attributes.currentEnergy += value;
