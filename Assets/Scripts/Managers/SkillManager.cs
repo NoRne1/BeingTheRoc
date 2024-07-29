@@ -556,7 +556,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     {
         if (casterID != null && casterID != "")
         {
-            if (GameUtil.Instance.GetRandomRate_affected(20))
+            if (GameUtil.Instance.GetRandomRate_affected(15))
             {
                 var battleItem = GlobalAccess.GetBattleItem(casterID);
                 battleItem.attributes.currentEnergy += value;
