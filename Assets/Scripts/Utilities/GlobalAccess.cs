@@ -75,6 +75,22 @@ class GlobalAccess
         }
     }
 
+    public static int GetTauntForJob(JobType job)
+    {
+        switch(job)
+        {
+            case JobType.Warrior:
+                return 40;
+            case JobType.Magician:
+                return 20;
+            case JobType.Tank:
+                return 60;
+            default:
+                Debug.LogError("GetWeightForJob unknown JobType: " + job);
+                return 0;
+        }
+    }
+
     public static BattleItem GetBattleItem(string uuid)
     {
         return NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(uuid)).Value;

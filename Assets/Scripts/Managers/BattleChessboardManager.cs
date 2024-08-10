@@ -9,7 +9,7 @@ public enum ClickSlotReason
 {
     none = 0,
     placeCharacter = 1,
-    viewCharacter = 2,
+    viewBattleItem = 2,
     move = 3,
     selectTargets = 4,
     selectPosition = 5,
@@ -17,19 +17,22 @@ public enum ClickSlotReason
 
 public class BattleChessboardManager
 {
+    // alias
     private BattleManager battleManager = BattleManager.Instance;
-
+    // ui
     public UIChessboard chessBoard;
     public UICharacterPlaceBox placeBox;
     public GameObject battleItemPrefab;
     public Transform battleItemFather;
     public UIBattleItemInfo uiBattleItemInfo;
     public UIBattleBag uiBattleBag;
-
+    //property
     public Subject<UIChessboardSlot> clickedSlot = new Subject<UIChessboardSlot>();
     public ClickSlotReason clickSlotReason = ClickSlotReason.none;
     private Vector2 lastSelectedPos = Vector2.positiveInfinity;
-
+    private Queue<ChessboardAction> actionQueue = new Queue<ChessboardAction>();
+    private bool isExecuting = false;
+    //subject
     public BehaviorSubject<int> currentPlaceIndex = new BehaviorSubject<int>(-1);
 
     public BattleChessboardManager(UIChessboard chessBoard, UICharacterPlaceBox placeBox,
@@ -52,7 +55,7 @@ public class BattleChessboardManager
                 //需要手动把placebox隐藏
                 placeBox.gameObject.SetActive(false);
                 chessBoard.ResetColors();
-                clickSlotReason = ClickSlotReason.viewCharacter;
+                clickSlotReason = ClickSlotReason.viewBattleItem;
                 battleManager.roundManager.roundTime.OnNext((null, RoundTime.end));
                 currentPlaceIndex.OnNext(-1);
                 return;
@@ -70,8 +73,11 @@ public class BattleChessboardManager
                 case ClickSlotReason.placeCharacter:
                     PlaceCharacter(slot);
                     break;
-                case ClickSlotReason.viewCharacter:
-                    ShowMovePath(slot);
+                case ClickSlotReason.viewBattleItem:
+                    if (battleManager.battleItemManager.HasBattleItem(slot))
+                    {
+                        SelectItem(slot.position);
+                    }
                     break;
                 case ClickSlotReason.move:
                     ItemMove(slot);
@@ -98,6 +104,48 @@ public class BattleChessboardManager
         chessBoard.ResetMiddle(true, false);
         clickSlotReason = ClickSlotReason.none;
         lastSelectedPos = Vector2.positiveInfinity;
+    }
+
+    public void OuterExecuteActions() 
+    {
+        if (!isExecuting && actionQueue.Count > 0)
+        {
+            battleManager.StartCoroutine(ExecuteActions());
+        }
+    }
+
+    public void EnqueueAction(ChessboardAction action)
+    {
+        actionQueue.Enqueue(action);
+    }
+
+    public IEnumerator ExecuteActions()
+    {
+        isExecuting = true;
+        while (actionQueue.Count > 0)
+        {
+            ChessboardAction currentAction = actionQueue.Dequeue();
+            switch (currentAction.type)
+            {
+                case ChessboardActionType.Move:
+                    yield return battleManager.StartCoroutine(ChessboardActionExecutor.MoveToPosition(currentAction.moveInfo));
+                    break;
+                case ChessboardActionType.NormalItemUse:
+                    yield return battleManager.StartCoroutine(ChessboardActionExecutor.UseNormalItem(currentAction.normalItemUseInfo));
+                    break;
+                case ChessboardActionType.EquipUse:
+                    yield return battleManager.StartCoroutine(ChessboardActionExecutor.UseEquip(currentAction.equipUseInfo));
+                    break;
+                case ChessboardActionType.EndRound:
+                    ChessboardActionExecutor.EndRound(currentAction.endRoundInfo.uuid);
+                    yield return null;
+                    break;
+                default:
+                    Debug.LogError("Unknown ChessboardAniType");
+                    break;
+            }
+        }
+        isExecuting = false;
     }
 
     public void PlaceCharacter(UIChessboardSlot slot)
@@ -132,23 +180,23 @@ public class BattleChessboardManager
         battleManager.battleItemManager.id_posDic.Add(uuid, slot.position);
     }
 
-    public void ShowMovePath(UIChessboardSlot chessboardSlot)
+    public void ShowMovePath(string uuid)
     {
-        if (battleManager.battleItemManager.HasBattleItem(chessboardSlot))
+        Vector2 pos = battleManager.battleItemManager.GetPosByUUid(uuid);
+        if (pos != Vector2.negativeInfinity)
         {
             chessBoard.ResetColors();
             Dictionary<Vector2, ChessboardSlotColor> dic = new Dictionary<Vector2, ChessboardSlotColor>();
             foreach (var slot in chessBoard.slots.Values)
             {
-                if (GameUtil.Instance.CanMoveTo(chessboardSlot.position, slot.position,
-                    GlobalAccess.GetBattleItem(battleManager.battleItemManager.pos_uibattleItemDic[chessboardSlot.position].itemID).attributes.Mobility))
+                if (GameUtil.Instance.CanMoveTo(pos, slot.position,
+                    GlobalAccess.GetBattleItem(uuid).attributes.Mobility))
                 {
                     dic.Add(slot.position, ChessboardSlotColor.green);
                 }
             }
             chessBoard.SetColors(dic);
             clickSlotReason = ClickSlotReason.move;
-            SelectItem(chessboardSlot.position);
         }
     }
 
@@ -159,7 +207,7 @@ public class BattleChessboardManager
         if (battleManager.battleItemManager.HasBattleItem(slot))
         {
             // 点击了被其他BattleItem占用的地点
-            clickSlotReason = ClickSlotReason.viewCharacter;
+            clickSlotReason = ClickSlotReason.viewBattleItem;
             clickedSlot.OnNext(slot);
         }
         else if (lastClickedSlot != null && itemID ==
@@ -178,11 +226,9 @@ public class BattleChessboardManager
                 battleManager.battleItemManager.id_posDic.Remove(itemID);
                 battleManager.battleItemManager.id_posDic.Add(itemID, slot.position);
 
-                //battleItemDic[slot.position].transform.position = slot.transform.position;
-                BattleCommonMethods.MoveAlongPath(result.Item2.Select(pos => chessBoard.slots[pos].transform.position).ToList(),
-                    battleManager.battleItemManager.pos_uibattleItemDic[slot.position].transform);
-                ShowMovePath(slot);
-                SelectItem(slot.position);
+                EnqueueAction(new ChessboardAction(new MoveInfo(battleManager.battleItemManager.pos_uibattleItemDic[slot.position], 
+                    result.Item2)));
+                    
                 battleItem.attributes.currentEnergy -= 1;
                 GlobalAccess.SaveBattleItem(battleItem);
                 battleItem.moveSubject.OnNext(slot.position);
@@ -192,7 +238,7 @@ public class BattleChessboardManager
                 //移动失败
                 Debug.Log("move failure to :" + slot.position);
                 chessBoard.ResetColors();
-                clickSlotReason = ClickSlotReason.viewCharacter;
+                clickSlotReason = ClickSlotReason.viewBattleItem;
                 UnselectItem();
                 if (battleItem.isConfine)
                 {
@@ -213,7 +259,7 @@ public class BattleChessboardManager
             //移动失败
             Debug.Log("move failure to :" + slot.position);
             chessBoard.ResetColors();
-            clickSlotReason = ClickSlotReason.viewCharacter;
+            clickSlotReason = ClickSlotReason.viewBattleItem;
             UnselectItem();
         }
     }
@@ -227,11 +273,13 @@ public class BattleChessboardManager
                 a.Selected = false;
             });
         }
+        var itemID = battleManager.battleItemManager.pos_uibattleItemDic[pos].itemID;
         battleManager.battleItemManager.pos_uibattleItemDic[pos].Selected = true;
-        uiBattleItemInfo.Setup(battleManager.battleItemManager.pos_uibattleItemDic[pos].itemID);
-        battleManager.uiBattleBag.Setup(battleManager.battleItemManager.pos_uibattleItemDic[pos].itemID);
+        uiBattleItemInfo.Setup(itemID);
+        battleManager.uiBattleBag.Setup(itemID);
         chessBoard.ResetMiddle(false);
         lastSelectedPos = pos;
+        ShowMovePath(itemID);
     }
 
     public void UnselectItem()
@@ -286,10 +334,11 @@ public class BattleChessboardManager
 
     private void TargetItemsSelected(UIChessboardSlot slot)
     {
-        clickSlotReason = ClickSlotReason.viewCharacter;
+        clickSlotReason = ClickSlotReason.viewBattleItem;
         //找出正在行动的角色的位置
+        var actingItemID = battleManager.battleItemManager.battleItemIDs[0];
         Vector2 vect = battleManager.battleItemManager.pos_uibattleItemDic.First(x =>
-            x.Value.itemID == GlobalAccess.GetBattleItem(battleManager.battleItemManager.battleItemIDs[0]).uuid).Key;
+            x.Value.itemID == actingItemID).Key;
         if (GameUtil.Instance.GetTargetRangeList(vect, clickedStoreItem.equipDefine.targetRange).Contains(slot.position))
         {
             //todo temp one target
@@ -298,14 +347,13 @@ public class BattleChessboardManager
                 //选择的位置有角色,符合条件
                 ItemUseManager.Instance.targetIDs = new List<string>() { battleManager.battleItemManager.pos_uibattleItemDic[slot.position].itemID };
                 clickSlotReason = ClickSlotReason.move;
-                ShowMovePath(chessBoard.slots[vect]);
             }
             else
             {
                 //选择的位置没有角色，装备使用被打断
                 ItemUseManager.Instance.targetChooseBreakFlag = true;
                 clickSlotReason = ClickSlotReason.move;
-                ShowMovePath(chessBoard.slots[vect]);
+                ShowMovePath(actingItemID);
             }
         }
         else
@@ -313,16 +361,17 @@ public class BattleChessboardManager
             //选择的位置超出装备使用范围，装备使用被打断
             ItemUseManager.Instance.targetChooseBreakFlag = true;
             clickSlotReason = ClickSlotReason.move;
-            ShowMovePath(chessBoard.slots[vect]);
+            ShowMovePath(actingItemID);
         }
     }
 
     private void TargetPositionSelected(UIChessboardSlot slot)
     {
-        clickSlotReason = ClickSlotReason.viewCharacter;
+        clickSlotReason = ClickSlotReason.viewBattleItem;
+        var actingItemID = battleManager.battleItemManager.battleItemIDs[0];
         //找出正在行动的角色的位置
         Vector2 vect = battleManager.battleItemManager.pos_uibattleItemDic.First(x =>
-            x.Value.itemID == GlobalAccess.GetBattleItem(battleManager.battleItemManager.battleItemIDs[0]).uuid).Key;
+            x.Value.itemID == actingItemID).Key;
         if (GameUtil.Instance.GetTargetRangeList(vect, clickedStoreItem.equipDefine.targetRange).Contains(slot.position))
         {
             if (!battleManager.battleItemManager.pos_uibattleItemDic.Keys.Contains(slot.position))
@@ -330,14 +379,13 @@ public class BattleChessboardManager
                 //选择的位置没有角色,符合条件
                 ItemUseManager.Instance.targetPos = slot.position;
                 clickSlotReason = ClickSlotReason.move;
-                ShowMovePath(chessBoard.slots[vect]);
             }
             else
             {
                 //选择的位置有item，装备使用被打断
                 ItemUseManager.Instance.targetChooseBreakFlag = true;
                 clickSlotReason = ClickSlotReason.move;
-                ShowMovePath(chessBoard.slots[vect]);
+                ShowMovePath(actingItemID);
             }
         }
         else
@@ -345,7 +393,7 @@ public class BattleChessboardManager
             //选择的位置超出装备使用范围，装备使用被打断
             ItemUseManager.Instance.targetChooseBreakFlag = true;
             clickSlotReason = ClickSlotReason.move;
-            ShowMovePath(chessBoard.slots[vect]);
+            ShowMovePath(actingItemID);
         }
     }
 }

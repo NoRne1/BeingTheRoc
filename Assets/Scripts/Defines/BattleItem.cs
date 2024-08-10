@@ -17,6 +17,7 @@ public class BattleItem: IStorable
 {
     public string uuid { get; set; }
     public string Name { get; set; }
+    public JobType Job { get; set; }
     public GeneralLevel Level { get; set; }
     public string Resource { get; set; }
     public BattleItemType battleItemType { get; set; }

@@ -93,7 +93,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                         TargetChooseInit();
                         BattleManager.Instance.chessboardManager.SelectTargets(item, ChooseTargetType.position);
                         // 等待玩家选择目标
-                        yield return new WaitUntil(() => (targetPos == Vector2.negativeInfinity && !targetChooseBreakFlag));
+                        yield return new WaitUntil(() => (targetPos != Vector2.negativeInfinity && !targetChooseBreakFlag));
                         ProcessItemUse(casterID, item, targetIDs, targetPos);
                         break;
                     default:

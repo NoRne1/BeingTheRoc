@@ -48,6 +48,10 @@ public class EquipDefine
     public Effect effect1 { get; set; }
     public Effect effect2 { get; set; }
     public Effect effect3 { get; set; }
+    //每一点能量能够造成的威胁值
+    public int attackThreaten { get; set; }
+    //每一点能量能够造成的威胁值
+    public int protectAbility { get; set; }
 
     public AttributeData attr;
 

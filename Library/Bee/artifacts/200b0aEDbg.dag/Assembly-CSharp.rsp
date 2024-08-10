@@ -428,6 +428,7 @@
 "Assets/Scripts/Models/Backpack.cs"
 "Assets/Scripts/Models/BuffModel.cs"
 "Assets/Scripts/Models/CharacterModel.cs"
+"Assets/Scripts/Models/ChessboardAniType.cs"
 "Assets/Scripts/Models/EnemyAI.cs"
 "Assets/Scripts/Models/EnermyModel.cs"
 "Assets/Scripts/Models/RepositoryModel.cs"

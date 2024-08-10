@@ -79,7 +79,7 @@ public class BattleRoundManager
                         {
                             pair.Value.roundActive = true;
                             // auto viewCharacter
-                            battleManager.chessboardManager.clickSlotReason = ClickSlotReason.viewCharacter;
+                            battleManager.chessboardManager.clickSlotReason = ClickSlotReason.viewBattleItem;
                             battleManager.chessboardManager.clickedSlot.OnNext(battleManager.chessBoard.slots[pair.Key]);
                         });
                         break;
@@ -130,7 +130,7 @@ public class BattleRoundManager
                         }
                         else
                         {
-                            battleManager.StartCoroutine(battleItem0.enemyAI.TurnAction(battleItem0.uuid));
+                            battleItem0.enemyAI.TurnAction(battleItem0.uuid);
                         }
                         break;
                     case BattleItemType.time:

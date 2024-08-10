@@ -308,6 +308,7 @@ public class GameUtil : Singleton<GameUtil>
         // 换成DataManager.Instance.Language[""]时,记得要.ReplaceNewLines()
     }
 
+    //既可以获取攻击范围（传入攻击者坐标），也可以获取可攻击目标的所有位置（传入目标位置）
     public List<Vector2> GetTargetRangeList(Vector2 vect, TargetRange targetRange)
     {
         List<Vector2> result;

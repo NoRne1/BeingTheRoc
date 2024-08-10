@@ -82,6 +82,7 @@ public class EnermyModel: IStorable
         item.uuid = this.uuid;
         item.battleItemType = BattleItemType.enemy;
         item.Name = this.Name;
+        item.Job = this.Job;
         item.Level = this.Level;
         item.attributes = this.attributes;
 

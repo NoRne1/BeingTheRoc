@@ -78,6 +78,11 @@ public class BattleItemManager
         battleItemIDs = tempBattleItems.Select(item => item.uuid).ToList();
     }
 
+    public bool HasBattleItem(Vector2 vect)
+    {
+        return pos_uibattleItemDic.ContainsKey(vect);
+    }
+
     public bool HasBattleItem(UIChessboardSlot slot)
     {
         return pos_uibattleItemDic.ContainsKey(slot.position);
@@ -106,15 +111,27 @@ public class BattleItemManager
         return results;
     }
 
-    public (bool, Vector2) GetPosByUUid(string uuid)
+    public Vector2 GetPosByUUid(string uuid)
     {
         var result = pos_uibattleItemDic.Where(item => item.Value.itemID == uuid).ToList();
         if (result.Count > 0)
         {
-            return (true, result.First().Key);
+            return result.First().Key;
         } else
         {
-            return (false, Vector2.zero);
+            return Vector2.negativeInfinity;
+        }
+    }
+
+    public UIBattleItem GetUIBattleItemByUUid(string uuid)
+    {
+        var result = pos_uibattleItemDic.Where(item => item.Value.itemID == uuid).ToList();
+        if (result.Count > 0 && pos_uibattleItemDic.ContainsKey(result.First().Key))
+        {
+            return pos_uibattleItemDic[result.First().Key];
+        } else
+        {
+            return null;
         }
     }
 

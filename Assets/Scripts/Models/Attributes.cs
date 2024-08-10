@@ -170,7 +170,7 @@ public class Attributes
         attr.Mobility = define.Mobility;
         attr.Energy = define.Energy;
         attr.Lucky = define.Lucky;
-        attr.Taunt = define.Taunt;
+        attr.Taunt = define.Job;
         // 默认就为0，所以不用赋值0
         //attr.Protection = 0;
         //attr.EnchanceDamage = 0;

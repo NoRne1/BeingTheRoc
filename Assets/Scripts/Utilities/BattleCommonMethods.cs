@@ -186,6 +186,7 @@ public static class BattleCommonMethods
         return status;
     }
 
+    //找最短路径
     public static (bool, List<Vector2>) CanMoveTo(Vector2 source, Vector2 dest, int mobility, List<Vector2> battleItemsPosList)
     {
         if (source == dest)
@@ -237,13 +238,13 @@ public static class BattleCommonMethods
         return (false, new List<Vector2>()); // If no path is found
     }
 
-    public static void MoveAlongPath(List<Vector3> path, Transform targetTransform)
+    public static Tween MoveAlongPath(List<Vector3> path, Transform targetTransform)
     {
         // 检查路径是否为空或只有一个点
         if (path == null || path.Count < 2)
         {
             Debug.LogError("Path must contain at least 2 points.");
-            return;
+            return null;
         }
 
         // 设置 DOTween 的路径
@@ -260,7 +261,7 @@ public static class BattleCommonMethods
         float duration = totalDistance / 5f; // 这里假设速度为5单位/秒
 
         // 使用 DOTween 设置路径动画
-        targetTransform.DOPath(waypoints, duration, PathType.Linear, PathMode.Full3D)
+        return targetTransform.DOPath(waypoints, duration, PathType.Linear, PathMode.Full3D)
             .SetEase(Ease.Linear)
             .OnComplete(() => Debug.Log("Movement along path completed."));
     }

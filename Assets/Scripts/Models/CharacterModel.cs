@@ -93,6 +93,7 @@ public class CharacterModel: IStorable
         item.uuid = this.uuid;
         item.battleItemType = BattleItemType.player;
         item.Name = this.Name;
+        item.Job = this.Job;
         item.Level = this.Level;
         item.attributes = this.attributes;
         item.Resource = this.Resource;

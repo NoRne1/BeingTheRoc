@@ -52,4 +52,42 @@ public static class DictionaryExtensions
             return default(TValue);
         }
     }
+
+    public static Dictionary<Vector2, int> AddDictionaries(Dictionary<Vector2, int> dict1, Dictionary<Vector2, int> dict2)
+    {
+        Dictionary<Vector2, int> result = new Dictionary<Vector2, int>(dict1);
+
+        foreach (var kvp in dict2)
+        {
+            if (result.ContainsKey(kvp.Key))
+            {
+                result[kvp.Key] += kvp.Value;
+            }
+            else
+            {
+                result[kvp.Key] = kvp.Value;
+            }
+        }
+
+        return result;
+    }
+
+    public static Dictionary<Vector2, int> SubtractDictionaries(Dictionary<Vector2, int> dict1, Dictionary<Vector2, int> dict2)
+    {
+        Dictionary<Vector2, int> result = new Dictionary<Vector2, int>(dict1);
+
+        foreach (var kvp in dict2)
+        {
+            if (result.ContainsKey(kvp.Key))
+            {
+                result[kvp.Key] -= kvp.Value;
+            }
+            else
+            {
+                result[kvp.Key] = -kvp.Value;
+            }
+        }
+
+        return result;
+    }
 }

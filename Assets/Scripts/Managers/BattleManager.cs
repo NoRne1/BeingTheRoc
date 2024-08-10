@@ -67,6 +67,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     // Update is called once per frame
     void Update()
     {
+        chessboardManager.OuterExecuteActions();
         if (GameManager.Instance.currentPageType == PageType.battle)
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -173,7 +174,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         if (battleItem != null)
         {
-            chessboardManager.clickSlotReason = ClickSlotReason.viewCharacter;
+            chessboardManager.clickSlotReason = ClickSlotReason.viewBattleItem;
             string uuID = battleItem.uuid;
             try
             {

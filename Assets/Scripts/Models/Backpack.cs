@@ -28,6 +28,52 @@ public class Backpack
         fatherUpdate = subject;
     }
 
+    public StoreItemModel GetMostThreatenEquip() 
+    {
+        StoreItemModel mostThreatenEquip = null;
+        int maxThreaten = 0;
+        foreach (var equip in equips)
+        {
+            if (equip.equipDefine.attackThreaten > maxThreaten)
+            {
+                mostThreatenEquip = equip;
+                maxThreaten = equip.equipDefine.attackThreaten;
+            }
+        }
+        return mostThreatenEquip;   
+    }
+
+    public List<StoreItemModel> GetEquipsSortedByThreaten()
+    {
+        return equips
+            .Where(equip => equip.equipDefine.attackThreaten > 0)
+            .OrderByDescending(equip => equip.equipDefine.attackThreaten)
+            .ToList();
+    }
+
+    public StoreItemModel GetMostProtectAbilityEquip() 
+    {
+        StoreItemModel mostProtectAbilityEquip = null;
+        int maxProtectAbility = 0;
+        foreach (var equip in equips)
+        {
+            if (equip.equipDefine.protectAbility > maxProtectAbility)
+            {
+                mostProtectAbilityEquip = equip;
+                maxProtectAbility = equip.equipDefine.protectAbility;
+            }
+        }
+        return mostProtectAbilityEquip;   
+    }
+
+    public List<StoreItemModel> GetEquipsSortedByProtectAbility()
+    {
+        return equips
+            .Where(equip => equip.equipDefine.protectAbility > 0)
+            .OrderByDescending(equip => equip.equipDefine.protectAbility)
+            .ToList();
+    }
+
     public bool CanPlace(StoreItemModel item, Vector2Int position)
     {
         return this.CanPlace(item, position, grid);
