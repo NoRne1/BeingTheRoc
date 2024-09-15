@@ -190,7 +190,6 @@ public class DataManager : Singleton<DataManager>
                 {
                     model.backpack.Place(buildStoreItem(define.equip5), define.equip5.postion);
                 }
-                model.aiType = EnemyAIType.TankAI;
                 enermyModels.Add(model);
             }
         }

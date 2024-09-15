@@ -6,18 +6,20 @@ using UnityEngine;
 
 public struct EnemyAIWeightFactor
 {
+    //嘲讽(std:0.5)
     public float taunt;
-    //攻击的收益
+    //攻击的收益(std:1)
     public float attackProceeds;
-    //攻击的收益
+    //保护的收益(std:0.8f)
     public float protectProceeds;
-    //受到攻击的威胁
+    //受到攻击的威胁(std:0.5f)
     public float attackThreaten;
     //考虑buff流派的时候用
     // public float damageThreaten;
+    //目标百分比血量(std:0.5f)
     public float targetHP;
 
-    public EnemyAIWeightFactor(float taunt = 1, float attackProceeds = 1, float protectProceeds = 1, float attackThreaten = 1, float targetHP = 1)
+    public EnemyAIWeightFactor(float taunt = 0.5f, float attackProceeds = 1, float protectProceeds = 0.8f, float attackThreaten = 0.5f, float targetHP = 0.5f)
     {
         this.taunt = taunt;
         this.attackProceeds = attackProceeds;
@@ -27,8 +29,9 @@ public struct EnemyAIWeightFactor
     }
 }
 
-public abstract class EnemyAI
+public class EnemyAI
 {
+    public virtual EnemyAIWeightFactor weightFactor { get; set; } = new EnemyAIWeightFactor();
     protected BattleManager battleManager = BattleManager.Instance;
     public IEnumerator TurnAction(string uuid) 
     {
@@ -38,6 +41,7 @@ public abstract class EnemyAI
             if (selfItem.attributes.currentEnergy > 0)
             {
                 yield return battleManager.StartCoroutine(TurnOnceAction(uuid));
+                yield return new WaitForSeconds(0.5f);
             }
             else 
             {
@@ -46,7 +50,164 @@ public abstract class EnemyAI
             }
         }
     }
-    public abstract IEnumerator TurnOnceAction(string uuid);
+    public virtual IEnumerator TurnOnceAction(string uuid)
+    {
+        Debug.Log("TankAI TurnOnceAction");
+        var selfItem = GlobalAccess.GetBattleItem(uuid);
+        var selfPos = battleManager.battleItemManager.id_posDic[uuid];
+        var players = getBattleItems(BattleItemType.player);
+        var enemys = getBattleItems(BattleItemType.enemy);
+        //totalThreatenDict
+        Dictionary<Vector2, int> totalThreatenDict = new Dictionary<Vector2, int>();
+        foreach (var player in players)
+        {
+            Dictionary<Vector2, int> threatenDict = CalculateThreatenMap(player.Item1, player.Item2);
+            totalThreatenDict = DictionaryExtensions.AddDictionaries(totalThreatenDict, threatenDict);
+        }
+        //totalTaunt
+        float totalTaunt = 0;
+        foreach (var player in players)
+        {
+            totalTaunt += player.Item2.attributes.Taunt;
+        }
+
+        //target & maxScore
+        (Vector2, BattleItem) target = (Vector2.negativeInfinity, null);
+        float maxScore = 0;
+        Vector2 bestPos = Vector2.negativeInfinity;
+        StoreItemModel bestEquip = null;
+        var threatenEquips = selfItem.backpack.GetEquipsSortedByThreaten();
+        float maxAttackThreaten = -1;
+        if(threatenEquips.Count > 0) 
+        {
+            maxAttackThreaten = threatenEquips.FirstOrDefault().equipDefine.attackThreaten;
+            foreach(var equip in threatenEquips)
+            {
+                foreach (var player in players)
+                {
+                    var attackProceedsAndThreatenResult = CalculateAttackProceedsAndThreaten(selfPos, selfItem, player.Item1, player.Item2, equip, maxAttackThreaten, totalThreatenDict);
+                    float tempScore = 0;
+                    if (attackProceedsAndThreatenResult.Item1 > 0) 
+                    {
+                        //有攻击收益才是有效的行动，否则会由其他逻辑处理
+                        tempScore = player.Item2.attributes.Taunt * 1.0f / totalTaunt * weightFactor.taunt
+                        + attackProceedsAndThreatenResult.Item1 * weightFactor.attackProceeds
+                        + (1 - attackProceedsAndThreatenResult.Item2) * weightFactor.attackThreaten
+                        + player.Item2.attributes.currentHP * 1.0f / player.Item2.attributes.MaxHP * weightFactor.targetHP;
+                    }
+                    if (tempScore > maxScore) 
+                    {
+                        maxScore = tempScore;
+                        target = player;
+                        bestPos = attackProceedsAndThreatenResult.Item3;
+                        bestEquip = equip;
+                    } 
+                }
+            }
+        }
+        
+        var protectEquips = selfItem.backpack.GetEquipsSortedByProtectAbility();
+        float maxProtectAbility = -1;
+        if (protectEquips.Count > 0)
+        {
+            maxProtectAbility = protectEquips.FirstOrDefault().equipDefine.protectAbility;
+            foreach(var equip in protectEquips)
+            {
+                foreach (var enemy in enemys)
+                {
+                    var protectProceedsAndThreatenResult = CalculateProtectProceedsAndThreaten(selfPos, selfItem, enemy.Item1, enemy.Item2, equip, maxProtectAbility, totalThreatenDict);
+                    float tempScore = 0;
+                    if (protectProceedsAndThreatenResult.Item1 > 0) 
+                    {
+                        //有保护收益才是有效的行动，否则会由其他逻辑处理
+                        tempScore = enemy.Item2.attributes.Taunt * 1.0f / totalTaunt * weightFactor.taunt
+                        + protectProceedsAndThreatenResult.Item1 * weightFactor.protectProceeds
+                        + (1 - protectProceedsAndThreatenResult.Item2) * weightFactor.attackThreaten
+                        + enemy.Item2.attributes.currentHP * 1.0f / enemy.Item2.attributes.MaxHP * weightFactor.targetHP;
+                    }
+                    if (tempScore > maxScore) 
+                    {
+                        maxScore = tempScore;
+                        target = enemy;
+                        bestPos = protectProceedsAndThreatenResult.Item3;
+                        bestEquip = equip;
+                    } 
+                }
+            }
+        }
+        
+        if (maxScore > 0) 
+        {
+            if (selfPos != bestPos) 
+            {
+                yield return battleManager.StartCoroutine(MoveToPositionOneStep(uuid, bestPos));
+            } else 
+            {
+                if (bestEquip != null) 
+                {
+                    yield return battleManager.StartCoroutine(ItemUseManager.Instance.ProcessEquipUse(uuid, bestEquip, 
+                        new List<string>{target.Item2.uuid}, Vector2.negativeInfinity));
+                }
+            }
+        } else 
+        {
+            //没有直接收益
+            float targetMaxScore = 0;
+            Vector2 moveTargetPos = Vector2.negativeInfinity;
+            StoreItemModel equip = null;
+            
+            //找最佳目标
+            if (maxAttackThreaten >= maxProtectAbility) 
+            {
+                foreach (var player in players)
+                {
+                    var tempScore = player.Item2.attributes.Taunt * 1.0f / totalTaunt * weightFactor.taunt
+                            + player.Item2.attributes.currentHP * 1.0f / player.Item2.attributes.MaxHP * weightFactor.targetHP;
+                    if (tempScore > targetMaxScore) 
+                    {
+                        targetMaxScore = tempScore;
+                        moveTargetPos = player.Item1;
+                        equip = threatenEquips.FirstOrDefault();
+                    }
+                }
+            } else 
+            {
+                foreach (var enemy in enemys)
+                {
+                    float tempScore = 0;
+                    if (totalThreatenDict.ContainsKey(enemy.Item1)) 
+                    {
+                        var leftHp = enemy.Item2.attributes.currentHP * 1.0f - totalThreatenDict[enemy.Item1];
+                        tempScore = leftHp / enemy.Item2.attributes.MaxHP;
+                        if (leftHp <= 0)
+                        {
+                            tempScore += 999;
+                        }
+                    } else 
+                    {
+                        tempScore = enemy.Item2.attributes.currentHP * 1.0f / enemy.Item2.attributes.MaxHP;
+                    }
+                    if (tempScore > targetMaxScore) 
+                    {
+                        targetMaxScore = tempScore;
+                        moveTargetPos = enemy.Item1;
+                        equip = protectEquips.FirstOrDefault();
+                    }
+                }
+            }
+            //向目标移动
+            if (targetMaxScore > 0 && moveTargetPos != Vector2.negativeInfinity && equip != null) 
+            {
+                Vector2 des = FindBestDes(selfPos, moveTargetPos, selfItem.attributes.Mobility, equip, totalThreatenDict);
+                if (des != Vector2.negativeInfinity) 
+                {
+                    yield return battleManager.StartCoroutine(MoveToPositionOneStep(uuid, des));
+                }
+            }
+        }
+        yield return null;
+    }
+
     public List<(Vector2, BattleItem)> getBattleItems(BattleItemType type)
     {
         List<(Vector2, BattleItem)> playerItems = new List<(Vector2, BattleItem)>();
@@ -263,282 +424,25 @@ public abstract class EnemyAI
 
 public class TankAI: EnemyAI
 {
-    public EnemyAIWeightFactor weightFactor = new EnemyAIWeightFactor(1, 1, 1, 1);
-    public override IEnumerator TurnOnceAction(string uuid)
-    {
-        Debug.Log("TankAI TurnOnceAction");
-        var selfItem = GlobalAccess.GetBattleItem(uuid);
-        var selfPos = battleManager.battleItemManager.id_posDic[uuid];
-        var players = getBattleItems(BattleItemType.player);
-        var enemys = getBattleItems(BattleItemType.enemy);
-        //totalThreatenDict
-        Dictionary<Vector2, int> totalThreatenDict = new Dictionary<Vector2, int>();
-        foreach (var player in players)
-        {
-            Dictionary<Vector2, int> threatenDict = CalculateThreatenMap(player.Item1, player.Item2);
-            totalThreatenDict = DictionaryExtensions.AddDictionaries(totalThreatenDict, threatenDict);
-        }
-        //totalTaunt
-        float totalTaunt = 0;
-        foreach (var player in players)
-        {
-            totalTaunt += player.Item2.attributes.Taunt;
-        }
-
-        //target & maxScore
-        (Vector2, BattleItem) target = (Vector2.negativeInfinity, null);
-        float maxScore = 0;
-        Vector2 bestPos = Vector2.negativeInfinity;
-        StoreItemModel bestEquip = null;
-        var threatenEquips = selfItem.backpack.GetEquipsSortedByThreaten();
-        float maxAttackThreaten = -1;
-        if(threatenEquips.Count > 0) 
-        {
-            maxAttackThreaten = threatenEquips.FirstOrDefault().equipDefine.attackThreaten;
-            foreach(var equip in threatenEquips)
-            {
-                foreach (var player in players)
-                {
-                    var attackProceedsAndThreatenResult = CalculateAttackProceedsAndThreaten(selfPos, selfItem, player.Item1, player.Item2, equip, maxAttackThreaten, totalThreatenDict);
-                    float tempScore = 0;
-                    if (attackProceedsAndThreatenResult.Item1 > 0) 
-                    {
-                        //有攻击收益才是有效的行动，否则会由其他逻辑处理
-                        tempScore = player.Item2.attributes.Taunt * 1.0f / totalTaunt * weightFactor.taunt
-                        + attackProceedsAndThreatenResult.Item1 * weightFactor.attackProceeds
-                        + (1 - attackProceedsAndThreatenResult.Item2) * weightFactor.attackThreaten
-                        + player.Item2.attributes.currentHP * 1.0f / player.Item2.attributes.MaxHP * weightFactor.targetHP;
-                    }
-                    if (tempScore > maxScore) 
-                    {
-                        maxScore = tempScore;
-                        target = player;
-                        bestPos = attackProceedsAndThreatenResult.Item3;
-                        bestEquip = equip;
-                    } 
-                }
-            }
-        }
-        
-        var protectEquips = selfItem.backpack.GetEquipsSortedByProtectAbility();
-        float maxProtectAbility = -1;
-        if (protectEquips.Count > 0)
-        {
-            maxProtectAbility = protectEquips.FirstOrDefault().equipDefine.protectAbility;
-            foreach(var equip in protectEquips)
-            {
-                foreach (var enemy in enemys)
-                {
-                    var protectProceedsAndThreatenResult = CalculateProtectProceedsAndThreaten(selfPos, selfItem, enemy.Item1, enemy.Item2, equip, maxProtectAbility, totalThreatenDict);
-                    float tempScore = 0;
-                    if (protectProceedsAndThreatenResult.Item1 > 0) 
-                    {
-                        //有保护收益才是有效的行动，否则会由其他逻辑处理
-                        tempScore = enemy.Item2.attributes.Taunt * 1.0f / totalTaunt * weightFactor.taunt
-                        + protectProceedsAndThreatenResult.Item1 * weightFactor.protectProceeds
-                        + (1 - protectProceedsAndThreatenResult.Item2) * weightFactor.attackThreaten
-                        + enemy.Item2.attributes.currentHP * 1.0f / enemy.Item2.attributes.MaxHP * weightFactor.targetHP;
-                    }
-                    if (tempScore > maxScore) 
-                    {
-                        maxScore = tempScore;
-                        target = enemy;
-                        bestPos = protectProceedsAndThreatenResult.Item3;
-                        bestEquip = equip;
-                    } 
-                }
-            }
-        }
-        
-        if (maxScore > 0) 
-        {
-            if (selfPos != bestPos) 
-            {
-                yield return battleManager.StartCoroutine(MoveToPositionOneStep(uuid, bestPos));
-            } else 
-            {
-                if (bestEquip != null) 
-                {
-                    yield return battleManager.StartCoroutine(ItemUseManager.Instance.ProcessEquipUse(uuid, bestEquip, 
-                        new List<string>{target.Item2.uuid}, Vector2.negativeInfinity));
-                }
-            }
-        } else 
-        {
-            //没有直接收益
-            float targetMaxScore = 0;
-            Vector2 moveTargetPos = Vector2.negativeInfinity;
-            StoreItemModel equip = null;
-            
-            //找最佳目标
-            if (maxAttackThreaten >= maxProtectAbility) 
-            {
-                foreach (var player in players)
-                {
-                    var tempScore = player.Item2.attributes.Taunt * 1.0f / totalTaunt * weightFactor.taunt
-                            + player.Item2.attributes.currentHP * 1.0f / player.Item2.attributes.MaxHP * weightFactor.targetHP;
-                    if (tempScore > targetMaxScore) 
-                    {
-                        targetMaxScore = tempScore;
-                        moveTargetPos = player.Item1;
-                        equip = threatenEquips.FirstOrDefault();
-                    }
-                }
-            } else 
-            {
-                foreach (var enemy in enemys)
-                {
-                    float tempScore = 0;
-                    if (totalThreatenDict.ContainsKey(enemy.Item1)) 
-                    {
-                        var leftHp = enemy.Item2.attributes.currentHP * 1.0f - totalThreatenDict[enemy.Item1];
-                        tempScore = leftHp / enemy.Item2.attributes.MaxHP;
-                        if (leftHp <= 0)
-                        {
-                            tempScore += 999;
-                        }
-                    } else 
-                    {
-                        tempScore = enemy.Item2.attributes.currentHP * 1.0f / enemy.Item2.attributes.MaxHP;
-                    }
-                    if (tempScore > targetMaxScore) 
-                    {
-                        targetMaxScore = tempScore;
-                        moveTargetPos = enemy.Item1;
-                        equip = protectEquips.FirstOrDefault();
-                    }
-                }
-            }
-            //向目标移动
-            if (targetMaxScore > 0 && moveTargetPos != Vector2.negativeInfinity && equip != null) 
-            {
-                Vector2 des = FindBestDes(selfPos, moveTargetPos, selfItem.attributes.Mobility, equip, totalThreatenDict);
-                if (des != Vector2.negativeInfinity) 
-                {
-                    yield return battleManager.StartCoroutine(MoveToPositionOneStep(uuid, des));
-                }
-            }
-        }
-        yield return null;
-    }
+    public override EnemyAIWeightFactor weightFactor { get; set; } = new EnemyAIWeightFactor(0.8f, 0.5f, 0.4f, 0.2f, 0.2f);
 }
 
 public class WarriorAI : EnemyAI
 {
-    public override IEnumerator TurnOnceAction(string uuid)
-    {
-        Debug.Log("WarriorAI TurnOnceAction");
-        yield return null;
-    }
+    public override EnemyAIWeightFactor weightFactor { get; set; } = new EnemyAIWeightFactor(0.5f, 1, 0.4f, 0.2f, 0.5f);
 }
 
 public class AssassinAI: EnemyAI
 {
-    public EnemyAIWeightFactor weightFactor = new EnemyAIWeightFactor(1, 1.5f, 1, 1.5f);
-    public override IEnumerator TurnOnceAction(string uuid)
-    {
-        Debug.Log("AssassinAI TurnOnceAction");
-        yield return null;
-        // var selfItem = GlobalAccess.GetBattleItem(uuid);
-        // var selfPos = battleManager.battleItemManager.id_posDic[uuid];
-        // var players = getBattleItems(BattleItemType.player);
-        // //totalThreatenDict
-        // Dictionary<Vector2, int> totalThreatenDict = new Dictionary<Vector2, int>();
-        // foreach (var player in players)
-        // {
-        //     Dictionary<Vector2, int> threatenDict = CalculateThreatenMap(player.Item1, player.Item2);
-        //     DictionaryExtensions.AddDictionaries(totalThreatenDict, threatenDict);
-        // }
-        // //totalTaunt
-        // float totalTaunt = 0;
-        // foreach (var player in players)
-        // {
-        //     totalTaunt += player.Item2.attributes.Taunt;
-        // }
-        // //target & maxScore
-        // (Vector2, BattleItem) target = (Vector2.negativeInfinity, null);
-        // float maxScore = 0;
-        // Vector2 bestPos = Vector2.negativeInfinity;
-        // var threatenEquips = selfItem.backpack.GetEquipsSortedByThreaten();
-        // float maxAttackThreaten = threatenEquips.FirstOrDefault().equipDefine.attackThreaten;
-        // foreach (var player in players)
-        // {
-        //     var attackProceedsAndThreatenResult = CalculateAttackProceedsAndThreaten(selfPos, selfItem, player.Item1, player.Item2, threatenEquips.FirstOrDefault(), maxAttackThreaten, totalThreatenDict);
-        //     float tempScore = player.Item2.attributes.Taunt * 1.0f / totalTaunt * weightFactor.taunt
-        //         + attackProceedsAndThreatenResult.Item1 * weightFactor.attackProceeds
-        //         + attackProceedsAndThreatenResult.Item2 * weightFactor.attackThreaten
-        //         + player.Item2.attributes.currentHP * 1.0f / player.Item2.attributes.MaxHP * weightFactor.targetHP;
-        //     if (tempScore > maxScore) 
-        //     {
-        //         maxScore = tempScore;
-        //         target = player;
-        //         bestPos = attackProceedsAndThreatenResult.Item3;
-        //     } 
-        // }
-        // if (bestPos != Vector2.negativeInfinity)
-        // {
-        //     if (bestPos != selfPos)
-        //     {
-        //         //移动
-        //         yield return battleManager.StartCoroutine(MoveToPositionOneStep(uuid, bestPos));
-        //     } else 
-        //     {
-        //         var threatenEquips = selfItem.backpack.GetEquipsSortedByThreaten();
-        //         var protectEquips = selfItem.backpack.GetEquipsSortedByProtectAbility();
-        //         var currentEnergy = selfItem.attributes.currentEnergy;
-        //         var currentThreaten = totalThreatenDict[bestPos];
-        //         StoreItemModel bestEquip = null;
-        //         int bestScore = 0; 
-        //         foreach (var equip in threatenEquips)
-        //         {
-        //             if (currentEnergy >= equip.equipDefine.takeEnergy)
-        //             {
-        //                 //使用威胁最大的装备
-        //                 bestScore = equip.equipDefine.attackThreaten;
-        //                 bestEquip = equip;
-        //                 break;
-        //             }
-        //         }
-        //         foreach (var equip in protectEquips)
-        //         {
-        //             if (currentEnergy >= equip.equipDefine.takeEnergy)
-        //             {
-        //                 var tempScore = Mathf.Min(currentThreaten, equip.equipDefine.protectAbility);
-        //                 //使用保护能力最大的装备
-        //                 if (tempScore > bestScore)
-        //                 {
-        //                     currentThreaten -= tempScore;
-        //                     bestScore = equip.equipDefine.protectAbility;
-        //                     bestEquip = equip;
-        //                     break;
-        //                 }
-        //             }
-        //         }
-        //         yield return battleManager.StartCoroutine(ItemUseManager.Instance.ProcessEquipUse(uuid, bestEquip, 
-        //             new List<string>{target.Item2.uuid}, Vector2.negativeInfinity));
-        //         //范围武器支持
-        //         // battleManager.chessboardManager.EnqueueAction(new ChessboardAction(new EquipUseInfo()));
-        //         // yield return battleManager.StartCoroutine(MoveToPosition(uuid, bestPos));
-        //     }
-        // }
-    }
+    public override EnemyAIWeightFactor weightFactor { get; set; } = new EnemyAIWeightFactor(0.2f, 1, 0.2f, 0.8f, 0.8f);
 }
 
 public class MagicianAI : EnemyAI
 {
-    public EnemyAIWeightFactor weightFactor = new EnemyAIWeightFactor(1, 1, 1, 1);
-    public override IEnumerator TurnOnceAction(string uuid)
-    {
-        Debug.Log("MagicianAI TurnOnceAction");
-        yield return null;
-    }
+    public override EnemyAIWeightFactor weightFactor { get; set; } = new EnemyAIWeightFactor(0.5f, 1, 0.2f, 0.8f, 0.5f);
 }
 
 public class PastorAI : EnemyAI
 {
-    public override IEnumerator TurnOnceAction(string uuid)
-    {
-        Debug.Log("PastorAI TurnOnceAction");
-        yield return null;
-    }
+    public override EnemyAIWeightFactor weightFactor { get; set; } = new EnemyAIWeightFactor(0.5f, 0.2f, 1, 0.5f, 0.5f);
 }
