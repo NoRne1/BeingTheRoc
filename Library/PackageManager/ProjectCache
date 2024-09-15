@@ -117,6 +117,7 @@ m_ResolvedPackages:
     - 2.3.1
     - 2.4.3
     - 2.4.4
+    - 2.5.1
     compatible:
     - 2.0.5
     - 2.0.7
@@ -128,6 +129,7 @@ m_ResolvedPackages:
     - 2.3.1
     - 2.4.3
     - 2.4.4
+    - 2.5.1
     recommended: 2.0.7
     deprecated: []
   dependencies: []
@@ -224,10 +226,14 @@ m_ResolvedPackages:
     version: 9.0.3
   - name: com.unity.2d.common
     version: 8.0.1
-  - name: com.unity.2d.sprite
-    version: 1.0.0
+  - name: com.unity.burst
+    version: 1.8.7
   - name: com.unity.mathematics
     version: 1.2.6
+  - name: com.unity.2d.sprite
+    version: 1.0.0
+  - name: com.unity.modules.animation
+    version: 1.0.0
   - name: com.unity.modules.uielements
     version: 1.0.0
   - name: com.unity.modules.ui
@@ -236,10 +242,6 @@ m_ResolvedPackages:
     version: 1.0.0
   - name: com.unity.modules.jsonserialize
     version: 1.0.0
-  - name: com.unity.modules.animation
-    version: 1.0.0
-  - name: com.unity.burst
-    version: 1.8.7
   - name: com.unity.collections
     version: 1.2.4
   - name: com.unity.test-framework
@@ -946,18 +948,18 @@ m_ResolvedPackages:
     recommended: 1.7.6
     deprecated: []
   dependencies:
+  - name: com.unity.modules.audio
+    version: 1.0.0
   - name: com.unity.modules.director
     version: 1.0.0
   - name: com.unity.modules.animation
     version: 1.0.0
-  - name: com.unity.modules.audio
-    version: 1.0.0
   - name: com.unity.modules.particlesystem
     version: 1.0.0
   resolvedDependencies:
-  - name: com.unity.modules.director
-    version: 1.0.0
   - name: com.unity.modules.audio
+    version: 1.0.0
+  - name: com.unity.modules.director
     version: 1.0.0
   - name: com.unity.modules.animation
     version: 1.0.0
@@ -3278,6 +3280,7 @@ m_ResolvedPackages:
     - 9.0.4
     - 9.1.0
     - 9.1.1
+    - 9.1.2
     - 10.0.0-pre.1
     - 10.0.0-pre.2
     - 10.0.0
@@ -3287,11 +3290,13 @@ m_ResolvedPackages:
     - 10.1.0
     - 10.1.1
     - 10.1.2
+    - 10.1.3
     compatible:
     - 9.0.3
     - 9.0.4
     - 9.1.0
     - 9.1.1
+    - 9.1.2
     recommended: 9.0.4
     deprecated: []
   dependencies:
@@ -3308,10 +3313,14 @@ m_ResolvedPackages:
   resolvedDependencies:
   - name: com.unity.2d.common
     version: 8.0.1
-  - name: com.unity.2d.sprite
-    version: 1.0.0
+  - name: com.unity.burst
+    version: 1.8.7
   - name: com.unity.mathematics
     version: 1.2.6
+  - name: com.unity.2d.sprite
+    version: 1.0.0
+  - name: com.unity.modules.animation
+    version: 1.0.0
   - name: com.unity.modules.uielements
     version: 1.0.0
   - name: com.unity.modules.ui
@@ -3320,10 +3329,6 @@ m_ResolvedPackages:
     version: 1.0.0
   - name: com.unity.modules.jsonserialize
     version: 1.0.0
-  - name: com.unity.modules.animation
-    version: 1.0.0
-  - name: com.unity.burst
-    version: 1.8.7
   - name: com.unity.collections
     version: 1.2.4
   - name: com.unity.test-framework
@@ -3551,21 +3556,23 @@ m_ResolvedPackages:
     recommended: 8.0.5
     deprecated: []
   dependencies:
+  - name: com.unity.2d.common
+    version: 8.0.1
+  - name: com.unity.2d.sprite
+    version: 1.0.0
   - name: com.unity.2d.animation
     version: 9.0.1
-  - name: com.unity.2d.common
-    version: 8.0.1
-  - name: com.unity.2d.sprite
-    version: 1.0.0
   resolvedDependencies:
-  - name: com.unity.2d.animation
-    version: 9.0.3
   - name: com.unity.2d.common
     version: 8.0.1
-  - name: com.unity.2d.sprite
-    version: 1.0.0
+  - name: com.unity.burst
+    version: 1.8.7
   - name: com.unity.mathematics
     version: 1.2.6
+  - name: com.unity.2d.sprite
+    version: 1.0.0
+  - name: com.unity.modules.animation
+    version: 1.0.0
   - name: com.unity.modules.uielements
     version: 1.0.0
   - name: com.unity.modules.ui
@@ -3574,10 +3581,8 @@ m_ResolvedPackages:
     version: 1.0.0
   - name: com.unity.modules.jsonserialize
     version: 1.0.0
-  - name: com.unity.modules.animation
-    version: 1.0.0
-  - name: com.unity.burst
-    version: 1.8.7
+  - name: com.unity.2d.animation
+    version: 9.0.3
   - name: com.unity.collections
     version: 1.2.4
   - name: com.unity.test-framework
@@ -3789,18 +3794,22 @@ m_ResolvedPackages:
     recommended: 9.0.4
     deprecated: []
   dependencies:
-  - name: com.unity.mathematics
-    version: 1.1.0
   - name: com.unity.2d.common
     version: 8.0.1
+  - name: com.unity.mathematics
+    version: 1.1.0
   - name: com.unity.modules.physics2d
     version: 1.0.0
   resolvedDependencies:
-  - name: com.unity.mathematics
-    version: 1.2.6
   - name: com.unity.2d.common
     version: 8.0.1
+  - name: com.unity.burst
+    version: 1.8.7
+  - name: com.unity.mathematics
+    version: 1.2.6
   - name: com.unity.2d.sprite
+    version: 1.0.0
+  - name: com.unity.modules.animation
     version: 1.0.0
   - name: com.unity.modules.uielements
     version: 1.0.0
@@ -3810,10 +3819,6 @@ m_ResolvedPackages:
     version: 1.0.0
   - name: com.unity.modules.jsonserialize
     version: 1.0.0
-  - name: com.unity.modules.animation
-    version: 1.0.0
-  - name: com.unity.burst
-    version: 1.8.7
   - name: com.unity.modules.physics2d
     version: 1.0.0
   keywords:
@@ -3999,30 +4004,30 @@ m_ResolvedPackages:
     recommended: 3.1.2
     deprecated: []
   dependencies:
-  - name: com.unity.modules.tilemap
+  - name: com.unity.ugui
     version: 1.0.0
   - name: com.unity.2d.tilemap
     version: 1.0.0
-  - name: com.unity.ugui
+  - name: com.unity.modules.tilemap
     version: 1.0.0
   - name: com.unity.modules.jsonserialize
     version: 1.0.0
   resolvedDependencies:
-  - name: com.unity.modules.tilemap
-    version: 1.0.0
-  - name: com.unity.modules.physics2d
-    version: 1.0.0
-  - name: com.unity.2d.tilemap
-    version: 1.0.0
-  - name: com.unity.modules.uielements
+  - name: com.unity.ugui
     version: 1.0.0
   - name: com.unity.modules.ui
     version: 1.0.0
   - name: com.unity.modules.imgui
     version: 1.0.0
-  - name: com.unity.modules.jsonserialize
+  - name: com.unity.2d.tilemap
     version: 1.0.0
-  - name: com.unity.ugui
+  - name: com.unity.modules.tilemap
+    version: 1.0.0
+  - name: com.unity.modules.physics2d
+    version: 1.0.0
+  - name: com.unity.modules.uielements
+    version: 1.0.0
+  - name: com.unity.modules.jsonserialize
     version: 1.0.0
   keywords:
   - 2d
@@ -4084,6 +4089,8 @@ m_ResolvedPackages:
     - 1.1.2
     - 1.1.3
     - 1.1.4
+    - 1.1.5
+    - 1.1.6
     compatible:
     - 1.0.0
     - 1.0.1
@@ -4092,24 +4099,30 @@ m_ResolvedPackages:
     - 1.1.2
     - 1.1.3
     - 1.1.4
+    - 1.1.5
+    - 1.1.6
     recommended: 1.0.1
     deprecated: []
   dependencies:
-  - name: com.unity.2d.sprite
-    version: 1.0.0
   - name: com.unity.2d.common
     version: 6.0.6
+  - name: com.unity.2d.sprite
+    version: 1.0.0
   - name: com.unity.mathematics
     version: 1.2.6
   - name: com.unity.modules.animation
     version: 1.0.0
   resolvedDependencies:
-  - name: com.unity.2d.sprite
-    version: 1.0.0
   - name: com.unity.2d.common
     version: 8.0.1
+  - name: com.unity.burst
+    version: 1.8.7
   - name: com.unity.mathematics
     version: 1.2.6
+  - name: com.unity.2d.sprite
+    version: 1.0.0
+  - name: com.unity.modules.animation
+    version: 1.0.0
   - name: com.unity.modules.uielements
     version: 1.0.0
   - name: com.unity.modules.ui
@@ -4118,10 +4131,6 @@ m_ResolvedPackages:
     version: 1.0.0
   - name: com.unity.modules.jsonserialize
     version: 1.0.0
-  - name: com.unity.modules.animation
-    version: 1.0.0
-  - name: com.unity.burst
-    version: 1.8.7
   keywords:
   - 2d
   - Aseprite
@@ -4231,6 +4240,7 @@ m_ResolvedPackages:
     - 9.0.3
     - 9.0.4
     - 9.0.5
+    - 9.0.6
     compatible:
     - 8.0.1
     - 8.0.2
@@ -4238,21 +4248,25 @@ m_ResolvedPackages:
     recommended: 8.0.3
     deprecated: []
   dependencies:
+  - name: com.unity.burst
+    version: 1.7.3
   - name: com.unity.2d.sprite
     version: 1.0.0
   - name: com.unity.mathematics
     version: 1.1.0
+  - name: com.unity.modules.animation
+    version: 1.0.0
   - name: com.unity.modules.uielements
+    version: 1.0.0
+  resolvedDependencies:
+  - name: com.unity.burst
+    version: 1.8.7
+  - name: com.unity.mathematics
+    version: 1.2.6
+  - name: com.unity.2d.sprite
     version: 1.0.0
   - name: com.unity.modules.animation
     version: 1.0.0
-  - name: com.unity.burst
-    version: 1.7.3
-  resolvedDependencies:
-  - name: com.unity.2d.sprite
-    version: 1.0.0
-  - name: com.unity.mathematics
-    version: 1.2.6
   - name: com.unity.modules.uielements
     version: 1.0.0
   - name: com.unity.modules.ui
@@ -4261,10 +4275,6 @@ m_ResolvedPackages:
     version: 1.0.0
   - name: com.unity.modules.jsonserialize
     version: 1.0.0
-  - name: com.unity.modules.animation
-    version: 1.0.0
-  - name: com.unity.burst
-    version: 1.8.7
   keywords:
   - 2d
   registry:
@@ -4456,6 +4466,7 @@ m_ResolvedPackages:
     - 2.4.0
     - 2.4.1
     - 2.4.2
+    - 2.4.3
     - 2.5.0-exp.1
     - 2.5.0-pre.2
     compatible:

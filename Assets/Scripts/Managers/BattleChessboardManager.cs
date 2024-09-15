@@ -29,8 +29,8 @@ public class BattleChessboardManager
     //property
     public Subject<UIChessboardSlot> clickedSlot = new Subject<UIChessboardSlot>();
     public ClickSlotReason clickSlotReason = ClickSlotReason.none;
+    //因为点击角色和移动的点击是分开的，所以记录点击时角色的位置
     private Vector2 lastSelectedPos = Vector2.positiveInfinity;
-    private Queue<ChessboardAction> actionQueue = new Queue<ChessboardAction>();
     private bool isExecuting = false;
     //subject
     public BehaviorSubject<int> currentPlaceIndex = new BehaviorSubject<int>(-1);
@@ -80,7 +80,7 @@ public class BattleChessboardManager
                     }
                     break;
                 case ClickSlotReason.move:
-                    ItemMove(slot);
+                    battleManager.StartCoroutine(ClickItemMove(slot));
                     break;
                 case ClickSlotReason.selectTargets:
                     TargetItemsSelected(slot);
@@ -104,48 +104,6 @@ public class BattleChessboardManager
         chessBoard.ResetMiddle(true, false);
         clickSlotReason = ClickSlotReason.none;
         lastSelectedPos = Vector2.positiveInfinity;
-    }
-
-    public void OuterExecuteActions() 
-    {
-        if (!isExecuting && actionQueue.Count > 0)
-        {
-            battleManager.StartCoroutine(ExecuteActions());
-        }
-    }
-
-    public void EnqueueAction(ChessboardAction action)
-    {
-        actionQueue.Enqueue(action);
-    }
-
-    public IEnumerator ExecuteActions()
-    {
-        isExecuting = true;
-        while (actionQueue.Count > 0)
-        {
-            ChessboardAction currentAction = actionQueue.Dequeue();
-            switch (currentAction.type)
-            {
-                case ChessboardActionType.Move:
-                    yield return battleManager.StartCoroutine(ChessboardActionExecutor.MoveToPosition(currentAction.moveInfo));
-                    break;
-                case ChessboardActionType.NormalItemUse:
-                    yield return battleManager.StartCoroutine(ChessboardActionExecutor.UseNormalItem(currentAction.normalItemUseInfo));
-                    break;
-                case ChessboardActionType.EquipUse:
-                    yield return battleManager.StartCoroutine(ChessboardActionExecutor.UseEquip(currentAction.equipUseInfo));
-                    break;
-                case ChessboardActionType.EndRound:
-                    ChessboardActionExecutor.EndRound(currentAction.endRoundInfo.uuid);
-                    yield return null;
-                    break;
-                default:
-                    Debug.LogError("Unknown ChessboardAniType");
-                    break;
-            }
-        }
-        isExecuting = false;
     }
 
     public void PlaceCharacter(UIChessboardSlot slot)
@@ -200,7 +158,7 @@ public class BattleChessboardManager
         }
     }
 
-    public void ItemMove(UIChessboardSlot slot)
+    public IEnumerator ClickItemMove(UIChessboardSlot slot)
     {
         UIChessboardSlot lastClickedSlot = chessBoard.slots.GetValueOrDefault(lastSelectedPos);
         string itemID = battleManager.battleItemManager.pos_uibattleItemDic[lastSelectedPos].itemID;
@@ -214,32 +172,57 @@ public class BattleChessboardManager
             GlobalAccess.GetBattleItem(battleManager.battleItemManager.battleItemIDs[0]).uuid &&
                 battleManager.battleItemManager.HasBattleItem(lastClickedSlot))
         {
-            var battleItem = GlobalAccess.GetBattleItem(itemID);
-            var result = BattleCommonMethods.CanMoveTo(lastSelectedPos, slot.position,
+            yield return ItemMove(itemID, slot.position, result => {
+                //移动结果
+                if (result)
+                {
+                    lastSelectedPos = slot.position;
+                } else
+                {
+                    Debug.Log("move failure to :" + slot.position);
+                    chessBoard.ResetColors();
+                    clickSlotReason = ClickSlotReason.viewBattleItem;
+                    UnselectItem();
+                }
+            });
+        }
+        else
+        {
+            //移动失败
+            Debug.Log("move failure to :" + slot.position);
+            chessBoard.ResetColors();
+            clickSlotReason = ClickSlotReason.viewBattleItem;
+            UnselectItem();
+        }
+    }
+
+    public IEnumerator ItemMove(string uuid, Vector2 des, Action<bool> resultHandler)
+    {
+        if (uuid == GlobalAccess.GetBattleItem(battleManager.battleItemManager.battleItemIDs[0]).uuid)
+        {
+            Vector2 originPos = battleManager.battleItemManager.GetPosByUUid(uuid);
+            var battleItem = GlobalAccess.GetBattleItem(uuid);
+            var moveResult = BattleCommonMethods.CanMoveTo(originPos, des,
             battleItem.attributes.Mobility, battleManager.battleItemManager.pos_uibattleItemDic.Keys.ToList());
-            if (!battleItem.isConfine && battleItem.attributes.currentEnergy > 0 && result.Item1)
+            if (!battleItem.isConfine && battleItem.attributes.currentEnergy > 0 && moveResult.Item1)
             {
                 // 移动成功
-                Debug.Log("move success to :" + slot.position);
-                battleManager.battleItemManager.pos_uibattleItemDic.Add(slot.position, battleManager.battleItemManager.pos_uibattleItemDic[lastSelectedPos]);
-                battleManager.battleItemManager.pos_uibattleItemDic.Remove(lastSelectedPos);
-                battleManager.battleItemManager.id_posDic.Remove(itemID);
-                battleManager.battleItemManager.id_posDic.Add(itemID, slot.position);
+                Debug.Log("move success to :" + des);
+                battleManager.battleItemManager.pos_uibattleItemDic.Add(des, battleManager.battleItemManager.pos_uibattleItemDic[originPos]);
+                battleManager.battleItemManager.pos_uibattleItemDic.Remove(originPos);
+                battleManager.battleItemManager.id_posDic.Remove(uuid);
+                battleManager.battleItemManager.id_posDic.Add(uuid, des);
 
-                EnqueueAction(new ChessboardAction(new MoveInfo(battleManager.battleItemManager.pos_uibattleItemDic[slot.position], 
-                    result.Item2)));
-                    
                 battleItem.attributes.currentEnergy -= 1;
                 GlobalAccess.SaveBattleItem(battleItem);
-                battleItem.moveSubject.OnNext(slot.position);
-            }
-            else
+                battleItem.moveSubject.OnNext(des);
+                yield return battleManager.StartCoroutine(BattleCommonMethods.MoveToPosition(battleManager.battleItemManager.pos_uibattleItemDic[des], 
+                    moveResult.Item2));
+                resultHandler?.Invoke(true);
+                yield return null;
+            } else 
             {
-                //移动失败
-                Debug.Log("move failure to :" + slot.position);
-                chessBoard.ResetColors();
-                clickSlotReason = ClickSlotReason.viewBattleItem;
-                UnselectItem();
+                resultHandler?.Invoke(false);
                 if (battleItem.isConfine)
                 {
                     BlackBarManager.Instance.AddMessage("禁锢状态，移动失败");
@@ -253,14 +236,6 @@ public class BattleChessboardManager
                     BlackBarManager.Instance.AddMessage("目标位置不可用，移动失败");
                 }
             }
-        }
-        else
-        {
-            //移动失败
-            Debug.Log("move failure to :" + slot.position);
-            chessBoard.ResetColors();
-            clickSlotReason = ClickSlotReason.viewBattleItem;
-            UnselectItem();
         }
     }
 

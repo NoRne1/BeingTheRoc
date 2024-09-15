@@ -492,7 +492,7 @@ public class GameUtil : Singleton<GameUtil>
                 {
                     effectType = EffectType.battleEffect,
                     invokeType = EffectInvokeType.useInstant,
-                    invokeNum = 1,
+                    invokeTime = 1,
                     methodName = "DashToTarget",
                     value = 0
                 };
@@ -501,7 +501,7 @@ public class GameUtil : Singleton<GameUtil>
                 {
                     effectType = EffectType.battleEffect,
                     invokeType = EffectInvokeType.useInstant,
-                    invokeNum = 1,
+                    invokeTime = 1,
                     methodName = "Backward",
                     value = 1
                 };
@@ -510,7 +510,7 @@ public class GameUtil : Singleton<GameUtil>
                 {
                     effectType = EffectType.battleEffect,
                     invokeType = EffectInvokeType.useInstant,
-                    invokeNum = 1,
+                    invokeTime = 1,
                     methodName = "Knockback",
                     value = 1
                 };
@@ -519,12 +519,17 @@ public class GameUtil : Singleton<GameUtil>
                 {
                     effectType = EffectType.battleEffect,
                     invokeType = EffectInvokeType.useInstant,
-                    invokeNum = 1,
+                    invokeTime = 1,
                     methodName = "ReturnEnergy"
                 };
             default:
                 Debug.LogError("Unknown battle effect type.");
                 return null;
         }
+    }
+
+    public Vector3 ScreenToWorldPointWithoutZ(Vector2 vect2)
+    {
+        return Camera.main.ScreenToWorldPoint(new Vector3(vect2.x, vect2.y, Camera.main.nearClipPlane));
     }
 }

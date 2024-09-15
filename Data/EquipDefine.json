@@ -10,10 +10,12 @@
         "targetRange": 3,
         "takeEnergy": 1,
         "baseAccuracy": 100,
+        "attackThreaten": 10,
+        "protectAbility": 0,
         "effect1": {
             "effectType": 3,
             "invokeType": 0,
-            "invokeNum": 1,
+            "invokeTime": 1,
             "propertyType": -1,
             "methodName": null,
             "value": 10
@@ -32,10 +34,12 @@
         "targetRange": 3,
         "takeEnergy": 1,
         "baseAccuracy": 100,
+        "attackThreaten": 20,
+        "protectAbility": 0,
         "effect1": {
             "effectType": 3,
             "invokeType": 0,
-            "invokeNum": 1,
+            "invokeTime": 1,
             "propertyType": -1,
             "methodName": null,
             "value": 20
@@ -54,10 +58,12 @@
         "targetRange": 4,
         "takeEnergy": 1,
         "baseAccuracy": 100,
+        "attackThreaten": 30,
+        "protectAbility": 0,
         "effect1": {
             "effectType": 3,
             "invokeType": 0,
-            "invokeNum": 1,
+            "invokeTime": 1,
             "propertyType": -1,
             "methodName": null,
             "value": 30
@@ -76,10 +82,12 @@
         "targetRange": -1,
         "takeEnergy": 0,
         "baseAccuracy": 100,
+        "attackThreaten": 0,
+        "protectAbility": 0,
         "effect1": {
             "effectType": 0,
             "invokeType": 0,
-            "invokeNum": 1,
+            "invokeTime": 1,
             "propertyType": 7,
             "methodName": null,
             "value": 1
@@ -98,10 +106,12 @@
         "targetRange": -1,
         "takeEnergy": 1,
         "baseAccuracy": 100,
+        "attackThreaten": 0,
+        "protectAbility": 30,
         "effect1": {
             "effectType": 0,
             "invokeType": 0,
-            "invokeNum": 1,
+            "invokeTime": 1,
             "propertyType": 11,
             "methodName": null,
             "value": 30
@@ -120,10 +130,12 @@
         "targetRange": -1,
         "takeEnergy": 1,
         "baseAccuracy": 100,
+        "attackThreaten": 0,
+        "protectAbility": 20,
         "effect1": {
             "effectType": 0,
             "invokeType": 0,
-            "invokeNum": 1,
+            "invokeTime": 1,
             "propertyType": 11,
             "methodName": null,
             "value": 20
@@ -142,10 +154,12 @@
         "targetRange": -1,
         "takeEnergy": 1,
         "baseAccuracy": 100,
+        "attackThreaten": 0,
+        "protectAbility": 10,
         "effect1": {
             "effectType": 0,
             "invokeType": 0,
-            "invokeNum": 1,
+            "invokeTime": 1,
             "propertyType": 11,
             "methodName": null,
             "value": 10
@@ -164,10 +178,12 @@
         "targetRange": 2,
         "takeEnergy": 1,
         "baseAccuracy": 100,
+        "attackThreaten": 15,
+        "protectAbility": 0,
         "effect1": {
             "effectType": 3,
             "invokeType": 0,
-            "invokeNum": 1,
+            "invokeTime": 1,
             "propertyType": -1,
             "methodName": null,
             "value": 15
@@ -186,10 +202,12 @@
         "targetRange": 1,
         "takeEnergy": 1,
         "baseAccuracy": 100,
+        "attackThreaten": 10,
+        "protectAbility": 0,
         "effect1": {
             "effectType": 3,
             "invokeType": 0,
-            "invokeNum": 1,
+            "invokeTime": 1,
             "propertyType": -1,
             "methodName": null,
             "value": 10
@@ -208,10 +226,12 @@
         "targetRange": 5,
         "takeEnergy": 1,
         "baseAccuracy": 100,
+        "attackThreaten": 20,
+        "protectAbility": 0,
         "effect1": {
             "effectType": 3,
             "invokeType": 0,
-            "invokeNum": 2,
+            "invokeTime": 2,
             "propertyType": -1,
             "methodName": null,
             "value": 10
@@ -230,10 +250,12 @@
         "targetRange": 4,
         "takeEnergy": 1,
         "baseAccuracy": 100,
+        "attackThreaten": 12,
+        "protectAbility": 0,
         "effect1": {
             "effectType": 3,
             "invokeType": 0,
-            "invokeNum": 2,
+            "invokeTime": 2,
             "propertyType": -1,
             "methodName": null,
             "value": 6
@@ -252,10 +274,12 @@
         "targetRange": 4,
         "takeEnergy": 1,
         "baseAccuracy": 100,
+        "attackThreaten": 10,
+        "protectAbility": 0,
         "effect1": {
             "effectType": 3,
             "invokeType": 0,
-            "invokeNum": 1,
+            "invokeTime": 1,
             "propertyType": -1,
             "methodName": null,
             "value": 10
@@ -274,10 +298,12 @@
         "targetRange": -1,
         "takeEnergy": 0,
         "baseAccuracy": 100,
+        "attackThreaten": 0,
+        "protectAbility": 0,
         "effect1": {
-            "effectType": 1,
+            "effectType": 2,
             "invokeType": 0,
-            "invokeNum": 1,
+            "invokeTime": 1,
             "propertyType": -1,
             "methodName": null,
             "value": 1
@@ -296,10 +322,12 @@
         "targetRange": 5,
         "takeEnergy": 0,
         "baseAccuracy": 100,
+        "attackThreaten": 0,
+        "protectAbility": 0,
         "effect1": {
-            "effectType": 2,
+            "effectType": 1,
             "invokeType": 0,
-            "invokeNum": 1,
+            "invokeTime": 1,
             "propertyType": -1,
             "methodName": null,
             "value": null
@@ -318,10 +346,12 @@
         "targetRange": 4,
         "takeEnergy": 0,
         "baseAccuracy": 100,
+        "attackThreaten": 0,
+        "protectAbility": 0,
         "effect1": {
-            "effectType": 1,
+            "effectType": 2,
             "invokeType": 0,
-            "invokeNum": 1,
+            "invokeTime": 1,
             "propertyType": -1,
             "methodName": null,
             "value": 12
@@ -340,10 +370,12 @@
         "targetRange": 4,
         "takeEnergy": 0,
         "baseAccuracy": 100,
+        "attackThreaten": 0,
+        "protectAbility": 0,
         "effect1": {
-            "effectType": 1,
+            "effectType": 2,
             "invokeType": 0,
-            "invokeNum": 1,
+            "invokeTime": 1,
             "propertyType": -1,
             "methodName": null,
             "value": 13
@@ -362,10 +394,12 @@
         "targetRange": 4,
         "takeEnergy": 0,
         "baseAccuracy": 100,
+        "attackThreaten": 20,
+        "protectAbility": 0,
         "effect1": {
             "effectType": 3,
             "invokeType": 0,
-            "invokeNum": 1,
+            "invokeTime": 1,
             "propertyType": -1,
             "methodName": null,
             "value": 20
@@ -384,10 +418,12 @@
         "targetRange": -1,
         "takeEnergy": 0,
         "baseAccuracy": 100,
+        "attackThreaten": 0,
+        "protectAbility": 0,
         "effect1": {
             "effectType": 0,
             "invokeType": 0,
-            "invokeNum": 1,
+            "invokeTime": 1,
             "propertyType": 7,
             "methodName": null,
             "value": 1
@@ -406,10 +442,12 @@
         "targetRange": -1,
         "takeEnergy": 0,
         "baseAccuracy": 100,
+        "attackThreaten": 0,
+        "protectAbility": 0,
         "effect1": {
             "effectType": 0,
             "invokeType": 0,
-            "invokeNum": 1,
+            "invokeTime": 1,
             "propertyType": 10,
             "methodName": null,
             "value": 150
@@ -428,10 +466,12 @@
         "targetRange": 4,
         "takeEnergy": 1,
         "baseAccuracy": 100,
+        "attackThreaten": 10,
+        "protectAbility": 0,
         "effect1": {
             "effectType": 3,
             "invokeType": 0,
-            "invokeNum": 1,
+            "invokeTime": 1,
             "propertyType": -1,
             "methodName": null,
             "value": 10

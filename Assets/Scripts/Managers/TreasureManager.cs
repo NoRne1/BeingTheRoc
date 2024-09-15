@@ -157,9 +157,9 @@ public class TreasureManager
 
     private void KingArrow(StoreItemModel item, int num, int value)
     {
-        if (!equipClassEffect.ContainsKey(EquipClass.arrow))
+        if (!equipClassEffect.ContainsKey(EquipClass.arch))
         {
-            equipClassEffect.Add(EquipClass.arrow, num * value);
+            equipClassEffect.Add(EquipClass.arch, num * value);
         }
     }
 

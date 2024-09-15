@@ -226,7 +226,7 @@ public class UITeamBagPage : MonoBehaviour
     // 使用按钮点击事件
     void OnUseButtonClick()
     {
-        ItemUseManager.Instance.Use(character.uuid, useOrDropItem);
+        StartCoroutine(ItemUseManager.Instance.Use(character.uuid, useOrDropItem));
     }
 
     // 丢弃按钮点击事件

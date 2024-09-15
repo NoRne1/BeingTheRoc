@@ -7,9 +7,6 @@ using System.IO;
 using Newtonsoft.Json;
 using UniRx;
 
-/// <summary>
-/// ���ݹ�����
-/// </summary>
 public class DataManager : Singleton<DataManager>
 {
     public string DataPath;
@@ -193,6 +190,7 @@ public class DataManager : Singleton<DataManager>
                 {
                     model.backpack.Place(buildStoreItem(define.equip5), define.equip5.postion);
                 }
+                model.aiType = EnemyAIType.TankAI;
                 enermyModels.Add(model);
             }
         }

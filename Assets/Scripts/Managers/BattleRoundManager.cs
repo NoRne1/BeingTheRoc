@@ -130,7 +130,7 @@ public class BattleRoundManager
                         }
                         else
                         {
-                            battleItem0.enemyAI.TurnAction(battleItem0.uuid);
+                            yield return battleManager.StartCoroutine(battleItem0.enemyAI.TurnAction(battleItem0.uuid));
                         }
                         break;
                     case BattleItemType.time:

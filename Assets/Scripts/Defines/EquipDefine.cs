@@ -21,7 +21,8 @@ public enum EquipClass
 {
     none = -1,
     sword = 0,
-    arrow = 1,
+    arch = 1,
+    shield = 2,
     MAX
 }
 

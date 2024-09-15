@@ -26,7 +26,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
     }
 
     //第一层能量检查
-    public void Use(string casterID, StoreItemModel item)
+    public IEnumerator Use(string casterID, StoreItemModel item)
     {
         switch (item.type)
         {
@@ -35,7 +35,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                 var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
                 if (target.attributes.currentEnergy >= item.equipDefine.takeEnergy)
                 {
-                    StartCoroutine(TriggerEffect(casterID, item));
+                    StartCoroutine(InvokeCheck(casterID, item));
                 }
                 else if (target.attributes.currentEnergy > 0)
                 {
@@ -47,7 +47,8 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                 }
                 break;
             case ItemType.expendable:
-                StartCoroutine(TriggerEffect(casterID, item));
+                yield return StartCoroutine(InvokeEffect(EffectInvokeType.useInstant, casterID, targetIDs, targetPos, item));
+                RepoDrop(item);
                 break;
             case ItemType.treasure:
                 Debug.LogError("Item Use should not handle treasure type");
@@ -72,7 +73,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
     }
 
     //触发方式检查
-    private IEnumerator TriggerEffect(string casterID, StoreItemModel item)
+    private IEnumerator InvokeCheck(string casterID, StoreItemModel item)
     {
         switch (item.type)
         {
@@ -80,21 +81,21 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                 switch (item.equipDefine.invokeType)
                 {
                     case EquipInvokeType.use:
-                        ProcessItemUse(casterID, item, new List<string> { casterID }, Vector2.negativeInfinity);
+                        yield return StartCoroutine(ProcessEquipUse(casterID, item, new List<string> { casterID }, Vector2.negativeInfinity));
                         break;
                     case EquipInvokeType.targetItem:
                         TargetChooseInit();
                         BattleManager.Instance.chessboardManager.SelectTargets(item, ChooseTargetType.items);
                         // 等待玩家选择目标
                         yield return new WaitUntil(() => (targetIDs != null && targetIDs.Count > 0 && !targetChooseBreakFlag));
-                        ProcessItemUse(casterID, item, targetIDs, targetPos);
+                        yield return StartCoroutine(ProcessEquipUse(casterID, item, targetIDs, targetPos));
                         break;
                     case EquipInvokeType.targetPos:
                         TargetChooseInit();
                         BattleManager.Instance.chessboardManager.SelectTargets(item, ChooseTargetType.position);
                         // 等待玩家选择目标
                         yield return new WaitUntil(() => (targetPos != Vector2.negativeInfinity && !targetChooseBreakFlag));
-                        ProcessItemUse(casterID, item, targetIDs, targetPos);
+                        yield return StartCoroutine(ProcessEquipUse(casterID, item, targetIDs, targetPos));
                         break;
                     default:
                         Debug.LogError("TriggerEffect unknown " + item.equipDefine.invokeType);
@@ -102,7 +103,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                 }
                 break;
             case ItemType.expendable:
-                ProcessItemUse(casterID, item, new List<string> { casterID }, Vector2.negativeInfinity);
+                Debug.LogError("TriggerEffect should not handle expendable type");
                 break;
             case ItemType.treasure:
                 Debug.LogError("TriggerEffect should not handle treasure type");
@@ -148,7 +149,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
     }
 
     //触发装备效果并消耗能量
-    public void ProcessItemUse(string casterID, StoreItemModel item, List<string> targetIDs, Vector2 targetPos)
+    public IEnumerator ProcessEquipUse(string casterID, StoreItemModel item, List<string> targetIDs, Vector2 targetPos)
     {
         switch (item.type)
         {
@@ -167,34 +168,47 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                     }
                     NorneStore.Instance.Update<BattleItem>(target, true);
                 }
-                InvokeEffect(EffectInvokeType.useInstant, casterID, targetIDs, targetPos, item);
+                yield return StartCoroutine(InvokeEffect(EffectInvokeType.useInstant, casterID, targetIDs, targetPos, item));
                 if (item.equipDefine.isExpendable)
                 {
                     EquipDrop(casterID, item);
                 }
                 break;
             case ItemType.expendable:
-                InvokeEffect(EffectInvokeType.useInstant, casterID, targetIDs, targetPos, item);
-                RepoDrop(item);
+                Debug.LogError("EquipUse should not handle expendable type");
                 break;
             case ItemType.treasure:
-                Debug.LogError("ItemUse should not handle treasure type");
+                Debug.LogError("EquipUse should not handle treasure type");
                 break;
             case ItemType.economicGoods:
-                Debug.LogError("ItemUse should not handle economicGoods type");
+                Debug.LogError("EquipUse should not handle economicGoods type");
                 break;
             default:
-                Debug.LogError("ItemUse unknown item type");
+                Debug.LogError("EquipUse unknown item type");
                 break;
         }
+        yield return null;
     }
+
+    public IEnumerator InvokeEffect(EffectInvokeType invokeType, string casterID, List<string> targetIDs, Vector2 targetPos, StoreItemModel item)
+    {
+        var useEffects = item.effects.Where(effect => effect.invokeType == invokeType).ToList();
+        if (useEffects.Count > 0)
+        {
+            foreach (var effect in useEffects)
+            {
+                yield return StartCoroutine(ProcessEffect(casterID, targetIDs, targetPos, item, effect));
+            }
+        }
+    }
+
     //检查是战斗中使用还是战斗外使用
-    public void ProcessEffect(string casterID, List<string> targetIDs, Vector2 targetPos, StoreItemModel item, Effect effect)
+    public IEnumerator ProcessEffect(string casterID, List<string> targetIDs, Vector2 targetPos, StoreItemModel item, Effect effect)
     {
         switch (item.type)
         {
             case ItemType.equip:
-                ProcessEffect_Battle(casterID, targetIDs, targetPos, item, effect);
+                yield return StartCoroutine(ProcessEffect_Battle(casterID, targetIDs, targetPos, item, effect));
                 break;
             case ItemType.expendable:
                 if (targetIDs == null || targetIDs.Count != 1)
@@ -203,7 +217,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                 }
                 else
                 {
-                    ProcessEffect_Normal(casterID, targetIDs.First(), item, effect);
+                    yield return StartCoroutine(ProcessEffect_Normal(casterID, targetIDs.First(), item, effect));
                 }
                 break;
             default:
@@ -212,7 +226,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
         }
     }
     //战斗外对角色的使用
-    public void ProcessEffect_Normal(string casterID, string targetID, StoreItemModel item, Effect effect)
+    public IEnumerator ProcessEffect_Normal(string casterID, string targetID, StoreItemModel item, Effect effect)
     {
         var target = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(targetID)).Value;
 
@@ -293,9 +307,10 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                 Debug.LogError("战斗外使用的物品不存在攻击行为");
                 break;
         }
+        yield return null;
     }
     //战斗内对BattleItem或位置的使用
-    public void ProcessEffect_Battle(string casterID, List<string> targetIDs, Vector2 targetPos, StoreItemModel item, Effect effect)
+    public IEnumerator ProcessEffect_Battle(string casterID, List<string> targetIDs, Vector2 targetPos, StoreItemModel item, Effect effect)
     {
         if ((targetIDs == null || targetIDs.Count == 0) && targetPos != Vector2.negativeInfinity)
         {
@@ -306,7 +321,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                     Debug.LogError("ProcessEffect_Battle to targetPos should not be property");
                     break;
                 case EffectType.battleEffect:
-                    SkillManager.Instance.InvokeBattleEffect(casterID, effect.methodName, "", targetPos, effect.Value);
+                    yield return StartCoroutine(SkillManager.Instance.InvokeBattleEffect(casterID, effect.methodName, "", targetPos, effect.Value));
                     break;
                 case EffectType.buff:
                     Debug.LogError("ProcessEffect_Battle to targetPos should not be buff");
@@ -318,121 +333,104 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                     Debug.LogError("ProcessEffect_Battle to targetPos unkonwn effectType");
                     break;
             }
-            return;
-        }
-        foreach (var targetID in targetIDs)
+        } else if (targetIDs != null && targetIDs.Count > 0)
         {
-            var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(targetID)).Value;
-
-            switch (effect.effectType)
+            foreach (var targetID in targetIDs)
             {
-                case EffectType.property:
-                    switch (effect.propertyType)
-                    {
-                        case PropertyType.MaxHP:
-                            target.attributes.InBattle.MaxHP += effect.Value;
-                            target.attributes.LoadFinalAttributes();
-                            target.attributes.currentHP += effect.Value;
-                            break;
-                        case PropertyType.Health:
-                            BattleManager.Instance.ProcessNormalHealth(casterID, targetIDs, effect.Value);
-                            break;
-                        case PropertyType.Strength:
-                            target.attributes.InBattle.Strength += effect.Value;
-                            target.attributes.LoadFinalAttributes();
-                            break;
-                        case PropertyType.Defense:
-                            target.attributes.InBattle.Defense += effect.Value;
-                            target.attributes.LoadFinalAttributes();
-                            break;
-                        case PropertyType.Dodge:
-                            target.attributes.InBattle.Dodge += effect.Value;
-                            target.attributes.LoadFinalAttributes();
-                            break;
-                        case PropertyType.Accuracy:
-                            target.attributes.InBattle.Accuracy += effect.Value;
-                            target.attributes.LoadFinalAttributes();
-                            break;
-                        case PropertyType.Speed:
-                            target.attributes.InBattle.Speed += effect.Value;
-                            target.attributes.LoadFinalAttributes();
-                            break;
-                        case PropertyType.Mobility:
-                            target.attributes.InBattle.Mobility += effect.Value;
-                            target.attributes.LoadFinalAttributes();
-                            break;
-                        case PropertyType.Energy:
-                            target.attributes.currentEnergy += effect.Value;
-                            break;
-                        case PropertyType.Lucky:
-                            target.attributes.InBattle.Lucky += effect.Value;
-                            target.attributes.LoadFinalAttributes();
-                            break;
-                        case PropertyType.Exp:
-                            target.attributes.exp += effect.Value;
-                            break;
-                        case PropertyType.Shield:
-                            target.attributes.currentShield += effect.Value;
-                            break;
-                        case PropertyType.Protection:
-                            target.attributes.InBattle.Protection += effect.Value;
-                            target.attributes.LoadFinalAttributes();
-                            break;
-                        case PropertyType.EnchanceDamage:
-                            target.attributes.InBattle.EnchanceDamage += effect.Value;
-                            target.attributes.LoadFinalAttributes();
-                            break;
-                        case PropertyType.Hematophagia:
-                            target.attributes.InBattle.Hematophagia += effect.Value;
-                            target.attributes.LoadFinalAttributes();
-                            break;
-                        default:
-                            Debug.Log("unknown propertyType");
-                            break;
-                    }
-                    NorneStore.Instance.Update<BattleItem>(target, isFull: true);
-                    break;
-                case EffectType.battleEffect:
-                    SkillManager.Instance.InvokeBattleEffect(casterID, effect.methodName, targetID, targetPos, effect.Value);
-                    break;
-                case EffectType.buff:
-                    target.buffCenter.AddBuff(DataManager.Instance.BuffDefines[effect.Value], casterID);
-                    break;
-                case EffectType.attack:
-                    var caster = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
-                    if (!caster.isSilent)
-                    {
-                        var attackStatus = BattleManager.Instance.ProcessNormalAttack(casterID, targetIDs, item.equipDefine.baseAccuracy, effect.Value, item.equipDefine.equipClass);
-                        switch (attackStatus)
+                var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(targetID)).Value;
+
+                switch (effect.effectType)
+                {
+                    case EffectType.property:
+                        switch (effect.propertyType)
                         {
-                            case AttackStatus.normal:
-                                InvokeEffect(EffectInvokeType.damage, casterID, targetIDs, targetPos, item);
+                            case PropertyType.MaxHP:
+                                target.attributes.InBattle.MaxHP += effect.Value;
+                                target.attributes.LoadFinalAttributes();
+                                target.attributes.currentHP += effect.Value;
                                 break;
-                            case AttackStatus.toDeath:
-                                caster.defeatSubject.OnNext(Unit.Default);
-                                InvokeEffect(EffectInvokeType.toDeath, casterID, targetIDs, targetPos, item);
+                            case PropertyType.Health:
+                                BattleCommonMethods.ProcessNormalHealth(casterID, targetIDs, effect.Value);
+                                break;
+                            case PropertyType.Strength:
+                                target.attributes.InBattle.Strength += effect.Value;
+                                target.attributes.LoadFinalAttributes();
+                                break;
+                            case PropertyType.Defense:
+                                target.attributes.InBattle.Defense += effect.Value;
+                                target.attributes.LoadFinalAttributes();
+                                break;
+                            case PropertyType.Dodge:
+                                target.attributes.InBattle.Dodge += effect.Value;
+                                target.attributes.LoadFinalAttributes();
+                                break;
+                            case PropertyType.Accuracy:
+                                target.attributes.InBattle.Accuracy += effect.Value;
+                                target.attributes.LoadFinalAttributes();
+                                break;
+                            case PropertyType.Speed:
+                                target.attributes.InBattle.Speed += effect.Value;
+                                target.attributes.LoadFinalAttributes();
+                                break;
+                            case PropertyType.Mobility:
+                                target.attributes.InBattle.Mobility += effect.Value;
+                                target.attributes.LoadFinalAttributes();
+                                break;
+                            case PropertyType.Energy:
+                                target.attributes.currentEnergy += effect.Value;
+                                break;
+                            case PropertyType.Lucky:
+                                target.attributes.InBattle.Lucky += effect.Value;
+                                target.attributes.LoadFinalAttributes();
+                                break;
+                            case PropertyType.Exp:
+                                target.attributes.exp += effect.Value;
+                                break;
+                            case PropertyType.Shield:
+                                target.attributes.currentShield += effect.Value;
+                                break;
+                            case PropertyType.Protection:
+                                target.attributes.InBattle.Protection += effect.Value;
+                                target.attributes.LoadFinalAttributes();
+                                break;
+                            case PropertyType.EnchanceDamage:
+                                target.attributes.InBattle.EnchanceDamage += effect.Value;
+                                target.attributes.LoadFinalAttributes();
+                                break;
+                            case PropertyType.Hematophagia:
+                                target.attributes.InBattle.Hematophagia += effect.Value;
+                                target.attributes.LoadFinalAttributes();
+                                break;
+                            default:
+                                Debug.Log("unknown propertyType");
                                 break;
                         }
-                        caster.haveAttackedInRound = true;
-                    }
-                    else
-                    {
-                        BlackBarManager.Instance.AddMessage("沉默状态，攻击失败");
-                    }
-                    break;
+                        NorneStore.Instance.Update<BattleItem>(target, isFull: true);
+                        break;
+                    case EffectType.battleEffect:
+                        yield return StartCoroutine(SkillManager.Instance.InvokeBattleEffect(casterID, effect.methodName, targetID, targetPos, effect.Value));
+                        break;
+                    case EffectType.buff:
+                        target.buffCenter.AddBuff(DataManager.Instance.BuffDefines[effect.Value], casterID);
+                        break;
+                    case EffectType.attack:
+                        var caster = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
+                        if (!caster.isSilent)
+                        {
+                            var result = BattleCommonMethods.CalcNormalAttack(casterID, targetIDs, item, effect.Value, effect.invokeTime);
+                            var casterItem = BattleManager.Instance.battleItemManager.GetUIBattleItemByUUid(casterID);
+                            casterItem.SetAttackResult(result);
+                            casterItem.ItemUseAni(item);
+                            caster.haveAttackedInRound = true;
+                        }
+                        else
+                        {
+                            BlackBarManager.Instance.AddMessage("沉默状态，攻击失败");
+                        }
+                        break;
+                }
             }
         }
-    }
-
-    private void InvokeEffect(EffectInvokeType invokeType, string casterID, List<string> targetIDs, Vector2 targetPos, StoreItemModel item)
-    {
-        var useEffects = item.effects.Where(effect => effect.invokeType == invokeType).ToList();
-        if (useEffects.Count > 0)
-        {
-            foreach (var effect in useEffects)
-            {
-                ProcessEffect(casterID, targetIDs, targetPos, item, effect);
-            }
-        }
+        yield return null;
     }
 }

@@ -78,7 +78,7 @@ public class Effect
     public EffectType? effectType;
     public EffectInvokeType? invokeType;
     public PropertyType? propertyType;
-    public int invokeNum;
+    public int invokeTime;
     public string methodName;
     public int? value;
 

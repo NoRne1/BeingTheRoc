@@ -17,6 +17,8 @@ public class StoreItemModel : StoreItemDefine
     public TreasureDefine treasureDefine;
     public GoodsDefine goodsDefine;
     public SpecialItemDefine specialItemDefine;
+
+    public bool equipCanUse = true;
     public StoreItemModel()
     {}
     public StoreItemModel(StoreItemDefine define)

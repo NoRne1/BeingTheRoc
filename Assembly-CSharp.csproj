@@ -59,7 +59,7 @@
     <UnityVersion>2022.3.4f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="/Users/norne/.vscode/extensions/visualstudiotoolsforunity.vstuc-1.0.2/Analyzers/Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="/Users/norne/.vscode/extensions/visualstudiotoolsforunity.vstuc-1.0.3/Analyzers/Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="/Applications/Unity/Hub/Editor/2022.3.4f1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll" />
     <Analyzer Include="/Applications/Unity/Hub/Editor/2022.3.4f1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
@@ -86,7 +86,6 @@
     <Compile Include="Assets/Scripts/Utilities/Config.cs" />
     <Compile Include="Assets/Scripts/UI/UIFeatherButton.cs" />
     <Compile Include="Assets/Scripts/Utilities/PathFinding.cs" />
-    <Compile Include="Assets/Scripts/Models/ChessboardAniType.cs" />
     <Compile Include="Assets/Scripts/Managers/SkillManager.cs" />
     <Compile Include="Assets/Scripts/UI/UILoadingPanel.cs" />
     <Compile Include="Assets/Scripts/UI/UIBattleItemInfo.cs" />
@@ -128,6 +127,7 @@
     <Compile Include="Assets/Scripts/UI/UIEquipButtons.cs" />
     <Compile Include="Assets/Scripts/Managers/BattleRoundManager.cs" />
     <Compile Include="Assets/Scripts/Component/FightText/FightTextComponent.cs" />
+    <Compile Include="Assets/Scripts/Models/BattleOtherModel.cs" />
     <Compile Include="Assets/Scripts/UI/UITip.cs" />
     <Compile Include="Assets/Scripts/UI/UIHintBase.cs" />
     <Compile Include="Assets/Scripts/UI/UIGameConsole.cs" />

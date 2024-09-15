@@ -7,7 +7,7 @@ using System.Linq;
 public class UIShopPage : MonoBehaviour
 {
     public List<UIShopItem> shopItems;
-    private List<int> lastSelectedItemIDs;
+    private List<int> lastSelectedItemIDs = new List<int>();
     private int timeLeft;
     // Start is called before the first frame update
     void Start()

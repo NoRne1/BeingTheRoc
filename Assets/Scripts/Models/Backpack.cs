@@ -34,7 +34,7 @@ public class Backpack
         int maxThreaten = 0;
         foreach (var equip in equips)
         {
-            if (equip.equipDefine.attackThreaten > maxThreaten)
+            if (equip.equipCanUse && equip.equipDefine.attackThreaten > maxThreaten)
             {
                 mostThreatenEquip = equip;
                 maxThreaten = equip.equipDefine.attackThreaten;
@@ -46,7 +46,7 @@ public class Backpack
     public List<StoreItemModel> GetEquipsSortedByThreaten()
     {
         return equips
-            .Where(equip => equip.equipDefine.attackThreaten > 0)
+            .Where(equip => equip.equipCanUse && equip.equipDefine.attackThreaten > 0)
             .OrderByDescending(equip => equip.equipDefine.attackThreaten)
             .ToList();
     }
@@ -57,7 +57,7 @@ public class Backpack
         int maxProtectAbility = 0;
         foreach (var equip in equips)
         {
-            if (equip.equipDefine.protectAbility > maxProtectAbility)
+            if (equip.equipCanUse && equip.equipDefine.protectAbility > maxProtectAbility)
             {
                 mostProtectAbilityEquip = equip;
                 maxProtectAbility = equip.equipDefine.protectAbility;
@@ -69,7 +69,7 @@ public class Backpack
     public List<StoreItemModel> GetEquipsSortedByProtectAbility()
     {
         return equips
-            .Where(equip => equip.equipDefine.protectAbility > 0)
+            .Where(equip => equip.equipCanUse && equip.equipDefine.protectAbility > 0)
             .OrderByDescending(equip => equip.equipDefine.protectAbility)
             .ToList();
     }

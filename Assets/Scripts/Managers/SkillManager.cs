@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using System.Linq;
 using System.Reflection;
+using System.Collections;
 
 public class SkillManager : MonoSingleton<SkillManager>
 {
@@ -52,13 +53,27 @@ public class SkillManager : MonoSingleton<SkillManager>
         Debug.Log("skill " + methodName + " has been invoked");
     }
 
-    public void InvokeBattleEffect(string casterID, string methodName, string targetID, Vector2 targetPos, int value)
+    public IEnumerator InvokeBattleEffect(string casterID, string methodName, string targetID, Vector2 targetPos, int value)
     {
-        var method = typeof(SkillManager).GetMethod(methodName,
-    BindingFlags.NonPublic | BindingFlags.Instance);
+        var method = typeof(SkillManager).GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
         object[] parameters = new object[] { casterID, targetID, targetPos, value };
-        method?.Invoke(SkillManager.Instance, parameters);
-        Debug.Log("BattleEffect " + methodName + " has been invoked");
+
+        if (method != null)
+        {
+            var result = method.Invoke(SkillManager.Instance, parameters);
+
+            // 检查返回值是否为 IEnumerator
+            if (result is IEnumerator)
+            {
+                yield return StartCoroutine((IEnumerator)result);
+            }
+
+            Debug.Log("BattleEffect " + methodName + " has been invoked");
+        }
+        else
+        {
+            Debug.LogError("Method " + methodName + " not found");
+        }
     }
 
 // ----------------------Skill----------------------
@@ -217,7 +232,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         }).Subscribe(hp =>
         {
             var temp = GlobalAccess.GetBattleItem(casterID);
-            BattleManager.Instance.ProcessNormalHealth("", new List<string> { casterID }, (int)(temp.attributes.MaxHP * 0.05));
+            BattleCommonMethods.ProcessNormalHealth("", new List<string> { casterID }, (int)(temp.attributes.MaxHP * 0.05));
         }));
     }
 
@@ -233,17 +248,17 @@ public class SkillManager : MonoSingleton<SkillManager>
     {
         disposablePool.SaveDisposable(casterID + "TreeAngry", BattleManager.Instance.battleItemDamageSubject.AsObservable()
             .Where(pair => {
-                switch (pair.Item4)
+                switch (pair.attackStatus)
                 {
                     case AttackStatus.normal:
-                        return pair.Item1 == casterID && pair.Item6;
+                        return pair.casterID == casterID && pair.triggerOtherEffect;
                     default:
                         return false;
                 }
             }).Subscribe(pair =>
             {
                 var caster = GlobalAccess.GetBattleItem(casterID);
-                BattleManager.Instance.ProcessDirectAttack(casterID, pair.Item2, (int)(caster.attributes.lostHP * 0.1f));
+                BattleCommonMethods.ProcessDirectAttack(casterID, pair.targetID, (int)(caster.attributes.lostHP * 0.1f));
             }));
     }
 
@@ -298,10 +313,10 @@ public class SkillManager : MonoSingleton<SkillManager>
     {
         disposablePool.SaveDisposable(casterID + "BleedEnchant", BattleManager.Instance.battleItemDamageSubject.AsObservable()
             .Where(pair => {
-                switch (pair.Item4)
+                switch (pair.attackStatus)
                 {
                     case AttackStatus.normal:
-                        return pair.Item1 == casterID && pair.Item6;
+                        return pair.casterID == casterID && pair.triggerOtherEffect;
                     default:
                         return false;
                 }
@@ -335,21 +350,20 @@ public class SkillManager : MonoSingleton<SkillManager>
     {
         disposablePool.SaveDisposable(casterID + "PoseidonBlessing", BattleManager.Instance.battleItemDamageSubject.AsObservable()
             .Where(pair => {
-                switch(pair.Item4)
+                switch(pair.attackStatus)
                 {
                     case AttackStatus.miss:
                     case AttackStatus.errorTarget:
-                    case AttackStatus.toDeath:
                         return false;
                     case AttackStatus.normal:
-                    case AttackStatus.block:
-                        return pair.Item1 == casterID;
+                    case AttackStatus.critical:
+                        return pair.casterID == casterID;
                     default:
-                        throw new InvalidOperationException($"Unhandled enum value: {pair.Item4}");
+                        throw new InvalidOperationException($"Unhandled enum value: {pair.attackStatus}");
                 }
             }).Subscribe(pair =>
             {
-                BattleCommonMethods.KnockbackTarget(pair.Item1, pair.Item2, value);
+                BattleCommonMethods.KnockbackTarget(pair.casterID, pair.targetID, value);
             }));
     }
 
@@ -358,10 +372,10 @@ public class SkillManager : MonoSingleton<SkillManager>
         disposablePool.SaveDisposable(casterID + "GoForward", BattleManager.Instance.battleItemDamageSubject.AsObservable()
             .Where(pair => {
                 //自己被攻击并闪避
-                return pair.Item2 == casterID && pair.Item4 == AttackStatus.miss;
+                return pair.targetID == casterID && pair.attackStatus == AttackStatus.miss;
             }).Subscribe(pair =>
             {
-                BattleManager.Instance.ProcessDirectAttack(pair.Item2, pair.Item1, value);
+                BattleCommonMethods.ProcessDirectAttack(pair.targetID, pair.casterID, value);
             }));
     }
 
@@ -371,7 +385,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         disposablePool.SaveDisposable(casterID + "BeforeDawn", BattleManager.Instance.battleItemDamageSubject.AsObservable()
             .Where(pair => {
                 //自己的攻击暴击，且技能冷却完毕
-                return pair.Item1 == casterID && pair.Item5 && timer.TimerNext(casterID + "BeforeDawn");
+                return pair.casterID == casterID && pair.attackStatus == AttackStatus.critical && timer.TimerNext(casterID + "BeforeDawn");
             }).Subscribe(pair =>
             {
                 var battleItem = GlobalAccess.GetBattleItem(casterID);
@@ -469,7 +483,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         }).ToList();
         foreach (var id in targetIDs)
         {
-            BattleManager.Instance.ProcessDirectAttack(targetID, id, (int)(battleItem.attributes.MaxHP * 0.2f));
+            BattleCommonMethods.ProcessDirectAttack(targetID, id, (int)(battleItem.attributes.MaxHP * 0.2f));
         }
         
     }

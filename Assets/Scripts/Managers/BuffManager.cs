@@ -71,17 +71,17 @@ public class BuffManager : MonoSingleton<BuffManager>
         {
             disposables.Add(buff.uuId, BattleManager.Instance.battleItemDamageSubject.AsObservable()
                 .Where(pair => {
-                    switch (pair.Item4)
+                    switch (pair.attackStatus)
                     {
                         case AttackStatus.normal:
-                            return pair.Item2 == buff.ownerID && pair.Item6;
+                            return pair.targetID == buff.ownerID && pair.triggerOtherEffect;
                         default:
                             return false;
                     }
                 }) // 只有击伤且不造成死亡才触发外伤
                 .Subscribe(pair =>
             {
-                BattleManager.Instance.ProcessDirectAttack(buff.casterID ,buff.ownerID, buff.num);
+                BattleCommonMethods.ProcessDirectAttack(buff.casterID ,buff.ownerID, buff.num);
             }));
         } else if (disposables.ContainsKey(buff.uuId))
         {
@@ -96,17 +96,17 @@ public class BuffManager : MonoSingleton<BuffManager>
         {
             disposables.Add(buff.uuId, BattleManager.Instance.battleItemDamageSubject.AsObservable()
                 .Where(pair => {
-                        switch (pair.Item4)
+                        switch (pair.attackStatus)
                         {
                             case AttackStatus.normal:
-                                return pair.Item1 == buff.ownerID && pair.Item6;
+                                return pair.casterID == buff.ownerID && pair.triggerOtherEffect;
                             default:
                                 return false;
                         }
                     })
                 .Subscribe(pair =>
             {
-                BattleManager.Instance.ProcessDirectAttack(buff.ownerID, pair.Item2, buff.num);
+                BattleCommonMethods.ProcessDirectAttack(buff.ownerID, pair.targetID, buff.num);
             }));
         }
         else if (disposables.ContainsKey(buff.uuId))
@@ -117,7 +117,7 @@ public class BuffManager : MonoSingleton<BuffManager>
 
     private void Corrosion(BuffModel buff)
     {
-        BattleManager.Instance.ProcessDirectAttack(buff.casterID, buff.ownerID, buff.num);
+        BattleCommonMethods.ProcessDirectAttack(buff.casterID, buff.ownerID, buff.num);
     }
 
     private void Dizzy(BuffModel buff)
@@ -129,7 +129,8 @@ public class BuffManager : MonoSingleton<BuffManager>
 
     private void Burning(BuffModel buff)
     {
-        BattleManager.Instance.ProcessNormalAttack(buff.casterID, new List<string> { buff.ownerID }, 100, buff.Value);
+        var result = BattleCommonMethods.CalcNormalAttack(buff.casterID, new List<string> { buff.ownerID }, null, 100, buff.Value);
+        BattleCommonMethods.ProcessNormalAttack(result.displayResults.FirstOrDefault());
     }
 
     private void Invincible(BuffModel buff, bool addOrRemove)
@@ -161,7 +162,7 @@ public class BuffManager : MonoSingleton<BuffManager>
                 //加血不存在返还
                 if (addOrRemove)
                 {
-                    BattleManager.Instance.ProcessNormalHealth(buff.casterID, new List<string> { buff.ownerID }, buff.Value);
+                    BattleCommonMethods.ProcessNormalHealth(buff.casterID, new List<string> { buff.ownerID }, buff.Value);
                 }
                 break;
             case PropertyType.Strength:
@@ -232,7 +233,7 @@ public class BuffManager : MonoSingleton<BuffManager>
 
     private void Bleeding(BuffModel buff, int distance)
     {
-        BattleManager.Instance.ProcessDirectAttack(buff.casterID, buff.ownerID, buff.num * distance);
+        BattleCommonMethods.ProcessDirectAttack(buff.casterID, buff.ownerID, buff.num * distance);
     }
 
     private void Silent(BuffModel buff, bool addOrRemove)
