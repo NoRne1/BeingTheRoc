@@ -187,6 +187,7 @@
     <Compile Include="Assets/Scripts/Defines/EnemyDefine.cs" />
     <Compile Include="Assets/Scripts/Component/DisposablePool.cs" />
     <Compile Include="Assets/Scripts/Models/CharacterModel.cs" />
+    <Compile Include="Assets/Scripts/UI/UIBattleItemAnimator.cs" />
     <Compile Include="Assets/Scripts/UI/UITeamBagPage.cs" />
     <Compile Include="Assets/Scripts/Utilities/CheckPointerEnter.cs" />
     <Compile Include="Assets/Scripts/UI/UIBuffsPanel.cs" />

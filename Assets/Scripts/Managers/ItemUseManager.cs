@@ -168,6 +168,8 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                     }
                     NorneStore.Instance.Update<BattleItem>(target, true);
                 }
+                var casterItem = BattleManager.Instance.battleItemManager.GetUIBattleItemByUUid(casterID);
+                casterItem.ItemUseAni(item);
                 yield return StartCoroutine(InvokeEffect(EffectInvokeType.useInstant, casterID, targetIDs, targetPos, item));
                 if (item.equipDefine.isExpendable)
                 {
@@ -350,7 +352,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                                 target.attributes.currentHP += effect.Value;
                                 break;
                             case PropertyType.Health:
-                                BattleCommonMethods.ProcessNormalHealth(casterID, targetIDs, effect.Value);
+                                BattleCommonMethods.ProcessNormalHealth(casterID, new List<string>{targetID}, effect.Value);
                                 break;
                             case PropertyType.Strength:
                                 target.attributes.InBattle.Strength += effect.Value;
@@ -414,21 +416,28 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                         target.buffCenter.AddBuff(DataManager.Instance.BuffDefines[effect.Value], casterID);
                         break;
                     case EffectType.attack:
-                        var caster = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
-                        if (!caster.isSilent)
-                        {
-                            var result = BattleCommonMethods.CalcNormalAttack(casterID, targetIDs, item, effect.Value, effect.invokeTime);
-                            var casterItem = BattleManager.Instance.battleItemManager.GetUIBattleItemByUUid(casterID);
-                            casterItem.SetAttackResult(result);
-                            casterItem.ItemUseAni(item);
-                            caster.haveAttackedInRound = true;
-                        }
-                        else
-                        {
-                            BlackBarManager.Instance.AddMessage("沉默状态，攻击失败");
-                        }
+                        //对单个targetID不处理，下面进行统一处理
                         break;
                 }
+            }
+            switch (effect.effectType)
+            {
+                case EffectType.attack:
+                    var caster = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
+                    if (!caster.isSilent)
+                    {
+                        var result = BattleCommonMethods.CalcNormalAttack(casterID, targetIDs, item, effect.Value, effect.invokeTime);
+                        var casterItem = BattleManager.Instance.battleItemManager.GetUIBattleItemByUUid(casterID);
+                        casterItem.SetAttackResult(result);
+                        caster.haveAttackedInRound = true;
+                    }
+                    else
+                    {
+                        BlackBarManager.Instance.AddMessage("沉默状态，攻击失败");
+                    }
+                    break;
+                default:
+                    break;
             }
         }
         yield return null;

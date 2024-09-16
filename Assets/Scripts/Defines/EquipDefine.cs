@@ -23,6 +23,7 @@ public enum EquipClass
     sword = 0,
     arch = 1,
     shield = 2,
+    other = 3,
     MAX
 }
 

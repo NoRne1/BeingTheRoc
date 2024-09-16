@@ -10,7 +10,7 @@ public enum AttackStatus
     critical = 2,
 }
 
-public struct AttackDisplayResult 
+public class AttackDisplayResult 
 {
     public string attackIdentifier;
     public int attackIndex;

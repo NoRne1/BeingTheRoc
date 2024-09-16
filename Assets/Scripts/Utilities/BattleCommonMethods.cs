@@ -343,7 +343,7 @@ public static class BattleCommonMethods
         var battleItemManager = BattleManager.Instance.battleItemManager;
         if (displayResult.attackStatus != AttackStatus.errorTarget)
         {
-            battleItemManager.pos_uibattleItemDic[battleItemManager.id_posDic[displayResult.targetID]].Damage(displayResult);
+            battleItemManager.pos_uibattleItemDic[battleItemManager.id_posDic[displayResult.targetID]].PorcessDisplayResult(displayResult);
         } 
         BattleManager.Instance.battleItemDamageSubject.OnNext(displayResult);
     }

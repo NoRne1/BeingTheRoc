@@ -13,10 +13,12 @@ public class UIBattleItem : MonoBehaviour
     public GameObject border;
     public GameObject indicator;
     public FightTextManager fightTextManager;
-    public Animator ani;
+    public UIBattleItemAnimator positiveAni;
+    public UIBattleItemAnimator negativeAni;
     public Slider hpSlider;
     public Slider shieldSlider;
-    public Image equipIcon;
+    public Image positiveEquipIcon;
+    public Image negativeEquipIcon;
 
     public bool Selected
     {
@@ -37,9 +39,10 @@ public class UIBattleItem : MonoBehaviour
     private Vector3 hittedStartPosition;
 
      // attack result queue
-    private NormalAttackResult attackResult;
+    public NormalAttackResult attackResult;
+    public AttackDisplayResult currentDisplayResult;
     // 当前处理的 displayResult 索引
-    private int currentDisplayResultIndex = 0;
+    public int currentDisplayResultIndex = 0;
 
     // Use this for initialization
     void Start()
@@ -51,7 +54,6 @@ public class UIBattleItem : MonoBehaviour
         {
             fightTextManager.FightTextCanvas = GameObject.FindWithTag("FightTextCanvas").transform;
         }
-        this.ani = this.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -72,6 +74,19 @@ public class UIBattleItem : MonoBehaviour
             SetHpAni(item.attributes.currentHP, false);
             shieldSlider.value = Mathf.Min(shieldSlider.maxValue, item.attributes.currentShield);
         });
+    }
+
+
+    public void PorcessDisplayResult(AttackDisplayResult attackResult) 
+    {
+        //先开始新动画，从而停止旧动画
+        ItemUsedAni(attackResult.itemModel);
+        if (currentDisplayResult != null)
+        {
+            //结算上次没结算的伤害
+            Damage(currentDisplayResult);
+        }
+        currentDisplayResult = attackResult;
     }
 
     public void Damage(AttackDisplayResult attackResult)
@@ -132,6 +147,7 @@ public class UIBattleItem : MonoBehaviour
                 Debug.LogError("UIBattleItem Damage Unknown Status");
                 break;
         }
+        currentDisplayResult = null;
     }
 
     public void HPChange(int change, bool isCritical)
@@ -246,6 +262,7 @@ public class UIBattleItem : MonoBehaviour
         hittedCoroutine = null; // 动画结束后清空引用
     }
 
+    //使用装备的动画
     public void ItemUseAni(StoreItemModel item)
     {
         if (!item.CanEquip()) 
@@ -253,18 +270,49 @@ public class UIBattleItem : MonoBehaviour
             Debug.LogError("UIBattleItem AttackAni item not a Equip");
             return;
         }
-        equipIcon.overrideSprite = Resloader.LoadSprite(item.iconResource, ConstValue.equipsPath);
+        positiveEquipIcon.overrideSprite = Resloader.LoadSprite(item.iconResource, ConstValue.equipsPath);
         switch (item.equipDefine.equipClass)
         {
             case EquipClass.arch:
-                ani.SetTrigger("arch");
+                positiveAni.animator.SetTrigger("arch");
                 break;
             case EquipClass.shield:
-                ani.SetTrigger("shield");
+                positiveAni.animator.SetTrigger("other");
                 break;
             case EquipClass.sword:
-                ani.SetTrigger("sword");
+                positiveAni.animator.SetTrigger("sword");
                 break;
+            case EquipClass.other:
+                positiveAni.animator.SetTrigger("other");
+                break;  
+            default:
+                Debug.LogError("UIBattleItem AttackAni Unknown EquipClass");
+                break;
+        }
+    }
+    //作为装备使用目标的动画
+    public void ItemUsedAni(StoreItemModel item)
+    {
+        if (!item.CanEquip()) 
+        {
+            Debug.LogError("UIBattleItem AttackAni item not a Equip");
+            return;
+        }
+        negativeEquipIcon.overrideSprite = Resloader.LoadSprite(item.iconResource, ConstValue.equipsPath);
+        switch (item.equipDefine.equipClass)
+        {
+            case EquipClass.arch:
+                negativeAni.animator.SetTrigger("arch_used");
+                break;
+            case EquipClass.shield:
+                negativeAni.animator.SetTrigger("shield_used");
+                break;
+            case EquipClass.sword:
+                negativeAni.animator.SetTrigger("sword_used");
+                break;
+            case EquipClass.other:
+                // ani.SetTrigger("other");
+                break;  
             default:
                 Debug.LogError("UIBattleItem AttackAni Unknown EquipClass");
                 break;
@@ -275,20 +323,6 @@ public class UIBattleItem : MonoBehaviour
     {
         currentDisplayResultIndex = 0;
         attackResult = result;
-    }
-
-    // 处理队列中的攻击结果
-    public void ProcessAttackResults()
-    {
-        if (attackResult != null)
-        {
-            foreach (var result in attackResult.displayResults.Where(result => result.attackIndex == currentDisplayResultIndex).ToList())
-            {
-                // 处理当前 displayResult
-                BattleCommonMethods.ProcessNormalAttack(result);
-            }
-            currentDisplayResultIndex++;
-        }
     }
 }
 
