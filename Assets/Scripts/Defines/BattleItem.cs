@@ -9,8 +9,10 @@ public enum BattleItemType
 {
     player = 1,
     enemy = 2,
-    time = 4,
-    sceneItem = 8
+    neutral = 4,
+    time = 8,
+    sceneItem = 16,
+    granary = 32,
 }
 
 public class BattleItem: IStorable
@@ -20,7 +22,7 @@ public class BattleItem: IStorable
     public JobType Job { get; set; }
     public GeneralLevel Level { get; set; }
     public string Resource { get; set; }
-    public BattleItemType battleItemType { get; set; }
+    public BattleItemType type { get; set; }
     public float remainActingDistance { get; set; }
     public string Desc { get; set; }
     public Attributes attributes;
@@ -80,14 +82,30 @@ public class BattleItem: IStorable
         {
             case BattleItemType.player:
             case BattleItemType.enemy:
+            case BattleItemType.neutral:
+                updateDisposable = battleItemUpdate.AsObservable().Subscribe(_ =>
+                {
+                    NorneStore.Instance.Update<BattleItem>(this, isFull: true);
+                });
+                this.type = type;
+                break;
             case BattleItemType.sceneItem:
-                battleItemType = type;
+                this.type = type;
                 break;
             case BattleItemType.time:
                 uuid = GameUtil.Instance.GenerateUniqueId();
-                battleItemType = type;
+                this.type = type;
                 attributes = new Attributes();
                 attributes.UpdateInitSpeed(100);
+                break;
+            case BattleItemType.granary:
+                uuid = GameUtil.Instance.GenerateUniqueId();
+                this.Name = GameUtil.Instance.GetDisplayString("粮仓");
+                this.Resource = "granary_icon";
+                this.type = type;
+                attributes = new Attributes();
+                attributes.UpdateInitMaxHP(100);
+                attributes.UpdateInitSpeed(0);
                 break;
         }
     }
@@ -113,7 +131,18 @@ public class BattleItem: IStorable
 
     public void BattleInit()
     {
-        buffCenter = new BuffCenter(this.uuid, battleItemUpdate);
+        switch (type)
+        {
+            case BattleItemType.player:
+            case BattleItemType.enemy:
+            case BattleItemType.neutral:
+                buffCenter = new BuffCenter(this.uuid, battleItemUpdate);
+                break;
+            case BattleItemType.sceneItem:
+            case BattleItemType.time:
+            case BattleItemType.granary:
+                break;
+        }
         this.attributes.BattleInit();
     }
 
@@ -121,7 +150,7 @@ public class BattleItem: IStorable
     {
         if (!BattleManager.Instance.roundManager.isInExtraRound)
         {
-            buffCenter.RoundBegin();
+            buffCenter?.RoundBegin();
         }
         if (reinforceDefense)
         {
@@ -138,7 +167,7 @@ public class BattleItem: IStorable
     {
         if (!BattleManager.Instance.roundManager.isInExtraRound)
         {
-            buffCenter.RoundEnd();
+            buffCenter?.RoundEnd();
         }
     }
 

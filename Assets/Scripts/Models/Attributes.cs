@@ -158,6 +158,12 @@ public class Attributes
         LoadFinalAttributes();
     }
 
+    public void UpdateInitMaxHP(int hp)
+    {
+        Initial.MaxHP = hp;
+        LoadFinalAttributes();
+    }
+
     //加载初始属性
     private void LoadInitAttribute(AttributeData attr, CharacterDefine define, bool loadFinal = true)
     {

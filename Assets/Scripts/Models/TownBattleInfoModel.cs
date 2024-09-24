@@ -9,13 +9,14 @@ public class TownBattleInfoModel
     public TownNodeType type;
     public float battleBaseDifficulty;
     public List<Vector2> initPlaceSlots;
+    public Vector2 granaryPos;
     public Dictionary<Vector2, EnermyModel> enermys = new Dictionary<Vector2, EnermyModel>();
 
     public TownBattleInfoModel(TownNodeType type, List<Vector2> initPlaceSlots)
     {
         this.type = type;
         this.initPlaceSlots = initPlaceSlots;
-
+        this.granaryPos = new Vector2(Random.Range(0, 8), 7);
         switch (type)
         {
             case TownNodeType.king:
@@ -46,13 +47,14 @@ public class TownBattleInfoModel
         }
     }
 
+    // 当前逻辑只随机找了不与玩家初始位置重叠的点
     private List<Vector2> getInitPostions(int count)
     {
         List<Vector2> result = new List<Vector2>();
         while (result.Count < count)
         {
             Vector2 v = new Vector2(Random.Range(0, 8), Random.Range(0, 8));
-            if (!result.Contains(v) && !initPlaceSlots.Contains(v))
+            if (!result.Contains(v) && !initPlaceSlots.Contains(v) && v != granaryPos)
             {
                 result.Add(v);
             }

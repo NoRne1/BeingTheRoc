@@ -57,7 +57,7 @@ public class GameManager : MonoSingleton<GameManager>
 
         //todo
         NorneStore.Instance.RemoveAll();
-        DataManager.Instance.DataLoaded.AsObservable().TakeUntilDestroy(this).Subscribe(flag =>
+        DataManager.Instance.DataLoaded.AsObservable().Take(2).TakeUntilDestroy(this).Subscribe(flag =>
         {
             if (flag)
             {

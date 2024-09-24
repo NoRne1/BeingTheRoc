@@ -527,9 +527,4 @@ public class GameUtil : Singleton<GameUtil>
                 return null;
         }
     }
-
-    public Vector3 ScreenToWorldPointWithoutZ(Vector2 vect2)
-    {
-        return Camera.main.ScreenToWorldPoint(new Vector3(vect2.x, vect2.y, Camera.main.nearClipPlane));
-    }
 }

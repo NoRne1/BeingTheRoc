@@ -35,6 +35,7 @@ public class UIBattleBag : MonoBehaviour
         if (itemID != null)
         {
             var battleItem = GlobalAccess.GetBattleItem(itemID);
+            if (battleItem.backpack == null) { gameObject.SetActive(false); return; }
             NorneStore.Instance.ObservableObject(new BattleItem(itemID)).AsObservable().TakeUntilDestroy(this)
                 .Select(battleItem => battleItem.backpack.equips).Subscribe(equips =>
                 {

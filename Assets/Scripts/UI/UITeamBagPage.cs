@@ -131,8 +131,10 @@ public class UITeamBagPage : MonoBehaviour
             }
             if (isDragging && draggedEquipItem != null)
             {
-                Vector3 tempVector = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                draggedEquipItem.transform.position = new Vector3(tempVector.x, tempVector.y, 0);
+                Vector3 tempVector = Input.mousePosition;
+                Vector3 worldPosition = Camera.main.ScreenToWorldPoint(tempVector);
+                worldPosition.z = 90;
+                draggedEquipItem.transform.position = worldPosition;
                 if (Input.GetMouseButtonDown(1))
                 {
                     this.Rotate(draggedEquipItem, 90, 0.3f);
@@ -226,20 +228,34 @@ public class UITeamBagPage : MonoBehaviour
     // 使用按钮点击事件
     void OnUseButtonClick()
     {
+        equipButtons.gameObject.SetActive(false);
         StartCoroutine(ItemUseManager.Instance.Use(character.uuid, useOrDropItem));
     }
 
     // 丢弃按钮点击事件
     void OnDropButtonClick()
     {
-        ItemUseManager.Instance.RepoDrop(useOrDropItem);
+        equipButtons.gameObject.SetActive(false);
+        UIConfirmWindow confirmWindow = UIManager.Instance.Show<UIConfirmWindow>();
+        confirmWindow.UpdateTip("确认要丢弃这件物品吗？");
+        confirmWindow.OnCloseSubject.Subscribe(closeInfo => {
+            switch (closeInfo.Item2) 
+            {
+                case UIWindow.WindowResult.Yes:
+                    ItemUseManager.Instance.RepoDrop(useOrDropItem);
+                    break;
+                case UIWindow.WindowResult.No:
+                case UIWindow.WindowResult.None:
+                    break;
+            }
+        }); 
     }
 
     public void UpdateCharacter(CharacterModel character)
     {
         this.character = character;
         this.battleItem = null;
-        this.characterIcon.overrideSprite = Resloader.LoadSprite(character.Resource, ConstValue.playersPath);
+        this.characterIcon.overrideSprite = Resloader.LoadSprite(character.Resource, ConstValue.battleItemsPath);
         RefreshBag(character.backpack);
     }
 
@@ -247,7 +263,7 @@ public class UITeamBagPage : MonoBehaviour
     {
         this.character = null;
         this.battleItem = battleItem;
-        this.characterIcon.overrideSprite = Resloader.LoadSprite(battleItem.Resource, ConstValue.playersPath);
+        this.characterIcon.overrideSprite = Resloader.LoadSprite(battleItem.Resource, ConstValue.battleItemsPath);
         RefreshBag(battleItem.backpack);
     }
 

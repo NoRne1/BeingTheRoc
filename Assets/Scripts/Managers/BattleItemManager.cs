@@ -9,16 +9,30 @@ public class BattleItemManager
     private BattleManager battleManager;
 
     public List<string> battleItemIDs = new List<string>();
-    public List<string> PlayerItemIDs = new List<string>();
+    public List<string> roundBattleItemIDs = new List<string>();
+    
+    public List<string> playerItemIDs = new List<string>();
     public Dictionary<Vector2, UIBattleItem> pos_uibattleItemDic = new Dictionary<Vector2, UIBattleItem>();
     public Dictionary<string, Vector2> id_posDic = new Dictionary<string, Vector2>();
 
+    public void AddItem(BattleItem item) 
+    {
+        battleItemIDs.Add(item.uuid);
+        if (item.attributes.Speed > 0) { roundBattleItemIDs.Add(item.uuid); }
+        if (item.type == BattleItemType.player) { playerItemIDs.Add(item.uuid); }
+    }
+
+    public void ClearItem() 
+    {
+        battleItemIDs.Clear();
+        roundBattleItemIDs.Clear();
+        playerItemIDs.Clear();
+    }
     //战斗开始时初始化
     public void Init(List<string> characterIDs, TownBattleInfoModel battleInfo)
     {
         battleManager = BattleManager.Instance;
-        battleItemIDs.Clear();
-        PlayerItemIDs.Clear();
+        ClearItem();
         id_posDic.Clear();
         pos_uibattleItemDic.Clear();
 
@@ -26,15 +40,20 @@ public class BattleItemManager
         var timeItem = new BattleItem(BattleItemType.time);
         timeItem.BattleInit();
         GlobalAccess.SaveBattleItem(timeItem);
-        battleItemIDs.Add(timeItem.uuid);
+        AddItem(timeItem);
+        //granary Item速度为0，不出现在行动条上
+        var granary = new BattleItem(BattleItemType.granary);
+        granary.BattleInit();
+        GlobalAccess.SaveBattleItem(granary);
+        AddItem(granary);
+        battleManager.chessboardManager.PlaceBattleItem(granary.uuid, battleManager.chessBoard.slots[battleInfo.granaryPos]);
 
         for (int i = 0; i < characterIDs.Count; i++)
         {
             var battleItem = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(characterIDs[i])).Value.ToBattleItem();
             battleItem.BattleInit();
             GlobalAccess.SaveBattleItem(battleItem);
-            battleItemIDs.Add(battleItem.uuid);
-            PlayerItemIDs.Add(battleItem.uuid);
+            AddItem(battleItem);
         }
 
         foreach (var pair in battleInfo.enermys)
@@ -42,7 +61,7 @@ public class BattleItemManager
             var battleItem = pair.Value.ToBattleItem(battleManager.difficultyExtraFactor + battleInfo.battleBaseDifficulty);
             battleItem.BattleInit();
             GlobalAccess.SaveBattleItem(battleItem);
-            battleItemIDs.Add(battleItem.uuid);
+            AddItem(battleItem);
             battleManager.chessboardManager.PlaceBattleItem(battleItem.uuid, battleManager.chessBoard.slots[pair.Key]);
         }
 
@@ -69,13 +88,13 @@ public class BattleItemManager
 
     public void ResortBattleItems()
     {
-        var tempBattleItems = battleItemIDs.Select(uuid => GlobalAccess.GetBattleItem(uuid)).ToList();
+        var tempBattleItems = roundBattleItemIDs.Select(uuid => GlobalAccess.GetBattleItem(uuid)).ToList();
         tempBattleItems.Sort((itemA, itemB) =>
         {
             return Mathf.CeilToInt(itemA.remainActingDistance / itemA.attributes.Speed)
                 .CompareTo(Mathf.CeilToInt(itemB.remainActingDistance / itemB.attributes.Speed));
         });
-        battleItemIDs = tempBattleItems.Select(item => item.uuid).ToList();
+        roundBattleItemIDs = tempBattleItems.Select(item => item.uuid).ToList();
     }
 
     public bool HasBattleItem(Vector2 vect)
@@ -102,7 +121,7 @@ public class BattleItemManager
             if (pos_uibattleItemDic.ContainsKey(vect))
             {
                 var battleItem = GlobalAccess.GetBattleItem(pos_uibattleItemDic[vect].itemID);
-                if ((battleItemType & battleItem.battleItemType) != 0)
+                if ((battleItemType & battleItem.type) != 0)
                 {
                     results.Add(pos_uibattleItemDic[vect].itemID);
                 }
@@ -141,7 +160,11 @@ public class BattleItemManager
             var item = GlobalAccess.GetBattleItem(tempid);
             return item.uuid == uuid;
         });
-        PlayerItemIDs.RemoveAll(tempid => {
+        roundBattleItemIDs.RemoveAll(tempid => {
+            var item = GlobalAccess.GetBattleItem(tempid);
+            return item.uuid == uuid;
+        });
+        playerItemIDs.RemoveAll(tempid => {
             var item = GlobalAccess.GetBattleItem(tempid);
             return item.uuid == uuid;
         });
@@ -152,6 +175,7 @@ public class BattleItemManager
             pos_uibattleItemDic.Remove(pair.Key);
         }
         GameManager.Instance.RemoveCharacter(uuid);
+        battleManager.moveBarManager.RefreshMoveBar();
     }
 
     //离开战场（非死亡）
@@ -161,7 +185,11 @@ public class BattleItemManager
             var item = GlobalAccess.GetBattleItem(tempid);
             return item.uuid == uuid;
         });
-        PlayerItemIDs.RemoveAll(tempid => {
+        roundBattleItemIDs.RemoveAll(tempid => {
+            var item = GlobalAccess.GetBattleItem(tempid);
+            return item.uuid == uuid;
+        });
+        playerItemIDs.RemoveAll(tempid => {
             var item = GlobalAccess.GetBattleItem(tempid);
             return item.uuid == uuid;
         });
@@ -171,5 +199,6 @@ public class BattleItemManager
         }
         pos_uibattleItemDic.Remove(id_posDic[uuid]);
         id_posDic.Remove(uuid);
+        battleManager.moveBarManager.RefreshMoveBar();
     }
 }

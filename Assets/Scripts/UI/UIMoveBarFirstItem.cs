@@ -23,8 +23,8 @@ public class UIMoveBarFirstItem : MonoBehaviour
     public void Setup(BattleItem item)
     {
         this.item = item;
-        icon.overrideSprite = Resloader.LoadSprite(item.Resource, ConstValue.playersPath);
-        switch (item.battleItemType)
+        icon.overrideSprite = Resloader.LoadSprite(item.Resource, ConstValue.battleItemsPath);
+        switch (item.type)
         {
             case BattleItemType.player:
                 bg.overrideSprite = Resloader.LoadSprite("move_bar_first_blue_bg", ConstValue.moveBarPath);

@@ -214,7 +214,7 @@ public class EnemyAI
         battleManager.battleItemManager.battleItemIDs.ForEach(id =>
         {
             var battleItem = GlobalAccess.GetBattleItem(id);
-            if (battleItem.battleItemType == type && battleManager.battleItemManager.id_posDic.ContainsKey(id)) 
+            if (battleItem.type == type && battleManager.battleItemManager.id_posDic.ContainsKey(id)) 
             {
                 playerItems.Add((battleManager.battleItemManager.id_posDic[id], battleItem));
             }

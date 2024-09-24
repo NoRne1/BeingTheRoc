@@ -28,7 +28,6 @@ public class BattleRoundManager
     {
         //这里会重复赋值，但是没找到其他方法，也影响不大
         battleManager = BattleManager.Instance;
-
         timePassDispose.IfNotNull(dispose => { dispose.Dispose(); });
         roundRelayDispose.IfNotNull(dispose => { dispose.Dispose(); });
         timePassDispose = null;
@@ -57,8 +56,8 @@ public class BattleRoundManager
 
     public IEnumerator ProcessRound(string uuid, RoundTime time)
     {
-        var battleItem0 = GlobalAccess.GetBattleItem(battleManager.battleItemManager.battleItemIDs[0]);
-        var battleItem1 = GlobalAccess.GetBattleItem(battleManager.battleItemManager.battleItemIDs[1]);
+        var battleItem0 = GlobalAccess.GetBattleItem(battleManager.battleItemManager.roundBattleItemIDs[0]);
+        var battleItem1 = GlobalAccess.GetBattleItem(battleManager.battleItemManager.roundBattleItemIDs[1]);
         switch (time)
         {
             case RoundTime.begin:
@@ -70,7 +69,7 @@ public class BattleRoundManager
                 }
                 battleItem0.RoundBegin();
 
-                switch (battleItem0.battleItemType)
+                switch (battleItem0.type)
                 {
                     case BattleItemType.player:
                         battleManager.battleItemManager.pos_uibattleItemDic.FirstOrDefault(pair => {
@@ -92,9 +91,6 @@ public class BattleRoundManager
                         });
                         break;
                     case BattleItemType.time:
-                        GameManager.Instance.TimeChanged(-1);
-                        yield return new WaitForSeconds(1f);
-                        roundTime.OnNext((uuid, RoundTime.end));
                         break;
                     case BattleItemType.sceneItem:
                         battleManager.battleItemManager.pos_uibattleItemDic.FirstOrDefault(pair => {
@@ -104,14 +100,17 @@ public class BattleRoundManager
                             pair.Value.roundActive = true;
                         });
                         break;
+                    case BattleItemType.granary:
+                        Debug.LogError("granary have no round begin!");
+                        break;
                 }
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(0.5f);
                 roundTime.OnNext((uuid, RoundTime.acting));
                 break;
             case RoundTime.acting:
                 Debug.Log("round acting");
                 //battleItem0.buffCenter.TurnActing();
-                switch (battleItem0.battleItemType)
+                switch (battleItem0.type)
                 {
                     case BattleItemType.player:
                         if (!battleItem0.canActing)
@@ -133,6 +132,9 @@ public class BattleRoundManager
                             yield return battleManager.StartCoroutine(battleItem0.enemyAI.TurnAction(battleItem0.uuid));
                         }
                         break;
+                    // todo BattleItemType.neutral RoundTime.acting
+                    case BattleItemType.neutral:
+                        break;
                     case BattleItemType.time:
                         GameManager.Instance.TimeChanged(-1);
                         yield return new WaitForSeconds(1f);
@@ -152,20 +154,28 @@ public class BattleRoundManager
                             roundTime.OnNext((uuid, RoundTime.end));
                         }
                         break;
+                    case BattleItemType.granary:
+                        Debug.LogError("granary have no round acting!");
+                        roundTime.OnNext((uuid, RoundTime.end));
+                        break;
                 }
                 break;
             case RoundTime.end:
                 Debug.Log("round end");
                 battleItem0.RoundEnd();
 
-                switch (battleItem0.battleItemType)
+                switch (battleItem0.type)
                 {
                     case BattleItemType.player:
                     case BattleItemType.enemy:
+                    case BattleItemType.neutral:
                     case BattleItemType.sceneItem:
                         battleManager.battleItemManager.pos_uibattleItemDic.Values.First(item => { return item.itemID == battleItem0.uuid; }).roundActive = false;
                         break;
                     case BattleItemType.time:
+                        break;
+                    case BattleItemType.granary:
+                        Debug.LogError("granary have no round end!");
                         break;
                 }
                 float passedTime;

@@ -49,7 +49,7 @@ public class BattleChessboardManager
         currentPlaceIndex.AsObservable().TakeUntilDestroy(battleManager).Subscribe(index =>
         {
             if (index < 0) { return; }
-            if (index >= battleManager.battleItemManager.PlayerItemIDs.Count)
+            if (index >= battleManager.battleItemManager.playerItemIDs.Count)
             {
                 //放置完成，回合正式开始
                 //需要手动把placebox隐藏
@@ -60,7 +60,7 @@ public class BattleChessboardManager
                 currentPlaceIndex.OnNext(-1);
                 return;
             }
-            placeBox.Setup(GlobalAccess.GetBattleItem(battleManager.battleItemManager.PlayerItemIDs[currentPlaceIndex.Value]).Resource);
+            placeBox.Setup(GlobalAccess.GetBattleItem(battleManager.battleItemManager.playerItemIDs[currentPlaceIndex.Value]).Resource);
             placeBox.gameObject.SetActive(true);
         });
 
@@ -113,7 +113,7 @@ public class BattleChessboardManager
             if (!battleManager.battleItemManager.HasBattleItem(slot))
             {
                 //放置成功
-                PlaceBattleItem(battleManager.battleItemManager.PlayerItemIDs[currentPlaceIndex.Value], slot);
+                PlaceBattleItem(battleManager.battleItemManager.playerItemIDs[currentPlaceIndex.Value], slot);
                 currentPlaceIndex.OnNext(currentPlaceIndex.Value + 1);
             }
             else
@@ -169,7 +169,7 @@ public class BattleChessboardManager
             clickedSlot.OnNext(slot);
         }
         else if (lastClickedSlot != null && itemID ==
-            GlobalAccess.GetBattleItem(battleManager.battleItemManager.battleItemIDs[0]).uuid &&
+            GlobalAccess.GetBattleItem(battleManager.battleItemManager.roundBattleItemIDs[0]).uuid &&
                 battleManager.battleItemManager.HasBattleItem(lastClickedSlot))
         {
             yield return ItemMove(itemID, slot.position, result => {
@@ -198,7 +198,7 @@ public class BattleChessboardManager
 
     public IEnumerator ItemMove(string uuid, Vector2 des, Action<bool> resultHandler)
     {
-        if (uuid == GlobalAccess.GetBattleItem(battleManager.battleItemManager.battleItemIDs[0]).uuid)
+        if (uuid == GlobalAccess.GetBattleItem(battleManager.battleItemManager.roundBattleItemIDs[0]).uuid)
         {
             Vector2 originPos = battleManager.battleItemManager.GetPosByUUid(uuid);
             var battleItem = GlobalAccess.GetBattleItem(uuid);
@@ -278,7 +278,7 @@ public class BattleChessboardManager
     public void SelectTargets(StoreItemModel storeItem, ChooseTargetType targetType)
     {
         //SetColors
-        string uuID = GlobalAccess.GetBattleItem(battleManager.battleItemManager.battleItemIDs[0]).uuid;
+        string uuID = GlobalAccess.GetBattleItem(battleManager.battleItemManager.roundBattleItemIDs[0]).uuid;
         try
         {
             Vector2 vect = battleManager.battleItemManager.pos_uibattleItemDic.First(x => x.Value.itemID == uuID).Key;
@@ -311,7 +311,7 @@ public class BattleChessboardManager
     {
         clickSlotReason = ClickSlotReason.viewBattleItem;
         //找出正在行动的角色的位置
-        var actingItemID = battleManager.battleItemManager.battleItemIDs[0];
+        var actingItemID = battleManager.battleItemManager.roundBattleItemIDs[0];
         Vector2 vect = battleManager.battleItemManager.pos_uibattleItemDic.First(x =>
             x.Value.itemID == actingItemID).Key;
         if (GameUtil.Instance.GetTargetRangeList(vect, clickedStoreItem.equipDefine.targetRange).Contains(slot.position))
@@ -343,7 +343,7 @@ public class BattleChessboardManager
     private void TargetPositionSelected(UIChessboardSlot slot)
     {
         clickSlotReason = ClickSlotReason.viewBattleItem;
-        var actingItemID = battleManager.battleItemManager.battleItemIDs[0];
+        var actingItemID = battleManager.battleItemManager.roundBattleItemIDs[0];
         //找出正在行动的角色的位置
         Vector2 vect = battleManager.battleItemManager.pos_uibattleItemDic.First(x =>
             x.Value.itemID == actingItemID).Key;

@@ -66,7 +66,7 @@ public class UIBattleItem : MonoBehaviour
     {
         this.itemID = itemID;
         var item = GlobalAccess.GetBattleItem(itemID);
-        itemIcon.overrideSprite = Resloader.LoadSprite(item.Resource, ConstValue.playersPath);
+        itemIcon.overrideSprite = Resloader.LoadSprite(item.Resource, ConstValue.battleItemsPath);
         NorneStore.Instance.ObservableObject(new BattleItem(itemID)).AsObservable().TakeUntilDestroy(this).Subscribe(item =>
         {
             hpSlider.maxValue = item.attributes.MaxHP;

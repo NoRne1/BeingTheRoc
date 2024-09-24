@@ -60,7 +60,7 @@ public class UITeamInfoPage : MonoBehaviour
                 .AsObservable().TakeUntilDestroy(this).Subscribe(cm =>
             {
                 descText.text = cm.Desc;
-                Character_icon.overrideSprite = Resloader.LoadSprite(cm.Resource, ConstValue.playersPath);
+                Character_icon.overrideSprite = Resloader.LoadSprite(cm.Resource, ConstValue.battleItemsPath);
             });
         } else
         {
@@ -82,7 +82,7 @@ public class UITeamInfoPage : MonoBehaviour
                 .AsObservable().TakeUntilDestroy(this).Subscribe(bi =>
                 {
                     descText.text = bi.Desc;
-                    Character_icon.overrideSprite = Resloader.LoadSprite(bi.Resource, ConstValue.playersPath);
+                    Character_icon.overrideSprite = Resloader.LoadSprite(bi.Resource, ConstValue.battleItemsPath);
                 });
         }
         else

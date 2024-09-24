@@ -6,8 +6,8 @@
             "effectType": 0,
             "invokeType": 0,
             "invokeNum": 1,
-            "propertyType": 8,
-            "value": 10,
+            "propertyType": 10,
+            "value": 150,
             "methodName": null
         }
     }

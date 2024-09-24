@@ -56,7 +56,7 @@ class GlobalAccess
     {
         get
         {
-            return Resloader.LoadSprite(DataManager.Instance.Characters[CurrentCharacterId].Resource, ConstValue.playersPath);
+            return Resloader.LoadSprite(DataManager.Instance.Characters[CurrentCharacterId].Resource, ConstValue.battleItemsPath);
         }
     }
 

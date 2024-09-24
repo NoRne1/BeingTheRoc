@@ -5,9 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using System;
-using Unity.VisualScripting;
-using UnityEditor;
-using static UnityEngine.GraphicsBuffer;
 
 public enum RoundTime
 {
@@ -33,6 +30,8 @@ public class BattleManager : MonoSingleton<BattleManager>
     public UIBattleItemInfo uiBattleItemInfo;
     public UIBattleBag uiBattleBag;
     public TownBattleInfoModel battleInfo;
+    public UICircleProgressButton endRoundButton;
+    public UICircleProgressButton restartTodayButton;
     public bool isInBattle = false;
     // Data
     public float difficultyExtraFactor = 0f;
@@ -53,6 +52,25 @@ public class BattleManager : MonoSingleton<BattleManager>
                 difficultyExtraFactor += 0.2f;
             }
         });
+        
+        endRoundButton.buttonCheck = () => { 
+            var currentBattleItem = GlobalAccess.GetBattleItem(battleItemManager.roundBattleItemIDs[0]);
+            return currentBattleItem.type == BattleItemType.player;
+        };
+        endRoundButton.progressCheck = () => { 
+            var currentBattleItem = GlobalAccess.GetBattleItem(battleItemManager.roundBattleItemIDs[0]);
+            return (currentBattleItem.type == BattleItemType.player && currentBattleItem.attributes.currentEnergy > 0);
+        };
+        endRoundButton.onProgressCompleteAction = () => {
+            RoundEnd();
+        };
+        endRoundButton.onImmediateAction = () => {
+            RoundEnd();
+        };
+        //restartTodayButton不存在onImmediateAction
+        restartTodayButton.onProgressCompleteAction = () => {
+            Debug.Log("restartTodayButton.onProgressCompleteAction");
+        };
     }
 
     // Update is called once per frame
@@ -146,7 +164,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public void RoundEnd()
     {
-        roundManager.roundTime.OnNext((battleItemManager.battleItemIDs[0], RoundTime.end));
+        roundManager.roundTime.OnNext((battleItemManager.roundBattleItemIDs[0], RoundTime.end));
     }
 
     public void MoveBarItemClicked(Button button)
@@ -178,8 +196,8 @@ public class BattleManager : MonoSingleton<BattleManager>
     }
 
     public void EquipClicked(string uuid, UIEquipItem equipItem) {
-        var battleItem0 = GlobalAccess.GetBattleItem(battleItemManager.battleItemIDs[0]);
-        if (uuid == battleItem0.uuid && battleItem0.battleItemType == BattleItemType.player)
+        var battleItem0 = GlobalAccess.GetBattleItem(battleItemManager.roundBattleItemIDs[0]);
+        if (uuid == battleItem0.uuid && battleItem0.type == BattleItemType.player)
         {
             //只处理正在行动的玩家角色的装备点击
             StartCoroutine(ItemUseManager.Instance.Use(uuid, equipItem.storeItem));
@@ -202,7 +220,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             var item = GlobalAccess.GetBattleItem(tempid);
             return item.uuid == uuid;
             });
-        battleItemManager.PlayerItemIDs.RemoveAll(tempid => {
+        battleItemManager.playerItemIDs.RemoveAll(tempid => {
             var item = GlobalAccess.GetBattleItem(tempid);
             return item.uuid == uuid;
             });
@@ -222,7 +240,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             var item = GlobalAccess.GetBattleItem(tempid);
             return item.uuid == uuid;
         });
-        battleItemManager.PlayerItemIDs.RemoveAll(tempid => {
+        battleItemManager.playerItemIDs.RemoveAll(tempid => {
             var item = GlobalAccess.GetBattleItem(tempid);
             return item.uuid == uuid;
         });

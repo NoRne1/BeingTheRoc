@@ -80,7 +80,7 @@ public class EnermyModel: IStorable
     {
         BattleItem item = new BattleItem();
         item.uuid = this.uuid;
-        item.battleItemType = BattleItemType.enemy;
+        item.type = BattleItemType.enemy;
         item.Name = this.Name;
         item.Job = this.Job;
         item.Level = this.Level;

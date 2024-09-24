@@ -20,6 +20,6 @@ public class UICharacterPlaceBox : MonoBehaviour
 
     public void Setup(string res)
     {
-        characterIcon.overrideSprite = Resloader.LoadSprite(res, ConstValue.playersPath);
+        characterIcon.overrideSprite = Resloader.LoadSprite(res, ConstValue.battleItemsPath);
     }
 }

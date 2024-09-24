@@ -183,7 +183,7 @@ public class TreasureManager
             .Where(round => {
                     var battleItem = GlobalAccess.GetBattleItem(round.Item1);
                     return round.Item2 == RoundTime.begin && BattleManager.Instance.roundManager.extraRound == 0 &&
-                    battleItem.battleItemType == BattleItemType.player;
+                    battleItem.type == BattleItemType.player;
                 })
             .Subscribe(round =>
             {

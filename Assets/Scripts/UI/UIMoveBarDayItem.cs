@@ -19,7 +19,7 @@ public class UIMoveBarDayItem : MonoBehaviour
     }
     public void Setup(BattleItem item)
     {
-        if (item.battleItemType == BattleItemType.time)
+        if (item.type == BattleItemType.time)
         {
             remainActingTime.text = Mathf.CeilToInt(item.remainActingDistance / item.attributes.Speed).ToString();
         } else {

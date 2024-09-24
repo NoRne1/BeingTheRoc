@@ -21,25 +21,29 @@ public class BattleMoveBarManager
     {
         if (time >= 0)
         {
-            foreach (string uuid in battleManager.battleItemManager.battleItemIDs)
+            foreach (string uuid in battleManager.battleItemManager.roundBattleItemIDs)
             {
                 var item = GlobalAccess.GetBattleItem(uuid);
                 item.remainActingDistance = Mathf.Max(0, item.remainActingDistance - time * item.attributes.Speed);
                 GlobalAccess.SaveBattleItem(item);
             }
-            battleManager.battleItemManager.ResortBattleItems();
-            moveBar.Show(battleManager.battleItemManager.battleItemIDs);
+            RefreshMoveBar();
         }
         else if (time == -999)
         {
-            foreach (string uuid in battleManager.battleItemManager.battleItemIDs)
+            foreach (string uuid in battleManager.battleItemManager.roundBattleItemIDs)
             {
                 var item = GlobalAccess.GetBattleItem(uuid);
                 item.remainActingDistance = GlobalAccess.roundDistance;
                 GlobalAccess.SaveBattleItem(item);
             }
-            battleManager.battleItemManager.ResortBattleItems();
-            moveBar.Show(battleManager.battleItemManager.battleItemIDs);
+            RefreshMoveBar();
         }
+    }
+
+    public void RefreshMoveBar() 
+    {
+        battleManager.battleItemManager.ResortBattleItems();
+        moveBar.Show(battleManager.battleItemManager.roundBattleItemIDs);
     }
 }

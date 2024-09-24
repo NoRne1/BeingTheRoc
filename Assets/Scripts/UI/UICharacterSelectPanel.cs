@@ -84,7 +84,7 @@ public class UICharacterSelectPanel : MonoBehaviour
             Speed.text = cd.Speed.ToString();
             Mobility.text = cd.Mobility.ToString();
             Energy.text = cd.Energy.ToString();
-            Character_icon.overrideSprite = Resloader.LoadSprite(cd.Resource, ConstValue.playersPath);
+            Character_icon.overrideSprite = Resloader.LoadSprite(cd.Resource, ConstValue.battleItemsPath);
             this.SelectedCharacterId = id;
             please_select_tip.gameObject.SetActive(false);
             character_info_panel.SetActive(true);

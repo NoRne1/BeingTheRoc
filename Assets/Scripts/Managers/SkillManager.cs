@@ -473,7 +473,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         var targetIDs = BattleManager.Instance.battleItemManager.battleItemIDs.Where(id =>
         {
             var item = GlobalAccess.GetBattleItem(id);
-            switch (item.battleItemType)
+            switch (item.type)
             {
                 case BattleItemType.enemy:
                     return true;

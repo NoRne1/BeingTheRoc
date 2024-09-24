@@ -19,7 +19,6 @@ public class UITeamWindow : UIWindow
     // Start is called before the first frame update
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -51,7 +50,7 @@ public class UITeamWindow : UIWindow
                     currentCharacterID.OnNext(characterID);
                 });
                 characterButtons[i].transform.GetChild(0).GetComponent<Image>().overrideSprite =
-                    Resloader.LoadSprite(GameManager.Instance.characterRelaysDic[characterID].Value.Resource, ConstValue.playersPath);
+                    Resloader.LoadSprite(GameManager.Instance.characterRelaysDic[characterID].Value.Resource, ConstValue.battleItemsPath);
                 characterButtons[i].gameObject.SetActive(true);
             } else
             {
@@ -66,7 +65,7 @@ public class UITeamWindow : UIWindow
     {
         normalOrBattleInit = false;
         var battleItems = BattleManager.Instance.battleItemManager.battleItemIDs.Select(uuid => GlobalAccess.GetBattleItem(uuid))
-            .Where(item => item.battleItemType == BattleItemType.player).ToList();
+            .Where(item => item.type == BattleItemType.player).ToList();
         currentCharacterID = new BehaviorSubject<string>(battleItems[0].uuid);
         currentCharacterID.AsObservable().DistinctUntilChanged().TakeUntilDestroy(this).Subscribe(cid =>
         {
@@ -87,7 +86,7 @@ public class UITeamWindow : UIWindow
                     currentCharacterID.OnNext(characterID);
                 });
                 characterButtons[i].transform.GetChild(0).GetComponent<Image>().overrideSprite =
-                    Resloader.LoadSprite(battleItems[i].Resource, ConstValue.playersPath);
+                    Resloader.LoadSprite(battleItems[i].Resource, ConstValue.battleItemsPath);
                 characterButtons[i].gameObject.SetActive(true);
             }
             else

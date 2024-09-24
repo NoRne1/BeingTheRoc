@@ -47,7 +47,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                 }
                 break;
             case ItemType.expendable:
-                yield return StartCoroutine(InvokeEffect(EffectInvokeType.useInstant, casterID, targetIDs, targetPos, item));
+                yield return StartCoroutine(InvokeEffect(EffectInvokeType.useInstant, casterID, new List<string>{casterID}, Vector2.negativeInfinity, item));
                 RepoDrop(item);
                 break;
             case ItemType.treasure:

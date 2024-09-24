@@ -38,7 +38,8 @@ public class UIMoveBar : MonoBehaviour
         for (int i = 0; i < Mathf.Min(battleItems.Count, GlobalAccess.moveBarMaxShowNum); i++)
         {
             var battleItem = GlobalAccess.GetBattleItem(battleItems[i]);
-            if (i == 0 && battleItem.battleItemType != BattleItemType.time &&
+            if (battleItem.attributes.Speed == 0) { continue; }
+            if (i == 0 && battleItem.type != BattleItemType.time &&
                 battleItem.remainActingDistance == 0)
             {
                 //有firstItem
@@ -47,7 +48,7 @@ public class UIMoveBar : MonoBehaviour
                 firstItem.transform.SetSiblingIndex(i);
             } else
             {
-                switch (battleItem.battleItemType)
+                switch (battleItem.type)
                 {
                     case BattleItemType.time:
                         GameObject dayItem = dayItemPool.GetObjectFromPool();

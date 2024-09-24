@@ -25,9 +25,9 @@ public class UIMoveBarOtherItem : MonoBehaviour
     public void Setup(BattleItem item)
     {
         this.item = item;
-        icon.overrideSprite = Resloader.LoadSprite(item.Resource, ConstValue.playersPath);
+        icon.overrideSprite = Resloader.LoadSprite(item.Resource, ConstValue.battleItemsPath);
         remainActingTime.text = Mathf.CeilToInt(item.remainActingDistance / item.attributes.Speed).ToString();
-        switch (item.battleItemType)
+        switch (item.type)
         {
             case BattleItemType.player:
                 bg.overrideSprite = Resloader.LoadSprite("move_bar_other_blue_bg", ConstValue.moveBarPath);

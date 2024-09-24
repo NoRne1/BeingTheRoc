@@ -38,6 +38,7 @@ public class UIManager: Singleton<UIManager>
         this.UIResources.Add(typeof(UISkillHint), new UIElement() { Resource = "Prefabs/UISkillHint", Cache = false });
         this.UIResources.Add(typeof(UISkillSelect), new UIElement() { Resource = "Prefabs/UISkillSelect", Cache = false });
         this.UIResources.Add(typeof(UIGameConsole), new UIElement() { Resource = "Prefabs/UIGameConsole", Cache = false });
+        this.UIResources.Add(typeof(UIConfirmWindow), new UIElement() { Resource = "Prefabs/UIConfirmWindow", Cache = false });
     }
 
     ~UIManager()

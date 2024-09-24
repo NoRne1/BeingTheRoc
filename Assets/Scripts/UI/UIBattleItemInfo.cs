@@ -45,13 +45,14 @@ public class UIBattleItemInfo : MonoBehaviour
             disposable = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(itemID))
             .AsObservable().TakeUntilDestroy(this).Subscribe(item =>
             {
-                switch (item.battleItemType)
+                switch (item.type)
                 {
                     case BattleItemType.enemy:
                     case BattleItemType.player:
+                    case BattleItemType.neutral:
                         hpSlider.maxValue = item.attributes.MaxHP;
                         shieldSlider.maxValue = item.attributes.MaxHP;
-                        icon.overrideSprite = Resloader.LoadSprite(item.Resource, ConstValue.playersPath);
+                        icon.overrideSprite = Resloader.LoadSprite(item.Resource, ConstValue.battleItemsPath);
                         nameText.text = item.Name;
                         hpSlider.value = item.attributes.currentHP;
                         //value只是为了显示
@@ -70,9 +71,25 @@ public class UIBattleItemInfo : MonoBehaviour
                             buffPool.GetObjectFromPool().GetComponent<UIBattleBuffIcon>().Setup(buffList[i]);
                         }
                         break;
-                    case BattleItemType.sceneItem:
                     case BattleItemType.time:
                         Debug.Log("UIBattleItemInfo setup error");
+                        break;
+                    case BattleItemType.sceneItem:
+                    case BattleItemType.granary:
+                        hpSlider.maxValue = item.attributes.MaxHP;
+                        shieldSlider.maxValue = item.attributes.MaxHP;
+                        icon.overrideSprite = Resloader.LoadSprite(item.Resource, ConstValue.battleItemsPath);
+                        nameText.text = item.Name;
+                        hpSlider.value = item.attributes.currentHP;
+                        //value只是为了显示
+                        shieldSlider.value = Mathf.Min(shieldSlider.maxValue, item.attributes.currentShield);
+                        sliderText.text = item.attributes.currentHP + "/" + item.attributes.MaxHP;
+                        energyPool.ReturnAllObject();
+                        for (int i = 0; i < item.attributes.currentEnergy; i++)
+                        {
+                            energyPool.GetObjectFromPool();
+                        }
+                        buffPool.ReturnAllObject();
                         break;
                 }
             });
