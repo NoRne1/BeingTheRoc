@@ -5751,17 +5751,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1513725910}
-        m_TargetAssemblyTypeName: MapManager, Assembly-CSharp
-        m_MethodName: BattleSuccess
-        m_Mode: 1
+      - m_Target: {fileID: 2090491758}
+        m_TargetAssemblyTypeName: BattleManager, Assembly-CSharp
+        m_MethodName: BattleEnd
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &322204076
 MonoBehaviour:
@@ -15330,10 +15330,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1513725910}
-        m_TargetAssemblyTypeName: MapManager, Assembly-CSharp
-        m_MethodName: BattleFail
-        m_Mode: 1
+      - m_Target: {fileID: 2090491758}
+        m_TargetAssemblyTypeName: BattleManager, Assembly-CSharp
+        m_MethodName: BattleEnd
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -27172,7 +27172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de05032524c34f3e9e5189cca76bbf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  global: 1
+  global: 0
   blackBarPrefab: {fileID: 7006714142104361331, guid: dda4d1c35524b492a87aebe45a87835c, type: 3}
   blackBarParent: {fileID: 1708023080}
   startPos: {fileID: 398563701}

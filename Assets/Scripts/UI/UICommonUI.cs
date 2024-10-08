@@ -39,28 +39,28 @@ public class UICommonUI : MonoBehaviour
         switch(style)
         {
             case CommonUIStyle.map:
-                gameObject.SetActive(false);
-                //setLeftButtonStyle(false);
-                //setPopButtonAutoHide(true);
-                //hideRightButtonGroup(true);
-                //hideTimeLeftGroup(true);
-                //weatherPanel.gameObject.SetActive(false);
-                //uIPopButtonGroup.gameObject.SetActive(false);
+                gameObject.SetActive(true);
+                setLeftButtonStyle(LeftButtonStyle.none);
+                hideRightButtonGroup(true);
+                hideTimeLeftGroup(false);
+                weatherPanel.gameObject.SetActive(false);
+                uIPopButtonGroup.gameObject.SetActive(false);
+                treasuresRect.gameObject.SetActive(false);
                 break;
             case CommonUIStyle.town:
                 gameObject.SetActive(true);
-                setLeftButtonStyle(true);
-                setBottomPopButtonAutoHide(false);
+                setLeftButtonStyle(LeftButtonStyle.menu);
                 hideRightButtonGroup(false);
                 hideTimeLeftGroup(false);
                 weatherPanel.gameObject.SetActive(false);
+                setBottomPopButtonAutoHide(false);
                 uIPopButtonGroup.gameObject.SetActive(true);
                 setLeftRectAutoHide(true);
                 treasuresRect.gameObject.SetActive(true);
                 break;
             case CommonUIStyle.actionPage:
                 gameObject.SetActive(true);
-                setLeftButtonStyle(false);
+                setLeftButtonStyle(LeftButtonStyle.back);
                 setBottomPopButtonAutoHide(true);
                 hideRightButtonGroup(false);
                 hideTimeLeftGroup(false);
@@ -71,7 +71,7 @@ public class UICommonUI : MonoBehaviour
                 break;
             case CommonUIStyle.battle:
                 gameObject.SetActive(true);
-                setLeftButtonStyle(false);
+                setLeftButtonStyle(LeftButtonStyle.back);
                 setBottomPopButtonAutoHide(true);
                 hideRightButtonGroup(true);
                 hideTimeLeftGroup(false);
@@ -84,10 +84,30 @@ public class UICommonUI : MonoBehaviour
         
     }
 
-    public void setLeftButtonStyle(bool menuOrBack)
+    public enum LeftButtonStyle 
     {
-        backButton.gameObject.SetActive(!menuOrBack);
-        menuButton.gameObject.SetActive(menuOrBack);
+        none = 0,
+        menu = 1,
+        back = 2,
+
+    }
+    public void setLeftButtonStyle(LeftButtonStyle style)
+    {
+        switch (style) 
+        {
+            case LeftButtonStyle.none:
+                backButton.gameObject.SetActive(false);
+                menuButton.gameObject.SetActive(false);
+                break;
+            case LeftButtonStyle.menu:
+                backButton.gameObject.SetActive(false);
+                menuButton.gameObject.SetActive(true);
+                break;
+            case LeftButtonStyle.back:
+                backButton.gameObject.SetActive(true);
+                menuButton.gameObject.SetActive(false);
+                break;
+        }
     }
 
     public void onBackButtonClicked()

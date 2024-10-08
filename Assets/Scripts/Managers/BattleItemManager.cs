@@ -9,9 +9,11 @@ public class BattleItemManager
     private BattleManager battleManager;
 
     public List<string> battleItemIDs = new List<string>();
+    //有行动值的battleItem
     public List<string> roundBattleItemIDs = new List<string>();
-    
     public List<string> playerItemIDs = new List<string>();
+    public List<string> enemyItemIDs = new List<string>();
+    public string granaryItemID = "";
     public Dictionary<Vector2, UIBattleItem> pos_uibattleItemDic = new Dictionary<Vector2, UIBattleItem>();
     public Dictionary<string, Vector2> id_posDic = new Dictionary<string, Vector2>();
 
@@ -20,6 +22,8 @@ public class BattleItemManager
         battleItemIDs.Add(item.uuid);
         if (item.attributes.Speed > 0) { roundBattleItemIDs.Add(item.uuid); }
         if (item.type == BattleItemType.player) { playerItemIDs.Add(item.uuid); }
+        if (item.type == BattleItemType.enemy) { enemyItemIDs.Add(item.uuid); }
+        if (item.type == BattleItemType.granary) { granaryItemID = item.uuid; }
     }
 
     public void ClearItem() 
@@ -27,6 +31,8 @@ public class BattleItemManager
         battleItemIDs.Clear();
         roundBattleItemIDs.Clear();
         playerItemIDs.Clear();
+        enemyItemIDs.Clear();
+        granaryItemID = "";
     }
     //战斗开始时初始化
     public void Init(List<string> characterIDs, TownBattleInfoModel battleInfo)
@@ -200,5 +206,15 @@ public class BattleItemManager
         pos_uibattleItemDic.Remove(id_posDic[uuid]);
         id_posDic.Remove(uuid);
         battleManager.moveBarManager.RefreshMoveBar();
+    }
+
+    public void BattleEnd()
+    {
+        foreach (var id in battleItemIDs)
+        {
+            var item = GlobalAccess.GetBattleItem(id);
+            item.BattleEnd();
+            NorneStore.Instance.Remove(item);
+        }
     }
 }

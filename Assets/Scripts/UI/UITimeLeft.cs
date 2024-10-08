@@ -11,6 +11,11 @@ public class UITimeLeft : MonoBehaviour
     public Animator animator;
     private int currentTimeLeft;
     // Start is called before the first frame update
+    void OnEnable() 
+    {
+        timeLeftText.text = GameManager.Instance.timeLeft.Value.ToString();
+    }
+
     void Start()
     {
         currentTimeLeft = GameManager.Instance.timeLeft.Value;

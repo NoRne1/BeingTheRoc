@@ -49,7 +49,7 @@ public class MapManager : MonoSingleton<MapManager>
     void Start()
     {
         //for test
-        DataManager.Instance.Load();
+        // DataManager.Instance.Load();
 
         nextTownIdSubject.AsObservable().TakeUntilDestroy(this).Subscribe(id =>
         {
@@ -65,7 +65,6 @@ public class MapManager : MonoSingleton<MapManager>
                 {
                     var path = ShortestPath(currentTownId, id);
                     path.Remove(currentTownId);
-                    GameManager.Instance.TimeChanged(-path.Count);
                     StartCoroutine(MoveToNextTown(path));
                 } else
                 {
@@ -256,27 +255,31 @@ public class MapManager : MonoSingleton<MapManager>
 
     private IEnumerator MoveToNextTown(List<int> path)
     {
-        foreach (var id in path)
+        if (path != null && path.Count > 0)
         {
-            MovePlayerPos(id, true);
-            beforeBattleTownId = currentTownId;
-            currentTownId = id;
-            yield return new WaitForSeconds(playerMoveTime);
-        }
+            GameManager.Instance.TimeChanged(-path.Count);
+            foreach (var id in path)
+            {
+                MovePlayerPos(id, true);
+                beforeBattleTownId = currentTownId;
+                currentTownId = id;
+                yield return new WaitForSeconds(playerMoveTime);
+            }
 
-        switch (townList[currentTownId].Status)
-        {
-            case TownNodeStatus.passed:
-                GameManager.Instance.SwitchPage(PageType.town);
-                break;
-            case TownNodeStatus.unpassed:
-                //todo StartBattle
-                GameManager.Instance.SwitchPage(PageType.battle, () =>
-                {
-                    BattleManager.Instance.StartBattle(GameManager.Instance.characterRelaysDic.Keys.ToList(), townList[currentTownId].battleInfo);
-                });
-                break;
-        }                                                                                                                                                                                                                                                 
+            switch (townList[currentTownId].Status)
+            {
+                case TownNodeStatus.passed:
+                    GameManager.Instance.SwitchPage(PageType.town);
+                    break;
+                case TownNodeStatus.unpassed:
+                    //todo StartBattle
+                    GameManager.Instance.SwitchPage(PageType.battle, () =>
+                    {
+                        BattleManager.Instance.StartBattle(GameManager.Instance.characterRelaysDic.Keys.ToList(), townList[currentTownId].battleInfo);
+                    });
+                    break;
+            }                   
+        }                                                                                                                                                                                                                              
     }
 
     public void BattleFail()
@@ -293,7 +296,6 @@ public class MapManager : MonoSingleton<MapManager>
         yield return new WaitForSeconds(GlobalAccess.switchPageTime);
         MovePlayerPos(beforeBattleTownId, true);
         battleResultSubject.OnNext(false);
-        BattleManager.Instance.BattleEnd(false);
     }
 
     public void BattleSuccess()
@@ -301,7 +303,6 @@ public class MapManager : MonoSingleton<MapManager>
         townList[currentTownId].Status = TownNodeStatus.passed;
         GameManager.Instance.SwitchPage(PageType.map);
         battleResultSubject.OnNext(true);
-        BattleManager.Instance.BattleEnd(true);
     }
 
     public void AddMessage()

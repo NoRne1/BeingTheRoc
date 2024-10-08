@@ -84,7 +84,7 @@ public class NorneStore
     public IObservable<T> ObservableObject<T>(string category, string identifier, T defaultValue) where T : IStorable
     {
         var key = $"{category}-{identifier}";
-        if (_datas[key] is NorneAcceptableRelay<T> relay)
+        if (_datas.Keys.Contains(key) && _datas[key] is NorneAcceptableRelay<T> relay)
         {
             return relay;
         }

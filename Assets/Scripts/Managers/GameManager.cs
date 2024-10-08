@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,6 +80,21 @@ public class GameManager : MonoSingleton<GameManager>
                 }
             }
         });
+
+        GameManager.Instance.timeLeft.AsObservable().DistinctUntilChanged().TakeUntilDestroy(this).Subscribe(time =>
+        {
+            if (time<=0) 
+            {
+                StartCoroutine(GameOver());
+            }
+        });
+    }
+
+    private IEnumerator GameOver()
+    {
+        BlackBarManager.Instance.AddMessage("游戏失败");
+        yield return new WaitForSeconds(1);
+        SceneManager.Instance.LoadScene("start_game");
     }
 
     // Update is called once per frame
@@ -125,7 +141,7 @@ public class GameManager : MonoSingleton<GameManager>
             case PageType.battle:
                 commonUI.setUIStyle(CommonUIStyle.battle);
                 commonUI.gameObject.SetActive(true);
-                commonUI.setLeftButtonStyle(false);
+                commonUI.setLeftButtonStyle(UICommonUI.LeftButtonStyle.back);
                 commonUI.setBottomPopButtonAutoHide(true);
                 break;
             case PageType.bar:

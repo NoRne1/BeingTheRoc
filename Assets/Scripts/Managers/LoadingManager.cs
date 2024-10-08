@@ -5,7 +5,7 @@ using Unity.Burst.Intrinsics;
 using TMPro;
 using Assets.Scripts.Sound;
 
-public class LoadingManager : MonoBehaviour
+public class LoadingManager : MonoSingleton<LoadingManager>
 {
 
     //健康游戏忠告

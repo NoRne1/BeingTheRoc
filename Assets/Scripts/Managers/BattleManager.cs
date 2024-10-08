@@ -216,11 +216,16 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public void CharacterDie(string uuid)
     {
+        //清除数据
         battleItemManager.battleItemIDs.RemoveAll(tempid => {
             var item = GlobalAccess.GetBattleItem(tempid);
             return item.uuid == uuid;
             });
         battleItemManager.playerItemIDs.RemoveAll(tempid => {
+            var item = GlobalAccess.GetBattleItem(tempid);
+            return item.uuid == uuid;
+            });
+        battleItemManager.enemyItemIDs.RemoveAll(tempid => {
             var item = GlobalAccess.GetBattleItem(tempid);
             return item.uuid == uuid;
             });
@@ -231,6 +236,24 @@ public class BattleManager : MonoSingleton<BattleManager>
             battleItemManager.pos_uibattleItemDic.Remove(pair.Key);
         }
         GameManager.Instance.RemoveCharacter(uuid);
+
+        //判断战斗结束
+        var diedItem = GlobalAccess.GetBattleItem(uuid);
+        if (diedItem.type == BattleItemType.granary) 
+        {
+            BattleEnd(true);
+            return;
+        }
+        if (battleItemManager.enemyItemIDs.Count == 0) 
+        {
+            BattleEnd(true);
+            return;
+        }
+        if (battleItemManager.playerItemIDs.Count == 0) 
+        {
+            BattleEnd(false);
+            return;
+        }
     }
 
     //离开战场（非死亡）
@@ -256,10 +279,13 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         isInBattle = false;
         SkillManager.Instance.BattleEnd();
-        foreach (var id in battleItemManager.battleItemIDs)
+        battleItemManager.BattleEnd();
+        if (result) 
         {
-            var item = GlobalAccess.GetBattleItem(id);
-            item.BattleEnd();
+            MapManager.Instance.BattleSuccess();
+        } else 
+        {
+            MapManager.Instance.BattleFail();
         }
     }
 }
