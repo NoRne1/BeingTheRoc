@@ -44,7 +44,7 @@ public class CharacterModel: IStorable
         Name = define.Name;
         Level = define.Level;
         attributes = new Attributes();
-        attributes.Init(define);
+        attributes.Init(define, characterUpdate);
         Resource = define.Resource;
         Desc = define.Desc;
         backpack = new Backpack(uuid, 3, 3, characterUpdate);
@@ -86,6 +86,19 @@ public class CharacterModel: IStorable
             Debug.Log("skill: " + BornSkill + " not found!");
         }
     }
+
+    public void LevelUp() 
+    {   
+        attributes.level += 1;
+        AddMaxPropertyPoints(20);
+    }
+
+    public void AddMaxPropertyPoints(int value) 
+    {   
+        attributes.maxPropertyPoints += value;
+        attributes.RemainPropertyPoints += value;
+    }
+
 
     public BattleItem ToBattleItem()
     {

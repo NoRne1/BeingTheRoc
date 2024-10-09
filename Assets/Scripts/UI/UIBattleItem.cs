@@ -219,7 +219,7 @@ public class UIBattleItem : MonoBehaviour
     private IEnumerator DodgeCoroutine()
     {
         // 计算闪避后的目标位置
-        Vector3 dodgePosition = Camera.main.ScreenToWorldPoint(Camera.main.WorldToScreenPoint(dodgeStartPosition) + new Vector3(45, -45, 0)); // 向右下移动
+        Vector3 dodgePosition = GameUtil.Instance.GetMovedWorldPosition(dodgeStartPosition, new Vector3(45, -45, 0));// 向右下移动
         // 使用 DOTween 移动角色到目标位置
         Tween moveOut = transform.DOMove(dodgePosition, 0.25f);
         yield return moveOut.WaitForCompletion();

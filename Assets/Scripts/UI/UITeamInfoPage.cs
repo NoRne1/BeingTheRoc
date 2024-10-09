@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UniRx;
+using System.Security.Cryptography;
 
 
 public class UITeamInfoPage : MonoBehaviour
@@ -23,6 +24,34 @@ public class UITeamInfoPage : MonoBehaviour
     void Awake()
     {
         panelSelector.OnToggleValueChanged += PanelSelector_OnToggleValueChanged;
+    }
+
+    void Start() 
+    {
+        propertyPanel.changeButton.plusButton.OnClickAsObservable().Subscribe(_ => { 
+            if (character != null)
+            {
+                character.attributes.setGrowthPropertyValue(propertyPanel.changeButton.SelectedAttributeType, 1);
+            }
+        }).AddTo(this);
+
+        propertyPanel.changeButton.minusButton.OnClickAsObservable().Subscribe(_ => { 
+            if (character != null)
+            {
+                character.attributes.setGrowthPropertyValue(propertyPanel.changeButton.SelectedAttributeType, -1);
+            }
+        }).AddTo(this);
+    
+        propertyPanel.changeButton.progressCheck = () => propertyPanel.changeButton.expandedSubject.Value;
+        propertyPanel.changeButton.onImmediateAction = () => { 
+            propertyPanel.changeButton.ToggleButtons(); 
+        };
+        propertyPanel.changeButton.onProgressCompleteAction = () => {
+            if (character != null)
+            {
+                character.attributes.ResetGrowthProperty();
+            }
+        };
     }
 
     private void PanelSelector_OnToggleValueChanged(NorneToggle obj)
@@ -51,6 +80,7 @@ public class UITeamInfoPage : MonoBehaviour
     {
         panelSelector.PanelInit(TogglePanelType.Panel0);
         panelSelector.gameObject.SetActive(false);
+        propertyPanel.changeButton.gameObject.SetActive(true);
         this.character = character;
         this.battleItem = null;
         if (character != null)
@@ -73,6 +103,7 @@ public class UITeamInfoPage : MonoBehaviour
     {
         panelSelector.PanelInit(type);
         panelSelector.gameObject.SetActive(true);
+        propertyPanel.changeButton.gameObject.SetActive(false);
         this.character = null;
         this.battleItem = battleItem;
         if (battleItem != null)

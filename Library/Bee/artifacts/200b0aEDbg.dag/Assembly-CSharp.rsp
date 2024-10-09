@@ -466,6 +466,8 @@
 "Assets/Scripts/UI/UIMoveBarOtherItem.cs"
 "Assets/Scripts/UI/UIOptions.cs"
 "Assets/Scripts/UI/UIPanelSelector.cs"
+"Assets/Scripts/UI/UIPropertyChangeButton.cs"
+"Assets/Scripts/UI/UIPropertyDisplay.cs"
 "Assets/Scripts/UI/UIPropertyPanel.cs"
 "Assets/Scripts/UI/UIRepositorSlot.cs"
 "Assets/Scripts/UI/UISetting.cs"

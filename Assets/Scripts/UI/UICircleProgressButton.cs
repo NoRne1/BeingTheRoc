@@ -19,6 +19,9 @@ public class UICircleProgressButton : MonoBehaviour, IPointerDownHandler, IPoint
     private float holdTime = 0f;
     private bool isDecaying = false;
 
+    //长按行为执行后会重置holdTime，导致短按逻辑错误执行
+    private bool progressActionDone = false;
+
     void Start()
     {
         if (progressCircle != null)
@@ -75,18 +78,11 @@ public class UICircleProgressButton : MonoBehaviour, IPointerDownHandler, IPoint
     // 按下按钮时
     public void OnPointerDown(PointerEventData eventData)
     {
+        progressActionDone = false;
         if (buttonCheck.Invoke())
         {
-            if (progressCheck != null && progressCheck.Invoke())
-            {
-                isHolding = true;
-                isDecaying = false;
-            }
-            else
-            {
-                // 当条件不满足时，立即执行传入的函数
-                onImmediateAction?.Invoke();
-            }
+            isHolding = true;
+            isDecaying = false;
         }
     }
 
@@ -94,8 +90,17 @@ public class UICircleProgressButton : MonoBehaviour, IPointerDownHandler, IPoint
     public void OnPointerUp(PointerEventData eventData)
     {
         isHolding = false;
-        if (holdTime > 0)
+        if (holdTime < 0.1f && !progressActionDone)
         {
+            // 短按，判断buttonCheck，执行onImmediateAction
+            if (buttonCheck.Invoke())
+            {
+                onImmediateAction?.Invoke();
+            }
+        }
+        if (holdTime > 0f)
+        {
+            // 长按，开始衰减
             isDecaying = true;
         }
     }
@@ -103,6 +108,7 @@ public class UICircleProgressButton : MonoBehaviour, IPointerDownHandler, IPoint
     // 重置长按状态
     private void ResetHold()
     {
+        progressActionDone = true;
         isHolding = false;
         holdTime = 0;
         UpdateProgressCircle(0);

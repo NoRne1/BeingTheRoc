@@ -118,7 +118,7 @@ public class UITeamWindow : UIWindow
                 skillSelect.Setup(character);
                 skillSelect.selectedAction = (skill) =>
                 {
-                    character.attributes.level += 1;
+                    character.LevelUp();
                     if(character.attributes.level == 1)
                     {
                         character.Skill1 = skill.ID;

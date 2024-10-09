@@ -40,8 +40,8 @@ class GlobalAccess
     {
         get
         {
-            // return 0;
-            return PlayerPrefs.GetInt("CurrentCharacterId", -1);
+            return 0;
+            // return PlayerPrefs.GetInt("CurrentCharacterId", -1);
         }
         set
         {
@@ -88,6 +88,34 @@ class GlobalAccess
             default:
                 Debug.LogError("GetWeightForJob unknown JobType: " + job);
                 return 0;
+        }
+    }
+
+    public static int GetPropertyTransferRuleFactor(AttributeType type) 
+    {
+        switch (type)
+        {
+            case AttributeType.MaxHP:
+                return 1;
+            case AttributeType.Strength:
+                return 1;
+            case AttributeType.Defense:
+                return 2;
+            case AttributeType.Dodge:
+                return 3;
+            case AttributeType.Accuracy:
+                return 3;
+            case AttributeType.Speed:
+                return 5;
+            case AttributeType.Mobility:
+                return 15;
+            case AttributeType.Energy:
+                return 20;
+            case AttributeType.None:
+                return -1;
+            default:
+                Debug.LogError("PropertyTransferRule unknown AttributeType");
+                return -1;
         }
     }
 

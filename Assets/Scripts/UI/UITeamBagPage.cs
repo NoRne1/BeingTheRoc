@@ -133,6 +133,7 @@ public class UITeamBagPage : MonoBehaviour
             {
                 Vector3 tempVector = Input.mousePosition;
                 Vector3 worldPosition = Camera.main.ScreenToWorldPoint(tempVector);
+                //todo worldPosition.z
                 worldPosition.z = 90;
                 draggedEquipItem.transform.position = worldPosition;
                 if (Input.GetMouseButtonDown(1))

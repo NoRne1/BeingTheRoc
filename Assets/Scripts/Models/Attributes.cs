@@ -9,13 +9,15 @@ public class Attributes
     public int level = 0;
     public int remainExp { get { return exp - GlobalAccess.levelUpExp * level; } }
     public int exp = 0;
+    public int maxPropertyPoints = 0;
+    private int remainPropertyPoints = 0;
     //初始值
     AttributeData Initial = new AttributeData();
     //成长值
     AttributeData Growth = new AttributeData();
     //物品加成值
     public AttributeData ItemEffect = new AttributeData();
-    //物品加成值
+    //战斗中装备加成值
     public AttributeData InBattle = new AttributeData();
     //装备值
     AttributeData Equip = new AttributeData();
@@ -63,6 +65,12 @@ public class Attributes
     {
         get { return dynamicAttr.lostHP; }
         set { dynamicAttr.lostHP = value; }
+    }
+
+    public int RemainPropertyPoints
+    {
+        get { return remainPropertyPoints; }
+        set { remainPropertyPoints = Mathf.Max(0, value); }
     }
     /// <summary>
     /// 生命
@@ -115,18 +123,22 @@ public class Attributes
     /// <summary>
     /// 吸血
     /// </summary>
-    public int Hematophagia { get { return this.Final.Hematophagia; } }
+    public int Hematophagia { get { return this.Final.Hematophagia; }}
+
+    private Subject<Unit> updateSubject;
 
     //初始化自己的角色
-    public void Init(CharacterDefine define)
+    public void Init(CharacterDefine define, Subject<Unit> subject)
     {
+        updateSubject = subject;
         this.LoadInitAttribute(this.Initial, define, false);
         this.level = 0;
         this.LoadFinalAttributes();
     }
     //初始化预制的角色
-    public void Init(CharacterDefine define, int level)
+    public void Init(CharacterDefine define, int level, Subject<Unit> subject)
     {
+        updateSubject = subject;
         this.LoadInitAttribute(this.Initial, define, false);
         this.level = level;
         this.LoadGrowthAttribute(this.Growth, define.Job, level, false);
@@ -149,6 +161,72 @@ public class Attributes
             dynamicAttr.currentShield = 0;
             dynamicAttr.currentEnergy = 0;
             dynamicAttr.lostHP = 0;
+        }
+    }
+
+    public void ResetGrowthProperty()
+    {
+        Growth = new AttributeData();
+        RemainPropertyPoints = maxPropertyPoints;
+        LoadFinalAttributes();
+    }
+
+    public bool setGrowthPropertyValue(AttributeType type, int change) 
+    {
+        var ruleFactor = GlobalAccess.GetPropertyTransferRuleFactor(type);
+        if (ruleFactor == -1) 
+        { 
+            BlackBarManager.Instance.AddMessage("请先选择一项属性");
+            return false; 
+        }
+        if ((change >= 0 && Mathf.Abs(ruleFactor * change) <= remainPropertyPoints) || 
+        (change < 0 && remainPropertyPoints + Mathf.Abs(ruleFactor * change) <= maxPropertyPoints && Growth.Data[(int)type] + change >= 0)) 
+        {
+            //加值时，变化的绝对值需要小于remainPropertyPoints，减值时，当前值加变化的绝对值要小于maxPropertyPoints
+            Growth.Data[(int)type] += change;
+            remainPropertyPoints -= ruleFactor * change;
+            LoadFinalAttributes();
+            return true;
+        } else  
+        {
+            BlackBarManager.Instance.AddMessage("加点时没有足够的可分配点数，减点时可分配点数超过最大值，或是属性不能小于0");
+            return false;
+        }
+    }
+
+    public int getFinalPropertyValue(AttributeType type) 
+    {
+        switch (type)
+        {
+            case AttributeType.MaxHP:
+                return MaxHP;
+            case AttributeType.Strength:
+                return Strength;
+            case AttributeType.Defense:
+                return Defense;
+            case AttributeType.Dodge:
+                return Dodge;
+            case AttributeType.Accuracy:
+                return Accuracy;
+            case AttributeType.Speed:
+                return Speed;
+            case AttributeType.Mobility:
+                return Mobility;
+            case AttributeType.Energy:
+                return Energy;
+            case AttributeType.Lucky:
+                return Lucky;
+            case AttributeType.Protection:
+                return Protection;
+            case AttributeType.EnchanceDamage:
+                return EnchanceDamage;
+            case AttributeType.Taunt:
+                return Taunt;
+            case AttributeType.Hematophagia:
+                return Hematophagia;
+            default:
+                Debug.LogError("unknown AttributeType!");
+                return -1;
         }
     }
 
@@ -220,5 +298,6 @@ public class Attributes
                 this.ItemEffect.Data[i] + this.InBattle.Data[i] + this.Difficulty.Data[i] +
                 this.Equip.Data[i] + this.Skill.Data[i] + this.Buff.Data[i];
         }
+        updateSubject.OnNext(Unit.Default);
     }
 }

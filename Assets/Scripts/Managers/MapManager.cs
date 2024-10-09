@@ -49,7 +49,7 @@ public class MapManager : MonoSingleton<MapManager>
     void Start()
     {
         //for test
-        // DataManager.Instance.Load();
+        DataManager.Instance.Load();
 
         nextTownIdSubject.AsObservable().TakeUntilDestroy(this).Subscribe(id =>
         {
@@ -279,7 +279,19 @@ public class MapManager : MonoSingleton<MapManager>
                     });
                     break;
             }                   
-        }                                                                                                                                                                                                                              
+        } else if (path != null) 
+        {
+            switch (townList[currentTownId].Status)
+            {
+                case TownNodeStatus.passed:
+                    GameManager.Instance.SwitchPage(PageType.town);
+                    break;
+                case TownNodeStatus.unpassed:
+                    //todo StartBattle
+                    Debug.LogError("move path count equal 0, should not be unpassed!");
+                    break;
+            }  
+        }                                                                                                                                                                                                                             
     }
 
     public void BattleFail()
@@ -303,10 +315,5 @@ public class MapManager : MonoSingleton<MapManager>
         townList[currentTownId].Status = TownNodeStatus.passed;
         GameManager.Instance.SwitchPage(PageType.map);
         battleResultSubject.OnNext(true);
-    }
-
-    public void AddMessage()
-    {
-        BlackBarManager.Instance.AddMessage(System.DateTime.Now.ToLongTimeString());
     }
 }

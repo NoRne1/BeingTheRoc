@@ -2,32 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIPropertyPanel : MonoBehaviour
 {
     public TextMeshProUGUI title;
-    public TextMeshProUGUI MaxHP_key;
-    public TextMeshProUGUI Strength_key;
-    public TextMeshProUGUI Defense_key;
-    public TextMeshProUGUI Dodge_key;
-    public TextMeshProUGUI Accuracy_key;
-    public TextMeshProUGUI Speed_key;
-    public TextMeshProUGUI Mobility_key;
-    public TextMeshProUGUI Energy_key;
-
+    public ToggleGroup toggleGroup;
+    private Dictionary<AttributeType, UIPropertyDisplay> propertyDisplays = new Dictionary<AttributeType, UIPropertyDisplay>();
+    public UIPropertyChangeButton changeButton;
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI expText;
-
-    public TextMeshProUGUI MaxHP;
-    public TextMeshProUGUI Strength;
-    public TextMeshProUGUI Defense;
-    public TextMeshProUGUI Dodge;
-    public TextMeshProUGUI Accuracy;
-    public TextMeshProUGUI Speed;
-    public TextMeshProUGUI Mobility;
-    public TextMeshProUGUI Energy;
 
     public Button levelUpButton;
     public Slider expSlider;
@@ -38,14 +24,31 @@ public class UIPropertyPanel : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        MaxHP_key.text = GameUtil.Instance.GetDisplayString("health");
-        Strength_key.text = GameUtil.Instance.GetDisplayString("strength");
-        Defense_key.text = GameUtil.Instance.GetDisplayString("defense");
-        Dodge_key.text = GameUtil.Instance.GetDisplayString("dodge");
-        Accuracy_key.text = GameUtil.Instance.GetDisplayString("accuracy");
-        Speed_key.text = GameUtil.Instance.GetDisplayString("speed");
-        Mobility_key.text = GameUtil.Instance.GetDisplayString("mobility");
-        Energy_key.text = GameUtil.Instance.GetDisplayString("energy");
+        foreach (var propertyDisplay in GetComponentsInChildren<UIPropertyDisplay>())
+        {
+            propertyDisplays.Add(propertyDisplay.attributeType, propertyDisplay);
+            propertyDisplay.SetupKey(propertyDisplay.attributeType.ToString());
+        }
+    }
+
+    void Start() 
+    {
+        changeButton.expandedSubject.AsObservable().Subscribe(expanded => {
+            //取消选中
+            toggleGroup.GetFirstActiveToggle().IfNotNull(toggle => { toggle.isOn = false; });
+            //设置toggle可交互
+            foreach(var propertyDisplay in propertyDisplays.Values) 
+            {
+                propertyDisplay.SetToggleActive(expanded);
+            }
+        }).AddTo(this);
+
+        foreach(var propertyDisplay in propertyDisplays.Values) 
+        {
+            propertyDisplay.selfToggle.OnValueChangedAsObservable().Subscribe(selected => {
+                changeButton.SetSelectedAttributeType(selected ? propertyDisplay.attributeType : AttributeType.None);
+            }).AddTo(this);
+        }
     }
 
     // Update is called once per frame
@@ -70,14 +73,11 @@ public class UIPropertyPanel : MonoBehaviour
                     levelUpButton.gameObject.SetActive(cm.attributes.remainExp > GlobalAccess.levelUpExp &&
                         cm.attributes.level < GlobalAccess.maxLevel);
                     title.text = cm.Name;
-                    MaxHP.text = cm.attributes.MaxHP.ToString();
-                    Strength.text = cm.attributes.Strength.ToString();
-                    Defense.text = cm.attributes.Defense.ToString();
-                    Dodge.text = cm.attributes.Dodge.ToString();
-                    Accuracy.text = cm.attributes.Accuracy.ToString();
-                    Speed.text = cm.attributes.Speed.ToString();
-                    Mobility.text = cm.attributes.Mobility.ToString();
-                    Energy.text = cm.attributes.Energy.ToString();
+                    changeButton.remainPoints.text = cm.attributes.RemainPropertyPoints.ToString();
+                    foreach (var propertyDisplay in propertyDisplays.Values)
+                    {
+                        propertyDisplay.SetupValue(cm.attributes.getFinalPropertyValue(propertyDisplay.attributeType).ToString());
+                    }
                     skillButtons[0].Setup(cm.BornSkill == -1 ? null : DataManager.Instance.Skills[cm.BornSkill]);
                     skillButtons[1].Setup(cm.Skill1 == -1 ? null : DataManager.Instance.Skills[cm.Skill1]);
                     skillButtons[2].Setup(cm.Skill2 == -1 ? null : DataManager.Instance.Skills[cm.Skill2]);
@@ -108,14 +108,10 @@ public class UIPropertyPanel : MonoBehaviour
                     levelUpButton.gameObject.SetActive(bi.attributes.remainExp > GlobalAccess.levelUpExp &&
                         bi.attributes.level < GlobalAccess.maxLevel);
                     title.text = bi.Name;
-                    MaxHP.text = bi.attributes.MaxHP.ToString();
-                    Strength.text = bi.attributes.Strength.ToString();
-                    Defense.text = bi.attributes.Defense.ToString();
-                    Dodge.text = bi.attributes.Dodge.ToString();
-                    Accuracy.text = bi.attributes.Accuracy.ToString();
-                    Speed.text = bi.attributes.Speed.ToString();
-                    Mobility.text = bi.attributes.Mobility.ToString();
-                    Energy.text = bi.attributes.Energy.ToString();
+                    foreach (var propertyDisplay in propertyDisplays.Values) 
+                    {
+                        propertyDisplay.SetupValue(bi.attributes.getFinalPropertyValue(propertyDisplay.attributeType).ToString());
+                    }
                     skillButtons[0].Setup(bi.BornSkill == -1 ? null : DataManager.Instance.Skills[bi.BornSkill]);
                     skillButtons[1].Setup(bi.Skill1 == -1 ? null : DataManager.Instance.Skills[bi.Skill1]);
                     skillButtons[2].Setup(bi.Skill2 == -1 ? null : DataManager.Instance.Skills[bi.Skill2]);

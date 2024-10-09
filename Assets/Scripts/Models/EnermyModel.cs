@@ -48,7 +48,7 @@ public class EnermyModel: IStorable
         Name = define.Name;
         Level = define.Level;
         attributes = new Attributes();
-        attributes.Init(define);
+        attributes.Init(define, enermyUpdate);
         Resource = define.Resource + "_enemy";
         Desc = define.Desc;
         backpack = new Backpack(uuid, 3, 3, enermyUpdate);

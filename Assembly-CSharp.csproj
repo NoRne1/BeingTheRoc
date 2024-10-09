@@ -89,6 +89,7 @@
     <Compile Include="Assets/Scripts/Managers/SkillManager.cs" />
     <Compile Include="Assets/Scripts/UI/UILoadingPanel.cs" />
     <Compile Include="Assets/Scripts/UI/UIBattleItemInfo.cs" />
+    <Compile Include="Assets/Scripts/UI/UIPropertyChangeButton.cs" />
     <Compile Include="Assets/Scripts/Component/FightText/FightTextInfo.cs" />
     <Compile Include="Assets/Scripts/Component/HintComponent.cs" />
     <Compile Include="Assets/Scripts/Models/Backpack.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Assets/Scripts/UI/UIMainMenu.cs" />
     <Compile Include="Assets/Scripts/UI/UIConsoleOutput.cs" />
     <Compile Include="Assets/Scripts/UI/UICommonUI.cs" />
+    <Compile Include="Assets/Scripts/UI/UIPropertyDisplay.cs" />
     <Compile Include="Assets/Scripts/UI/UISkillButton.cs" />
     <Compile Include="Assets/Scripts/Defines/GoodsDefine.cs" />
     <Compile Include="Assets/Scripts/UI/UITreasureItem.cs" />

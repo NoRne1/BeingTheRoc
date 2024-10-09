@@ -64,6 +64,11 @@ public class GameUtil : Singleton<GameUtil>
         }
     }
 
+    public Vector3 GetMovedWorldPosition(Vector3 worldPosition, Vector3 movePostion) 
+    {
+        return Camera.main.ScreenToWorldPoint(Camera.main.WorldToScreenPoint(worldPosition) + movePostion);
+    }
+
     public IEnumerator FadeIn(CanvasGroup canvasGroup, float transitionDuration)
     {
         canvasGroup.alpha = 0;
