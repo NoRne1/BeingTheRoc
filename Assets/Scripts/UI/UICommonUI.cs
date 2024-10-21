@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Burst.Intrinsics;
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,12 +8,14 @@ public enum CommonUIStyle
     town = 1,
     actionPage = 2,
     battle = 3,
+    restautant = 4,
 }
 
 public class UICommonUI : MonoBehaviour
 {
     public Button backButton;
     public Button menuButton;
+    public Button helpButton;
     public UIWeatherPanel weatherPanel;
     public GameObject timeLeftGroup;
     public GameObject rightButtonGroup;
@@ -71,7 +70,7 @@ public class UICommonUI : MonoBehaviour
                 break;
             case CommonUIStyle.battle:
                 gameObject.SetActive(true);
-                setLeftButtonStyle(LeftButtonStyle.back);
+                setLeftButtonStyle(LeftButtonStyle.menu);
                 setBottomPopButtonAutoHide(true);
                 hideRightButtonGroup(true);
                 hideTimeLeftGroup(false);
@@ -80,33 +79,46 @@ public class UICommonUI : MonoBehaviour
                 setLeftRectAutoHide(true);
                 treasuresRect.gameObject.SetActive(true);
                 break;
+            case CommonUIStyle.restautant:
+                gameObject.SetActive(true);
+                setLeftButtonStyle(LeftButtonStyle.back | LeftButtonStyle.help);
+                setBottomPopButtonAutoHide(true);
+                hideRightButtonGroup(false);
+                hideTimeLeftGroup(false);
+                weatherPanel.gameObject.SetActive(false);
+                uIPopButtonGroup.gameObject.SetActive(true);
+                setLeftRectAutoHide(true);
+                treasuresRect.gameObject.SetActive(true);
+                break;
         }
         
     }
 
+    [Flags]
     public enum LeftButtonStyle 
     {
         none = 0,
-        menu = 1,
-        back = 2,
+        back = 1,
+        menu = 2,
+        help = 4,
 
     }
     public void setLeftButtonStyle(LeftButtonStyle style)
     {
-        switch (style) 
+        backButton.gameObject.SetActive(false);
+        menuButton.gameObject.SetActive(false);
+        helpButton.gameObject.SetActive(false);
+        if (((int)style & (int)LeftButtonStyle.back) != 0)
         {
-            case LeftButtonStyle.none:
-                backButton.gameObject.SetActive(false);
-                menuButton.gameObject.SetActive(false);
-                break;
-            case LeftButtonStyle.menu:
-                backButton.gameObject.SetActive(false);
-                menuButton.gameObject.SetActive(true);
-                break;
-            case LeftButtonStyle.back:
-                backButton.gameObject.SetActive(true);
-                menuButton.gameObject.SetActive(false);
-                break;
+            backButton.gameObject.SetActive(true);
+        }
+        if (((int)style & (int)LeftButtonStyle.menu) != 0)
+        {
+            menuButton.gameObject.SetActive(true);
+        }
+        if (((int)style & (int)LeftButtonStyle.help) != 0)
+        {
+            helpButton.gameObject.SetActive(true);
         }
     }
 

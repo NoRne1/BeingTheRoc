@@ -47,8 +47,8 @@ public class EnermyModel: IStorable
         Job = define.Job;
         Name = define.Name;
         Level = define.Level;
-        attributes = new Attributes();
-        attributes.Init(define, enermyUpdate);
+        attributes = new Attributes(enermyUpdate);
+        attributes.Init(define);
         Resource = define.Resource + "_enemy";
         Desc = define.Desc;
         backpack = new Backpack(uuid, 3, 3, enermyUpdate);
@@ -84,7 +84,8 @@ public class EnermyModel: IStorable
         item.Name = this.Name;
         item.Job = this.Job;
         item.Level = this.Level;
-        item.attributes = this.attributes;
+        item.attributes = GameUtil.Instance.DeepCopy(this.attributes);
+        item.attributes.SetUpdateSubject(item.battleItemUpdate);
 
         item.attributes.Difficulty.MaxHP = (int)(this.attributes.MaxHP * (difficulty - 1));
         item.attributes.Difficulty.Strength = (int)(this.attributes.Strength * (difficulty - 1));
@@ -92,7 +93,8 @@ public class EnermyModel: IStorable
 
         item.Resource = this.Resource;
         item.Desc = this.Desc;
-        item.backpack = this.backpack;
+        item.backpack = GameUtil.Instance.DeepCopy(this.backpack);
+        item.backpack.fatherUpdate = item.battleItemUpdate;
         item.BornSkill = this.BornSkill;
         item.Skill1 = difficulty > 1.5 ? define.Skill1 : -1;
         item.Skill2 = difficulty > 2.5 ? define.Skill2 : -1;

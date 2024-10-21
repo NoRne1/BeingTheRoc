@@ -84,7 +84,6 @@
     <Compile Include="Assets/Scripts/Utilities/GlobalAccess.cs" />
     <Compile Include="Assets/Scripts/Utilities/DragSupport.cs" />
     <Compile Include="Assets/Scripts/Utilities/Config.cs" />
-    <Compile Include="Assets/Scripts/UI/UIFeatherButton.cs" />
     <Compile Include="Assets/Scripts/Utilities/PathFinding.cs" />
     <Compile Include="Assets/Scripts/Managers/SkillManager.cs" />
     <Compile Include="Assets/Scripts/UI/UILoadingPanel.cs" />
@@ -133,6 +132,7 @@
     <Compile Include="Assets/Scripts/Models/BattleOtherModel.cs" />
     <Compile Include="Assets/Scripts/UI/UITip.cs" />
     <Compile Include="Assets/Scripts/UI/UIHintBase.cs" />
+    <Compile Include="Assets/Scripts/Component/RoundImage.cs" />
     <Compile Include="Assets/Scripts/UI/UIGameConsole.cs" />
     <Compile Include="Assets/Scripts/Component/NorneStore.cs" />
     <Compile Include="Assets/Scripts/Defines/TownActionDefine.cs" />
@@ -156,6 +156,7 @@
     <Compile Include="Assets/Scripts/Utilities/Extensions/Vector2IntConverter.cs" />
     <Compile Include="Assets/Scripts/Models/EnermyModel.cs" />
     <Compile Include="Assets/Scripts/UI/UITownActionPanel.cs" />
+    <Compile Include="Assets/Scripts/UI/UICoinChangeButton.cs" />
     <Compile Include="Assets/Scripts/Defines/ExpendableItemDefine.cs" />
     <Compile Include="Assets/Scripts/Models/Attributes.cs" />
     <Compile Include="Assets/Scripts/UI/UIStartGame.cs" />
@@ -204,9 +205,11 @@
     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets/ThirdParty/Newtonsoft.Json.dll" />
     <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader" />
+    <None Include="Assets/Scripts/Shaders/RoundImage.shader" />
     <None Include="Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc" />
     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader" />
     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets/Shaders/RoundImage.shader" />
     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader" />
     <None Include="Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt" />
     <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader" />

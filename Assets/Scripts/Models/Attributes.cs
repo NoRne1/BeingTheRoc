@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
-using static UnityEditor.Progress;
 
 public class Attributes
 {
@@ -31,13 +30,15 @@ public class Attributes
     public AttributeData Final = new AttributeData();
     //等级
     //动态属性(HP,MP)
-    private AttributeDynamic dynamicAttr;
+    private AttributeDynamic dynamicAttr = new AttributeDynamic(-1, -1, -1, -1);
 
     public Subject<int> hpChangeSubject = new Subject<int>();
 
     public int currentHP
     {
-        get { return dynamicAttr.currentHP; }
+        get { 
+            return dynamicAttr.currentHP; 
+            }
         set {
             int newHp = Mathf.Min(MaxHP, value);
             int change = newHp - dynamicAttr.currentHP;
@@ -127,41 +128,38 @@ public class Attributes
 
     private Subject<Unit> updateSubject;
 
-    //初始化自己的角色
-    public void Init(CharacterDefine define, Subject<Unit> subject)
+    public Attributes(Subject<Unit> subject)
     {
         updateSubject = subject;
+    }
+
+    //初始化自己的角色
+    public void Init(CharacterDefine define)
+    {
         this.LoadInitAttribute(this.Initial, define, false);
         this.level = 0;
         this.LoadFinalAttributes();
     }
     //初始化预制的角色
-    public void Init(CharacterDefine define, int level, Subject<Unit> subject)
+    public void Init(CharacterDefine define, int level)
     {
-        updateSubject = subject;
         this.LoadInitAttribute(this.Initial, define, false);
         this.level = level;
         this.LoadGrowthAttribute(this.Growth, define.Job, level, false);
         this.LoadFinalAttributes();
     }
 
+    public void SetUpdateSubject(Subject<Unit> subject)
+    {
+        updateSubject = subject;
+    }
+
     public void BattleInit()
     {
-        if (dynamicAttr == null)
-        {
-            dynamicAttr = new AttributeDynamic();
-            dynamicAttr.currentHP = MaxHP;
-            dynamicAttr.currentShield = 0;
-            dynamicAttr.currentEnergy = 0;
-            dynamicAttr.lostHP = 0;
-        }
-        else
-        {
-            dynamicAttr.currentHP = MaxHP;
-            dynamicAttr.currentShield = 0;
-            dynamicAttr.currentEnergy = 0;
-            dynamicAttr.lostHP = 0;
-        }
+        dynamicAttr.currentHP = MaxHP;
+        dynamicAttr.currentShield = 0;
+        dynamicAttr.currentEnergy = 0;
+        dynamicAttr.lostHP = 0;
     }
 
     public void ResetGrowthProperty()

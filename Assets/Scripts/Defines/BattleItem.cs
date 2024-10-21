@@ -95,7 +95,7 @@ public class BattleItem: IStorable
             case BattleItemType.time:
                 uuid = GameUtil.Instance.GenerateUniqueId();
                 this.type = type;
-                attributes = new Attributes();
+                attributes = new Attributes(battleItemUpdate);
                 attributes.UpdateInitSpeed(100);
                 break;
             case BattleItemType.granary:
@@ -103,7 +103,7 @@ public class BattleItem: IStorable
                 this.Name = GameUtil.Instance.GetDisplayString("粮仓");
                 this.Resource = "granary_icon";
                 this.type = type;
-                attributes = new Attributes();
+                attributes = new Attributes(battleItemUpdate);
                 attributes.UpdateInitMaxHP(100);
                 attributes.UpdateInitSpeed(0);
                 break;

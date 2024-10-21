@@ -33,5 +33,12 @@
         "iconResource": "town_walk_action_icon",
         "titleIndex": "walk_title",
         "descIndex": "walk_desc"
+    },
+    "5": {
+        "ID": 5,
+        "townActionType": 5,
+        "iconResource": "town_restautant_action_icon",
+        "titleIndex": "restautant_title",
+        "descIndex": "restautant_desc"
     }
 }

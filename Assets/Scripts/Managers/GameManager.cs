@@ -15,7 +15,15 @@ public enum PageType
     forge = 4,
     shop = 5,
     train = 6,
-    walk = 7
+    walk = 7,
+    restautant = 8,
+}
+
+public enum TimeInterval
+{
+    morning,
+    afternoon,
+    night
 }
 
 public class GameManager : MonoSingleton<GameManager>
@@ -26,7 +34,9 @@ public class GameManager : MonoSingleton<GameManager>
     public Dictionary<PageType, GameObject> pagesDic = new Dictionary<PageType, GameObject>();
 
     public BehaviorSubject<int> featherCoin = new BehaviorSubject<int>(1000);
-    public BehaviorSubject<int> timeLeft = new BehaviorSubject<int>(30);
+    public BehaviorSubject<int> wheatCoin = new BehaviorSubject<int>(300);
+    public BehaviorSubject<int> timeLeft = new BehaviorSubject<int>(92);
+    public BehaviorSubject<TimeInterval> timeInterval = new BehaviorSubject<TimeInterval>(TimeInterval.morning);
     public PageType currentPageType = PageType.map;
 
     public Dictionary<string, NorneRelay<CharacterModel>> characterRelaysDic = new Dictionary<string, NorneRelay<CharacterModel>>();
@@ -81,7 +91,18 @@ public class GameManager : MonoSingleton<GameManager>
             }
         });
 
-        GameManager.Instance.timeLeft.AsObservable().DistinctUntilChanged().TakeUntilDestroy(this).Subscribe(time =>
+        timeLeft.AsObservable().DistinctUntilChanged().TakeUntilDestroy(this).Subscribe(time =>
+        {
+            if (time % 3 == 2){
+                timeInterval.OnNext(TimeInterval.morning);
+            } else if (time % 3 == 1){
+                timeInterval.OnNext(TimeInterval.afternoon);
+            } else if (time % 3 == 0){
+                timeInterval.OnNext(TimeInterval.night);
+            }
+        });
+
+        timeLeft.AsObservable().DistinctUntilChanged().TakeUntilDestroy(this).Subscribe(time =>
         {
             if (time<=0) 
             {
@@ -140,9 +161,6 @@ public class GameManager : MonoSingleton<GameManager>
                 break;
             case PageType.battle:
                 commonUI.setUIStyle(CommonUIStyle.battle);
-                commonUI.gameObject.SetActive(true);
-                commonUI.setLeftButtonStyle(UICommonUI.LeftButtonStyle.back);
-                commonUI.setBottomPopButtonAutoHide(true);
                 break;
             case PageType.bar:
                 commonUI.setUIStyle(CommonUIStyle.actionPage);
@@ -158,6 +176,9 @@ public class GameManager : MonoSingleton<GameManager>
                 break;
             case PageType.walk:
                 commonUI.setUIStyle(CommonUIStyle.actionPage);
+                break;
+            case PageType.restautant:
+                commonUI.setUIStyle(CommonUIStyle.restautant);
                 break;
         }
 
@@ -176,7 +197,7 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
-    public void CoinChanged(int change)
+    public void FeatherCoinChanged(int change)
     {
         if (featherCoin.Value + change < 0)
         {
@@ -186,6 +207,18 @@ public class GameManager : MonoSingleton<GameManager>
             return;
         }
         featherCoin.OnNext(featherCoin.Value + change);
+    }
+
+    public void WheatCoinChanged(int change)
+    {
+        if (wheatCoin.Value + change < 0)
+        {
+            //错误请求(扣成负的了)
+            UITip tip = UIManager.Instance.Show<UITip>();
+            tip.UpdateGeneralTip("0003");
+            return;
+        }
+        wheatCoin.OnNext(wheatCoin.Value + change);
     }
 
     public void TimeChanged(int change)

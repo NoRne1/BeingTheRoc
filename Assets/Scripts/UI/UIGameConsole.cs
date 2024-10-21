@@ -132,7 +132,7 @@ public class UIGameConsole : UIWindow
         // 这里你可以添加实际游戏中获得道具的逻辑
         if (item == "money")
         {
-            GameManager.Instance.CoinChanged(value);
+            GameManager.Instance.FeatherCoinChanged(value);
             AddOutput("Added " + value + " money.");
         }
         else if (item == "item")

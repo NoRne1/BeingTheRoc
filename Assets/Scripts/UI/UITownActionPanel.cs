@@ -11,7 +11,8 @@ public enum TownActionType
     forge = 1,
     shop = 2,
     train = 3,
-    walk = 4
+    walk = 4,
+    restautant = 5,
 }
 
 public static class TownActionTypeExtensions
@@ -30,6 +31,8 @@ public static class TownActionTypeExtensions
                 return PageType.train;
             case TownActionType.walk:
                 return PageType.walk;
+            case TownActionType.restautant:
+                return PageType.restautant;
             default:
                 throw new ArgumentException("Invalid TownActionType: " + actionType);
         }

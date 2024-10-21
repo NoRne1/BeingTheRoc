@@ -43,8 +43,8 @@ public class CharacterModel: IStorable
         Job = define.Job;
         Name = define.Name;
         Level = define.Level;
-        attributes = new Attributes();
-        attributes.Init(define, characterUpdate);
+        attributes = new Attributes(characterUpdate);
+        attributes.Init(define);
         Resource = define.Resource;
         Desc = define.Desc;
         backpack = new Backpack(uuid, 3, 3, characterUpdate);
@@ -108,7 +108,8 @@ public class CharacterModel: IStorable
         item.Name = this.Name;
         item.Job = this.Job;
         item.Level = this.Level;
-        item.attributes = this.attributes;
+        item.attributes = GameUtil.Instance.DeepCopy(this.attributes);
+        item.attributes.SetUpdateSubject(item.battleItemUpdate);
         item.Resource = this.Resource;
         item.Desc = this.Desc;
         item.backpack = GameUtil.Instance.DeepCopy(this.backpack);

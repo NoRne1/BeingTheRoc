@@ -168,11 +168,11 @@ public class TreasureManager
         if (GameUtil.Instance.GetRandomRate_affected(value))
         {
             //存储失败，储蓄罐破裂
-            GameManager.Instance.CoinChanged(item.treasureDefine.counter * 2);
+            GameManager.Instance.FeatherCoinChanged(item.treasureDefine.counter * 2);
             RemoveTreasure(item.ID);
         } else
         {
-            GameManager.Instance.CoinChanged(-100);
+            GameManager.Instance.FeatherCoinChanged(-100);
             item.treasureDefine.counter += 100;
         }
     }

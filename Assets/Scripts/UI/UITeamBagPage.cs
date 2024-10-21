@@ -5,12 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
 using System.Linq;
-using Unity.Burst.CompilerServices;
-using static UnityEditor.Progress;
-using Unity.VisualScripting;
-using static UnityEngine.EventSystems.EventTrigger;
-using System;
-using System.Xml.Linq;
 
 public class UITeamBagPage : MonoBehaviour
 {
@@ -151,8 +145,9 @@ public class UITeamBagPage : MonoBehaviour
                 if (draggedEquipItem == null && !isDragging && (Input.mousePosition - pressPosition).magnitude <= moveThreshold)
                 {
                     useOrDropItem = currentItem.item;
-                    Vector3 tempPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(75, -75, 0));
+                    Vector3 tempPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(5, -5, 0));
                     equipButtons.gameObject.SetActive(true);
+                    equipButtons.useButton.gameObject.SetActive(useOrDropItem.type == ItemType.expendable);
                     equipButtons.transform.position = new Vector3(tempPosition.x, tempPosition.y, 0);
                 }
                 // 如果鼠标按下后移动了一定距离，则执行装备逻辑

@@ -96,7 +96,7 @@ public class UIShopPage : MonoBehaviour
         } else if (shopItems[index].info.type == ItemType.treasure) {
             //treasure不占仓库，需特殊处理
             shopItems[index].ItemSold(true);
-            GameManager.Instance.CoinChanged(-shopItems[index].info.price);
+            GameManager.Instance.FeatherCoinChanged(-shopItems[index].info.price);
             GameManager.Instance.treasureManager.AddTreasure(new StoreItemModel(shopItems[index].info));
         } else if (!GameManager.Instance.repository.remainOpacity)
         {
@@ -107,7 +107,7 @@ public class UIShopPage : MonoBehaviour
         } else
         {
             shopItems[index].ItemSold(true);
-            GameManager.Instance.CoinChanged(-shopItems[index].info.price);
+            GameManager.Instance.FeatherCoinChanged(-shopItems[index].info.price);
             GameManager.Instance.repository.AddItem(new StoreItemModel(shopItems[index].info));
         }
     }
