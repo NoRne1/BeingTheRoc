@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Assets/Scripts/UI/UITownNode.cs" />
     <Compile Include="Assets/Scripts/Defines/SpecialItemDefine.cs" />
+    <Compile Include="Assets/Scripts/UI/UIBaseInfoPanel.cs" />
     <Compile Include="Assets/Scripts/Managers/DataManager.cs" />
     <Compile Include="Assets/Scripts/Utilities/ConstValue.cs" />
     <Compile Include="Assets/Scripts/Component/Singleton.cs" />

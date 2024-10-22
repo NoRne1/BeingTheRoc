@@ -56,6 +56,7 @@ public class UICoinChangeButton: MonoBehaviour
 
     private void AnimateCoinChange(int amount)
     {
+        //这里changeText.transform.position会因为父view的horizatal layout导致有偏移，没找到更好的方法
         changeText.transform.position = changeTextStartPosition;
         changeText.gameObject.SetActive(true);
         changeText.DOFade(1, 0); // Ensure the text is fully visible

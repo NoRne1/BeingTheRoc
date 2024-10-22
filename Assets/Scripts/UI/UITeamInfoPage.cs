@@ -9,14 +9,10 @@ using System.Security.Cryptography;
 
 public class UITeamInfoPage : MonoBehaviour
 {
-    public Image Character_icon;
-
     public UIPanelSelector panelSelector;
+    public UIBaseInfoPanel baseInfoPanel;
     public UIPropertyPanel propertyPanel;
     public UIBuffsPanel buffsPanel;
-
-    public TextMeshProUGUI descText;
-
     public System.IDisposable disposable;
     public CharacterModel character;
     public BattleItem battleItem;
@@ -83,19 +79,7 @@ public class UITeamInfoPage : MonoBehaviour
         propertyPanel.changeButton.gameObject.SetActive(true);
         this.character = character;
         this.battleItem = null;
-        if (character != null)
-        {
-            disposable.IfNotNull(dis => { dis.Dispose(); });
-            disposable = NorneStore.Instance.ObservableObject<CharacterModel>(character)
-                .AsObservable().TakeUntilDestroy(this).Subscribe(cm =>
-            {
-                descText.text = cm.Desc;
-                Character_icon.overrideSprite = Resloader.LoadSprite(cm.Resource, ConstValue.battleItemsPath);
-            });
-        } else
-        {
-            Debug.Log("UITeamInfoPage setup character is null");
-        }
+        baseInfoPanel.Setup(character);
         propertyPanel.Setup(character);
     }
 
@@ -106,20 +90,7 @@ public class UITeamInfoPage : MonoBehaviour
         propertyPanel.changeButton.gameObject.SetActive(false);
         this.character = null;
         this.battleItem = battleItem;
-        if (battleItem != null)
-        {
-            disposable.IfNotNull(dis => { dis.Dispose(); });
-            disposable = NorneStore.Instance.ObservableObject<BattleItem>(battleItem)
-                .AsObservable().TakeUntilDestroy(this).Subscribe(bi =>
-                {
-                    descText.text = bi.Desc;
-                    Character_icon.overrideSprite = Resloader.LoadSprite(bi.Resource, ConstValue.battleItemsPath);
-                });
-        }
-        else
-        {
-            Debug.Log("UITeamInfoPage setup battleItem is null");
-        }
+        baseInfoPanel.Setup(battleItem);
         propertyPanel.Setup(battleItem);
         buffsPanel.Setup(battleItem);
     }
