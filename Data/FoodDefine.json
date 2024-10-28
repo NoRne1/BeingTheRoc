@@ -1,0 +1,229 @@
+{
+    "0": {
+        "ID": 0,
+        "title": "胡萝卜须",
+        "property1": {
+            "type": 18,
+            "value": 12,
+            "floatFactor": 0
+        },
+        "property2": {
+            "type": 17,
+            "value": 5,
+            "floatFactor": 1
+        },
+        "property3": {
+            "type": 0,
+            "value": 6,
+            "floatFactor": 2
+        },
+        "property4": null,
+        "priceFloatFactor": 20
+    },
+    "1": {
+        "ID": 1,
+        "title": "番茄炒西红柿",
+        "property1": {
+            "type": 18,
+            "value": 13,
+            "floatFactor": 0
+        },
+        "property2": {
+            "type": 17,
+            "value": 6,
+            "floatFactor": 2
+        },
+        "property3": {
+            "type": 1,
+            "value": 5,
+            "floatFactor": 2
+        },
+        "property4": null,
+        "priceFloatFactor": 20
+    },
+    "2": {
+        "ID": 2,
+        "title": "蔬菜杂烩",
+        "property1": {
+            "type": 18,
+            "value": 14,
+            "floatFactor": 0
+        },
+        "property2": {
+            "type": 17,
+            "value": 7,
+            "floatFactor": 2
+        },
+        "property3": {
+            "type": 1,
+            "value": 5,
+            "floatFactor": 1
+        },
+        "property4": null,
+        "priceFloatFactor": 20
+    },
+    "3": {
+        "ID": 3,
+        "title": "气泡水",
+        "property1": {
+            "type": 18,
+            "value": 16,
+            "floatFactor": 0
+        },
+        "property2": {
+            "type": 17,
+            "value": 8,
+            "floatFactor": 1
+        },
+        "property3": {
+            "type": 2,
+            "value": 5,
+            "floatFactor": 2
+        },
+        "property4": null,
+        "priceFloatFactor": 20
+    },
+    "4": {
+        "ID": 4,
+        "title": "黑色汽水",
+        "property1": {
+            "type": 18,
+            "value": 18,
+            "floatFactor": 0
+        },
+        "property2": {
+            "type": 17,
+            "value": 9,
+            "floatFactor": 3
+        },
+        "property3": {
+            "type": 2,
+            "value": 5,
+            "floatFactor": 1
+        },
+        "property4": null,
+        "priceFloatFactor": 20
+    },
+    "5": {
+        "ID": 5,
+        "title": "鸡毛大白菜",
+        "property1": {
+            "type": 18,
+            "value": 20,
+            "floatFactor": 0
+        },
+        "property2": {
+            "type": 17,
+            "value": 10,
+            "floatFactor": 9
+        },
+        "property3": {
+            "type": 1,
+            "value": 4,
+            "floatFactor": 3
+        },
+        "property4": {
+            "type": 3,
+            "value": 4,
+            "floatFactor": 3
+        },
+        "priceFloatFactor": 40
+    },
+    "6": {
+        "ID": 6,
+        "title": "玉米",
+        "property1": {
+            "type": 18,
+            "value": 21,
+            "floatFactor": 0
+        },
+        "property2": {
+            "type": 17,
+            "value": 15,
+            "floatFactor": 5
+        },
+        "property3": {
+            "type": 1,
+            "value": 4,
+            "floatFactor": 2
+        },
+        "property4": {
+            "type": 4,
+            "value": 5,
+            "floatFactor": 2
+        },
+        "priceFloatFactor": 20
+    },
+    "7": {
+        "ID": 7,
+        "title": "甘蔗",
+        "property1": {
+            "type": 18,
+            "value": 22,
+            "floatFactor": 0
+        },
+        "property2": {
+            "type": 17,
+            "value": 20,
+            "floatFactor": 2
+        },
+        "property3": {
+            "type": 2,
+            "value": 4,
+            "floatFactor": 1
+        },
+        "property4": {
+            "type": 5,
+            "value": 5,
+            "floatFactor": 2
+        },
+        "priceFloatFactor": 10
+    },
+    "8": {
+        "ID": 8,
+        "title": "黄瓜",
+        "property1": {
+            "type": 18,
+            "value": 23,
+            "floatFactor": 0
+        },
+        "property2": {
+            "type": 8,
+            "value": 10,
+            "floatFactor": 3
+        },
+        "property3": null,
+        "property4": null,
+        "priceFloatFactor": 10
+    },
+    "9": {
+        "ID": 9,
+        "title": "地薯",
+        "property1": {
+            "type": 18,
+            "value": 20,
+            "floatFactor": 0
+        },
+        "property2": {
+            "type": 10,
+            "value": 25,
+            "floatFactor": 5
+        },
+        "property3": null,
+        "property4": null,
+        "priceFloatFactor": 10
+    },
+    "10": {
+        "ID": 10,
+        "title": "土豆",
+        "property1": {
+            "type": 18,
+            "value": -20,
+            "floatFactor": 0
+        },
+        "property2": null,
+        "property3": null,
+        "property4": null,
+        "priceFloatFactor": 10
+    }
+}

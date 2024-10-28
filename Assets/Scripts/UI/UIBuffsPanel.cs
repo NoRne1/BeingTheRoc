@@ -26,7 +26,7 @@ public class UIBuffsPanel : MonoBehaviour
         {
             disposable?.Dispose();
             disposable = NorneStore.Instance.ObservableObject<BattleItem>(battleItem)
-                .AsObservable().TakeUntilDestroy(this).Subscribe(bi =>
+                .AsObservable().Subscribe(bi =>
                 {
                     GameUtil.Instance.DetachChildren(buffsFather);
                     foreach (var buff in bi.buffCenter.GetNewestBuffs(-1))
@@ -34,7 +34,7 @@ public class UIBuffsPanel : MonoBehaviour
                         var showBuffItem = Instantiate(showBuffItemPrefab, buffsFather);
                         showBuffItem.GetComponent<UIShowBuffItem>().Setup(buff);
                     }
-                });
+                }).AddTo(this);
         }
         else
         {

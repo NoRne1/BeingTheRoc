@@ -65,7 +65,6 @@ public class AttributeData
     /// </summary>
     public int AgainstDamage { get { return Data[(int)AttributeType.AgainstDamage]; } set { Data[(int)AttributeType.AgainstDamage] = value; } }
 
-
     public void Reset()
     {
         for (int i = 0; i < (int)AttributeType.MAX; i++)

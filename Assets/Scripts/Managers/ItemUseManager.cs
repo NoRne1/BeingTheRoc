@@ -56,6 +56,10 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
             case ItemType.economicGoods:
                 Debug.LogError("Item Use should not handle economicGoods type");
                 break;
+            case ItemType.food:
+                yield return StartCoroutine(InvokeEffect(EffectInvokeType.useInstant, casterID, new List<string>{casterID}, Vector2.negativeInfinity, item));
+                RepoDrop(item);
+                break;
             default:
                 Debug.LogError("Item Use unknown item type");
                 break;
@@ -292,6 +296,13 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                         target.attributes.ItemEffect.Hematophagia += effect.Value;
                         target.attributes.LoadFinalAttributes();
                         break;
+                    case PropertyType.HealthPercent:
+                        target.attributes.ItemEffect.Hematophagia += effect.Value;
+                        target.attributes.LoadFinalAttributes();
+                        break;
+                    case PropertyType.hungry:
+                        target.CurrentHungry += effect.Value;
+                        break;
                     default:
                         Debug.Log("unknown propertyType");
                         break;
@@ -402,6 +413,9 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                             case PropertyType.Hematophagia:
                                 target.attributes.InBattle.Hematophagia += effect.Value;
                                 target.attributes.LoadFinalAttributes();
+                                break;
+                            case PropertyType.HealthPercent:
+                                BattleCommonMethods.ProcessNormalHealth(casterID, new List<string>{targetID}, (int)(target.attributes.MaxHP / 100.0f * effect.Value));
                                 break;
                             default:
                                 Debug.Log("unknown propertyType");

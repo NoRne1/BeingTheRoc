@@ -90,7 +90,7 @@ public class GameManager : MonoSingleton<GameManager>
                 }
             }
         });
-
+        // 时段变化
         timeLeft.AsObservable().DistinctUntilChanged().TakeUntilDestroy(this).Subscribe(time =>
         {
             if (time % 3 == 2){
@@ -101,7 +101,7 @@ public class GameManager : MonoSingleton<GameManager>
                 timeInterval.OnNext(TimeInterval.night);
             }
         });
-
+        // 游戏结束判断
         timeLeft.AsObservable().DistinctUntilChanged().TakeUntilDestroy(this).Subscribe(time =>
         {
             if (time<=0) 
@@ -224,6 +224,35 @@ public class GameManager : MonoSingleton<GameManager>
     public void TimeChanged(int change)
     {
         timeLeft.OnNext(timeLeft.Value + change);
+        HungryChange(change);
+    }
+
+    // 玩家饥饿度变化
+    public void HungryChange(int timeChange)
+    {
+        if(timeChange < 0) {
+            // 区别战斗内外
+            if(BattleManager.Instance.isInBattle)
+            {
+                var itemIDs = BattleManager.Instance.battleItemManager.playerItemIDs
+                    .Concat(BattleManager.Instance.battleItemManager.enemyItemIDs).ToList();
+                foreach (var index in Enumerable.Range(0, itemIDs.Count))
+                {
+                    var battleItem = GlobalAccess.GetBattleItem(itemIDs[index]);
+                    int wheatConsume = -timeChange * GlobalAccess.wheatConsumePerPeriod;
+                    battleItem.HungryChange(wheatConsume);
+                }
+            } else 
+            {
+                var characterRelays = characterRelaysDic.Values.ToList();
+                foreach (var index in Enumerable.Range(0, characterRelays.Count))
+                {
+                    var cm = characterRelays[index].Value;
+                    int wheatConsume = -timeChange * GlobalAccess.wheatConsumePerPeriod;
+                    cm.HungryChange(wheatConsume);
+                }
+            }
+        }
     }
 
     public void AddCharacter(CharacterModel cm)
@@ -238,5 +267,23 @@ public class GameManager : MonoSingleton<GameManager>
         {
             characterRelaysDic.Remove(uuid);
         }
+        NorneStore.Instance.Remove(new CharacterModel(uuid));
+
+        //游戏结束判断
+        if(characterRelaysDic.Count == 0)
+        {
+            StartCoroutine(GameOver());
+        }
+    }
+
+    public void CharacterHPChange(string uuid, int change)
+    {
+        var cm = GlobalAccess.GetCharacterModel(uuid);
+        cm.attributes.currentHP = Mathf.Max(Mathf.Min(cm.attributes.MaxHP, cm.attributes.currentHP + change), 0);
+        if (cm.attributes.currentHP <= 0)
+        {
+            RemoveCharacter(uuid);
+        }
+        GlobalAccess.SaveCharacterModel(cm, false);
     }
 }

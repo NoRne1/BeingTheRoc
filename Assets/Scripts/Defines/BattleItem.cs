@@ -19,6 +19,25 @@ public class BattleItem: IStorable
 {
     public string uuid { get; set; }
     public string Name { get; set; }
+    public int MaxHungry{ get; set; }
+    private int currentHungry;
+    public int CurrentHungry 
+    { 
+        get
+        {
+            return currentHungry;
+        }
+        set
+        {
+            if(value > MaxHungry)
+            {
+                Debug.LogError("currentHungry can not bigger than MaxHungry");
+            } else if (value < 0) {
+                Debug.LogError("currentHungry can not smaller than 0");
+            }
+            currentHungry = value;
+        }
+    }
     public JobType Job { get; set; }
     public GeneralLevel Level { get; set; }
     public string Resource { get; set; }
@@ -104,7 +123,6 @@ public class BattleItem: IStorable
                 this.Resource = "granary_icon";
                 this.type = type;
                 attributes = new Attributes(battleItemUpdate);
-                attributes.UpdateInitMaxHP(100);
                 attributes.UpdateInitSpeed(0);
                 break;
         }
@@ -129,6 +147,40 @@ public class BattleItem: IStorable
         skills = skills.Where(id => id != -1).ToList();
     }
 
+    public void HungryChange(int wheatConsume)
+    {
+        var wheatCoin = GameManager.Instance.wheatCoin.Value;
+        if (CurrentHungry >= wheatConsume)
+        {
+            CurrentHungry -= wheatConsume;
+        } else {
+            var remainConsume = wheatConsume - CurrentHungry;
+            CurrentHungry = 0;
+            switch (type)
+            {
+                case BattleItemType.player:
+                    if (wheatCoin >= remainConsume)
+                    {
+                        GameManager.Instance.WheatCoinChanged(-remainConsume);
+                    } else 
+                    {
+                        var remainConsume2 = remainConsume - wheatCoin;
+                        GameManager.Instance.WheatCoinChanged(-wheatCoin);
+                        BattleCommonMethods.ProcessDirectAttack("GOD", uuid, 
+                            remainConsume2 * GlobalAccess.hurtPerRemainConsume);
+                    }
+                    break;
+                case BattleItemType.enemy:
+                    BattleCommonMethods.ProcessDirectAttack("GOD", BattleManager.Instance.battleItemManager.granaryItemID, 
+                        remainConsume * GlobalAccess.hurtPerRemainConsume);
+                    break;
+                default:
+                    Debug.LogError(type + "type has no HungryChange");
+                    break;
+            }
+        }
+        GlobalAccess.SaveBattleItem(this, false);
+    }
     public void BattleInit()
     {
         switch (type)
@@ -175,6 +227,17 @@ public class BattleItem: IStorable
     {
         this.attributes.Buff.Reset();
         this.attributes.LoadFinalAttributes();
+        switch (type) 
+        {
+            case BattleItemType.player:
+                var cm = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(uuid)).Value;
+                cm.CurrentHungry = this.CurrentHungry;
+                cm.attributes.currentHP = this.attributes.currentHP;
+                NorneStore.Instance.Update(cm, true);
+                break;
+            default:
+                break;
+        }
     }
 }
 

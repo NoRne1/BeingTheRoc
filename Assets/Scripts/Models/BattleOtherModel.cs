@@ -49,8 +49,7 @@ public class NormalAttackResult
         this.attackTime = attackTime;
     }
 
-    public NormalAttackResult(string attackIdentifier, List<AttackDisplayResult> displayResults, int attackTime
-    )
+    public NormalAttackResult(string attackIdentifier, List<AttackDisplayResult> displayResults, int attackTime)
     {
         this.attackIdentifier = attackIdentifier;
         this.displayResults = displayResults;

@@ -38,6 +38,8 @@ public class CharacterDefine
     //角色名字
     public string Name { get; set; }
 
+    public int MaxHungry{ get; set; }
+
     //基本属性
     /// <summary>
     /// 生命

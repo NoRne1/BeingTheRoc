@@ -1,0 +1,46 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public class FoodModel
+{
+    public int ID { get; set; }
+    public string title { get; set; }
+    public List<FoodProperty> foodPropertys = new List<FoodProperty>();
+    public int priceFloatFactor;
+
+    public FoodModel(FoodDefine define)
+    {
+        this.ID = define.ID;
+        this.title = define.title;
+        ProcessFoodProperty(define.property1);
+        ProcessFoodProperty(define.property2);
+        ProcessFoodProperty(define.property3);
+        ProcessFoodProperty(define.property4);
+        this.priceFloatFactor = GetTrulyFloatFactor(define.priceFloatFactor);
+    }
+
+    public int GetTrulyFloatFactor(int factor)
+    {
+        return Random.Range(-factor, factor);
+    }
+
+    public void ProcessFoodProperty(FoodProperty foodProperty)
+    {
+        if (foodProperty == null) 
+        {
+            return;
+        }
+        FoodProperty temp = GameUtil.Instance.DeepCopy(foodProperty);
+        temp.floatFactor = GetTrulyFloatFactor(temp.floatFactor);
+        foodPropertys.Add(temp);
+    }
+
+    public List<Effect> GetEffects()
+    {
+        return foodPropertys.Select(property => 
+            new Effect(EffectType.property, EffectInvokeType.useInstant, property.type, 1, 
+            "", property.value + property.floatFactor)).ToList();
+    }
+}

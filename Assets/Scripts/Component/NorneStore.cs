@@ -37,6 +37,11 @@ public class SafeDictionaryCache<Key, Value> where Key : IEquatable<Key>
         }
     }
 
+    public bool Contains(Key key)
+    {
+        return _dic.ContainsKey(key);
+    }
+
     public void Remove(Key key)
     {
         if (_dic.ContainsKey(key))
@@ -94,6 +99,12 @@ public class NorneStore
             _datas[key] = newRelay;
             return newRelay;
         }
+    }
+
+    public bool Contains<T>(T storable) where T : IStorable
+    {
+        var key = $"{storable.StorableCategory}-{storable.Identifier}";
+        return _datas.Contains(key);
     }
 
     public void Remove<T>(T storable) where T : IStorable

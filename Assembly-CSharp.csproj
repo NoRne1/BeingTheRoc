@@ -77,7 +77,9 @@
     <Compile Include="Assets/Scripts/Utilities/Extensions/ObjectExtensions.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBarOtherItem.cs" />
     <Compile Include="Assets/Scripts/Managers/BattleMoveBarManager.cs" />
+    <Compile Include="Assets/Scripts/UI/UIRestautantPage.cs" />
     <Compile Include="Assets/Scripts/Defines/CharacterDefine.cs" />
+    <Compile Include="Assets/Scripts/Models/FoodModel.cs" />
     <Compile Include="Assets/Scripts/UI/UIRepositorSlot.cs" />
     <Compile Include="Assets/Scripts/UI/UIStoreItemHint.cs" />
     <Compile Include="Assets/Scripts/UI/UIWeatherPanel.cs" />
@@ -90,10 +92,12 @@
     <Compile Include="Assets/Scripts/UI/UILoadingPanel.cs" />
     <Compile Include="Assets/Scripts/UI/UIBattleItemInfo.cs" />
     <Compile Include="Assets/Scripts/UI/UIPropertyChangeButton.cs" />
+    <Compile Include="Assets/Scripts/Defines/FoodDefine.cs" />
     <Compile Include="Assets/Scripts/Component/FightText/FightTextInfo.cs" />
     <Compile Include="Assets/Scripts/Component/HintComponent.cs" />
     <Compile Include="Assets/Scripts/Models/Backpack.cs" />
     <Compile Include="Assets/Scripts/UI/UIChessboardSlot.cs" />
+    <Compile Include="Assets/Scripts/UI/UIFoodOption.cs" />
     <Compile Include="Assets/Scripts/Utilities/Resloader.cs" />
     <Compile Include="Assets/Scripts/Component/ObjectPool.cs" />
     <Compile Include="Assets/Scripts/Utilities/ShakeEffect.cs" />
@@ -192,6 +196,7 @@
     <Compile Include="Assets/Scripts/Utilities/Timer.cs" />
     <Compile Include="Assets/Scripts/Defines/EnemyDefine.cs" />
     <Compile Include="Assets/Scripts/Component/DisposablePool.cs" />
+    <Compile Include="Assets/Scripts/UI/UIFoodProperty.cs" />
     <Compile Include="Assets/Scripts/Models/CharacterModel.cs" />
     <Compile Include="Assets/Scripts/UI/UIBattleItemAnimator.cs" />
     <Compile Include="Assets/Scripts/UI/UITeamBagPage.cs" />

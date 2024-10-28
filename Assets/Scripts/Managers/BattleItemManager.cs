@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,7 @@ public class BattleItemManager
     //战斗开始时初始化
     public void Init(List<string> characterIDs, TownBattleInfoModel battleInfo)
     {
+        float difficultyFactor = battleManager.difficultyExtraFactor + battleInfo.battleBaseDifficulty;
         battleManager = BattleManager.Instance;
         ClearItem();
         id_posDic.Clear();
@@ -50,6 +52,7 @@ public class BattleItemManager
         //granary Item速度为0，不出现在行动条上
         var granary = new BattleItem(BattleItemType.granary);
         granary.BattleInit();
+        granary.attributes.UpdateInitMaxHP((int)MathF.Min(500, (difficultyFactor * 100)));
         GlobalAccess.SaveBattleItem(granary);
         AddItem(granary);
         battleManager.chessboardManager.PlaceBattleItem(granary.uuid, battleManager.chessBoard.slots[battleInfo.granaryPos]);

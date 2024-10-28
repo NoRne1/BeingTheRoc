@@ -275,7 +275,7 @@ public class UITeamBagPage : MonoBehaviour
             temp.GetComponent<HintComponent>().Setup(equip);
             UIEquipItem equipItem = temp.GetComponent<UIEquipItem>();
             equipItem.storeItem = equip;
-            equipItem.ownerID = character.uuid;
+            equipItem.ownerID = character?.uuid ?? battleItem?.uuid;
             temp.GetComponent<Image>().overrideSprite = Resloader.LoadSprite(equip.equipDefine.equipResource, ConstValue.equipsPath);
             temp.transform.rotation = temp.transform.rotation * Quaternion.Euler(0, 0, equip.rotationAngle);
             Vector3 tempVector = equipSlots[equip.position.x * 3 + equip.position.y].position;

@@ -17,6 +17,7 @@ public class StoreItemModel : StoreItemDefine
     public TreasureDefine treasureDefine;
     public GoodsDefine goodsDefine;
     public SpecialItemDefine specialItemDefine;
+    public FoodModel foodModel;
 
     public bool equipCanUse = true;
     public StoreItemModel()
@@ -69,6 +70,10 @@ public class StoreItemModel : StoreItemDefine
                 break;
             case ItemType.special:
                 specialItemDefine = GameUtil.Instance.DeepCopy(DataManager.Instance.SpecialItemDefines[subID]);
+                break;
+            case ItemType.food:
+                foodModel = new FoodModel(DataManager.Instance.FoodDefines[subID]);
+                effects.AddRange(foodModel.GetEffects());
                 break;
         }
     }

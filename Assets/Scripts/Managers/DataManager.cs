@@ -15,12 +15,12 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, Dictionary<String, String>> LanguagesDic = null;
     public Dictionary<int, TownActionDefine> TownActions = null;
     public Dictionary<int, StoreItemDefine> StoreItems = null;
-    public List<StoreItemDefine> SellableItems = null;
     public Dictionary<int, EquipDefine> EquipDefines = null;
     public Dictionary<int, ExpendableItemDefine> ExpendableItemDefines = null;
     public Dictionary<int, TreasureDefine> TreasureDefines = null;
     public Dictionary<int, GoodsDefine> GoodsDefines = null;
     public Dictionary<int, SpecialItemDefine> SpecialItemDefines = null;
+    public Dictionary<int, FoodDefine> FoodDefines = null;
 
     public Dictionary<int, SkillDefine> Skills = null;
     public Dictionary<int, ExtraEntryDesc> ExtraEntrys = null;
@@ -45,7 +45,6 @@ public class DataManager : Singleton<DataManager>
 
         json = File.ReadAllText(this.DataPath + "StoreItemDefine.json");
         this.StoreItems = JsonConvert.DeserializeObject<Dictionary<int, StoreItemDefine>>(json);
-        this.SellableItems= this.StoreItems.Values.Where(item => item.price != -1).ToList();
 
         json = File.ReadAllText(this.DataPath + "EquipDefine.json");
         this.EquipDefines = JsonConvert.DeserializeObject<Dictionary<int, EquipDefine>>(json);
@@ -61,6 +60,9 @@ public class DataManager : Singleton<DataManager>
 
         json = File.ReadAllText(this.DataPath + "SpecialItemDefine.json");
         this.SpecialItemDefines = JsonConvert.DeserializeObject<Dictionary<int, SpecialItemDefine>>(json);
+
+        json = File.ReadAllText(this.DataPath + "FoodDefine.json");
+        this.FoodDefines = JsonConvert.DeserializeObject<Dictionary<int, FoodDefine>>(json);
 
         json = File.ReadAllText(this.DataPath + "TownActionDefine.json");
         this.TownActions = JsonConvert.DeserializeObject<Dictionary<int, TownActionDefine>>(json);
@@ -93,7 +95,6 @@ public class DataManager : Singleton<DataManager>
 
         json = File.ReadAllText(this.DataPath + "StoreItemDefine.json");
         this.StoreItems = JsonConvert.DeserializeObject<Dictionary<int, StoreItemDefine>>(json);
-        this.SellableItems= this.StoreItems.Values.Where(item => item.price != -1).ToList();
         yield return null;
 
         json = File.ReadAllText(this.DataPath + "EquipDefine.json");
@@ -102,6 +103,10 @@ public class DataManager : Singleton<DataManager>
 
         json = File.ReadAllText(this.DataPath + "ExpendableItemDefine.json");
         this.ExpendableItemDefines = JsonConvert.DeserializeObject<Dictionary<int, ExpendableItemDefine>>(json);
+        yield return null;
+
+        json = File.ReadAllText(this.DataPath + "FoodDefine.json");
+        this.FoodDefines = JsonConvert.DeserializeObject<Dictionary<int, FoodDefine>>(json);
         yield return null;
 
         json = File.ReadAllText(this.DataPath + "TreasureDefine.json");

@@ -37,7 +37,7 @@ public class UIBaseInfoPanel : MonoBehaviour
     public void Setup(CharacterModel character)
     {
         expSlider.maxValue = GlobalAccess.levelUpExp;
-        hungrySlider.maxValue = GlobalAccess.levelUpExp;
+        hungrySlider.maxValue = character.MaxHungry;
         if (character != null)
         {
             disposable.IfNotNull(dis => { dis.Dispose(); });
@@ -50,8 +50,8 @@ public class UIBaseInfoPanel : MonoBehaviour
                     expSlider.value = Mathf.Min(cm.attributes.remainExp, GlobalAccess.levelUpExp);
                     expText.text = cm.attributes.remainExp.ToString() + "/" + GlobalAccess.levelUpExp.ToString();
 
-                    hungrySlider.value = Mathf.Min(cm.attributes.remainExp, GlobalAccess.levelUpExp);
-                    hungryText.text = cm.attributes.remainExp.ToString() + "/" + GlobalAccess.levelUpExp.ToString();
+                    hungrySlider.value = cm.CurrentHungry;
+                    hungryText.text = cm.CurrentHungry.ToString() + "/" + cm.MaxHungry.ToString();
 
                     levelUpButton.gameObject.SetActive(cm.attributes.remainExp > GlobalAccess.levelUpExp &&
                         cm.attributes.level < GlobalAccess.maxLevel);
@@ -74,7 +74,7 @@ public class UIBaseInfoPanel : MonoBehaviour
     public void Setup(BattleItem battleItem)
     {
         expSlider.maxValue = GlobalAccess.levelUpExp;
-        hungrySlider.maxValue = GlobalAccess.levelUpExp;
+        hungrySlider.maxValue = battleItem.MaxHungry;
         if (battleItem != null)
         {
             disposable.IfNotNull(dis => { dis.Dispose(); });
@@ -87,8 +87,8 @@ public class UIBaseInfoPanel : MonoBehaviour
                     expSlider.value = Mathf.Min(bi.attributes.remainExp, GlobalAccess.levelUpExp);
                     expText.text = bi.attributes.remainExp.ToString() + "/" + GlobalAccess.levelUpExp.ToString();
 
-                    hungrySlider.value = Mathf.Min(bi.attributes.remainExp, GlobalAccess.levelUpExp);
-                    hungryText.text = bi.attributes.remainExp.ToString() + "/" + GlobalAccess.levelUpExp.ToString();
+                    hungrySlider.value = bi.CurrentHungry;
+                    hungryText.text = bi.CurrentHungry.ToString() + "/" + bi.MaxHungry.ToString();
 
                     levelUpButton.gameObject.SetActive(bi.attributes.remainExp > GlobalAccess.levelUpExp &&
                         bi.attributes.level < GlobalAccess.maxLevel);

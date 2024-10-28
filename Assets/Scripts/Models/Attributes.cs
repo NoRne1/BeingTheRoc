@@ -33,13 +33,15 @@ public class Attributes
     private AttributeDynamic dynamicAttr = new AttributeDynamic(-1, -1, -1, -1);
 
     public Subject<int> hpChangeSubject = new Subject<int>();
-
+    public Subject<Unit> deadSubject = new Subject<Unit>();
     public int currentHP
     {
-        get { 
+        get 
+        { 
             return dynamicAttr.currentHP; 
-            }
-        set {
+        }
+        set 
+        {
             int newHp = Mathf.Min(MaxHP, value);
             int change = newHp - dynamicAttr.currentHP;
             dynamicAttr.currentHP = newHp;
@@ -48,7 +50,10 @@ public class Attributes
             {
                 dynamicAttr.lostHP -= change;
             }
-            
+            if (newHp <= 0)
+            {
+                deadSubject.OnNext(Unit.Default);
+            }
             hpChangeSubject.OnNext(change);
         }
     }
@@ -139,6 +144,7 @@ public class Attributes
         this.LoadInitAttribute(this.Initial, define, false);
         this.level = 0;
         this.LoadFinalAttributes();
+        dynamicAttr.currentHP = MaxHP;
     }
     //初始化预制的角色
     public void Init(CharacterDefine define, int level)
@@ -147,6 +153,7 @@ public class Attributes
         this.level = level;
         this.LoadGrowthAttribute(this.Growth, define.Job, level, false);
         this.LoadFinalAttributes();
+        dynamicAttr.currentHP = MaxHP;
     }
 
     public void SetUpdateSubject(Subject<Unit> subject)
@@ -156,7 +163,7 @@ public class Attributes
 
     public void BattleInit()
     {
-        dynamicAttr.currentHP = MaxHP;
+        // dynamicAttr.currentHP = MaxHP;
         dynamicAttr.currentShield = 0;
         dynamicAttr.currentEnergy = 0;
         dynamicAttr.lostHP = 0;
@@ -228,6 +235,7 @@ public class Attributes
         }
     }
 
+    // just for init
     public void UpdateInitSpeed(int speed)
     {
         Initial.Speed = speed;
@@ -238,6 +246,7 @@ public class Attributes
     {
         Initial.MaxHP = hp;
         LoadFinalAttributes();
+        dynamicAttr.currentHP = MaxHP;
     }
 
     //加载初始属性

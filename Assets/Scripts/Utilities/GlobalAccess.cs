@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
 using static UnityEngine.GraphicsBuffer;
+using Unity.VisualScripting;
 
 public enum GeneralLevel
 {
@@ -30,6 +31,9 @@ class GlobalAccess
     public static float switchPageTime = 0.85f;
 
     public static int knockbackDirectDamage = 20;
+
+    public static int wheatConsumePerPeriod = 40;
+    public static int hurtPerRemainConsume = 1;
 
     public static int subCharacterNum
     {
@@ -124,9 +128,27 @@ class GlobalAccess
         return NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(uuid)).Value;
     }
 
-    public static void SaveBattleItem(BattleItem battleItem)
+    // 引用addOrUpdate是为了防止battleItem被删除后又重新被Update进store中
+    public static void SaveBattleItem(BattleItem battleItem, bool addOrUpdate = true)
     {
-        NorneStore.Instance.Update<BattleItem>(battleItem, true);
+        if(addOrUpdate || NorneStore.Instance.Contains(battleItem))
+        {
+            NorneStore.Instance.Update<BattleItem>(battleItem, true);
+        }
+    }
+
+    public static CharacterModel GetCharacterModel(string uuid)
+    {
+        return NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(uuid)).Value;
+    }
+
+    // 引用addOrUpdate是为了防止CharacterModel被删除后又重新被Update进store中
+    public static void SaveCharacterModel(CharacterModel cm, bool addOrUpdate = true)
+    {
+        if(addOrUpdate || NorneStore.Instance.Contains(cm))
+        {
+            NorneStore.Instance.Update<CharacterModel>(cm, true);
+        }
     }
 
     ~GlobalAccess()

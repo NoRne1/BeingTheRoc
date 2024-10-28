@@ -20,6 +20,25 @@ public class CharacterModel: IStorable
     public JobType Job { get; set; }
     public GeneralLevel Level { get; set; }
     public string Name { get; set; }
+    public int MaxHungry{ get; set; }
+    private int currentHungry;
+    public int CurrentHungry 
+    { 
+        get
+        {
+            return currentHungry;
+        }
+        set
+        {
+            if(value > MaxHungry)
+            {
+                Debug.LogError("currentHungry can not bigger than MaxHungry");
+            } else if (value < 0) {
+                Debug.LogError("currentHungry can not smaller than 0");
+            }
+            currentHungry = value;
+        }
+    }
     public string Resource { get; set; }
     public string Desc { get; set; }
     public int BornSkill { get; set; }
@@ -42,6 +61,8 @@ public class CharacterModel: IStorable
         ID = define.ID;
         Job = define.Job;
         Name = define.Name;
+        MaxHungry = define.MaxHungry;
+        currentHungry = MaxHungry;
         Level = define.Level;
         attributes = new Attributes(characterUpdate);
         attributes.Init(define);
@@ -99,6 +120,26 @@ public class CharacterModel: IStorable
         attributes.RemainPropertyPoints += value;
     }
 
+    public void HungryChange(int change)
+    {
+        var wheatCoin = GameManager.Instance.wheatCoin.Value;
+        if (CurrentHungry >= change)
+        {
+            CurrentHungry -= change;
+        } else {
+            var remainConsume = change - CurrentHungry;
+            CurrentHungry = 0;
+            if (wheatCoin >= remainConsume)
+            {
+                GameManager.Instance.WheatCoinChanged(-remainConsume);
+            } else {
+                var remainConsume2 = remainConsume - wheatCoin;
+                GameManager.Instance.WheatCoinChanged(-wheatCoin);
+                GameManager.Instance.CharacterHPChange(uuid, -remainConsume2 * GlobalAccess.hurtPerRemainConsume);
+            }
+        }
+        GlobalAccess.SaveCharacterModel(this, false);
+    }
 
     public BattleItem ToBattleItem()
     {
@@ -106,6 +147,8 @@ public class CharacterModel: IStorable
         item.uuid = this.uuid;
         item.type = BattleItemType.player;
         item.Name = this.Name;
+        item.MaxHungry = this.MaxHungry;
+        item.CurrentHungry = this.CurrentHungry;
         item.Job = this.Job;
         item.Level = this.Level;
         item.attributes = GameUtil.Instance.DeepCopy(this.attributes);

@@ -6,12 +6,14 @@ using System.Linq;
 
 public class UIShopPage : MonoBehaviour
 {
+    public List<StoreItemDefine> sellableItems;
     public List<UIShopItem> shopItems;
     private List<int> lastSelectedItemIDs = new List<int>();
-    private int timeLeft;
+    private int timeLeft = -1;
     // Start is called before the first frame update
     void Start()
     {
+        this.sellableItems= DataManager.Instance.StoreItems.Values.Where(item => item.sellType == SellType.shop).ToList();
         timeLeft = GameManager.Instance.timeLeft.Value;
         GenerateShopItems();
 
@@ -32,7 +34,7 @@ public class UIShopPage : MonoBehaviour
 
     void OnEnable()
     {
-        if(timeLeft != GameManager.Instance.timeLeft.Value)
+        if(timeLeft != -1 && timeLeft != GameManager.Instance.timeLeft.Value)
         {
             timeLeft = GameManager.Instance.timeLeft.Value;
             GenerateShopItems();
@@ -56,7 +58,7 @@ public class UIShopPage : MonoBehaviour
 
     public List<StoreItemDefine> RefreshItems()
     {
-        List<StoreItemDefine> sellableItemsCopy = new List<StoreItemDefine>(DataManager.Instance.SellableItems);
+        List<StoreItemDefine> sellableItemsCopy = new List<StoreItemDefine>(sellableItems);
         // 随机选取 refreshCount 个物品，确保与上一次选取的物品不同
         int refreshCount = Random.Range(3, shopItems.Count);
         System.Random random = new System.Random();
