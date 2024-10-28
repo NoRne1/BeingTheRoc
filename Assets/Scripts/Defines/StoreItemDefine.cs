@@ -19,7 +19,7 @@ public enum SellType
 {
     none = 0,
     shop = 1,
-    restautant = 2,
+    restaurant = 2,
 }
 
 public enum BattleEffect 

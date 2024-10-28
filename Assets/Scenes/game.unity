@@ -29241,7 +29241,7 @@ GameObject:
   - component: {fileID: 1310265609}
   - component: {fileID: 1310265611}
   m_Layer: 5
-  m_Name: restautant_page
+  m_Name: restaurant_page
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

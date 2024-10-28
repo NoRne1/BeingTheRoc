@@ -37,8 +37,8 @@
     "5": {
         "ID": 5,
         "townActionType": 5,
-        "iconResource": "town_restautant_action_icon",
-        "titleIndex": "restautant_title",
-        "descIndex": "restautant_desc"
+        "iconResource": "town_restaurant_action_icon",
+        "titleIndex": "restaurant_title",
+        "descIndex": "restaurant_desc"
     }
 }

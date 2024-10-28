@@ -16,7 +16,7 @@ public enum PageType
     shop = 5,
     train = 6,
     walk = 7,
-    restautant = 8,
+    restaurant = 8,
 }
 
 public enum TimeInterval
@@ -177,8 +177,8 @@ public class GameManager : MonoSingleton<GameManager>
             case PageType.walk:
                 commonUI.setUIStyle(CommonUIStyle.actionPage);
                 break;
-            case PageType.restautant:
-                commonUI.setUIStyle(CommonUIStyle.restautant);
+            case PageType.restaurant:
+                commonUI.setUIStyle(CommonUIStyle.restaurant);
                 break;
         }
 

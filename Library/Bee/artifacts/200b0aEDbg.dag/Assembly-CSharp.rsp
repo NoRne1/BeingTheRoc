@@ -476,7 +476,7 @@
 "Assets/Scripts/UI/UIPropertyDisplay.cs"
 "Assets/Scripts/UI/UIPropertyPanel.cs"
 "Assets/Scripts/UI/UIRepositorSlot.cs"
-"Assets/Scripts/UI/UIRestautantPage.cs"
+"Assets/Scripts/UI/UIRestaurantPage.cs"
 "Assets/Scripts/UI/UISetting.cs"
 "Assets/Scripts/UI/UIShopItem.cs"
 "Assets/Scripts/UI/UIShopPage.cs"

@@ -8,7 +8,7 @@ public enum CommonUIStyle
     town = 1,
     actionPage = 2,
     battle = 3,
-    restautant = 4,
+    restaurant = 4,
 }
 
 public class UICommonUI : MonoBehaviour
@@ -79,7 +79,7 @@ public class UICommonUI : MonoBehaviour
                 setLeftRectAutoHide(true);
                 treasuresRect.gameObject.SetActive(true);
                 break;
-            case CommonUIStyle.restautant:
+            case CommonUIStyle.restaurant:
                 gameObject.SetActive(true);
                 setLeftButtonStyle(LeftButtonStyle.back | LeftButtonStyle.help);
                 setBottomPopButtonAutoHide(true);
