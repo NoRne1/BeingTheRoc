@@ -13,13 +13,14 @@ public class UIFoodOption: MonoBehaviour
     public TextMeshProUGUI priceText;
     public Button selfButton;
     public Image soldIcon;
+    public RectTransform rectTransform;
 
     public StoreItemModel itemModel;
     
 
     public void Setup(StoreItemModel itemModel)
     {
-        if (itemModel.type != ItemType.food || itemModel.foodModel != null) { return; }
+        if (itemModel.type != ItemType.food || itemModel.foodModel == null) { return; }
         this.itemModel = itemModel;
         foodIcon.overrideSprite = Resloader.LoadSprite(itemModel.iconResource, ConstValue.foodIconsPath);
         foodName.text = itemModel.title;
@@ -37,6 +38,8 @@ public class UIFoodOption: MonoBehaviour
         }
         priceText.text = (itemModel.price + itemModel.foodModel.priceFloatFactor).ToString();
         ItemSold(false);
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
     }
 
     public void ItemSold(bool sold)

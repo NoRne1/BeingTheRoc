@@ -14,6 +14,13 @@ public class UIRestaurantPage : MonoBehaviour
     {
         this.sellableItems= DataManager.Instance.StoreItems.Values.Where(item => item.sellType == SellType.restaurant).ToList();
         timeLeft = GameManager.Instance.timeLeft.Value;
+        foreach(var index in Enumerable.Range(0, foodOptions.Count))
+        {
+            foodOptions[index].selfButton.OnClickAsObservable().TakeUntilDestroy(this).Subscribe(time =>
+            {
+                BuyItem(index);
+            });
+        }
         GenerateItems();
 
         GameManager.Instance.timeLeft.AsObservable().TakeUntilDestroy(this).Subscribe(time =>

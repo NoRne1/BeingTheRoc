@@ -82,7 +82,7 @@ public class UICommonUI : MonoBehaviour
             case CommonUIStyle.restaurant:
                 gameObject.SetActive(true);
                 setLeftButtonStyle(LeftButtonStyle.back | LeftButtonStyle.help);
-                setBottomPopButtonAutoHide(true);
+                setBottomPopButtonAutoHide(false);
                 hideRightButtonGroup(false);
                 hideTimeLeftGroup(false);
                 weatherPanel.gameObject.SetActive(false);
@@ -147,6 +147,7 @@ public class UICommonUI : MonoBehaviour
             case PageType.shop:
             case PageType.train:
             case PageType.walk:
+            case PageType.restaurant:
                 GameManager.Instance.TimeChanged(-1);
                 break;
             case PageType.battle:
