@@ -27,16 +27,6 @@ public class BattleItem: IStorable
         {
             return currentHungry;
         }
-        set
-        {
-            if(value > MaxHungry)
-            {
-                Debug.LogError("currentHungry can not bigger than MaxHungry");
-            } else if (value < 0) {
-                Debug.LogError("currentHungry can not smaller than 0");
-            }
-            currentHungry = value;
-        }
     }
     public JobType Job { get; set; }
     public GeneralLevel Level { get; set; }
@@ -147,40 +137,53 @@ public class BattleItem: IStorable
         skills = skills.Where(id => id != -1).ToList();
     }
 
-    public void HungryChange(int wheatConsume)
-    {
-        var wheatCoin = GameManager.Instance.wheatCoin.Value;
-        if (CurrentHungry >= wheatConsume)
+    public void HungryChange(int change)
+    {   
+        if(change < 0)
         {
-            CurrentHungry -= wheatConsume;
-        } else {
-            var remainConsume = wheatConsume - CurrentHungry;
-            CurrentHungry = 0;
-            switch (type)
+            var wheatCoin = GameManager.Instance.wheatCoin.Value;
+            if (currentHungry >= Mathf.Abs(change))
             {
-                case BattleItemType.player:
-                    if (wheatCoin >= remainConsume)
-                    {
-                        GameManager.Instance.WheatCoinChanged(-remainConsume);
-                    } else 
-                    {
-                        var remainConsume2 = remainConsume - wheatCoin;
-                        GameManager.Instance.WheatCoinChanged(-wheatCoin);
-                        BattleCommonMethods.ProcessDirectAttack("GOD", uuid, 
-                            remainConsume2 * GlobalAccess.hurtPerRemainConsume);
-                    }
-                    break;
-                case BattleItemType.enemy:
-                    BattleCommonMethods.ProcessDirectAttack("GOD", BattleManager.Instance.battleItemManager.granaryItemID, 
-                        remainConsume * GlobalAccess.hurtPerRemainConsume);
-                    break;
-                default:
-                    Debug.LogError(type + "type has no HungryChange");
-                    break;
+                currentHungry += change;
+            } else {
+                var remainConsume = Mathf.Abs(change) - currentHungry;
+                currentHungry = 0;
+                switch (type)
+                {
+                    case BattleItemType.player:
+                        if (wheatCoin >= remainConsume)
+                        {
+                            GameManager.Instance.WheatCoinChanged(-remainConsume);
+                        } else 
+                        {
+                            var remainConsume2 = remainConsume - wheatCoin;
+                            GameManager.Instance.WheatCoinChanged(-wheatCoin);
+                            BattleCommonMethods.ProcessDirectAttack("GOD", uuid, 
+                                remainConsume2 * GlobalAccess.hurtPerRemainConsume);
+                        }
+                        break;
+                    case BattleItemType.enemy:
+                        BattleCommonMethods.ProcessDirectAttack("GOD", BattleManager.Instance.battleItemManager.granaryItemID, 
+                            remainConsume * GlobalAccess.hurtPerRemainConsume);
+                        break;
+                    default:
+                        Debug.LogError(type + "type has no HungryChange");
+                        break;
+                }
             }
+        } else 
+        {
+            //超出最大值（由前置条件去拦截，战斗效果允许），也不报错
+            currentHungry = Mathf.Min(MaxHungry, currentHungry + change);
         }
         GlobalAccess.SaveBattleItem(this, false);
     }
+
+    public void SetHungry(int hungry)
+    {
+        currentHungry = Mathf.Max(0, Mathf.Min(MaxHungry, hungry));
+    }
+
     public void BattleInit()
     {
         switch (type)
@@ -231,7 +234,7 @@ public class BattleItem: IStorable
         {
             case BattleItemType.player:
                 var cm = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(uuid)).Value;
-                cm.CurrentHungry = this.CurrentHungry;
+                cm.SetHungry(this.CurrentHungry);
                 cm.attributes.currentHP = this.attributes.currentHP;
                 NorneStore.Instance.Update(cm, true);
                 break;

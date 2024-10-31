@@ -410,7 +410,7 @@
     "17": {
         "ID": 17,
         "title": "energy_potion",
-        "equipType": -1,
+        "equipType": 0,
         "invokeType": 0,
         "equipClass": -1,
         "isExpendable": true,
@@ -434,7 +434,7 @@
     "18": {
         "ID": 18,
         "title": "angry_potion",
-        "equipType": -1,
+        "equipType": 0,
         "invokeType": 0,
         "equipClass": -1,
         "isExpendable": true,

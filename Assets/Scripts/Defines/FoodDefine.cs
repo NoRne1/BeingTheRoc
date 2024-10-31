@@ -6,7 +6,12 @@ public class FoodProperty
 {
     public PropertyType type;
     public int value;
+    //define中时浮动范围，model中时具体的浮动值
     public int floatFactor;
+    public int trulyValue 
+    {
+        get { return value + floatFactor; }
+    }
 }
 
 public class FoodDefine

@@ -128,5 +128,10 @@ public class StoreItemDefine
     {
         return type == ItemType.equip;
     }
+
+    public bool CanBagUse()
+    {
+        return type == ItemType.expendable || type == ItemType.food;
+    }
 }
 

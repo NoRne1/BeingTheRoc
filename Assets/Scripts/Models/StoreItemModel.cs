@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class StoreItemModel : StoreItemDefine
 {
@@ -94,7 +95,7 @@ public class StoreItemModel : StoreItemDefine
         if (CanEquip())
         {
             this.tempRotationAngle = rotationAngle;
-            this.equipDefine.tempOccupiedCells = new List<Vector2Int>(equipDefine.occupiedCells);
+            this.equipDefine.tempOccupiedCells = new List<Vector2Int>(equipDefine.OccupiedCells);
         }
     }
 
@@ -154,5 +155,25 @@ public class StoreItemModel : StoreItemDefine
             equipDefine.tempOccupiedCells = points;
             tempRotationAngle = (tempRotationAngle + angle) % 360;
         }
+    }
+
+    public string GetFoodDesc() 
+    {
+        if (type == ItemType.food && foodModel != null)
+    {
+        // 根据 foodPropertys 的数量创建 args 数组
+        object[] args = new object[foodModel.foodPropertys.Count];
+        
+        for (int i = 0; i < foodModel.foodPropertys.Count; i++)
+        {
+            var foodProperty = foodModel.foodPropertys[i];
+            // 将值和 floatFactor 相加并设置到 args 中
+            args[i] = foodProperty.trulyValue;
+        }
+        
+        //todo 需要从 GameUtil.Instance.GetDisplayString 拿
+        return string.Format(desc, args).ReplaceNewLines();
+    }
+    return "";
     }
 }

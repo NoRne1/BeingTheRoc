@@ -41,6 +41,6 @@ public class FoodModel
     {
         return foodPropertys.Select(property => 
             new Effect(EffectType.property, EffectInvokeType.useInstant, property.type, 1, 
-            "", property.value + property.floatFactor)).ToList();
+            "", property.trulyValue)).ToList();
     }
 }

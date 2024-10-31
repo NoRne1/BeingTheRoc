@@ -428,7 +428,7 @@
         "title": "胡萝卜须",
         "price": 100,
         "iconResource": "food_icon",
-        "desc": "-",
+        "desc": "饱腹:{0}\\n治疗:{1}\\n最大血量:{2}\\n",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -442,7 +442,7 @@
         "title": "番茄炒西红柿",
         "price": 100,
         "iconResource": "food_icon",
-        "desc": "-",
+        "desc": "饱腹:{0}\\n治疗:{1}\\n力量:{2}\\n",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -456,7 +456,7 @@
         "title": "蔬菜杂烩",
         "price": 100,
         "iconResource": "food_icon",
-        "desc": "-",
+        "desc": "饱腹:{0}\\n治疗:{1}\\n力量:{2}\\n",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -470,7 +470,7 @@
         "title": "气泡水",
         "price": 100,
         "iconResource": "food_icon",
-        "desc": "-",
+        "desc": "饱腹:{0}\\n治疗:{1}\\n防御:{2}\\n",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -484,7 +484,7 @@
         "title": "黑色汽水",
         "price": 100,
         "iconResource": "food_icon",
-        "desc": "-",
+        "desc": "饱腹:{0}\\n治疗:{1}\\n防御:{2}\\n",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -498,7 +498,7 @@
         "title": "鸡毛大白菜",
         "price": 100,
         "iconResource": "food_icon",
-        "desc": "-",
+        "desc": "饱腹:{0}\\n治疗:{1}\\n力量:{2}\\n闪避:{3}\\n",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -512,7 +512,7 @@
         "title": "玉米",
         "price": 100,
         "iconResource": "food_icon",
-        "desc": "-",
+        "desc": "饱腹:{0}\\n治疗:{1}\\n力量:{2}\\n命中:{3}\\n",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -526,7 +526,7 @@
         "title": "甘蔗",
         "price": 100,
         "iconResource": "food_icon",
-        "desc": "-",
+        "desc": "饱腹:{0}\\n治疗:{1}\\n防御:{2}\\n速度:{3}\\n",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -540,7 +540,7 @@
         "title": "黄瓜",
         "price": 100,
         "iconResource": "food_icon",
-        "desc": "-",
+        "desc": "饱腹:{0}\\n幸运:{1}\\n",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -554,7 +554,7 @@
         "title": "地薯",
         "price": 100,
         "iconResource": "food_icon",
-        "desc": "-",
+        "desc": "饱腹:{0}\\n经验:{1}\\n",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1
@@ -568,7 +568,7 @@
         "title": "土豆",
         "price": 100,
         "iconResource": "food_icon",
-        "desc": "-",
+        "desc": "饱腹:{0}",
         "ExtraEntry1": -1,
         "ExtraEntry2": -1,
         "ExtraEntry3": -1

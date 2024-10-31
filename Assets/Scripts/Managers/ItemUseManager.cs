@@ -25,19 +25,19 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
 
     }
 
-    //第一层能量检查
+    //第一层能否使用检查
     public IEnumerator Use(string casterID, StoreItemModel item)
     {
         switch (item.type)
         {
             case ItemType.equip:
                 //战斗中存在能量不够的情况
-                var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
-                if (target.attributes.currentEnergy >= item.equipDefine.takeEnergy)
+                var caster = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
+                if (caster.attributes.currentEnergy >= item.equipDefine.takeEnergy)
                 {
                     StartCoroutine(InvokeCheck(casterID, item));
                 }
-                else if (target.attributes.currentEnergy > 0)
+                else if (caster.attributes.currentEnergy > 0)
                 {
                     BattleManager.Instance.ShakeEnergy();
                 }
@@ -57,8 +57,15 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                 Debug.LogError("Item Use should not handle economicGoods type");
                 break;
             case ItemType.food:
-                yield return StartCoroutine(InvokeEffect(EffectInvokeType.useInstant, casterID, new List<string>{casterID}, Vector2.negativeInfinity, item));
-                RepoDrop(item);
+                var target = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(casterID)).Value;
+                if(item.foodModel.foodPropertys.FirstOrDefault(property => property.type == PropertyType.hungry).trulyValue + target.CurrentHungry <= target.MaxHungry)
+                {
+                    yield return StartCoroutine(InvokeEffect(EffectInvokeType.useInstant, casterID, new List<string>{casterID}, Vector2.negativeInfinity, item));
+                    RepoDrop(item);
+                } else 
+                {
+                    BlackBarManager.Instance.AddMessage("你要撑死这个单位嘛,吃不下啦!");
+                }
                 break;
             default:
                 Debug.LogError("Item Use unknown item type");
@@ -217,6 +224,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                 yield return StartCoroutine(ProcessEffect_Battle(casterID, targetIDs, targetPos, item, effect));
                 break;
             case ItemType.expendable:
+            case ItemType.food:
                 if (targetIDs == null || targetIDs.Count != 1)
                 {
                     Debug.LogError("ProcessEffect expendable targetIDs should be 1");
@@ -301,7 +309,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                         target.attributes.LoadFinalAttributes();
                         break;
                     case PropertyType.hungry:
-                        target.CurrentHungry += effect.Value;
+                        target.HungryChange(effect.Value);
                         break;
                     default:
                         Debug.Log("unknown propertyType");
@@ -416,6 +424,9 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                                 break;
                             case PropertyType.HealthPercent:
                                 BattleCommonMethods.ProcessNormalHealth(casterID, new List<string>{targetID}, (int)(target.attributes.MaxHP / 100.0f * effect.Value));
+                                break;
+                            case PropertyType.hungry:
+                                target.HungryChange(effect.Value);
                                 break;
                             default:
                                 Debug.Log("unknown propertyType");

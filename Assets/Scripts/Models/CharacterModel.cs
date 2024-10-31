@@ -28,16 +28,6 @@ public class CharacterModel: IStorable
         {
             return currentHungry;
         }
-        set
-        {
-            if(value > MaxHungry)
-            {
-                Debug.LogError("currentHungry can not bigger than MaxHungry");
-            } else if (value < 0) {
-                Debug.LogError("currentHungry can not smaller than 0");
-            }
-            currentHungry = value;
-        }
     }
     public string Resource { get; set; }
     public string Desc { get; set; }
@@ -122,23 +112,36 @@ public class CharacterModel: IStorable
 
     public void HungryChange(int change)
     {
-        var wheatCoin = GameManager.Instance.wheatCoin.Value;
-        if (CurrentHungry >= change)
+        if (change < 0)
         {
-            CurrentHungry -= change;
-        } else {
-            var remainConsume = change - CurrentHungry;
-            CurrentHungry = 0;
-            if (wheatCoin >= remainConsume)
+            //减饱腹度
+            var wheatCoin = GameManager.Instance.wheatCoin.Value;
+            if (currentHungry >= Mathf.Abs(change))
             {
-                GameManager.Instance.WheatCoinChanged(-remainConsume);
+                currentHungry += change;
             } else {
-                var remainConsume2 = remainConsume - wheatCoin;
-                GameManager.Instance.WheatCoinChanged(-wheatCoin);
-                GameManager.Instance.CharacterHPChange(uuid, -remainConsume2 * GlobalAccess.hurtPerRemainConsume);
+                var remainConsume = Mathf.Abs(change) - currentHungry;
+                currentHungry = 0;
+                if (wheatCoin >= remainConsume)
+                {
+                    GameManager.Instance.WheatCoinChanged(-remainConsume);
+                } else {
+                    var remainConsume2 = remainConsume - wheatCoin;
+                    GameManager.Instance.WheatCoinChanged(-wheatCoin);
+                    GameManager.Instance.CharacterHPChange(uuid, -remainConsume2 * GlobalAccess.hurtPerRemainConsume);
+                }
             }
+        } else 
+        {
+            //超出最大值（由前置条件去拦截，战斗效果允许），也不报错
+            currentHungry = Mathf.Min(MaxHungry, currentHungry + change);
         }
         GlobalAccess.SaveCharacterModel(this, false);
+    }
+
+    public void SetHungry(int hungry)
+    {
+        currentHungry = Mathf.Max(0, Mathf.Min(MaxHungry, hungry));
     }
 
     public BattleItem ToBattleItem()
@@ -148,7 +151,7 @@ public class CharacterModel: IStorable
         item.type = BattleItemType.player;
         item.Name = this.Name;
         item.MaxHungry = this.MaxHungry;
-        item.CurrentHungry = this.CurrentHungry;
+        item.SetHungry(this.CurrentHungry);
         item.Job = this.Job;
         item.Level = this.Level;
         item.attributes = GameUtil.Instance.DeepCopy(this.attributes);

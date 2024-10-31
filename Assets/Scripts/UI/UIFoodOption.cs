@@ -29,7 +29,7 @@ public class UIFoodOption: MonoBehaviour
             if (index < itemModel.foodModel.foodPropertys.Count)
             {
                 var property = itemModel.foodModel.foodPropertys[index];
-                uIFoodPropertys[index].Setup(property.type, property.value);
+                uIFoodPropertys[index].Setup(property.type, property.trulyValue);
                 uIFoodPropertys[index].gameObject.SetActive(true);
             } else 
             {

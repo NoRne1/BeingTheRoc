@@ -39,6 +39,7 @@ public class UIStoreItemHint : UIHintBase
         titleBorder.color = GlobalAccess.GetLevelColor(item.level);
         title.text = item.title;
         energyPool.ReturnAllObject();
+        attackRange.gameObject.SetActive(false);
         if (item.type == ItemType.equip && DataManager.Instance.EquipDefines.ContainsKey(item.subID))
         {
             EquipDefine equipDefine = DataManager.Instance.EquipDefines[item.subID];
@@ -68,7 +69,12 @@ public class UIStoreItemHint : UIHintBase
             }
         }
 
-        desc.text = item.desc;
+        if (item.type == ItemType.food)
+        {
+            desc.text = ((StoreItemModel)item).GetFoodDesc();
+        } else {
+            desc.text = item.desc;
+        }
 
         if (item.ExtraEntry1 >= 0)
         {

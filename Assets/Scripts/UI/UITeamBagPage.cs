@@ -147,7 +147,7 @@ public class UITeamBagPage : MonoBehaviour
                     useOrDropItem = currentItem.item;
                     Vector3 tempPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(5, -5, 0));
                     equipButtons.gameObject.SetActive(true);
-                    equipButtons.useButton.gameObject.SetActive(useOrDropItem.type == ItemType.expendable);
+                    equipButtons.useButton.gameObject.SetActive(useOrDropItem.CanBagUse());
                     equipButtons.transform.position = new Vector3(tempPosition.x, tempPosition.y, 0);
                 }
                 // 如果鼠标按下后移动了一定距离，则执行装备逻辑
