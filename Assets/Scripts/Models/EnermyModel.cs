@@ -21,7 +21,14 @@ public class EnermyModel: IStorable
     public int ID { get; set; }
     public JobType Job { get; set; }
     public GeneralLevel Level { get; set; }
-    public string Name { get; set; }
+    public NameData nameData;
+    public string Name 
+    { 
+        get 
+        { 
+            return Config.Language == 0 ? nameData.chineseName: nameData.englishName; 
+        } 
+    }
     public string Resource { get; set; }
     public string Desc { get; set; }
     public int BornSkill { get; set; }
@@ -45,7 +52,7 @@ public class EnermyModel: IStorable
         this.define = define;
         ID = define.ID;
         Job = define.Job;
-        Name = define.Name;
+        nameData = DataManager.Instance.nameGenerator.GetRandomNameByGender(Gender.Random);
         Level = define.Level;
         attributes = new Attributes(enermyUpdate);
         attributes.Init(define);
@@ -81,7 +88,7 @@ public class EnermyModel: IStorable
         BattleItem item = new BattleItem();
         item.uuid = this.uuid;
         item.type = BattleItemType.enemy;
-        item.Name = this.Name;
+        item.nameData = this.nameData;
         item.Job = this.Job;
         item.Level = this.Level;
         item.attributes = GameUtil.Instance.DeepCopy(this.attributes);

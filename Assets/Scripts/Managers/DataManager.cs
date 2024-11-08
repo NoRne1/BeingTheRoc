@@ -12,6 +12,8 @@ public class DataManager : Singleton<DataManager>
     public string DataPath;
     public Dictionary<int, CharacterDefine> Characters = null;
     public Dictionary<String, String> Language = null;
+
+    //0:中文, 1:英文
     public Dictionary<int, Dictionary<String, String>> LanguagesDic = null;
     public Dictionary<int, TownActionDefine> TownActions = null;
     public Dictionary<int, StoreItemDefine> StoreItems = null;
@@ -26,6 +28,8 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, ExtraEntryDesc> ExtraEntrys = null;
     public Dictionary<int, EnemyDefine> EnemyDefines = null;
     public Dictionary<int, BuffDefine> BuffDefines = null;
+
+    public NameGenerator nameGenerator = new NameGenerator();
     public BehaviorSubject<bool> DataLoaded = new BehaviorSubject<bool>(false);
 
     public DataManager()
@@ -36,6 +40,8 @@ public class DataManager : Singleton<DataManager>
 
     public void Load()
     {
+        nameGenerator.LoadNameData(this.DataPath + "NameDatabase.txt");
+
         string json = File.ReadAllText(this.DataPath + "CharacterDefine.json");
         this.Characters = JsonConvert.DeserializeObject<Dictionary<int, CharacterDefine>>(json);
 
@@ -84,6 +90,9 @@ public class DataManager : Singleton<DataManager>
 
     public IEnumerator LoadData()
     {
+        nameGenerator.LoadNameData(this.DataPath + "NameDatabase.txt");
+        yield return null;
+        
         string json = File.ReadAllText(this.DataPath + "CharacterDefine.json");
         this.Characters = JsonConvert.DeserializeObject<Dictionary<int, CharacterDefine>>(json);
         yield return null;

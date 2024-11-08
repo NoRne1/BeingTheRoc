@@ -160,20 +160,20 @@ public class StoreItemModel : StoreItemDefine
     public string GetFoodDesc() 
     {
         if (type == ItemType.food && foodModel != null)
-    {
-        // 根据 foodPropertys 的数量创建 args 数组
-        object[] args = new object[foodModel.foodPropertys.Count];
-        
-        for (int i = 0; i < foodModel.foodPropertys.Count; i++)
         {
-            var foodProperty = foodModel.foodPropertys[i];
-            // 将值和 floatFactor 相加并设置到 args 中
-            args[i] = foodProperty.trulyValue;
+            // 根据 foodPropertys 的数量创建 args 数组
+            object[] args = new object[foodModel.foodPropertys.Count];
+            
+            for (int i = 0; i < foodModel.foodPropertys.Count; i++)
+            {
+                var foodProperty = foodModel.foodPropertys[i];
+                // 将值和 floatFactor 相加并设置到 args 中
+                args[i] = foodProperty.trulyValue;
+            }
+            
+            //todo 需要从 GameUtil.Instance.GetDisplayString 拿
+            return string.Format(desc, args).ReplaceNewLines();
         }
-        
-        //todo 需要从 GameUtil.Instance.GetDisplayString 拿
-        return string.Format(desc, args).ReplaceNewLines();
-    }
-    return "";
+        return "";
     }
 }

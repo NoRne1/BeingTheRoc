@@ -18,7 +18,14 @@ public enum BattleItemType
 public class BattleItem: IStorable
 {
     public string uuid { get; set; }
-    public string Name { get; set; }
+    public NameData nameData;
+    public string Name 
+    { 
+        get 
+        { 
+            return Config.Language == 0 ? nameData.chineseName: nameData.englishName; 
+        } 
+    }
     public int MaxHungry{ get; set; }
     private int currentHungry;
     public int CurrentHungry 
@@ -109,7 +116,7 @@ public class BattleItem: IStorable
                 break;
             case BattleItemType.granary:
                 uuid = GameUtil.Instance.GenerateUniqueId();
-                this.Name = GameUtil.Instance.GetDisplayString("粮仓");
+                this.nameData = new NameData(-1, "粮仓", "Granary", Gender.None);
                 this.Resource = "granary_icon";
                 this.type = type;
                 attributes = new Attributes(battleItemUpdate);

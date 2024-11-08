@@ -161,6 +161,12 @@ public class GameUtil : Singleton<GameUtil>
         return temp != 0 && temp <= mobility;
     }
 
+    //判断是否是主角
+    public bool IsMainCharacter(int id)
+    {
+        return id >= 0 && id < GlobalAccess.mainCharacterNum;
+    }
+
     public List<int> GenerateUniqueRandomList(int begin, int end, int num)
     {
         if (num > (end - begin) || begin > end)

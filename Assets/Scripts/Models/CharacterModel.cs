@@ -19,7 +19,14 @@ public class CharacterModel: IStorable
     public int ID { get; set; }
     public JobType Job { get; set; }
     public GeneralLevel Level { get; set; }
-    public string Name { get; set; }
+    public NameData nameData;
+    public string Name 
+    { 
+        get 
+        { 
+            return Config.Language == 0 ? nameData.chineseName: nameData.englishName; 
+        } 
+    }
     public int MaxHungry{ get; set; }
     private int currentHungry;
     public int CurrentHungry 
@@ -49,8 +56,15 @@ public class CharacterModel: IStorable
         uuid = GameUtil.Instance.GenerateUniqueId();
         this.define = define;
         ID = define.ID;
+        if (GameUtil.Instance.IsMainCharacter(ID)) 
+        {
+            // nameData = new NameData(DataManager.Instance.LanguagesDic[0][define.Name], DataManager.Instance.LanguagesDic[1][define.Name], Gender.None);
+            nameData = new NameData(-1, define.Name, define.Name, Gender.None);
+        } else 
+        {
+            nameData = DataManager.Instance.nameGenerator.GetRandomNameByGender(Gender.Random);
+        }
         Job = define.Job;
-        Name = define.Name;
         MaxHungry = define.MaxHungry;
         currentHungry = MaxHungry;
         Level = define.Level;
@@ -149,7 +163,7 @@ public class CharacterModel: IStorable
         BattleItem item = new BattleItem();
         item.uuid = this.uuid;
         item.type = BattleItemType.player;
-        item.Name = this.Name;
+        item.nameData = this.nameData;
         item.MaxHungry = this.MaxHungry;
         item.SetHungry(this.CurrentHungry);
         item.Job = this.Job;

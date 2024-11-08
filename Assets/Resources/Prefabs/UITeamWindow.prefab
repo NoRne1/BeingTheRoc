@@ -12328,6 +12328,7 @@ MonoBehaviour:
   itemIcon: {fileID: 3175868824824076615}
   hpIcon: {fileID: 2496346835077664862}
   title: {fileID: 3312643031000210644}
+  titleGroupTransform: {fileID: 2502428848019351970}
   levelText: {fileID: 7748968014115522101}
   expText: {fileID: 3482414617546759163}
   hungryText: {fileID: 2240015312144239204}

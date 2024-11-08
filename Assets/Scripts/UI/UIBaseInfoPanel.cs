@@ -11,6 +11,7 @@ public class UIBaseInfoPanel : MonoBehaviour
     public Image itemIcon;
     public Image hpIcon;
     public TextMeshProUGUI title;
+    public RectTransform titleGroupTransform;
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI expText;
     public TextMeshProUGUI hungryText;
@@ -56,6 +57,8 @@ public class UIBaseInfoPanel : MonoBehaviour
                     levelUpButton.gameObject.SetActive(cm.attributes.remainExp > GlobalAccess.levelUpExp &&
                         cm.attributes.level < GlobalAccess.maxLevel);
                     title.text = cm.Name;
+                    Canvas.ForceUpdateCanvases();
+                    LayoutRebuilder.ForceRebuildLayoutImmediate(titleGroupTransform);
                     skillButtons[0].Setup(cm.BornSkill == -1 ? null : DataManager.Instance.Skills[cm.BornSkill]);
                     skillButtons[1].Setup(cm.Skill1 == -1 ? null : DataManager.Instance.Skills[cm.Skill1]);
                     skillButtons[2].Setup(cm.Skill2 == -1 ? null : DataManager.Instance.Skills[cm.Skill2]);
