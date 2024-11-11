@@ -26,6 +26,13 @@ public enum TimeInterval
     night
 }
 
+public class GameOtherProperty
+{
+    //currentCollectPlanIndex.value != null表示当前有召集任务，collectCharacterTimer.value == 0表示任务可交付
+    public BehaviorSubject<CollectCharacterInfo> currentCollectPlanInfo = new BehaviorSubject<CollectCharacterInfo>(null);
+    public BehaviorSubject<int> collectCharacterTimer = new BehaviorSubject<int>(-1);
+}
+
 public class GameManager : MonoSingleton<GameManager>
 {
     public List<GameObject> pages;
@@ -44,6 +51,7 @@ public class GameManager : MonoSingleton<GameManager>
     public RepositoryModel repository = new RepositoryModel();
     public TreasureManager treasureManager;
     public UITreasuresRect treasuresRect;
+    public GameOtherProperty otherProperty = new GameOtherProperty();
     // Start is called before the first frame update
     void Start()
     {
@@ -163,7 +171,7 @@ public class GameManager : MonoSingleton<GameManager>
                 commonUI.setUIStyle(CommonUIStyle.battle);
                 break;
             case PageType.bar:
-                commonUI.setUIStyle(CommonUIStyle.actionPage);
+                commonUI.setUIStyle(CommonUIStyle.bar);
                 break;
             case PageType.forge:
                 commonUI.setUIStyle(CommonUIStyle.actionPage);
@@ -224,6 +232,10 @@ public class GameManager : MonoSingleton<GameManager>
     public void TimeChanged(int change)
     {
         timeLeft.OnNext(timeLeft.Value + change);
+        if (otherProperty.currentCollectPlanInfo.Value != null && otherProperty.collectCharacterTimer.Value > 0)
+        {
+            otherProperty.collectCharacterTimer.OnNext(Math.Max(0, otherProperty.collectCharacterTimer.Value + change));
+        }
         HungryChange(change);
     }
 

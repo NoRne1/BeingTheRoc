@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using Newtonsoft.Json;
 using UniRx;
 using UnityEngine;
@@ -537,5 +534,10 @@ public class GameUtil : Singleton<GameUtil>
                 Debug.LogError("Unknown battle effect type.");
                 return null;
         }
+    }
+
+    public int GetTrulyFloatFactor(int factor)
+    {
+        return UnityEngine.Random.Range(-factor, factor);
     }
 }

@@ -37,6 +37,8 @@ public class CharacterDefine
     public GeneralLevel Level { get; set; }
     //角色名字
     public string Name { get; set; }
+    //种族
+    public string Race { get; set; }
 
     public int MaxHungry{ get; set; }
 
@@ -77,6 +79,12 @@ public class CharacterDefine
     /// 幸运
     /// </summary>
     public int Lucky { get; set; }
+
+    public int MaxHPFloat { get; set; }
+    public int StrengthFloat { get; set; }
+    public int DefenseFloat { get; set; }
+    public int SpeedFloat { get; set; }
+
     /// <summary>
     /// 图片资源
     /// </summary>

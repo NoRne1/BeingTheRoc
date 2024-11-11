@@ -252,12 +252,12 @@ public class Attributes
     //加载初始属性
     private void LoadInitAttribute(AttributeData attr, CharacterDefine define, bool loadFinal = true)
     {
-        attr.MaxHP = define.MaxHP;
-        attr.Strength = define.Strength;
-        attr.Defense = define.Defense;
+        attr.MaxHP = define.MaxHP + GameUtil.Instance.GetTrulyFloatFactor(define.MaxHPFloat);
+        attr.Strength = define.Strength + GameUtil.Instance.GetTrulyFloatFactor(define.StrengthFloat);
+        attr.Defense = define.Defense + GameUtil.Instance.GetTrulyFloatFactor(define.DefenseFloat);
         attr.Dodge = define.Dodge;
         attr.Accuracy = define.Accuracy;
-        attr.Speed = define.Speed;
+        attr.Speed = define.Speed + GameUtil.Instance.GetTrulyFloatFactor(define.SpeedFloat);
         attr.Mobility = define.Mobility;
         attr.Energy = define.Energy;
         attr.Lucky = define.Lucky;

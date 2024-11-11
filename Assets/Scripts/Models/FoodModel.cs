@@ -18,12 +18,7 @@ public class FoodModel
         ProcessFoodProperty(define.property2);
         ProcessFoodProperty(define.property3);
         ProcessFoodProperty(define.property4);
-        this.priceFloatFactor = GetTrulyFloatFactor(define.priceFloatFactor);
-    }
-
-    public int GetTrulyFloatFactor(int factor)
-    {
-        return Random.Range(-factor, factor);
+        this.priceFloatFactor = GameUtil.Instance.GetTrulyFloatFactor(define.priceFloatFactor);
     }
 
     public void ProcessFoodProperty(FoodProperty foodProperty)
@@ -33,7 +28,7 @@ public class FoodModel
             return;
         }
         FoodProperty temp = GameUtil.Instance.DeepCopy(foodProperty);
-        temp.floatFactor = GetTrulyFloatFactor(temp.floatFactor);
+        temp.floatFactor = GameUtil.Instance.GetTrulyFloatFactor(temp.floatFactor);
         foodPropertys.Add(temp);
     }
 

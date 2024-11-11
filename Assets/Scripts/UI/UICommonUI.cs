@@ -9,6 +9,7 @@ public enum CommonUIStyle
     actionPage = 2,
     battle = 3,
     restaurant = 4,
+    bar = 5,
 }
 
 public class UICommonUI : MonoBehaviour
@@ -83,6 +84,17 @@ public class UICommonUI : MonoBehaviour
                 gameObject.SetActive(true);
                 setLeftButtonStyle(LeftButtonStyle.back | LeftButtonStyle.help);
                 setBottomPopButtonAutoHide(false);
+                hideRightButtonGroup(false);
+                hideTimeLeftGroup(false);
+                weatherPanel.gameObject.SetActive(false);
+                uIPopButtonGroup.gameObject.SetActive(true);
+                setLeftRectAutoHide(true);
+                treasuresRect.gameObject.SetActive(true);
+                break;
+            case CommonUIStyle.bar:
+                gameObject.SetActive(true);
+                setLeftButtonStyle(LeftButtonStyle.back | LeftButtonStyle.help);
+                setBottomPopButtonAutoHide(true);
                 hideRightButtonGroup(false);
                 hideTimeLeftGroup(false);
                 weatherPanel.gameObject.SetActive(false);
