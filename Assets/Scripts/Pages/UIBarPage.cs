@@ -80,7 +80,6 @@ public class UIBarPage : MonoBehaviour
         GameManager.Instance.otherProperty.collectCharacterTimer.OnNext(info.waitTime * 3);
         CloseCollectCharacterLayer();
     }
-
     public void ProcessCollectCharacter(CollectCharacterInfo info)
     {
         GameManager.Instance.otherProperty.currentCollectPlanInfo.OnNext(null);
