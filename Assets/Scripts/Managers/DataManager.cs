@@ -11,6 +11,8 @@ public class DataManager : Singleton<DataManager>
 {
     public string DataPath;
     public Dictionary<int, CharacterDefine> Characters = null;
+    public Dictionary<GeneralLevel, List<CharacterDefine>> levelCharacters = null;
+
     public Dictionary<String, String> Language = null;
 
     //0:中文, 1:英文
@@ -28,6 +30,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, ExtraEntryDesc> ExtraEntrys = null;
     public Dictionary<int, EnemyDefine> EnemyDefines = null;
     public Dictionary<int, BuffDefine> BuffDefines = null;
+    public Dictionary<int, CollectItemDefine> collectItemDefines = null;
 
     public NameGenerator nameGenerator = new NameGenerator();
     public BehaviorSubject<bool> DataLoaded = new BehaviorSubject<bool>(false);
@@ -44,6 +47,11 @@ public class DataManager : Singleton<DataManager>
 
         string json = File.ReadAllText(this.DataPath + "CharacterDefine.json");
         this.Characters = JsonConvert.DeserializeObject<Dictionary<int, CharacterDefine>>(json);
+        this.levelCharacters = new Dictionary<GeneralLevel, List<CharacterDefine>>();
+        this.levelCharacters.Add(GeneralLevel.green, this.Characters.Values.Where(c=>c.Level == GeneralLevel.green).ToList());
+        this.levelCharacters.Add(GeneralLevel.blue, this.Characters.Values.Where(c=>c.Level == GeneralLevel.blue).ToList());
+        //主角总是红色，所以需要在红色中过滤掉主角
+        this.levelCharacters.Add(GeneralLevel.red, this.Characters.Values.Where(c=>c.ID >= GlobalAccess.subCharacterStartIndex && c.Level == GeneralLevel.red).ToList());
 
         json = File.ReadAllText(this.DataPath + "MutiLanguage.json");
         this.LanguagesDic = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<String, String>>>(json);
@@ -84,6 +92,9 @@ public class DataManager : Singleton<DataManager>
 
         json = File.ReadAllText(this.DataPath + "BuffDefine.json");
         this.BuffDefines = JsonConvert.DeserializeObject<Dictionary<int, BuffDefine>>(json);
+
+        json = File.ReadAllText(this.DataPath + "CollectItemDefine.json");
+        this.collectItemDefines = JsonConvert.DeserializeObject<Dictionary<int, CollectItemDefine>>(json);
 
         DataLoaded.OnNext(true);
     }
@@ -95,6 +106,10 @@ public class DataManager : Singleton<DataManager>
         
         string json = File.ReadAllText(this.DataPath + "CharacterDefine.json");
         this.Characters = JsonConvert.DeserializeObject<Dictionary<int, CharacterDefine>>(json);
+        this.levelCharacters = new Dictionary<GeneralLevel, List<CharacterDefine>>();
+        this.levelCharacters.Add(GeneralLevel.green, this.Characters.Values.Where(c=>c.Level == GeneralLevel.green).ToList());
+        this.levelCharacters.Add(GeneralLevel.blue, this.Characters.Values.Where(c=>c.Level == GeneralLevel.blue).ToList());
+        this.levelCharacters.Add(GeneralLevel.red, this.Characters.Values.Where(c=>c.Level == GeneralLevel.red).ToList());
         yield return null;
 
         json = File.ReadAllText(this.DataPath + "MutiLanguage.json");
@@ -148,6 +163,10 @@ public class DataManager : Singleton<DataManager>
 
         json = File.ReadAllText(this.DataPath + "BuffDefine.json");
         this.BuffDefines = JsonConvert.DeserializeObject<Dictionary<int, BuffDefine>>(json);
+        yield return null;
+
+        json = File.ReadAllText(this.DataPath + "CollectItemDefines.json");
+        this.collectItemDefines = JsonConvert.DeserializeObject<Dictionary<int, CollectItemDefine>>(json);
         yield return null;
 
         //json = File.ReadAllText(this.DataPath + "TeleporterDefine.json");
@@ -216,5 +235,48 @@ public class DataManager : Singleton<DataManager>
         item.position = equip.postion;
         item.Rotate(equip.rotation);
         return item;
+    }
+
+    public (bool, CharacterDefine) GetRandomCharacter(float greenRate, float blueRate, float redRate)
+    {
+        float randomValue = UnityEngine.Random.value; // 生成一个到1之间的随机数
+        GeneralLevel selectedLevel;
+
+        // 根据概率选择对应的等级
+        if (randomValue < greenRate)
+        {
+            selectedLevel = GeneralLevel.green;
+        }
+        else if (randomValue < greenRate + blueRate)
+        {
+            selectedLevel = GeneralLevel.blue;
+        }
+        else if (randomValue < greenRate + blueRate + redRate)
+        {
+            selectedLevel = GeneralLevel.red;
+        } else 
+        {
+            return (false, new CharacterDefine());
+        }
+
+        // 获取对应等级的所有角色
+        if (levelCharacters.TryGetValue(selectedLevel, out List<CharacterDefine> characterList))
+        {
+            if (characterList.Count > 0)
+            {
+                // 随机选择一个角色
+                return (true, characterList[UnityEngine.Random.Range(0, characterList.Count)]);
+            }
+            else
+            {
+                Debug.LogWarning($"No characters found for level {selectedLevel}.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Level {selectedLevel} does not exist.");
+        }
+
+        return (false, new CharacterDefine()); // 若未找到角色，则返回 null
     }
 }

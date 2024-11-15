@@ -7,9 +7,10 @@ using Unity.VisualScripting;
 
 public enum GeneralLevel
 {
+    none = -1,
     green = 0,
     blue = 1,
-    red = 2
+    red = 2,
 }
 
 class GlobalAccess

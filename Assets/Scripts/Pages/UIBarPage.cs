@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -9,9 +10,13 @@ using UnityEngine.UI;
 public class UIBarPage : MonoBehaviour
 {
     public CollectCharacterLayer collectCharacterLayer;
+    public CollectResultLayer collectResultLayer;
     public Button collectCharacterButton;
+    public Image collectCharacterButtonLight;
+    public List<Sprite> levelLightSprites;
     public TextMeshProUGUI collectCharacterText;
     private IDisposable collectCharacterTextDisposable;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -76,14 +81,51 @@ public class UIBarPage : MonoBehaviour
 
     public void StartCollectCharacter(CollectCharacterInfo info)
     {
-        GameManager.Instance.otherProperty.currentCollectPlanInfo.OnNext(info);
-        GameManager.Instance.otherProperty.collectCharacterTimer.OnNext(info.waitTime * 3);
+        if (info.price > GameManager.Instance.featherCoin.Value)
+        {
+            //钱不够买
+            UITip tip = UIManager.Instance.Show<UITip>();
+            //todo
+            tip.UpdateGeneralTip("钱不够买，todo！");
+        } else {
+            GameManager.Instance.otherProperty.currentCollectPlanInfo.OnNext(info);
+            GameManager.Instance.otherProperty.collectCharacterTimer.OnNext(info.waitTime * 3);
+            GameManager.Instance.FeatherCoinChanged(-info.price);
+        }
         CloseCollectCharacterLayer();
     }
     public void ProcessCollectCharacter(CollectCharacterInfo info)
     {
         GameManager.Instance.otherProperty.currentCollectPlanInfo.OnNext(null);
         GameManager.Instance.otherProperty.collectCharacterTimer.OnNext(-1);
+        
+        collectResultLayer.gameObject.SetActive(true);
+        var maxLevel = collectResultLayer.RefreshItem(info);
+
+        //处理maxLevel闪光效果
+        switch (maxLevel)
+        {
+            case GeneralLevel.none:
+                collectCharacterButtonLight.overrideSprite = levelLightSprites[levelLightSprites.Count - 1];
+                break;
+            case GeneralLevel.green:
+            case GeneralLevel.blue:
+            case GeneralLevel.red:
+                collectCharacterButtonLight.overrideSprite = levelLightSprites[(int)maxLevel];
+                break;
+        }
+        // 透明度从 0 到 1
+        collectCharacterButtonLight.DOFade(1, 0.5f).SetEase(Ease.InOutQuad).OnComplete(() =>
+        {
+            collectCharacterButtonLight.DOFade(0, 0.3f).SetEase(Ease.OutQuad).OnComplete(() =>
+            {
+                collectCharacterButtonLight.color = new Color(collectCharacterButtonLight.color.r, 
+                                                            collectCharacterButtonLight.color.g, 
+                                                            collectCharacterButtonLight.color.b, 
+                                                            0); 
+                StartCoroutine(collectResultLayer.Show());
+            });
+        }); // 透明度从 1 到 0
     }
 
     public void OpenCollectCharacterLayer()

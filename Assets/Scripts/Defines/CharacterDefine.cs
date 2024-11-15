@@ -6,10 +6,17 @@ using System.Text;
 public enum JobType
 {
     General = 0,
+    //骁战
     Warrior = 1,
+    //奥术
     Magician = 2,
+    //援御
     Tank = 3,
-    Special = 4,
+    //影卫
+    Assassin = 4,
+    //灵祈
+    Assistance = 5,
+    Special = 6,
 }
 
 /// <summary>

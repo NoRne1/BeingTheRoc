@@ -11,6 +11,8 @@ public static class ConstValue
     public const string buffsPath = "Buffs/";
     public const string townActionPath = "TownAction/";
     public const string foodIconsPath = "FoodIcons/";
+    public const string jobIconsPath = "JobIcons/";
+    public const string collectItemIconsPath = "CollectItemIcons/";
 
     public const string musicPath = "Music/";
     public const string soundPath = "Sound/";

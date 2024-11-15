@@ -2,7 +2,7 @@
     "0": {
         "ID": 0,
         "Title": "混元剑坯",
-        "Job": 4,
+        "Job": 6,
         "InvokeType": 0,
         "PropertyType": -1,
         "Value": 0,
@@ -16,7 +16,7 @@
     "1": {
         "ID": 1,
         "Title": "混元·御利",
-        "Job": 4,
+        "Job": 6,
         "InvokeType": -1,
         "PropertyType": -1,
         "Value": 0,
@@ -30,7 +30,7 @@
     "2": {
         "ID": 2,
         "Title": "混元·御",
-        "Job": 4,
+        "Job": 6,
         "InvokeType": 0,
         "PropertyType": -1,
         "Value": 0,
@@ -44,7 +44,7 @@
     "3": {
         "ID": 3,
         "Title": "混元·利",
-        "Job": 4,
+        "Job": 6,
         "InvokeType": 0,
         "PropertyType": -1,
         "Value": 0,
@@ -58,7 +58,7 @@
     "4": {
         "ID": 4,
         "Title": "混元·澄疾",
-        "Job": 4,
+        "Job": 6,
         "InvokeType": -1,
         "PropertyType": -1,
         "Value": 0,
@@ -72,7 +72,7 @@
     "5": {
         "ID": 5,
         "Title": "混元·澄",
-        "Job": 4,
+        "Job": 6,
         "InvokeType": 0,
         "PropertyType": -1,
         "Value": 0,
@@ -86,7 +86,7 @@
     "6": {
         "ID": 6,
         "Title": "混元·疾",
-        "Job": 4,
+        "Job": 6,
         "InvokeType": 0,
         "PropertyType": -1,
         "Value": 0,
@@ -100,7 +100,7 @@
     "7": {
         "ID": 7,
         "Title": "混元·无灵",
-        "Job": 4,
+        "Job": 6,
         "InvokeType": -1,
         "PropertyType": -1,
         "Value": 0,
@@ -114,7 +114,7 @@
     "8": {
         "ID": 8,
         "Title": "混元·无",
-        "Job": 4,
+        "Job": 6,
         "InvokeType": 0,
         "PropertyType": -1,
         "Value": 0,
@@ -128,7 +128,7 @@
     "9": {
         "ID": 9,
         "Title": "混元·灵",
-        "Job": 4,
+        "Job": 6,
         "InvokeType": 0,
         "PropertyType": -1,
         "Value": 0,
@@ -142,7 +142,7 @@
     "10": {
         "ID": 10,
         "Title": "幻·灭",
-        "Job": 4,
+        "Job": 6,
         "InvokeType": 1,
         "PropertyType": -1,
         "Value": 0,
@@ -156,7 +156,7 @@
     "11": {
         "ID": 11,
         "Title": "幻·梦",
-        "Job": 4,
+        "Job": 6,
         "InvokeType": 1,
         "PropertyType": -1,
         "Value": 0,
@@ -170,7 +170,7 @@
     "12": {
         "ID": 12,
         "Title": "幻·身",
-        "Job": 4,
+        "Job": 6,
         "InvokeType": 1,
         "PropertyType": -1,
         "Value": 0,
@@ -184,7 +184,7 @@
     "13": {
         "ID": 13,
         "Title": "幻·影",
-        "Job": 4,
+        "Job": 6,
         "InvokeType": 1,
         "PropertyType": -1,
         "Value": 0,
@@ -198,7 +198,7 @@
     "14": {
         "ID": 14,
         "Title": "钢筋铁骨",
-        "Job": 4,
+        "Job": 6,
         "InvokeType": 1,
         "PropertyType": -1,
         "Value": 0,
@@ -212,7 +212,7 @@
     "15": {
         "ID": 15,
         "Title": "不灭之志",
-        "Job": 4,
+        "Job": 6,
         "InvokeType": 1,
         "PropertyType": -1,
         "Value": 0,
@@ -226,7 +226,7 @@
     "16": {
         "ID": 16,
         "Title": "是兄弟就",
-        "Job": 4,
+        "Job": 6,
         "InvokeType": 0,
         "PropertyType": -1,
         "Value": 0,
@@ -240,7 +240,7 @@
     "17": {
         "ID": 17,
         "Title": "泥人还有脾气，何况树人",
-        "Job": 4,
+        "Job": 6,
         "InvokeType": 1,
         "PropertyType": -1,
         "Value": 0,

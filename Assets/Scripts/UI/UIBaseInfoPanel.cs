@@ -96,6 +96,8 @@ public class UIBaseInfoPanel : MonoBehaviour
                     levelUpButton.gameObject.SetActive(bi.attributes.remainExp > GlobalAccess.levelUpExp &&
                         bi.attributes.level < GlobalAccess.maxLevel);
                     title.text = bi.Name;
+                    Canvas.ForceUpdateCanvases();
+                    LayoutRebuilder.ForceRebuildLayoutImmediate(titleGroupTransform);
                     skillButtons[0].Setup(bi.BornSkill == -1 ? null : DataManager.Instance.Skills[bi.BornSkill]);
                     skillButtons[1].Setup(bi.Skill1 == -1 ? null : DataManager.Instance.Skills[bi.Skill1]);
                     skillButtons[2].Setup(bi.Skill2 == -1 ? null : DataManager.Instance.Skills[bi.Skill2]);

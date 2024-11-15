@@ -148,10 +148,13 @@
     <Compile Include="Assets/Scripts/UI/UITreasuresRect.cs" />
     <Compile Include="Assets/Scripts/Managers/BattleManager.cs" />
     <Compile Include="Assets/Scripts/UI/UISkillHint.cs" />
+    <Compile Include="Assets/Scripts/Defines/CollectItemDefine.cs" />
+    <Compile Include="Assets/Scripts/Models/CollectItemModel.cs" />
     <Compile Include="Assets/Scripts/Models/RepositoryModel.cs" />
     <Compile Include="Assets/Scripts/UI/UICharacterPlaceBox.cs" />
     <Compile Include="Assets/Scripts/Defines/TreasureDefine.cs" />
     <Compile Include="Assets/Scripts/Component/FightText/FightTextManager.cs" />
+    <Compile Include="Assets/Scripts/Layers/CollectResultLayer.cs" />
     <Compile Include="Assets/Scripts/UI/UIConfirmWindow.cs" />
     <Compile Include="Assets/Scripts/UI/UIConsoleInput.cs" />
     <Compile Include="Assets/Scripts/Managers/UIManager.cs" />
@@ -204,6 +207,7 @@
     <Compile Include="Assets/Scripts/Defines/EnemyDefine.cs" />
     <Compile Include="Assets/Scripts/Component/DisposablePool.cs" />
     <Compile Include="Assets/Scripts/UI/UIFoodProperty.cs" />
+    <Compile Include="Assets/Scripts/UI/UICollectItemButton.cs" />
     <Compile Include="Assets/Scripts/Models/CharacterModel.cs" />
     <Compile Include="Assets/Scripts/UI/UIBattleItemAnimator.cs" />
     <Compile Include="Assets/Scripts/UI/UITeamBagPage.cs" />

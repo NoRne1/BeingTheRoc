@@ -1,0 +1,18 @@
+{
+    "0": {
+        "ID": 0,
+        "type": 0,
+        "title": "羽币",
+        "num": 100,
+        "floatNum": 50,
+        "Resource": "feather_coin_icon"
+    },
+    "1": {
+        "ID": 1,
+        "type": 1,
+        "title": "干粮",
+        "num": 100,
+        "floatNum": 50,
+        "Resource": "solid_wheat_icon"
+    }
+}

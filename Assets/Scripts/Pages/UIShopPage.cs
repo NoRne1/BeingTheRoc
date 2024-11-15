@@ -94,7 +94,7 @@ public class UIShopPage : MonoBehaviour
             //钱不够买
             UITip tip = UIManager.Instance.Show<UITip>();
             //todo
-            tip.UpdateTip(GameUtil.Instance.GetDisplayString("go_next_town_tip"));
+            tip.UpdateGeneralTip("钱不够买，todo！");
         } else if (shopItems[index].info.type == ItemType.treasure) {
             //treasure不占仓库，需特殊处理
             shopItems[index].ItemSold(true);
