@@ -10,7 +10,7 @@ public class CollectCharacterLayer : MonoBehaviour
 {
     public CanvasGroup selfMask;
     public Transform collectButtons;
-    public List<UICollectCharacterButton> collectCharacterButtons;
+    public List<UICollectButton> collectCharacterButtons;
 
     public Subject<CollectCharacterInfo> collectButtonSubject = new Subject<CollectCharacterInfo>();
     // Start is called before the first frame update

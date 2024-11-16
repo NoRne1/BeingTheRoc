@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using TMPro;
 using UniRx;
@@ -15,7 +16,20 @@ public class UIBarPage : MonoBehaviour
     public Image collectCharacterButtonLight;
     public List<Sprite> levelLightSprites;
     public TextMeshProUGUI collectCharacterText;
+
+    public List<HintComponent> chairItems;
+    private CollectCharacterInfo info = new CollectCharacterInfo(0,"自然召集",0.03f,0.08f,0.14f,0.75f,1,0);
     private IDisposable collectCharacterTextDisposable;
+
+    private int dayLeft = -1;
+    // void OnEnable() 
+    // {
+    //     var temp = (int)(GameManager.Instance.timeLeft.Value / 3);
+    //     if (temp != dayLeft)
+    //     {
+    //         RefreshChairItems();
+    //     }
+    // }
 
     // Start is called before the first frame update
     void Start()
@@ -70,7 +84,15 @@ public class UIBarPage : MonoBehaviour
                 OpenCollectCharacterLayer();
             }
         }).AddTo(this);
-        
+        foreach (var item in chairItems)
+        {
+            item.GetComponent<Button>().OnClickAsObservable().Subscribe(_=>{
+                ClickChairItem(item);
+            }).AddTo(this);
+        }
+        GameManager.Instance.timeLeft.Select(timeleft=>(int)(timeleft / 3)).DistinctUntilChanged().Subscribe(_=>{
+            RefreshChairItems();
+        }).AddTo(this);
     }
 
     // Update is called once per frame
@@ -137,5 +159,51 @@ public class UIBarPage : MonoBehaviour
     public void CloseCollectCharacterLayer()
     {
         StartCoroutine(collectCharacterLayer.Close());
+    }
+
+    public void RefreshChairItems()
+    {
+        foreach(var index in Enumerable.Range(0, chairItems.Count))
+        {
+            var result = DataManager.Instance.GetRandomCharacter(info.greenRate, info.blueRate, info.redRate);
+            if (result.Item1) 
+            {
+                //随机到角色了
+                chairItems[index].Setup(new CharacterModel(result.Item2));
+                chairItems[index].gameObject.SetActive(true);
+            }
+            else {
+                chairItems[index].gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void ClickChairItem(HintComponent hint)
+    {
+        if (hint.Character != null)
+        {
+            if (GameManager.Instance.characterRelaysDic.Count + 1 <= GlobalAccess.teamOpacity)
+            {
+                var price = hint.hintObject.GetComponent<UICharacterHint>().price;
+                if (price <= GameManager.Instance.featherCoin.Value)
+                {
+                    GameManager.Instance.FeatherCoinChanged(-price);
+                    GameManager.Instance.AddCharacter(hint.Character);
+                    hint.gameObject.SetActive(false);
+                    UIManager.Instance.Close<UICharacterHint>();
+                } else {
+                    //钱不够买
+                    UITip tip = UIManager.Instance.Show<UITip>();
+                    //todo
+                    tip.UpdateGeneralTip("钱不够买，todo！");
+                }
+            } else {
+                UITip tip = UIManager.Instance.Show<UITip>();
+                tip.UpdateTip("队伍成员将超过上限,购买失败");
+            }
+        } else 
+        {
+            Debug.LogError("UIBarPage ClickChairItem HintComponent.Character cannot be null");
+        }
     }
 }

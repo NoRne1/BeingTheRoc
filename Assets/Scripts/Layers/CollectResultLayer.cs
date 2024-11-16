@@ -13,7 +13,7 @@ public class CollectResultLayer : MonoBehaviour
     public CanvasGroup selfMask;
     public Transform resultButtons;
     private List<GameObject> resultButtonsList = new List<GameObject>();
-    private List<UICharacterButton> characterButtons = new List<UICharacterButton>();
+    private List<UICollectCharacterButton> characterButtons = new List<UICollectCharacterButton>();
     private List<UICollectItemButton> collectItemButtons = new List<UICollectItemButton>();
 
     public GameObject characterButtonPrefab;
@@ -47,11 +47,14 @@ public class CollectResultLayer : MonoBehaviour
             {
                 //随机到角色了
                 var characterButtonObject = Instantiate(characterButtonPrefab, resultButtons);
-                var characterButton = characterButtonObject.GetComponent<UICharacterButton>();
+                var characterButton = characterButtonObject.GetComponent<UICollectCharacterButton>();
                 resultButtonsList.Add(characterButtonObject);
                 characterButtons.Add(characterButton);
-                
                 characterButton.Setup(new CharacterModel(result.Item2));
+                characterButton.GetComponent<Button>().OnClickAsObservable().Subscribe(_=>{
+                    AcceptCharacter(characterButton);
+                }).AddTo(characterButton);
+
                 maxLevel = math.max((int)result.Item2.Level, maxLevel);
             } else 
             {
@@ -63,9 +66,54 @@ public class CollectResultLayer : MonoBehaviour
                 
                 var collectItemDefine = DataManager.Instance.collectItemDefines[UnityEngine.Random.Range(0, DataManager.Instance.collectItemDefines.Count)];
                 collectItem.Setup(new CollectItemModel(collectItemDefine));
+                collectItem.GetComponent<Button>().OnClickAsObservable().Subscribe(_=>{
+                    AcceptCollectItem(collectItem);
+                }).AddTo(collectItem);
             }
         }
         return (GeneralLevel)maxLevel;
+    }
+    
+    private void AcceptCharacter(UICollectCharacterButton characterButton)
+    {
+        if (GameManager.Instance.characterRelaysDic.Count + 1 <= GlobalAccess.teamOpacity)
+        {
+            GameManager.Instance.AddCharacter(characterButton.model);
+            characterButton.transform.DOMove(acceptButton.transform.position, 0.5f).SetEase(Ease.InQuad);
+            characterButton.transform.DOScaleX(0, 0.5f).SetEase(Ease.InQuad);
+            characterButton.transform.DOScaleY(0, 0.5f).SetEase(Ease.InQuad).OnComplete(()=>{
+                resultButtonsList.Remove(characterButton.gameObject);
+                characterButtons.Remove(characterButton);
+                Destroy(characterButton.gameObject);
+            });
+        } else 
+        {
+            UITip tip = UIManager.Instance.Show<UITip>();
+            tip.UpdateTip("队伍成员将超过上限,接收失败");
+        }
+    }
+
+    private void AcceptCollectItem(UICollectItemButton collectItem)
+    {
+        switch(collectItem.model.type)
+        {
+            case CollectItemModelType.feather:
+                GameManager.Instance.FeatherCoinChanged(collectItem.model.num);
+                break;
+            case CollectItemModelType.wheat:
+                GameManager.Instance.WheatCoinChanged(collectItem.model.num);
+                break;
+            default:
+                Debug.LogWarning("CollectResultLayer AcceptAll Unknown collectItem type");
+                break;
+        }
+        collectItem.transform.DOMove(acceptButton.transform.position, 0.5f).SetEase(Ease.InQuad);
+        collectItem.transform.DOScaleX(0, 0.5f).SetEase(Ease.InQuad);
+        collectItem.transform.DOScaleY(0, 0.5f).SetEase(Ease.InQuad).OnComplete(()=>{
+            resultButtonsList.Remove(collectItem.gameObject);
+            collectItemButtons.Remove(collectItem);
+            Destroy(collectItem.gameObject);
+        });
     }
 
     public IEnumerator AcceptAll()

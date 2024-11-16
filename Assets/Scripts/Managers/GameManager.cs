@@ -40,7 +40,7 @@ public class GameManager : MonoSingleton<GameManager>
     public CanvasGroup taBlackPanel;
     public Dictionary<PageType, GameObject> pagesDic = new Dictionary<PageType, GameObject>();
 
-    public BehaviorSubject<int> featherCoin = new BehaviorSubject<int>(1000);
+    public BehaviorSubject<int> featherCoin = new BehaviorSubject<int>(2000);
     public BehaviorSubject<int> wheatCoin = new BehaviorSubject<int>(300);
     public BehaviorSubject<int> timeLeft = new BehaviorSubject<int>(92);
     public BehaviorSubject<TimeInterval> timeInterval = new BehaviorSubject<TimeInterval>(TimeInterval.morning);

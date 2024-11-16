@@ -2,6 +2,7 @@ using System;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public enum HintType
@@ -10,15 +11,18 @@ public enum HintType
     normal = 1,
     storeItem = 2,
     skill = 3,
+    character = 4,
 }
 
 public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private HintType type;
-    private UIHintBase hintObject;
+    public UIHintBase hintObject;
     private string hint_text = null;
     private StoreItemDefine storeItem = null;
     private SkillDefine skill = null;
+    public CharacterModel Character { get { return character; } }
+    private CharacterModel character = null;
     public BehaviorSubject<bool> isMouseEnter = new BehaviorSubject<bool>(false);
 
     public void Start()
@@ -46,6 +50,11 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                         skillHint.Setup(skill);
                         hintObject = skillHint;
                         break;
+                    case HintType.character:
+                        UICharacterHint characterHint = UIManager.Instance.Show<UICharacterHint>(CanvasType.tooltip);
+                        characterHint.Setup(character);
+                        hintObject = characterHint;
+                        break;
                 }
             }
             else
@@ -62,6 +71,9 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                         break;
                     case HintType.skill:
                         UIManager.Instance.Close<UISkillHint>();
+                        break;
+                    case HintType.character:
+                        UIManager.Instance.Close<UICharacterHint>();
                         break;
                 }
             }
@@ -111,6 +123,12 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         type = HintType.skill;
         this.skill = skill;
+    }
+
+    public void Setup(CharacterModel character)
+    {
+        type = HintType.character;
+        this.character = character;
     }
 }
 

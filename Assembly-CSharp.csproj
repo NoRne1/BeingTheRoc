@@ -139,7 +139,6 @@
     <Compile Include="Assets/Scripts/UI/UITip.cs" />
     <Compile Include="Assets/Scripts/UI/UIHintBase.cs" />
     <Compile Include="Assets/Scripts/Component/RoundImage.cs" />
-    <Compile Include="Assets/Scripts/UI/UICharacterButton.cs" />
     <Compile Include="Assets/Scripts/UI/UIGameConsole.cs" />
     <Compile Include="Assets/Scripts/Component/NorneStore.cs" />
     <Compile Include="Assets/Scripts/Defines/TownActionDefine.cs" />
@@ -186,6 +185,7 @@
     <Compile Include="Assets/Scripts/Models/EnemyAI.cs" />
     <Compile Include="Assets/Scripts/UI/UIEquipSlot.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/Vector2Converter.cs" />
+    <Compile Include="Assets/Scripts/UI/UICollectButton.cs" />
     <Compile Include="Assets/Scripts/UI/UIShopItem.cs" />
     <Compile Include="Assets/Scripts/Managers/BattleChessboardManager.cs" />
     <Compile Include="Assets/Scripts/Managers/LoadingManager.cs" />
@@ -208,6 +208,7 @@
     <Compile Include="Assets/Scripts/Component/DisposablePool.cs" />
     <Compile Include="Assets/Scripts/UI/UIFoodProperty.cs" />
     <Compile Include="Assets/Scripts/UI/UICollectItemButton.cs" />
+    <Compile Include="Assets/Scripts/UI/UICharacterHint.cs" />
     <Compile Include="Assets/Scripts/Models/CharacterModel.cs" />
     <Compile Include="Assets/Scripts/UI/UIBattleItemAnimator.cs" />
     <Compile Include="Assets/Scripts/UI/UITeamBagPage.cs" />

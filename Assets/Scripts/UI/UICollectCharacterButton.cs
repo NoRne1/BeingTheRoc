@@ -3,75 +3,66 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UniRx;
 
 public class UICollectCharacterButton : MonoBehaviour
 {
+    public Image selfBG;
+    public List<Sprite> bgSprite;
     public TextMeshProUGUI title;
-    public TextMeshProUGUI desc;
-    public TextMeshProUGUI price;
-    public CollectCharacterInfo info;
-    
+    public TextMeshProUGUI race;
+    public Image jobIcon;
+    public List<UISkillButton> skillButtons;
+    private Dictionary<AttributeType, UIPropertyIconDisplay> propertyDisplays = new Dictionary<AttributeType, UIPropertyIconDisplay>();
+    public System.IDisposable disposable;
+    public CharacterModel model;
+
     // Start is called before the first frame update
-    public void Setup(int index)
+    void Awake()
     {
-        if(index == 0)
+        foreach (var propertyDisplay in GetComponentsInChildren<UIPropertyIconDisplay>())
         {
-            info = new CollectCharacterInfo(0,"普通召集",0.05f,0.1f,0.2f,0.65f,2,500);
-            title.text = info.title;
-            desc.text = info.GetDisplayDesc();
-            price.text = info.price.ToString();
-        } else if(index == 1)
-        {
-            info = new CollectCharacterInfo(1,"快速召集",0.05f,0.1f,0.2f,0.65f,1,800);
-            title.text = info.title;
-            desc.text = info.GetDisplayDesc();
-            price.text = info.price.ToString();
-        } else if(index == 2)
-        {
-            info = new CollectCharacterInfo(2,"特别召集",0.1f,0.2f,0.3f,0.4f,2,1200);
-            title.text = info.title;
-            desc.text = info.GetDisplayDesc();
-            price.text = info.price.ToString();
-        } else 
-        {
-            Debug.LogError("UICollectCharacterButton Setup index error");
+            propertyDisplays.Add(propertyDisplay.attributeType, propertyDisplay);
         }
     }
-}
 
-public class CollectCharacterInfo
-{
-    public int ID;
-    public string title;
-    public float redRate;
-    public float blueRate;
-    public float greenRate;
-    public float whiteRate;
-    public int waitTime;
-    public int price;
-    
-    string descFormat = "红：{0}%\\n蓝：{1}%\\n绿：{2}%\\n经典时尚：{3}%\\n等待时间：{4}d\\n";
-    
-    public CollectCharacterInfo(int ID, string title, float redRate, float blueRate, float greenRate, float whiteRate, int waitTime, int price)
+    // Update is called once per frame
+    void Update()
     {
-        this.ID = ID;
-        this.title = title;
-        this.redRate = redRate;
-        this.blueRate = blueRate;
-        this.greenRate = greenRate;
-        this.whiteRate = whiteRate;
-        this.waitTime = waitTime;
-        this.price = price;
+        
     }
 
-    public string GetDisplayDesc()
+    public void Setup(CharacterModel character)
     {
-        object[] args = new object[5];
-        args[0] = (int)(redRate * 100);
-        args[1] = (int)(blueRate * 100);
-        args[2] = (int)(greenRate * 100);
-        args[3] = (int)(whiteRate * 100);
-        args[4] = waitTime;
-        return string.Format(descFormat, args).ReplaceNewLines();;
+        if (character != null)
+        {
+            model = character;
+            disposable.IfNotNull(dis => { dis.Dispose(); });
+            disposable = NorneStore.Instance.ObservableObject<CharacterModel>(character)
+                .AsObservable().TakeUntilDestroy(this).Subscribe(cm =>
+                {
+                    selfBG.overrideSprite = bgSprite[(int)cm.Level];
+                    title.text = cm.Name;
+                    race.text = cm.define.Race;
+                    jobIcon.overrideSprite = Resloader.LoadSprite(cm.Job.ToString(), ConstValue.jobIconsPath);
+                    
+                    skillButtons[0].Setup(cm.BornSkill == -1 ? null : DataManager.Instance.Skills[cm.BornSkill]);
+                    skillButtons[1].Setup(cm.Skill1 == -1 ? null : DataManager.Instance.Skills[cm.Skill1]);
+                    skillButtons[2].Setup(cm.Skill2 == -1 ? null : DataManager.Instance.Skills[cm.Skill2]);
+                    skillButtons[3].Setup(cm.Skill3 == -1 ? null : DataManager.Instance.Skills[cm.Skill3]);
+                    skillButtons[1].gameObject.SetActive((int)cm.Level >= (int)GeneralLevel.green);
+                    skillButtons[2].gameObject.SetActive((int)cm.Level >= (int)GeneralLevel.blue);
+                    skillButtons[3].gameObject.SetActive((int)cm.Level >= (int)GeneralLevel.red);
+
+                    foreach (var propertyDisplay in propertyDisplays.Values)
+                    {
+                        propertyDisplay.SetupValue(cm.attributes.getFinalPropertyValue(propertyDisplay.attributeType).ToString());
+                    }
+                });
+        }
+        else
+        {
+            Debug.Log("UITeamInfoPage setup character is null");
+        }
     }
 }
