@@ -11,9 +11,6 @@ public class UITeamBagPage : MonoBehaviour
     public Image characterIcon;
 
     public List<Transform> equipSlots;
-
-    public List<Button> itemButtons;
-
     public GameObject itemPrefab; // 大装备的预制体
     private List<UIEquipItem> equipItems = new List<UIEquipItem>();
     private UIEquipItem draggedEquipItem; // 大装备的实例
@@ -32,28 +29,9 @@ public class UITeamBagPage : MonoBehaviour
     public BattleItem battleItem;
 
     public Transform equipFather;
-    public GameObject repositor;
-    public System.IDisposable disposable;
+    public GameObject repository;
     void Awake()
     {
-        disposable = GameManager.Instance.repository.itemsRelay.AsObservable()
-            .TakeUntilDestroy(this).Subscribe(items =>
-        {
-            for(int i = 0; i < itemButtons.Count; i++)
-            {
-                Transform itemImage = itemButtons[i].transform.GetChild(0);
-                if (i < items.Count)
-                {
-                    itemButtons[i].GetComponent<UIRepositorSlot>().UpdateItem(items[i]);
-                    itemButtons[i].GetComponent<HintComponent>().Setup(items[i]);
-                } else
-                {
-                    itemButtons[i].GetComponent<UIRepositorSlot>().UpdateItem(null);
-                    itemButtons[i].GetComponent<HintComponent>().Reset();
-                }
-            }
-        });
-
         // 隐藏丢弃按钮
         equipButtons.gameObject.SetActive(false);
 
@@ -183,7 +161,7 @@ public class UITeamBagPage : MonoBehaviour
                     else
                     {
                         //draggedEquipItem != null
-                        if (GameUtil.Instance.IsPointInsideGameObject(repositor, Input.mousePosition))
+                        if (GameUtil.Instance.IsPointInsideGameObject(repository, Input.mousePosition))
                         {
                             //放回到仓库
                             ItemUseManager.Instance.Unequip(character, draggedEquipItem.storeItem);

@@ -176,4 +176,9 @@ public class StoreItemModel : StoreItemDefine
         }
         return "";
     }
+
+    public bool CanEquipEnhance()
+    {
+        return type == ItemType.equip && !equipDefine.isExpendable;
+    }
 }

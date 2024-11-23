@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Assets/Scripts/UI/UITownNode.cs" />
     <Compile Include="Assets/Scripts/Defines/SpecialItemDefine.cs" />
+    <Compile Include="Assets/Scripts/UI/UIForgeEnhancePanel.cs" />
     <Compile Include="Assets/Scripts/Pages/UIBarPage.cs" />
     <Compile Include="Assets/Scripts/Layers/CollectCharacterLayer.cs" />
     <Compile Include="Assets/Scripts/UI/UIBaseInfoPanel.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Assets/Scripts/UI/UIMoveBarOtherItem.cs" />
     <Compile Include="Assets/Scripts/Managers/BattleMoveBarManager.cs" />
     <Compile Include="Assets/Scripts/Defines/CharacterDefine.cs" />
+    <Compile Include="Assets/Scripts/Pages/UIForgePage.cs" />
     <Compile Include="Assets/Scripts/Models/FoodModel.cs" />
     <Compile Include="Assets/Scripts/UI/UIRepositorSlot.cs" />
     <Compile Include="Assets/Scripts/UI/UIStoreItemHint.cs" />
@@ -93,6 +95,7 @@
     <Compile Include="Assets/Scripts/UI/UIBattleItemInfo.cs" />
     <Compile Include="Assets/Scripts/UI/UIPropertyChangeButton.cs" />
     <Compile Include="Assets/Scripts/Defines/FoodDefine.cs" />
+    <Compile Include="Assets/Scripts/UI/UIBagView.cs" />
     <Compile Include="Assets/Scripts/Component/FightText/FightTextInfo.cs" />
     <Compile Include="Assets/Scripts/Component/HintComponent.cs" />
     <Compile Include="Assets/Scripts/Models/Backpack.cs" />
@@ -147,10 +150,12 @@
     <Compile Include="Assets/Scripts/UI/UITreasuresRect.cs" />
     <Compile Include="Assets/Scripts/Managers/BattleManager.cs" />
     <Compile Include="Assets/Scripts/UI/UISkillHint.cs" />
+    <Compile Include="Assets/Scripts/UI/UIStoreItemPanel.cs" />
     <Compile Include="Assets/Scripts/Defines/CollectItemDefine.cs" />
     <Compile Include="Assets/Scripts/Models/CollectItemModel.cs" />
     <Compile Include="Assets/Scripts/Models/RepositoryModel.cs" />
     <Compile Include="Assets/Scripts/UI/UICharacterPlaceBox.cs" />
+    <Compile Include="Assets/Scripts/UI/UIForgeMergePanel.cs" />
     <Compile Include="Assets/Scripts/Defines/TreasureDefine.cs" />
     <Compile Include="Assets/Scripts/Component/FightText/FightTextManager.cs" />
     <Compile Include="Assets/Scripts/Layers/CollectResultLayer.cs" />

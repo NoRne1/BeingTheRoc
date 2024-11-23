@@ -7,6 +7,11 @@ using UnityEngine.UI;
 public class UIRepositorSlot : MonoBehaviour
 {
     public StoreItemModel item;
+    public HintComponent hint;
+    void Awake()
+    {
+        hint = GetComponent<HintComponent>();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +24,7 @@ public class UIRepositorSlot : MonoBehaviour
 
     }
 
-    public void UpdateItem(StoreItemModel item)
+    public void Setup(StoreItemModel item)
     {
         Transform itemImage = transform.GetChild(0);
         this.item = item;
@@ -28,10 +33,12 @@ public class UIRepositorSlot : MonoBehaviour
             itemImage.GetComponent<Image>().overrideSprite =
                 Resloader.LoadSprite(item.iconResource, ConstValue.equipsPath);
             itemImage.gameObject.SetActive(true);
+            if (hint != null){ hint.Setup(item); }
         }
         else
         {
             itemImage.gameObject.SetActive(false);
+            if (hint != null){ hint.Reset(); }
         }
     }
 }

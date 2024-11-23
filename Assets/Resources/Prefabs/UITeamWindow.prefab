@@ -829,19 +829,6 @@ MonoBehaviour:
   - {fileID: 4337325245770538385}
   - {fileID: 3420023506523778309}
   - {fileID: 4709754591643403752}
-  itemButtons:
-  - {fileID: 5529434120690991104}
-  - {fileID: 6222806949546625876}
-  - {fileID: 5652628978642359874}
-  - {fileID: 3217534873050289948}
-  - {fileID: 9051988960246972361}
-  - {fileID: 8790386490726701002}
-  - {fileID: 1827707204648932447}
-  - {fileID: 854982866147653358}
-  - {fileID: 2164201541417364900}
-  - {fileID: 1703092449027511148}
-  - {fileID: 8087055115961173992}
-  - {fileID: 9196090536851913348}
   itemPrefab: {fileID: 992046318155185873, guid: 00de02176a9a843cc90dcdf5c4515a40, type: 3}
   equipButtons: {fileID: 4682310899220968919}
   equipFather: {fileID: 2653883252470415810}
@@ -2551,6 +2538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hint: {fileID: 0}
 --- !u!61 &5198537023432003174
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3965,6 +3953,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hint: {fileID: 0}
 --- !u!61 &7386317620040997000
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6564,6 +6553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hint: {fileID: 0}
 --- !u!61 &1082947466844945227
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7500,6 +7490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hint: {fileID: 0}
 --- !u!61 &8184030277686246928
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10029,6 +10020,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hint: {fileID: 0}
 --- !u!61 &1579698483842417225
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10453,6 +10445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hint: {fileID: 0}
 --- !u!61 &4928188999860661891
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10648,6 +10641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hint: {fileID: 0}
 --- !u!61 &4236783936948911882
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10843,6 +10837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hint: {fileID: 0}
 --- !u!61 &7763052712927853922
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11116,6 +11111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hint: {fileID: 0}
 --- !u!61 &6394679658342977638
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11402,6 +11398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hint: {fileID: 0}
 --- !u!61 &3263900214384348140
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11597,6 +11594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hint: {fileID: 0}
 --- !u!61 &8932757772823171595
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11843,6 +11841,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hint: {fileID: 0}
 --- !u!61 &6070526343320732706
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12442,6 +12441,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1321623499262590354}
   - component: {fileID: 2146809541339330642}
+  - component: {fileID: 2914850285981717475}
   m_Layer: 5
   m_Name: bag_view
   m_TagString: Repositor
@@ -12499,6 +12499,19 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &2914850285981717475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8627098686273141798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aa7c993a3d96433188fd31447ebf0b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemButtons: []
 --- !u!1 &8816772094114085947
 GameObject:
   m_ObjectHideFlags: 0

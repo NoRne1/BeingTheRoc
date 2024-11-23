@@ -145,6 +145,5 @@ public class UITeamWindow : UIWindow
     {
         // 确保子对象订阅被取消
         infoPage.disposable.IfNotNull(dis => { dis.Dispose(); });
-        bagPage.disposable.IfNotNull(dis => { dis.Dispose(); });
     }
 }
