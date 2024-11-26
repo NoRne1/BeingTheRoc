@@ -832,7 +832,7 @@ MonoBehaviour:
   itemPrefab: {fileID: 992046318155185873, guid: 00de02176a9a843cc90dcdf5c4515a40, type: 3}
   equipButtons: {fileID: 4682310899220968919}
   equipFather: {fileID: 2653883252470415810}
-  repositor: {fileID: 8627098686273141798}
+  repository: {fileID: 8627098686273141798}
 --- !u!1 &781016975917638314
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class UIStoreItemHint : UIHintBase
 {
@@ -20,6 +21,8 @@ public class UIStoreItemHint : UIHintBase
     public GameObject leftPlaceHolder;
     public GameObject rightPlaceHolder;
 
+    public List<UIEntryDesc> entrys;
+
     private ObjectPool energyPool;
     // Start is called before the first frame update
     void Awake()
@@ -31,6 +34,21 @@ public class UIStoreItemHint : UIHintBase
     void Update()
     {
         updatePostion();
+    }
+
+    public void Setup(StoreItemModel item)
+    {
+        Setup((StoreItemDefine)item);
+        foreach (var index in Enumerable.Range(0, entrys.Count))
+        {
+            if (index < item.equipModel.extraEntryModels.Count)
+            {
+                entrys[index].Setup(item.equipModel.extraEntryModels[index], false);
+                entrys[index].gameObject.SetActive(true);
+            } else {
+                entrys[index].gameObject.SetActive(false);
+            }
+        }
     }
 
     public void Setup(StoreItemDefine item)
@@ -74,6 +92,11 @@ public class UIStoreItemHint : UIHintBase
             desc.text = ((StoreItemModel)item).GetFoodDesc();
         } else {
             desc.text = item.desc;
+        }
+
+        foreach (var index in Enumerable.Range(0, entrys.Count))
+        {
+            entrys[index].gameObject.SetActive(false);
         }
 
         if (item.ExtraEntry1 >= 0)

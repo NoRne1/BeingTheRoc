@@ -10,7 +10,8 @@ public class EnermyModel: IStorable
     public Backpack backpack;
 
     public Subject<Unit> enermyUpdate = new Subject<Unit>();
-    private System.IDisposable disposable;
+    private System.IDisposable equipDisposable;
+    private System.IDisposable enermyDisposable;
     public CharacterDefine define;
     public Attributes attributes;
 
@@ -64,9 +65,13 @@ public class EnermyModel: IStorable
         Skill1 = -1;
         Skill2 = -1;
         Skill3 = -1;
-        disposable = enermyUpdate.AsObservable().Subscribe(_ =>
+        enermyDisposable = enermyUpdate.AsObservable().Subscribe(_ =>
         {
             NorneStore.Instance.Update<EnermyModel>(this, isFull: true);
+        });
+        equipDisposable = backpack.equipUpdate.AsObservable().Subscribe(_ =>
+        {
+            ReloadEquipAttr();
         });
     }
 
@@ -76,11 +81,21 @@ public class EnermyModel: IStorable
 
     ~EnermyModel()
     {
-        if (disposable != null)
+        if (enermyDisposable != null)
         {
-            disposable.Dispose();
-            disposable = null;
+            enermyDisposable.Dispose();
+            enermyDisposable = null;
         }
+        if (equipDisposable != null)
+        {
+            equipDisposable.Dispose();
+            equipDisposable = null;
+        }
+    }
+
+    public void ReloadEquipAttr()
+    {
+        attributes.LoadEquipAttributes(backpack.equips);
     }
 
     public BattleItem ToBattleItem(float difficulty)

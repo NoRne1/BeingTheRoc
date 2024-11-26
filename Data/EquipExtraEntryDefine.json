@@ -1,0 +1,272 @@
+{
+    "0": {
+        "ID": 0,
+        "equipID": -1,
+        "level": 0,
+        "effect": {
+            "effectType": 0,
+            "invokeType": 3,
+            "invokeTime": 1,
+            "propertyType": 0,
+            "methodName": null,
+            "value": 20
+        },
+        "valueFloat": 10,
+        "descString": "最大血量：{0}"
+    },
+    "1": {
+        "ID": 1,
+        "equipID": -1,
+        "level": 0,
+        "effect": {
+            "effectType": 0,
+            "invokeType": 3,
+            "invokeTime": 1,
+            "propertyType": 1,
+            "methodName": null,
+            "value": 10
+        },
+        "valueFloat": 5,
+        "descString": "力量：{0}"
+    },
+    "2": {
+        "ID": 2,
+        "equipID": -1,
+        "level": 0,
+        "effect": {
+            "effectType": 0,
+            "invokeType": 3,
+            "invokeTime": 1,
+            "propertyType": 2,
+            "methodName": null,
+            "value": 10
+        },
+        "valueFloat": 5,
+        "descString": "防御：{0}"
+    },
+    "3": {
+        "ID": 3,
+        "equipID": -1,
+        "level": 0,
+        "effect": {
+            "effectType": 0,
+            "invokeType": 3,
+            "invokeTime": 1,
+            "propertyType": 3,
+            "methodName": null,
+            "value": 5
+        },
+        "valueFloat": 2,
+        "descString": "闪避：{0}"
+    },
+    "4": {
+        "ID": 4,
+        "equipID": -1,
+        "level": 0,
+        "effect": {
+            "effectType": 0,
+            "invokeType": 3,
+            "invokeTime": 1,
+            "propertyType": 4,
+            "methodName": null,
+            "value": 5
+        },
+        "valueFloat": 2,
+        "descString": "命中：{0}"
+    },
+    "5": {
+        "ID": 5,
+        "equipID": -1,
+        "level": 1,
+        "effect": {
+            "effectType": 0,
+            "invokeType": 3,
+            "invokeTime": 1,
+            "propertyType": 5,
+            "methodName": null,
+            "value": 3
+        },
+        "valueFloat": 1,
+        "descString": "速度：{0}"
+    },
+    "6": {
+        "ID": 6,
+        "equipID": -1,
+        "level": 2,
+        "effect": {
+            "effectType": 0,
+            "invokeType": 3,
+            "invokeTime": 1,
+            "propertyType": 6,
+            "methodName": null,
+            "value": 1
+        },
+        "valueFloat": 0,
+        "descString": "行动力：{0}"
+    },
+    "7": {
+        "ID": 7,
+        "equipID": -1,
+        "level": 2,
+        "effect": {
+            "effectType": 0,
+            "invokeType": 3,
+            "invokeTime": 1,
+            "propertyType": 7,
+            "methodName": null,
+            "value": 1
+        },
+        "valueFloat": 0,
+        "descString": "能量：{0}"
+    },
+    "8": {
+        "ID": 8,
+        "equipID": -1,
+        "level": 1,
+        "effect": {
+            "effectType": 0,
+            "invokeType": 3,
+            "invokeTime": 1,
+            "propertyType": 8,
+            "methodName": null,
+            "value": 10
+        },
+        "valueFloat": 5,
+        "descString": "幸运：{0}"
+    },
+    "9": {
+        "ID": 9,
+        "equipID": -1,
+        "level": 1,
+        "effect": {
+            "effectType": 0,
+            "invokeType": 3,
+            "invokeTime": 1,
+            "propertyType": 12,
+            "methodName": null,
+            "value": 10
+        },
+        "valueFloat": 5,
+        "descString": "免伤：{0}"
+    },
+    "10": {
+        "ID": 10,
+        "equipID": -1,
+        "level": 1,
+        "effect": {
+            "effectType": 0,
+            "invokeType": 3,
+            "invokeTime": 1,
+            "propertyType": 13,
+            "methodName": null,
+            "value": 10
+        },
+        "valueFloat": 5,
+        "descString": "增伤：{0}"
+    },
+    "11": {
+        "ID": 11,
+        "equipID": -1,
+        "level": 1,
+        "effect": {
+            "effectType": 0,
+            "invokeType": 3,
+            "invokeTime": 1,
+            "propertyType": 14,
+            "methodName": null,
+            "value": 10
+        },
+        "valueFloat": 5,
+        "descString": "距离增伤：{0}"
+    },
+    "12": {
+        "ID": 12,
+        "equipID": -1,
+        "level": 1,
+        "effect": {
+            "effectType": 0,
+            "invokeType": 3,
+            "invokeTime": 1,
+            "propertyType": 15,
+            "methodName": null,
+            "value": 5
+        },
+        "valueFloat": 2,
+        "descString": "吸血：{0}"
+    },
+    "13": {
+        "ID": 13,
+        "equipID": -1,
+        "level": 1,
+        "effect": {
+            "effectType": 0,
+            "invokeType": 3,
+            "invokeTime": 1,
+            "propertyType": 16,
+            "methodName": null,
+            "value": 10
+        },
+        "valueFloat": 5,
+        "descString": "反伤：{0}"
+    },
+    "14": {
+        "ID": 14,
+        "equipID": -1,
+        "level": 2,
+        "effect": {
+            "effectType": 1,
+            "invokeType": 0,
+            "invokeTime": 1,
+            "propertyType": null,
+            "methodName": null,
+            "value": 0
+        },
+        "valueFloat": 0,
+        "descString": "突进"
+    },
+    "15": {
+        "ID": 15,
+        "equipID": -1,
+        "level": 1,
+        "effect": {
+            "effectType": 1,
+            "invokeType": 0,
+            "invokeTime": 1,
+            "propertyType": null,
+            "methodName": null,
+            "value": 1
+        },
+        "valueFloat": 0,
+        "descString": "后退：{0}"
+    },
+    "16": {
+        "ID": 16,
+        "equipID": -1,
+        "level": 1,
+        "effect": {
+            "effectType": 1,
+            "invokeType": 0,
+            "invokeTime": 1,
+            "propertyType": null,
+            "methodName": null,
+            "value": 1
+        },
+        "valueFloat": 0,
+        "descString": "击退：{0}"
+    },
+    "17": {
+        "ID": 17,
+        "equipID": -1,
+        "level": 2,
+        "effect": {
+            "effectType": 1,
+            "invokeType": 0,
+            "invokeTime": 1,
+            "propertyType": null,
+            "methodName": null,
+            "value": 10
+        },
+        "valueFloat": 0,
+        "descString": "返能：{0}%"
+    }
+}

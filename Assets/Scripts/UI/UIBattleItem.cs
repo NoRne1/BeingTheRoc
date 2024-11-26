@@ -271,7 +271,7 @@ public class UIBattleItem : MonoBehaviour
             return;
         }
         positiveEquipIcon.overrideSprite = Resloader.LoadSprite(item.iconResource, ConstValue.equipsPath);
-        switch (item.equipDefine.equipClass)
+        switch (item.equipModel.equipClass)
         {
             case EquipClass.arch:
                 positiveAni.animator.SetTrigger("arch");
@@ -299,7 +299,7 @@ public class UIBattleItem : MonoBehaviour
             return;
         }
         negativeEquipIcon.overrideSprite = Resloader.LoadSprite(item.iconResource, ConstValue.equipsPath);
-        switch (item.equipDefine.equipClass)
+        switch (item.equipModel.equipClass)
         {
             case EquipClass.arch:
                 negativeAni.animator.SetTrigger("arch_used");

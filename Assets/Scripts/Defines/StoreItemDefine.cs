@@ -45,6 +45,7 @@ public enum EffectInvokeType
     useInstant = 0, // 使用立即生效
     damage = 1, // 造成伤害生效
     toDeath = 2, //造成死亡生效
+    equip = 3, //装备生效
 }
 
 public enum PropertyType
@@ -68,7 +69,7 @@ public enum PropertyType
     DistanceDamage = 15,
     AgainstDamage = 16,
     HealthPercent = 17,
-    hungry = 18,
+    hungry = 18
 }
 
 public enum TargetRange

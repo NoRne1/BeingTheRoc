@@ -282,7 +282,7 @@ public class BattleChessboardManager
         try
         {
             Vector2 vect = battleManager.battleItemManager.pos_uibattleItemDic.First(x => x.Value.itemID == uuID).Key;
-            List<Vector2> vectList = GameUtil.Instance.GetTargetRangeList(vect, storeItem.equipDefine.targetRange);
+            List<Vector2> vectList = GameUtil.Instance.GetTargetRangeList(vect, storeItem.equipModel.targetRange);
             chessBoard.ResetColors();
             Dictionary<Vector2, ChessboardSlotColor> dic = new Dictionary<Vector2, ChessboardSlotColor>();
             foreach (var vector in vectList)
@@ -314,7 +314,7 @@ public class BattleChessboardManager
         var actingItemID = battleManager.battleItemManager.roundBattleItemIDs[0];
         Vector2 vect = battleManager.battleItemManager.pos_uibattleItemDic.First(x =>
             x.Value.itemID == actingItemID).Key;
-        if (GameUtil.Instance.GetTargetRangeList(vect, clickedStoreItem.equipDefine.targetRange).Contains(slot.position))
+        if (GameUtil.Instance.GetTargetRangeList(vect, clickedStoreItem.equipModel.targetRange).Contains(slot.position))
         {
             //todo temp one target
             if (battleManager.battleItemManager.pos_uibattleItemDic.Keys.Contains(slot.position))
@@ -347,7 +347,7 @@ public class BattleChessboardManager
         //找出正在行动的角色的位置
         Vector2 vect = battleManager.battleItemManager.pos_uibattleItemDic.First(x =>
             x.Value.itemID == actingItemID).Key;
-        if (GameUtil.Instance.GetTargetRangeList(vect, clickedStoreItem.equipDefine.targetRange).Contains(slot.position))
+        if (GameUtil.Instance.GetTargetRangeList(vect, clickedStoreItem.equipModel.targetRange).Contains(slot.position))
         {
             if (!battleManager.battleItemManager.pos_uibattleItemDic.Keys.Contains(slot.position))
             {

@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+//用作装备强化
 public class UIStoreItemPanel : MonoBehaviour
 {
     public RectTransform mainHint;
@@ -14,11 +16,10 @@ public class UIStoreItemPanel : MonoBehaviour
     public GameObject energyPrefab;
     public Image attackRange;
     public TextMeshProUGUI desc;
-    public Transform entrysFather;
-    public GameObject entryPrefab;
-
     public GameObject leftPlaceHolder;
     public GameObject rightPlaceHolder;
+
+    public List<UIEntryDesc> entrys;
 
     private ObjectPool energyPool;
     // Start is called before the first frame update
@@ -32,7 +33,7 @@ public class UIStoreItemPanel : MonoBehaviour
     {
     }
 
-    public void Setup(StoreItemDefine item)
+    public void Setup(StoreItemModel item)
     {
         if (item == null) { return; }
         leftPlaceHolder.SetActive(!equipRange.Setup(item));
@@ -75,6 +76,16 @@ public class UIStoreItemPanel : MonoBehaviour
         } else {
             desc.text = item.desc;
         }
+        foreach (var index in Enumerable.Range(0, entrys.Count))
+        {
+            if (index < item.equipModel.extraEntryModels.Count)
+            {
+                entrys[index].Setup(item.equipModel.extraEntryModels[index], true);
+                entrys[index].gameObject.SetActive(true);
+            } else {
+                entrys[index].gameObject.SetActive(false);
+            }
+        }
 
         // if (item.ExtraEntry1 >= 0)
         // {
@@ -90,11 +101,5 @@ public class UIStoreItemPanel : MonoBehaviour
         // }
         // Canvas.ForceUpdateCanvases();
         // LayoutRebuilder.ForceRebuildLayoutImmediate(entrysFather.GetComponent<RectTransform>());
-    }
-
-    private void AddEntry(ExtraEntryDesc desc)
-    {
-        UIExtraHint extraHint = Instantiate(entryPrefab, entrysFather).GetComponent<UIExtraHint>();
-        extraHint.Setup(desc);
     }
 }

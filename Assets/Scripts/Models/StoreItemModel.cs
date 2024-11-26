@@ -13,7 +13,7 @@ public class StoreItemModel : StoreItemDefine
     private int tempRotationAngle; // 旋转角度
     public List<Effect> effects = new List<Effect>();
 
-    public EquipDefine equipDefine;
+    public EquipModel equipModel;
     public ExpendableItemDefine expendableItemDefine;
     public TreasureDefine treasureDefine;
     public GoodsDefine goodsDefine;
@@ -41,20 +41,20 @@ public class StoreItemModel : StoreItemDefine
         switch (type)
         {
             case ItemType.equip:
-                equipDefine = GameUtil.Instance.DeepCopy(DataManager.Instance.EquipDefines[subID]);
-                if (equipDefine.effect1 != null)
+                equipModel = new EquipModel(DataManager.Instance.EquipDefines[subID]);
+                if (equipModel.effect1 != null)
                 {
-                    effects.Add(equipDefine.effect1);
+                    effects.Add(equipModel.effect1);
                 }
-                if (equipDefine.effect2 != null)
+                if (equipModel.effect2 != null)
                 {
-                    effects.Add(equipDefine.effect2);
+                    effects.Add(equipModel.effect2);
                 }
-                if (equipDefine.effect3 != null)
+                if (equipModel.effect3 != null)
                 {
-                    effects.Add(equipDefine.effect3);
+                    effects.Add(equipModel.effect3);
                 }
-                equipDefine.OccupiedCellsInit();
+                equipModel.OccupiedCellsInit();
                 break;
             case ItemType.expendable:
                 expendableItemDefine = GameUtil.Instance.DeepCopy(DataManager.Instance.ExpendableItemDefines[subID]);
@@ -86,7 +86,7 @@ public class StoreItemModel : StoreItemDefine
             this.characterID = characterID;
             this.position = position;
             this.rotationAngle = tempRotationAngle;
-            this.equipDefine.occupiedCells = new List<Vector2Int>(equipDefine.tempOccupiedCells);
+            this.equipModel.occupiedCells = new List<Vector2Int>(equipModel.tempOccupiedCells);
         }
     }
 
@@ -95,7 +95,7 @@ public class StoreItemModel : StoreItemDefine
         if (CanEquip())
         {
             this.tempRotationAngle = rotationAngle;
-            this.equipDefine.tempOccupiedCells = new List<Vector2Int>(equipDefine.OccupiedCells);
+            this.equipModel.tempOccupiedCells = new List<Vector2Int>(equipModel.OccupiedCells);
         }
     }
 
@@ -106,7 +106,7 @@ public class StoreItemModel : StoreItemDefine
             this.characterID = "";
             this.position = Vector2Int.zero;
             this.rotationAngle = 0;
-            equipDefine.OccupiedCellsInit();
+            equipModel.OccupiedCellsInit();
         }
     }
 
@@ -115,11 +115,11 @@ public class StoreItemModel : StoreItemDefine
         if (CanEquip())
         {
             List<Vector2Int> points;
-            if (equipDefine.tempOccupiedCells == null || equipDefine.tempOccupiedCells.Count == 0)
+            if (equipModel.tempOccupiedCells == null || equipModel.tempOccupiedCells.Count == 0)
             {
                 return;
             }
-            points = new List<Vector2Int>(equipDefine.tempOccupiedCells);
+            points = new List<Vector2Int>(equipModel.tempOccupiedCells);
             // 对每个点进行旋转和平移
             for (int i = 0; i < points.Count; i++)
             {
@@ -152,7 +152,7 @@ public class StoreItemModel : StoreItemDefine
                 // 更新点的坐标
                 points[i] = new Vector2Int(newX, newY);
             }
-            equipDefine.tempOccupiedCells = points;
+            equipModel.tempOccupiedCells = points;
             tempRotationAngle = (tempRotationAngle + angle) % 360;
         }
     }
@@ -179,6 +179,6 @@ public class StoreItemModel : StoreItemDefine
 
     public bool CanEquipEnhance()
     {
-        return type == ItemType.equip && !equipDefine.isExpendable;
+        return type == ItemType.equip && !equipModel.isExpendable;
     }
 }

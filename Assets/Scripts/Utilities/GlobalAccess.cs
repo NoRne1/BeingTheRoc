@@ -35,6 +35,8 @@ class GlobalAccess
 
     public static int wheatConsumePerPeriod = 40;
     public static int hurtPerRemainConsume = 1;
+    public static int forgeEnhancePrice = 200;
+    public static int forgeEnhanceNumLimit = 3;
 
     public static int subCharacterNum
     {
@@ -121,6 +123,32 @@ class GlobalAccess
             default:
                 Debug.LogError("PropertyTransferRule unknown AttributeType");
                 return -1;
+        }
+    }
+
+    public static AttributeType PropertyTypeToAttributeType(PropertyType type)
+    {
+        switch(type)
+        {
+            case PropertyType.MaxHP:
+            case PropertyType.Strength:
+            case PropertyType.Defense: 
+            case PropertyType.Dodge: 
+            case PropertyType.Accuracy: 
+            case PropertyType.Speed: 
+            case PropertyType.Mobility:
+            case PropertyType.Energy:
+            case PropertyType.Lucky:
+                return (AttributeType)type;
+            case PropertyType.Protection:
+            case PropertyType.EnchanceDamage:
+            case PropertyType.Hematophagia:
+            case PropertyType.DistanceDamage:
+            case PropertyType.AgainstDamage:
+                return (AttributeType)((int)type - 3);
+            default:
+                Debug.LogError("PropertyTypeToAttributeType convert fail");
+                return AttributeType.None;
         }
     }
 

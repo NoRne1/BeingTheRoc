@@ -42,7 +42,12 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                         break;
                     case HintType.storeItem:
                         UIStoreItemHint storeItemHint = UIManager.Instance.Show<UIStoreItemHint>(CanvasType.tooltip);
-                        storeItemHint.Setup(storeItem);
+                        if(storeItem is StoreItemModel)
+                        {
+                            storeItemHint.Setup((StoreItemModel)storeItem);
+                        } else {
+                            storeItemHint.Setup(storeItem);
+                        }
                         hintObject = storeItemHint;
                         break;
                     case HintType.skill:

@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
+
 public class CharacterModel: IStorable
 {
     public Backpack backpack;
     public Attributes attributes;
 
     public Subject<Unit> characterUpdate = new Subject<Unit>();
-    private System.IDisposable disposable;
+    private System.IDisposable equipDisposable;
+    private System.IDisposable characterDisposable;
     public CharacterDefine define;
 
     //BattleItem
@@ -78,9 +80,13 @@ public class CharacterModel: IStorable
         Skill1 = -1;
         Skill2 = -1;
         Skill3 = -1;
-        disposable = characterUpdate.AsObservable().Subscribe(_ =>
+        characterDisposable = characterUpdate.AsObservable().Subscribe(_ =>
         {
             NorneStore.Instance.Update<CharacterModel>(this, isFull: true);
+        });
+        equipDisposable = backpack.equipUpdate.AsObservable().Subscribe(_ =>
+        {
+            ReloadEquipAttr();
         });
     }
 
@@ -90,10 +96,15 @@ public class CharacterModel: IStorable
 
     ~CharacterModel()
     {
-        if (disposable != null)
+        if (characterDisposable != null)
         {
-            disposable.Dispose();
-            disposable = null;
+            characterDisposable.Dispose();
+            characterDisposable = null;
+        }
+        if (equipDisposable != null)
+        {
+            equipDisposable.Dispose();
+            equipDisposable = null;
         }
     }
 
@@ -156,6 +167,11 @@ public class CharacterModel: IStorable
     public void SetHungry(int hungry)
     {
         currentHungry = Mathf.Max(0, Mathf.Min(MaxHungry, hungry));
+    }
+
+    public void ReloadEquipAttr()
+    {
+        attributes.LoadEquipAttributes(backpack.equips);
     }
 
     public BattleItem ToBattleItem()

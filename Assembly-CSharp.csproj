@@ -67,6 +67,7 @@
     <Compile Include="Assets/Scripts/UI/UITownNode.cs" />
     <Compile Include="Assets/Scripts/Defines/SpecialItemDefine.cs" />
     <Compile Include="Assets/Scripts/UI/UIForgeEnhancePanel.cs" />
+    <Compile Include="Assets/Scripts/Defines/EquipExtraEntryDefine.cs" />
     <Compile Include="Assets/Scripts/Pages/UIBarPage.cs" />
     <Compile Include="Assets/Scripts/Layers/CollectCharacterLayer.cs" />
     <Compile Include="Assets/Scripts/UI/UIBaseInfoPanel.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Assets/Scripts/Utilities/Extensions/ObjectExtensions.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBarOtherItem.cs" />
     <Compile Include="Assets/Scripts/Managers/BattleMoveBarManager.cs" />
+    <Compile Include="Assets/Scripts/UI/UIEntryDesc.cs" />
     <Compile Include="Assets/Scripts/Defines/CharacterDefine.cs" />
     <Compile Include="Assets/Scripts/Pages/UIForgePage.cs" />
     <Compile Include="Assets/Scripts/Models/FoodModel.cs" />
@@ -186,6 +188,7 @@
     <Compile Include="Assets/Scripts/UI/UIBattleBuffIcon.cs" />
     <Compile Include="Assets/Scripts/Defines/SkillDefine.cs" />
     <Compile Include="Assets/Scripts/Managers/SoundManager.cs" />
+    <Compile Include="Assets/Scripts/Models/EquipModel.cs" />
     <Compile Include="Assets/Scripts/UI/UIChessboard.cs" />
     <Compile Include="Assets/Scripts/Models/EnemyAI.cs" />
     <Compile Include="Assets/Scripts/UI/UIEquipSlot.cs" />

@@ -52,10 +52,8 @@ public class EquipDefine
     public Effect effect3 { get; set; }
     //每一点能量能够造成的威胁值
     public int attackThreaten { get; set; }
-    //每一点能量能够造成的威胁值
+    //每一点能量能够造成的保护值
     public int protectAbility { get; set; }
-
-    public AttributeData attr;
 
     public List<Vector2Int> tempOccupiedCells;
     public List<Vector2Int> occupiedCells;

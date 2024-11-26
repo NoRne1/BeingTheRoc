@@ -33,7 +33,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
             case ItemType.equip:
                 //战斗中存在能量不够的情况
                 var caster = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
-                if (caster.attributes.currentEnergy >= item.equipDefine.takeEnergy)
+                if (caster.attributes.currentEnergy >= item.equipModel.takeEnergy)
                 {
                     StartCoroutine(InvokeCheck(casterID, item));
                 }
@@ -89,7 +89,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
         switch (item.type)
         {
             case ItemType.equip:
-                switch (item.equipDefine.invokeType)
+                switch (item.equipModel.invokeType)
                 {
                     case EquipInvokeType.use:
                         yield return StartCoroutine(ProcessEquipUse(casterID, item, new List<string> { casterID }, Vector2.negativeInfinity));
@@ -109,7 +109,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                         yield return StartCoroutine(ProcessEquipUse(casterID, item, targetIDs, targetPos));
                         break;
                     default:
-                        Debug.LogError("TriggerEffect unknown " + item.equipDefine.invokeType);
+                        Debug.LogError("TriggerEffect unknown " + item.equipModel.invokeType);
                         break;
                 }
                 break;
@@ -165,11 +165,11 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
         switch (item.type)
         {
             case ItemType.equip:
-                if (item.equipDefine.takeEnergy > 0)
+                if (item.equipModel.takeEnergy > 0)
                 {
                     //战斗需要消耗能量的物品使用时，扣除能量
                     var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
-                    target.attributes.currentEnergy -= item.equipDefine.takeEnergy;
+                    target.attributes.currentEnergy -= item.equipModel.takeEnergy;
                     if (target.attributes.currentEnergy == 0 &&
                         item.effects.Where(effect => effect.invokeType == EffectInvokeType.useInstant &&
                             effect.effectType == EffectType.attack).ToList().Count > 0)
@@ -182,7 +182,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                 var casterItem = BattleManager.Instance.battleItemManager.GetUIBattleItemByUUid(casterID);
                 casterItem.ItemUseAni(item);
                 yield return StartCoroutine(InvokeEffect(EffectInvokeType.useInstant, casterID, targetIDs, targetPos, item));
-                if (item.equipDefine.isExpendable)
+                if (item.equipModel.isExpendable)
                 {
                     EquipDrop(casterID, item);
                 }

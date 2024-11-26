@@ -31,6 +31,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, EnemyDefine> EnemyDefines = null;
     public Dictionary<int, BuffDefine> BuffDefines = null;
     public Dictionary<int, CollectItemDefine> collectItemDefines = null;
+    public Dictionary<int, EquipExtraEntryDefine> equipExtraEntryDefines = null;
 
     public NameGenerator nameGenerator = new NameGenerator();
     public BehaviorSubject<bool> DataLoaded = new BehaviorSubject<bool>(false);
@@ -96,6 +97,9 @@ public class DataManager : Singleton<DataManager>
         json = File.ReadAllText(this.DataPath + "CollectItemDefine.json");
         this.collectItemDefines = JsonConvert.DeserializeObject<Dictionary<int, CollectItemDefine>>(json);
 
+        json = File.ReadAllText(this.DataPath + "EquipExtraEntryDefine.json");
+        this.equipExtraEntryDefines = JsonConvert.DeserializeObject<Dictionary<int, EquipExtraEntryDefine>>(json);
+        
         DataLoaded.OnNext(true);
     }
 
@@ -169,6 +173,10 @@ public class DataManager : Singleton<DataManager>
         this.collectItemDefines = JsonConvert.DeserializeObject<Dictionary<int, CollectItemDefine>>(json);
         yield return null;
 
+        json = File.ReadAllText(this.DataPath + "EquipExtraEntryDefine.json");
+        this.equipExtraEntryDefines = JsonConvert.DeserializeObject<Dictionary<int, EquipExtraEntryDefine>>(json);
+        yield return null;
+        
         //json = File.ReadAllText(this.DataPath + "TeleporterDefine.json");
         //this.Teleporters = JsonConvert.DeserializeObject<Dictionary<int, TeleporterDefine>>(json);
         //yield return null;

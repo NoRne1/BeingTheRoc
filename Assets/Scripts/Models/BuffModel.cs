@@ -17,14 +17,14 @@ public class BuffModel: BuffDefine
         this.ownerID = ownerID;
         this.casterID = casterID;
         this.buffDefine = buffDefine;
-        this.ID = ID;
-        this.Name = Name;
-        this.Description = Description;
-        this.Resource = Resource;
-        this.Duration = Duration;
-        this.InvokeTime = InvokeTime;
-        this.DecreaseTime = DecreaseTime;
-        this.MergeType = MergeType;
+        this.ID = buffDefine.ID;
+        this.Name = buffDefine.Name;
+        this.Description = buffDefine.Description;
+        this.Resource = buffDefine.Resource;
+        this.Duration = buffDefine.Duration;
+        this.InvokeTime = buffDefine.InvokeTime;
+        this.DecreaseTime = buffDefine.DecreaseTime;
+        this.MergeType = buffDefine.MergeType;
 
         //this.OnAdd();
     }

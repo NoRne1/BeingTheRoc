@@ -7,6 +7,9 @@ using static UnityEditor.Progress;
 public class Backpack
 {
     public string characterID;
+    //装备变化（换位不算）
+    public Subject<Unit> equipUpdate = new Subject<Unit>();
+    //背包变化（换位也算）
     public Subject<Unit> fatherUpdate;
     public List<StoreItemModel> equips = new List<StoreItemModel>();
     public Dictionary<Vector2Int, StoreItemModel> grid = new Dictionary<Vector2Int, StoreItemModel>();
@@ -34,10 +37,10 @@ public class Backpack
         int maxThreaten = 0;
         foreach (var equip in equips)
         {
-            if (equip.equipCanUse && equip.equipDefine.attackThreaten > maxThreaten)
+            if (equip.equipCanUse && equip.equipModel.attackThreaten > maxThreaten)
             {
                 mostThreatenEquip = equip;
-                maxThreaten = equip.equipDefine.attackThreaten;
+                maxThreaten = equip.equipModel.attackThreaten;
             }
         }
         return mostThreatenEquip;   
@@ -46,8 +49,8 @@ public class Backpack
     public List<StoreItemModel> GetEquipsSortedByThreaten()
     {
         return equips
-            .Where(equip => equip.equipCanUse && equip.equipDefine.attackThreaten > 0)
-            .OrderByDescending(equip => equip.equipDefine.attackThreaten)
+            .Where(equip => equip.equipCanUse && equip.equipModel.attackThreaten > 0)
+            .OrderByDescending(equip => equip.equipModel.attackThreaten)
             .ToList();
     }
 
@@ -57,10 +60,10 @@ public class Backpack
         int maxProtectAbility = 0;
         foreach (var equip in equips)
         {
-            if (equip.equipCanUse && equip.equipDefine.protectAbility > maxProtectAbility)
+            if (equip.equipCanUse && equip.equipModel.protectAbility > maxProtectAbility)
             {
                 mostProtectAbilityEquip = equip;
-                maxProtectAbility = equip.equipDefine.protectAbility;
+                maxProtectAbility = equip.equipModel.protectAbility;
             }
         }
         return mostProtectAbilityEquip;   
@@ -69,8 +72,8 @@ public class Backpack
     public List<StoreItemModel> GetEquipsSortedByProtectAbility()
     {
         return equips
-            .Where(equip => equip.equipCanUse && equip.equipDefine.protectAbility > 0)
-            .OrderByDescending(equip => equip.equipDefine.protectAbility)
+            .Where(equip => equip.equipCanUse && equip.equipModel.protectAbility > 0)
+            .OrderByDescending(equip => equip.equipModel.protectAbility)
             .ToList();
     }
 
@@ -81,7 +84,7 @@ public class Backpack
 
     public bool CanPlace(StoreItemModel item, Vector2Int position, Dictionary<Vector2Int, StoreItemModel> grid)
     {
-        foreach (Vector2Int cell in item.equipDefine.OccupiedCells)
+        foreach (Vector2Int cell in item.equipModel.OccupiedCells)
         {
             Vector2Int cellPosition = position + cell;
             if (!grid.ContainsKey(cellPosition) || grid[cellPosition] != null)
@@ -96,7 +99,7 @@ public class Backpack
     {
         if (CanPlace(item, position))
         {
-            foreach (Vector2Int cell in item.equipDefine.OccupiedCells)
+            foreach (Vector2Int cell in item.equipModel.OccupiedCells)
             {
                 Vector2Int cellPosition = position + cell;
                 grid[cellPosition] = item;
@@ -104,6 +107,7 @@ public class Backpack
             equips.Add(item);
             item.Equip(characterID, position);
             fatherUpdate.OnNext(Unit.Default);
+            equipUpdate.OnNext(Unit.Default);
             return true;
         }
         return false;
@@ -116,7 +120,7 @@ public class Backpack
         if (CanPlace(item, position, copiedGrid))
         {
             RemoveItemsByUUID(item.uuid);
-            foreach (Vector2Int cell in item.equipDefine.OccupiedCells)
+            foreach (Vector2Int cell in item.equipModel.OccupiedCells)
             {
                 Vector2Int cellPosition = position + cell;
                 grid[cellPosition] = item;
@@ -147,10 +151,12 @@ public class Backpack
         if (this.RemoveItemsByUUID(uuid, grid))
         {
             fatherUpdate.OnNext(Unit.Default);
+            equipUpdate.OnNext(Unit.Default);
         }
     }
 
-    public bool RemoveItemsByUUID(string uuid, Dictionary<Vector2Int, StoreItemModel> grid)
+    //删除格子中的占用
+    private bool RemoveItemsByUUID(string uuid, Dictionary<Vector2Int, StoreItemModel> grid)
     {
         // 使用 LINQ 筛选出字典中 uuid 相等的键值对，并转换为列表
         var itemsToRemove = grid.Where(kv => kv.Value?.uuid == uuid).ToList();

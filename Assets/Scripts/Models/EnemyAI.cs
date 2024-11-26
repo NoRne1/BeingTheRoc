@@ -80,7 +80,7 @@ public class EnemyAI
         float maxAttackThreaten = -1;
         if(threatenEquips.Count > 0) 
         {
-            maxAttackThreaten = threatenEquips.FirstOrDefault().equipDefine.attackThreaten;
+            maxAttackThreaten = threatenEquips.FirstOrDefault().equipModel.attackThreaten;
             foreach(var equip in threatenEquips)
             {
                 foreach (var player in players)
@@ -110,7 +110,7 @@ public class EnemyAI
         float maxProtectAbility = -1;
         if (protectEquips.Count > 0)
         {
-            maxProtectAbility = protectEquips.FirstOrDefault().equipDefine.protectAbility;
+            maxProtectAbility = protectEquips.FirstOrDefault().equipModel.protectAbility;
             foreach(var equip in protectEquips)
             {
                 foreach (var enemy in enemys)
@@ -262,13 +262,13 @@ public class EnemyAI
         Vector2 bestPostion = Vector2.negativeInfinity;
         if (equip != null)
         {
-            var possibleAttackPositions = GameUtil.Instance.GetTargetRangeList(targetPos, equip.equipDefine.targetRange);
+            var possibleAttackPositions = GameUtil.Instance.GetTargetRangeList(targetPos, equip.equipModel.targetRange);
             var result = GetMinEnergyAttackPositions(possibleAttackPositions, attackerPos, attacker.attributes.Mobility);
             int remainingEnergy = attacker.attributes.currentEnergy - result.Item1;
             if (remainingEnergy > 0)
             {
-                int attackTakeEnergy = (remainingEnergy / equip.equipDefine.takeEnergy) * equip.equipDefine.takeEnergy;
-                attackProceeds = (equip.equipDefine.attackThreaten * attackTakeEnergy * 1.0f) / (maxAttackThreaten * attacker.attributes.Energy);
+                int attackTakeEnergy = (remainingEnergy / equip.equipModel.takeEnergy) * equip.equipModel.takeEnergy;
+                attackProceeds = (equip.equipModel.attackThreaten * attackTakeEnergy * 1.0f) / (maxAttackThreaten * attacker.attributes.Energy);
                 if(threatenMap.Count > 0) 
                 {
                     var maxThreaten = threatenMap.Values.Max();
@@ -307,7 +307,7 @@ public class EnemyAI
         Vector2 bestPostion = Vector2.negativeInfinity;
         if (equip != null)
         {
-            var possibleProtectPositions = GameUtil.Instance.GetTargetRangeList(targetPos, equip.equipDefine.targetRange);
+            var possibleProtectPositions = GameUtil.Instance.GetTargetRangeList(targetPos, equip.equipModel.targetRange);
             var result = GetMinEnergyAttackPositions(possibleProtectPositions, protectorPos, protector.attributes.Mobility);
             int remainingEnergy = protector.attributes.Energy - result.Item1;
             if (remainingEnergy > 0)
@@ -323,7 +323,7 @@ public class EnemyAI
                 }
                 if (bestPostion != Vector2.negativeInfinity) 
                 {
-                    var protectAbility = equip.equipDefine.protectAbility * remainingEnergy;
+                    var protectAbility = equip.equipModel.protectAbility * remainingEnergy;
                     var truelyProceeds = threatenMap.ContainsKey(targetPos) ? Mathf.Min(protectAbility, threatenMap[targetPos]) : 0;
                     protectProceeds = truelyProceeds * 1.0f / (maxProtectAbility * protector.attributes.Energy);  
                 }
@@ -349,10 +349,10 @@ public class EnemyAI
                     if (remainingEnergy > 0)
                     {
                         // Calculate damage for positions within attack range
-                        List<Vector2> attackPositions = GameUtil.Instance.GetTargetRangeList(tempVector, threatenEquip.equipDefine.targetRange);
+                        List<Vector2> attackPositions = GameUtil.Instance.GetTargetRangeList(tempVector, threatenEquip.equipModel.targetRange);
                         foreach (var attackPos in attackPositions)
                         {
-                            int maxDamage = threatenEquip.equipDefine.attackThreaten * remainingEnergy;
+                            int maxDamage = threatenEquip.equipModel.attackThreaten * remainingEnergy;
                             if (threatenDict.ContainsKey(attackPos))
                             {
                                 threatenDict[attackPos] = Mathf.Max(threatenDict[attackPos], maxDamage);
@@ -389,7 +389,7 @@ public class EnemyAI
 
     public Vector2 FindBestDes(Vector2 selfPos, Vector2 targetPos, int mobility, StoreItemModel equip, Dictionary<Vector2, int> threatenMap) 
     {
-        var possiblePos = GameUtil.Instance.GetTargetRangeList(targetPos, equip.equipDefine.targetRange);
+        var possiblePos = GameUtil.Instance.GetTargetRangeList(targetPos, equip.equipModel.targetRange);
         int minAccessEnergy = int.MaxValue;
         float minThreaten = int.MaxValue;
         Vector2 result = Vector2.negativeInfinity;

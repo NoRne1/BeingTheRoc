@@ -103,7 +103,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     {
         if (hunyuanSword != null)
         {
-            hunyuanSword.equipDefine.effect1.value += 5;
+            hunyuanSword.equipModel.effect1.value += 5;
         }
     }
 
@@ -147,7 +147,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         if (hunyuanSword != null)
         {
             Effect effect = GameUtil.Instance.BattleEffectToItemUseEffect(BattleEffect.ReturnEnergy);
-            effect.Value = hunyuanSword.equipDefine.takeEnergy;
+            effect.Value = hunyuanSword.equipModel.takeEnergy;
             hunyuanSword.effects.Add(effect);
         }
     }

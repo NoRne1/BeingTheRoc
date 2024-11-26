@@ -102,7 +102,7 @@ public class UIRestaurantPage : MonoBehaviour
             //钱不够买
             UITip tip = UIManager.Instance.Show<UITip>();
             //todo
-            tip.UpdateTip(GameUtil.Instance.GetDisplayString("go_next_town_tip"));
+            tip.UpdateTip(GameUtil.Instance.GetDisplayString("钱不够啦"));
         } else if (!GameManager.Instance.repository.remainOpacity)
         {
             //仓库空间不够了

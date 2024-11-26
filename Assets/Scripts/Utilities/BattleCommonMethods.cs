@@ -288,8 +288,8 @@ public static class BattleCommonMethods
     // 常规攻击（受属性影响，会暴击，触发特效)
     public static NormalAttackResult CalcNormalAttack(string casterID, List<string> targetIDs, StoreItemModel itemModel, int value, int attackTime = 1)
     {
-        int baseAccuracy = itemModel == null ? 100 : itemModel.equipDefine.baseAccuracy;
-        EquipClass equipClass = itemModel == null ?  EquipClass.none : itemModel.equipDefine.equipClass;
+        int baseAccuracy = itemModel == null ? 100 : itemModel.equipModel.baseAccuracy;
+        EquipClass equipClass = itemModel == null ?  EquipClass.none : itemModel.equipModel.equipClass;
         var result = new NormalAttackResult(attackTime);
         var battleItemManager = BattleManager.Instance.battleItemManager;
         var self = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
