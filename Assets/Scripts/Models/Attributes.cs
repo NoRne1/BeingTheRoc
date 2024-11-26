@@ -185,10 +185,10 @@ public class Attributes
             return false; 
         }
         if ((change >= 0 && Mathf.Abs(ruleFactor * change) <= remainPropertyPoints) || 
-        (change < 0 && remainPropertyPoints + Mathf.Abs(ruleFactor * change) <= maxPropertyPoints && Growth.Data[(int)type] + change >= 0)) 
+        (change < 0 && remainPropertyPoints + Mathf.Abs(ruleFactor * change) <= maxPropertyPoints && Growth.GetAttr(type) + change >= 0)) 
         {
             //加值时，变化的绝对值需要小于remainPropertyPoints，减值时，当前值加变化的绝对值要小于maxPropertyPoints
-            Growth.Data[(int)type] += change;
+            Growth.SetAttr(type, Growth.GetAttr(type) + change);
             remainPropertyPoints -= ruleFactor * change;
             LoadFinalAttributes();
             return true;
@@ -282,14 +282,14 @@ public class Attributes
         }
     }
     //加载装备属性
-    private void LoadEquipAttributes(AttributeData attr, List<StoreItemModel> equips, bool loadFinal = true)
+    public void LoadEquipAttributes(List<StoreItemModel> equips, bool loadFinal = true)
     {
-        attr.Reset();
+        Equip.Reset();
         if (equips == null) return;
         //所有装备加成加起来得到装备总属性加成
         foreach (var define in equips)
         {
-            attr = attr + define.equipDefine.attr;
+            Equip = Equip + define.equipModel.attr;
         }
         if (loadFinal)
         {
@@ -301,9 +301,10 @@ public class Attributes
     {
         for (int i = (int)AttributeType.MaxHP; i < (int)AttributeType.MAX; i++)
         {
-            this.Final.Data[i] = this.Initial.Data[i] + this.Growth.Data[i] +
-                this.ItemEffect.Data[i] + this.InBattle.Data[i] + this.Difficulty.Data[i] +
-                this.Equip.Data[i] + this.Skill.Data[i] + this.Buff.Data[i];
+            var type = (AttributeType)i;
+            this.Final.SetAttr(type, this.Initial.GetAttr(type) + this.Growth.GetAttr(type) +
+                this.ItemEffect.GetAttr(type) + this.InBattle.GetAttr(type) + this.Difficulty.GetAttr(type) +
+                this.Equip.GetAttr(type) + this.Skill.GetAttr(type) + this.Buff.GetAttr(type));
         }
         updateSubject.OnNext(Unit.Default);
     }
