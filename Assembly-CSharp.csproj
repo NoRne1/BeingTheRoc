@@ -91,6 +91,7 @@
     <Compile Include="Assets/Scripts/Utilities/GlobalAccess.cs" />
     <Compile Include="Assets/Scripts/Utilities/DragSupport.cs" />
     <Compile Include="Assets/Scripts/Utilities/Config.cs" />
+    <Compile Include="Assets/Scripts/Defines/MergeEquipDefine.cs" />
     <Compile Include="Assets/Scripts/Utilities/PathFinding.cs" />
     <Compile Include="Assets/Scripts/Managers/SkillManager.cs" />
     <Compile Include="Assets/Scripts/UI/UILoadingPanel.cs" />
@@ -162,6 +163,7 @@
     <Compile Include="Assets/Scripts/Component/FightText/FightTextManager.cs" />
     <Compile Include="Assets/Scripts/Layers/CollectResultLayer.cs" />
     <Compile Include="Assets/Scripts/UI/UIConfirmWindow.cs" />
+    <Compile Include="Assets/Scripts/Component/EquipmentFusionAnimation.cs" />
     <Compile Include="Assets/Scripts/UI/UIConsoleInput.cs" />
     <Compile Include="Assets/Scripts/Managers/UIManager.cs" />
     <Compile Include="Assets/Scripts/UI/UIDescHint.cs" />
@@ -217,6 +219,7 @@
     <Compile Include="Assets/Scripts/UI/UIFoodProperty.cs" />
     <Compile Include="Assets/Scripts/UI/UICollectItemButton.cs" />
     <Compile Include="Assets/Scripts/UI/UICharacterHint.cs" />
+    <Compile Include="Assets/Scripts/Component/LineConnector.cs" />
     <Compile Include="Assets/Scripts/Models/CharacterModel.cs" />
     <Compile Include="Assets/Scripts/UI/UIBattleItemAnimator.cs" />
     <Compile Include="Assets/Scripts/UI/UITeamBagPage.cs" />

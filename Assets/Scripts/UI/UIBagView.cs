@@ -41,4 +41,16 @@ public class UIBagView : MonoBehaviour
         // 确保子对象订阅被取消
         disposable.IfNotNull(dis => { dis.Dispose(); });
     }
+
+    public UIRepositorSlot GetItemLocatedSlot(StoreItemModel itemModel)
+    {
+        foreach (var button in itemButtons)
+        {
+            if (button.item.uuid == itemModel.uuid)
+            {
+                return button;
+            }
+        }
+        return null;
+    }
 }

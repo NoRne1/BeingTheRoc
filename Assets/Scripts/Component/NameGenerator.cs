@@ -44,7 +44,7 @@ public class NameData
     }
 }
 
-public class NameGenerator : MonoBehaviour
+public class NameGenerator
 {
     // 用于存储未使用的名字（通过 ID 快速查找）
     private Dictionary<int, NameData> unusedMaleNames = new Dictionary<int, NameData>();

@@ -32,6 +32,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, BuffDefine> BuffDefines = null;
     public Dictionary<int, CollectItemDefine> collectItemDefines = null;
     public Dictionary<int, EquipExtraEntryDefine> equipExtraEntryDefines = null;
+    public Dictionary<int, Dictionary<int, int>> mergeEquipDic = null;
 
     public NameGenerator nameGenerator = new NameGenerator();
     public BehaviorSubject<bool> DataLoaded = new BehaviorSubject<bool>(false);
@@ -99,6 +100,10 @@ public class DataManager : Singleton<DataManager>
 
         json = File.ReadAllText(this.DataPath + "EquipExtraEntryDefine.json");
         this.equipExtraEntryDefines = JsonConvert.DeserializeObject<Dictionary<int, EquipExtraEntryDefine>>(json);
+
+        json = File.ReadAllText(this.DataPath + "MergeEquipDefine.json");
+        var equipExtraEntryDefines = JsonConvert.DeserializeObject<Dictionary<int, MergeEquipDefine>>(json);
+        ProcessMergeEquipDic(equipExtraEntryDefines);
         
         DataLoaded.OnNext(true);
     }
@@ -176,6 +181,11 @@ public class DataManager : Singleton<DataManager>
         json = File.ReadAllText(this.DataPath + "EquipExtraEntryDefine.json");
         this.equipExtraEntryDefines = JsonConvert.DeserializeObject<Dictionary<int, EquipExtraEntryDefine>>(json);
         yield return null;
+
+        json = File.ReadAllText(this.DataPath + "MergeEquipDefine.json");
+        var equipExtraEntryDefines = JsonConvert.DeserializeObject<Dictionary<int, MergeEquipDefine>>(json);
+        ProcessMergeEquipDic(equipExtraEntryDefines);
+        yield return null;
         
         //json = File.ReadAllText(this.DataPath + "TeleporterDefine.json");
         //this.Teleporters = JsonConvert.DeserializeObject<Dictionary<int, TeleporterDefine>>(json);
@@ -243,6 +253,54 @@ public class DataManager : Singleton<DataManager>
         item.position = equip.postion;
         item.Rotate(equip.rotation);
         return item;
+    }
+
+    private void ProcessMergeEquipDic(Dictionary<int, MergeEquipDefine> defines)
+    {
+        mergeEquipDic = new Dictionary<int, Dictionary<int, int>>();
+        foreach(var define in defines.Values)
+        {
+            if (mergeEquipDic.ContainsKey(define.equipA))
+            {
+                if(!mergeEquipDic[define.equipA].ContainsKey(define.equipB))
+                {
+                    mergeEquipDic[define.equipA].Add(define.equipB, define.equipResult);
+                }
+            } else {
+                mergeEquipDic.Add(define.equipA, new Dictionary<int, int>());
+                mergeEquipDic[define.equipA].Add(define.equipB, define.equipResult);
+            }
+            if (mergeEquipDic.ContainsKey(define.equipB))
+            {
+                if(!mergeEquipDic[define.equipB].ContainsKey(define.equipA))
+                {
+                    mergeEquipDic[define.equipB].Add(define.equipA, define.equipResult);
+                }
+            } else {
+                mergeEquipDic.Add(define.equipB, new Dictionary<int, int>());
+                mergeEquipDic[define.equipB].Add(define.equipA, define.equipResult);
+            }
+        }
+    }
+
+    public Dictionary<int, int> GetCanMergeEquips(int equipA)
+    {
+        if (mergeEquipDic.ContainsKey(equipA))
+        {
+            return mergeEquipDic[equipA];
+        } else {
+            return new Dictionary<int, int>();
+        }
+    }
+
+    public int GetMergedEquip(int equipA, int equipB)
+    {
+        if (mergeEquipDic.ContainsKey(equipA) && mergeEquipDic[equipA].ContainsKey(equipB))
+        {
+            return mergeEquipDic[equipA][equipB];
+        } else {
+            return -1;
+        }
     }
 
     public (bool, CharacterDefine) GetRandomCharacter(float greenRate, float blueRate, float redRate)

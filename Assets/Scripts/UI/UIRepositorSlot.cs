@@ -6,8 +6,10 @@ using UnityEngine.UI;
 
 public class UIRepositorSlot : MonoBehaviour
 {
+    public int itemID;
     public StoreItemModel item;
     public HintComponent hint;
+    
     void Awake()
     {
         hint = GetComponent<HintComponent>();
@@ -24,12 +26,32 @@ public class UIRepositorSlot : MonoBehaviour
 
     }
 
+    public void Setup(int itemID)
+    {
+        Transform itemImage = transform.GetChild(0);
+        this.itemID = itemID;
+        if (itemID != -1)
+        {
+            var define = DataManager.Instance.StoreItems[itemID];
+            itemImage.GetComponent<Image>().overrideSprite =
+                Resloader.LoadSprite(define.iconResource, ConstValue.equipsPath);
+            itemImage.gameObject.SetActive(true);
+            if (hint != null){ hint.Setup(define); }
+        }
+        else
+        {
+            itemImage.gameObject.SetActive(false);
+            if (hint != null){ hint.Reset(); }
+        }
+    }
+
     public void Setup(StoreItemModel item)
     {
         Transform itemImage = transform.GetChild(0);
-        this.item = item;
         if (item != null)
         {
+            this.itemID = item.ID;
+            this.item = item;
             itemImage.GetComponent<Image>().overrideSprite =
                 Resloader.LoadSprite(item.iconResource, ConstValue.equipsPath);
             itemImage.gameObject.SetActive(true);
@@ -37,6 +59,7 @@ public class UIRepositorSlot : MonoBehaviour
         }
         else
         {
+            this.itemID = -1;
             itemImage.gameObject.SetActive(false);
             if (hint != null){ hint.Reset(); }
         }

@@ -1,0 +1,14 @@
+{
+    "0": {
+        "ID": 0,
+        "equipA": 0,
+        "equipB": 1,
+        "equipResult": 2
+    },
+    "1": {
+        "ID": 1,
+        "equipA": 0,
+        "equipB": 2,
+        "equipResult": 3
+    }
+}

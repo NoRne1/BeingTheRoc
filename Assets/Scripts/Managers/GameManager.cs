@@ -31,6 +31,10 @@ public class GameOtherProperty
     //currentCollectPlanIndex.value != null表示当前有召集任务，collectCharacterTimer.value == 0表示任务可交付
     public BehaviorSubject<CollectCharacterInfo> currentCollectPlanInfo = new BehaviorSubject<CollectCharacterInfo>(null);
     public BehaviorSubject<int> collectCharacterTimer = new BehaviorSubject<int>(-1);
+
+    //currentMergeTaskInfo.value != null表示当前有召集任务，mergeTaskTimer.value == 0表示任务可交付
+    public BehaviorSubject<MergeEquipInfo> currentMergeTaskInfo = new BehaviorSubject<MergeEquipInfo>(null);
+    public BehaviorSubject<int> mergeTaskTimer = new BehaviorSubject<int>(-1);
 }
 
 public class GameManager : MonoSingleton<GameManager>
@@ -235,6 +239,10 @@ public class GameManager : MonoSingleton<GameManager>
         if (otherProperty.currentCollectPlanInfo.Value != null && otherProperty.collectCharacterTimer.Value > 0)
         {
             otherProperty.collectCharacterTimer.OnNext(Math.Max(0, otherProperty.collectCharacterTimer.Value + change));
+        }
+        if (otherProperty.currentMergeTaskInfo.Value != null && otherProperty.mergeTaskTimer.Value > 0)
+        {
+            otherProperty.mergeTaskTimer.OnNext(Math.Max(0, otherProperty.mergeTaskTimer.Value + change));
         }
         HungryChange(change);
     }

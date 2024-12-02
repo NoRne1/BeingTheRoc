@@ -36,6 +36,7 @@ class GlobalAccess
     public static int wheatConsumePerPeriod = 40;
     public static int hurtPerRemainConsume = 1;
     public static int forgeEnhancePrice = 200;
+    public static int forgeMergePrice = 200;
     public static int forgeEnhanceNumLimit = 3;
 
     public static int subCharacterNum
