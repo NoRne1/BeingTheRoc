@@ -59,7 +59,7 @@
     <UnityVersion>2022.3.4f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="/Users/norne/.vscode/extensions/visualstudiotoolsforunity.vstuc-1.0.4/Analyzers/Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="/Users/norne/.vscode/extensions/visualstudiotoolsforunity.vstuc-1.0.5/Analyzers/Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="/Applications/Unity/Hub/Editor/2022.3.4f1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll" />
     <Analyzer Include="/Applications/Unity/Hub/Editor/2022.3.4f1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
@@ -109,6 +109,7 @@
     <Compile Include="Assets/Scripts/Utilities/ShakeEffect.cs" />
     <Compile Include="Assets/Scripts/Defines/SoundDefine.cs" />
     <Compile Include="Assets/Scripts/Managers/MapManager.cs" />
+    <Compile Include="Assets/Scripts/Component/SpringMechanism.cs" />
     <Compile Include="Assets/Scripts/Models/BuffModel.cs" />
     <Compile Include="Assets/Scripts/UI/UITownPage.cs" />
     <Compile Include="Assets/Scripts/UI/UISkillSelect.cs" />

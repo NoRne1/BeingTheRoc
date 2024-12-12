@@ -15,7 +15,7 @@ public enum PageType
     forge = 4,
     shop = 5,
     train = 6,
-    walk = 7,
+    game = 7,
     restaurant = 8,
 }
 
@@ -186,8 +186,8 @@ public class GameManager : MonoSingleton<GameManager>
             case PageType.train:
                 commonUI.setUIStyle(CommonUIStyle.actionPage);
                 break;
-            case PageType.walk:
-                commonUI.setUIStyle(CommonUIStyle.actionPage);
+            case PageType.game:
+                commonUI.setUIStyle(CommonUIStyle.game);
                 break;
             case PageType.restaurant:
                 commonUI.setUIStyle(CommonUIStyle.restaurant);

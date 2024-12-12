@@ -22,7 +22,7 @@ AssetImportWorker0
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-54097
+49786
 Successfully changed project path to: /Users/norne/dev/BeingTheRoc
 /Users/norne/dev/BeingTheRoc
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -56,11 +56,11 @@ Successfully changed project path to: /Users/norne/dev/BeingTheRoc
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [8277717568] Host "[IP] 192.168.31.29 [Port] 0 [Flags] 2 [Guid] 2180283850 [EditorId] 2180283850 [Version] 1048832 [Id] OSXEditor(0,MacBookPro) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+Player connection [8277717568] Host "[IP] 192.168.31.29 [Port] 0 [Flags] 2 [Guid] 2858272431 [EditorId] 2858272431 [Version] 1048832 [Id] OSXEditor(0,MacBookPro) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
 
-Player connection [8277717568] Host "[IP] 192.168.31.29 [Port] 0 [Flags] 2 [Guid] 2180283850 [EditorId] 2180283850 [Version] 1048832 [Id] OSXEditor(0,MacBookPro) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [8277717568] Host "[IP] 192.168.31.29 [Port] 0 [Flags] 2 [Guid] 2858272431 [EditorId] 2858272431 [Version] 1048832 [Id] OSXEditor(0,MacBookPro) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
 
-Refreshing native plugins compatible for Editor in 12.43 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 19.93 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2022.3.4f1 (35713cd46cd7)
 [Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/2022.3.4f1/Unity.app/Contents/Resources/UnitySubsystems
@@ -75,14 +75,14 @@ Initialize mono
 Mono path[0] = '/Applications/Unity/Hub/Editor/2022.3.4f1/Unity.app/Contents/Managed'
 Mono path[1] = '/Applications/Unity/Hub/Editor/2022.3.4f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/unityjit-macos'
 Mono config path = '/Applications/Unity/Hub/Editor/2022.3.4f1/Unity.app/Contents/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56593
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56629
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: /Applications/Unity/Hub/Editor/2022.3.4f1/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
 Register platform support module: /Applications/Unity/Hub/Editor/2022.3.4f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
 Register platform support module: /Applications/Unity/Hub/Editor/2022.3.4f1/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
-Registered in 0.003248 seconds.
-- Loaded All Assemblies, in  0.265 seconds
+Registered in 0.004628 seconds.
+- Loaded All Assemblies, in  0.312 seconds
 [usbmuxd] Start listen thread
 [usbmuxd] Listen thread started
 [usbmuxd] Send listen message
@@ -90,36 +90,36 @@ Native extension for iOS target not found
 Native extension for OSXStandalone target not found
 Native extension for WebGL target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.321 seconds
-Domain Reload Profiling: 586ms
-	BeginReloadAssembly (74ms)
+- Finished resetting the current domain, in  0.298 seconds
+Domain Reload Profiling: 610ms
+	BeginReloadAssembly (95ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (0ms)
-	RebuildCommonClasses (26ms)
-	RebuildNativeTypeToScriptingClass (8ms)
-	initialDomainReloadingComplete (34ms)
-	LoadAllAssembliesAndSetupDomain (124ms)
-		LoadAssemblies (74ms)
+		CreateAndSetChildDomain (1ms)
+	RebuildCommonClasses (27ms)
+	RebuildNativeTypeToScriptingClass (9ms)
+	initialDomainReloadingComplete (41ms)
+	LoadAllAssembliesAndSetupDomain (140ms)
+		LoadAssemblies (95ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (122ms)
-			TypeCache.Refresh (120ms)
-				TypeCache.ScanAssembly (111ms)
+		AnalyzeDomain (138ms)
+			TypeCache.Refresh (136ms)
+				TypeCache.ScanAssembly (126ms)
 			ScanForSourceGeneratedMonoScriptInfo (0ms)
 			ResolveRequiredComponents (1ms)
-	FinalizeReload (321ms)
+	FinalizeReload (298ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (267ms)
+		SetupLoadedEditorAssemblies (238ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (93ms)
+			InitializePlatformSupportModulesInManaged (95ms)
 			SetLoadedEditorAssemblies (6ms)
 			RefreshPlugins (0ms)
 			BeforeProcessingInitializeOnLoad (2ms)
-			ProcessInitializeOnLoadAttributes (121ms)
-			ProcessInitializeOnLoadMethodAttributes (45ms)
+			ProcessInitializeOnLoadAttributes (97ms)
+			ProcessInitializeOnLoadMethodAttributes (37ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -129,54 +129,54 @@ Worker process is ready to serve import requests
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image /Users/norne/dev/BeingTheRoc/Library/PackageCache/com.unity.visualscripting@1.8.0/Editor/VisualScripting.Core/Dependencies/YamlDotNet/Unity.VisualScripting.YamlDotNet.dll
 Symbol file LoadedFromMemory doesn't match image /Users/norne/dev/BeingTheRoc/Library/PackageCache/com.unity.visualscripting@1.8.0/Editor/VisualScripting.Core/Dependencies/DotNetZip/Unity.VisualScripting.IonicZip.dll
-- Loaded All Assemblies, in  0.532 seconds
-Refreshing native plugins compatible for Editor in 1.25 ms, found 3 plugins.
+- Loaded All Assemblies, in  0.539 seconds
+Refreshing native plugins compatible for Editor in 1.04 ms, found 3 plugins.
 Native extension for iOS target not found
 Native extension for OSXStandalone target not found
 Native extension for WebGL target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.346 seconds
-Domain Reload Profiling: 879ms
-	BeginReloadAssembly (84ms)
+- Finished resetting the current domain, in  0.394 seconds
+Domain Reload Profiling: 930ms
+	BeginReloadAssembly (74ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (3ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (22ms)
-	RebuildCommonClasses (24ms)
+		CreateAndSetChildDomain (17ms)
+	RebuildCommonClasses (23ms)
 	RebuildNativeTypeToScriptingClass (8ms)
-	initialDomainReloadingComplete (23ms)
-	LoadAllAssembliesAndSetupDomain (393ms)
-		LoadAssemblies (221ms)
+	initialDomainReloadingComplete (22ms)
+	LoadAllAssembliesAndSetupDomain (409ms)
+		LoadAssemblies (227ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (205ms)
-			TypeCache.Refresh (189ms)
-				TypeCache.ScanAssembly (182ms)
+		AnalyzeDomain (211ms)
+			TypeCache.Refresh (195ms)
+				TypeCache.ScanAssembly (186ms)
 			ScanForSourceGeneratedMonoScriptInfo (12ms)
 			ResolveRequiredComponents (4ms)
-	FinalizeReload (346ms)
+	FinalizeReload (395ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (248ms)
+		SetupLoadedEditorAssemblies (288ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (14ms)
+			InitializePlatformSupportModulesInManaged (16ms)
 			SetLoadedEditorAssemblies (3ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (49ms)
-			ProcessInitializeOnLoadAttributes (162ms)
-			ProcessInitializeOnLoadMethodAttributes (20ms)
+			BeforeProcessingInitializeOnLoad (54ms)
+			ProcessInitializeOnLoadAttributes (172ms)
+			ProcessInitializeOnLoadMethodAttributes (43ms)
 			AfterProcessingInitializeOnLoad (1ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (2ms)
+		AwakeInstancesAfterBackupRestoration (3ms)
 Launching external process: /Applications/Unity/Hub/Editor/2022.3.4f1/Unity.app/Contents/Tools/UnityShaderCompiler
-Launched and connected shader compiler UnityShaderCompiler after 0.02 seconds
-Refreshing native plugins compatible for Editor in 1.17 ms, found 3 plugins.
+Launched and connected shader compiler UnityShaderCompiler after 0.03 seconds
+Refreshing native plugins compatible for Editor in 1.09 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 4422 Unused Serialized files (Serialized files now loaded: 0)
 Unloading 74 unused Assets / (152.3 KB). Loaded Objects now: 4892.
-Memory consumption went from 161.9 MB to 161.8 MB.
-Total: 2.657583 ms (FindLiveObjects: 0.159625 ms CreateObjectMapping: 0.067166 ms MarkObjects: 2.287833 ms  DeleteObjects: 0.142250 ms)
+Memory consumption went from 162.2 MB to 162.0 MB.
+Total: 2.642250 ms (FindLiveObjects: 0.143791 ms CreateObjectMapping: 0.056792 ms MarkObjects: 2.271791 ms  DeleteObjects: 0.169250 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
@@ -192,9 +192,121 @@ AssetImportParameters requested are different than current active one (requested
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Import Request.
-  Time since last request: 589.669315 seconds.
-  path: Assets/UI/pages/game_page
-  artifactKey: Guid(aa43289b4a0e541b0b9743866adabfe9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/UI/pages/game_page using Guid(aa43289b4a0e541b0b9743866adabfe9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ac2c859c0b894c283a01fb2e40a8fb2b') in 0.001215 seconds
+  Time since last request: 84611.314617 seconds.
+  path: Assets/UI/pages/game_page/marble_game_bg.png
+  artifactKey: Guid(fa0bb07f8d5e440f78eae71ee2d53075) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/UI/pages/game_page/marble_game_bg.png using Guid(fa0bb07f8d5e440f78eae71ee2d53075) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b79ff7727f90ac14ff12653833e2d96e') in 0.056756 seconds
 Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 579.410466 seconds.
+  path: Assets/UI/pages/game_page/apple.png
+  artifactKey: Guid(9f52bb7b780ee4e6ab678b94ccf46120) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/UI/pages/game_page/apple.png using Guid(9f52bb7b780ee4e6ab678b94ccf46120) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8b096de8c4e3ebf1da729edeefaf39de') in 0.030072 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000101 seconds.
+  path: Assets/UI/pages/game_page/banana.png
+  artifactKey: Guid(df78c33d209fd4f6c9d28f354cee622b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/UI/pages/game_page/banana.png using Guid(df78c33d209fd4f6c9d28f354cee622b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6dc01d21dcaedb763dab10207290907c') in 0.008727 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.699811 seconds.
+  path: Assets/UI/pages/game_page/game_page_bg.png
+  artifactKey: Guid(1629d7af740a24481b5847c90b630087) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/UI/pages/game_page/game_page_bg.png using Guid(1629d7af740a24481b5847c90b630087) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '33ccfbaebe77de83741c58b71e3fd690') in 0.013127 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 1532.597307 seconds.
+  path: Assets/UI/pages/game_page/pole_icon.png
+  artifactKey: Guid(2eb9eeabf713e405baf91292fdcc9ec8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/UI/pages/game_page/pole_icon.png using Guid(2eb9eeabf713e405baf91292fdcc9ec8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0279c88b4ce8c1f7a4c15581fe3a68db') in 0.057703 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 30.461213 seconds.
+  path: Assets/UI/pages/game_page/pole_icon.png
+  artifactKey: Guid(2eb9eeabf713e405baf91292fdcc9ec8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/UI/pages/game_page/pole_icon.png using Guid(2eb9eeabf713e405baf91292fdcc9ec8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f6e2c468d47f6e5a58145082194b5a5e') in 0.017906 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 112.392030 seconds.
+  path: Assets/UI/pages/game_page/pole_icon.png
+  artifactKey: Guid(2eb9eeabf713e405baf91292fdcc9ec8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/UI/pages/game_page/pole_icon.png using Guid(2eb9eeabf713e405baf91292fdcc9ec8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b990e476611e5050dd2073905836e79c') in 0.009335 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 1261.693693 seconds.
+  path: Assets/UI/pages/game_page/apple.png
+  artifactKey: Guid(9f52bb7b780ee4e6ab678b94ccf46120) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/UI/pages/game_page/apple.png using Guid(9f52bb7b780ee4e6ab678b94ccf46120) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9f7ba9457f881c2cecbf50ba696c9c9b') in 0.037745 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 3.327701 seconds.
+  path: Assets/UI/pages/game_page/cherry.png
+  artifactKey: Guid(805496677425c402bb31311bbd835a99) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/UI/pages/game_page/cherry.png using Guid(805496677425c402bb31311bbd835a99) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '01d94b1167e90df85e607aa979d9cc7f') in 0.008163 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.049220 seconds.
+  path: Assets/UI/pages/forge_page/entry_bg_red.png
+  artifactKey: Guid(b450f2ce1a44c406780798dfdc6d5a28) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/UI/pages/forge_page/entry_bg_red.png using Guid(b450f2ce1a44c406780798dfdc6d5a28) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9d042bfa8075e044ccebc59722bbae7a') in 0.007826 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000063 seconds.
+  path: Assets/UI/pages/game_page/export_icon.png
+  artifactKey: Guid(7a6bdee75c6f9425292aabad6ec5c99b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/UI/pages/game_page/export_icon.png using Guid(7a6bdee75c6f9425292aabad6ec5c99b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '95b6551ef5b950eac2e9ae2f6fe8d383') in 0.006996 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.002492 seconds.
+  path: Assets/UI/pages/game_page/mango.png
+  artifactKey: Guid(1667714e64030480d96574aa31feaa99) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/UI/pages/game_page/mango.png using Guid(1667714e64030480d96574aa31feaa99) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '346c9e9672833affd3b63c39b8cbf615') in 0.011541 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.049255 seconds.
+  path: Assets/UI/pages/game_page/pear.png
+  artifactKey: Guid(8b9c42440ef7e4d4d93e5b483990abdd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/UI/pages/game_page/pear.png using Guid(8b9c42440ef7e4d4d93e5b483990abdd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a6f4e7642412c53a597d9ad822f67b49') in 0.007079 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.430459 seconds.
+  path: Assets/UI/pages/game_page/spring_icon.png
+  artifactKey: Guid(bc076cecb20084ea8aa5aec924b38ab3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/UI/pages/game_page/spring_icon.png using Guid(bc076cecb20084ea8aa5aec924b38ab3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '01901bfbed0dc9ad862a6f876d50cfa0') in 0.007867 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000970 seconds.
+  path: Assets/UI/pages/game_page/watermelon.png
+  artifactKey: Guid(2dec5dd25d293462580409da5f11da0f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/UI/pages/game_page/watermelon.png using Guid(2dec5dd25d293462580409da5f11da0f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '48a0cc1b175f9ed2180ad9be043961af') in 0.009549 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3

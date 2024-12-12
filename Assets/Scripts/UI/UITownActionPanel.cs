@@ -11,7 +11,7 @@ public enum TownActionType
     forge = 1,
     shop = 2,
     train = 3,
-    walk = 4,
+    game = 4,
     restaurant = 5,
 }
 
@@ -29,8 +29,8 @@ public static class TownActionTypeExtensions
                 return PageType.shop;
             case TownActionType.train:
                 return PageType.train;
-            case TownActionType.walk:
-                return PageType.walk;
+            case TownActionType.game:
+                return PageType.game;
             case TownActionType.restaurant:
                 return PageType.restaurant;
             default:

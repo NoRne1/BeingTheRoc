@@ -393,6 +393,7 @@
 "Assets/Scripts/Component/PopObjComponent.cs"
 "Assets/Scripts/Component/RoundImage.cs"
 "Assets/Scripts/Component/Singleton.cs"
+"Assets/Scripts/Component/SpringMechanism.cs"
 "Assets/Scripts/Defines/BattleItem.cs"
 "Assets/Scripts/Defines/BuffDefine.cs"
 "Assets/Scripts/Defines/CharacterDefine.cs"

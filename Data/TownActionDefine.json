@@ -30,9 +30,9 @@
     "4": {
         "ID": 4,
         "townActionType": 4,
-        "iconResource": "town_walk_action_icon",
-        "titleIndex": "walk_title",
-        "descIndex": "walk_desc"
+        "iconResource": "town_game_action_icon",
+        "titleIndex": "game_title",
+        "descIndex": "game_desc"
     },
     "5": {
         "ID": 5,
