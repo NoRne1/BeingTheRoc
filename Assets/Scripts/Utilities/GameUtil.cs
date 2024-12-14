@@ -61,6 +61,7 @@ public class GameUtil : Singleton<GameUtil>
         }
     }
 
+    //世界坐标移动一个屏幕坐标的位置
     public Vector3 GetMovedWorldPosition(Vector3 worldPosition, Vector3 movePostion) 
     {
         return Camera.main.ScreenToWorldPoint(Camera.main.WorldToScreenPoint(worldPosition) + movePostion);
