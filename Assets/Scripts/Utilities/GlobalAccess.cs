@@ -38,6 +38,7 @@ class GlobalAccess
     public static int forgeEnhancePrice = 200;
     public static int forgeMergePrice = 200;
     public static int forgeEnhanceNumLimit = 3;
+    public static int marbleGamePrice = 200;
 
     public static int subCharacterNum
     {
@@ -178,6 +179,33 @@ class GlobalAccess
         if(addOrUpdate || NorneStore.Instance.Contains(cm))
         {
             NorneStore.Instance.Update<CharacterModel>(cm, true);
+        }
+    }
+
+    public static int GetFruitTypePoint(FruitType type)
+    {
+        switch(type)
+        {
+            case FruitType.pear:
+                return 30;
+            case FruitType.mango:
+                return 50;
+            case FruitType.apple:
+                return 80;
+            case FruitType.banana:
+                return 120;
+            case FruitType.cherry:
+                return 180;
+            case FruitType.watermelon:
+                return 250;
+            case FruitType.L:
+            case FruitType.U:
+            case FruitType.C:
+            case FruitType.K:
+            case FruitType.Y:
+                return 1000;
+            default:
+                return -1;
         }
     }
 

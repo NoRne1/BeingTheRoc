@@ -146,11 +146,14 @@
     <Compile Include="Assets/Scripts/UI/UITip.cs" />
     <Compile Include="Assets/Scripts/UI/UIHintBase.cs" />
     <Compile Include="Assets/Scripts/Component/RoundImage.cs" />
+    <Compile Include="Assets/Scripts/UI/UIFruitResult.cs" />
     <Compile Include="Assets/Scripts/UI/UIGameConsole.cs" />
     <Compile Include="Assets/Scripts/Component/NorneStore.cs" />
     <Compile Include="Assets/Scripts/Defines/TownActionDefine.cs" />
     <Compile Include="Assets/Scripts/Defines/BuffDefine.cs" />
+    <Compile Include="Assets/Scripts/UI/UIScorePoint.cs" />
     <Compile Include="Assets/Scripts/UI/UISetting.cs" />
+    <Compile Include="Assets/Scripts/UI/UIExitTriggle.cs" />
     <Compile Include="Assets/Scripts/UI/UITreasuresRect.cs" />
     <Compile Include="Assets/Scripts/Managers/BattleManager.cs" />
     <Compile Include="Assets/Scripts/UI/UISkillHint.cs" />
@@ -167,9 +170,11 @@
     <Compile Include="Assets/Scripts/Component/EquipmentFusionAnimation.cs" />
     <Compile Include="Assets/Scripts/UI/UIConsoleInput.cs" />
     <Compile Include="Assets/Scripts/Managers/UIManager.cs" />
+    <Compile Include="Assets/Scripts/UI/UIBarrierPoint.cs" />
     <Compile Include="Assets/Scripts/UI/UIDescHint.cs" />
     <Compile Include="Assets/Scripts/Pages/UIRestaurantPage.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/UnityExtensions.cs" />
+    <Compile Include="Assets/Scripts/UI/UIFruitLuckyResult.cs" />
     <Compile Include="Assets/Scripts/Defines/StoreItemDefine.cs" />
     <Compile Include="Assets/Scripts/Models/AttributeDynamic.cs" />
     <Compile Include="Assets/Scripts/Managers/GameManager.cs" />
@@ -227,6 +232,7 @@
     <Compile Include="Assets/Scripts/Utilities/CheckPointerEnter.cs" />
     <Compile Include="Assets/Scripts/UI/UIBuffsPanel.cs" />
     <Compile Include="Assets/Scripts/UI/UIEquipItem.cs" />
+    <Compile Include="Assets/Scripts/Controllers/MarbleGameController.cs" />
     <Compile Include="Assets/Scripts/UI/UITeamInfoPage.cs" />
     <Compile Include="Assets/Scripts/Models/AttributeData.cs" />
   </ItemGroup>

@@ -7,6 +7,7 @@ using DG.Tweening;
 
 public enum CoinType
 {
+    none = -1,
     featherCoin = 0,
     wheatCoin = 1,
 }
@@ -42,6 +43,14 @@ public class UICoinChangeButton: MonoBehaviour
         });
     }
 
+    public void SetSubject(BehaviorSubject<int> subject)
+    {
+        subject.AsObservable().DistinctUntilChanged().TakeUntilDestroy(this).Subscribe(coin =>
+        {   
+            CoinChanged(coin);
+        });
+    }
+
     private void CoinChanged(int coin)
     {
         if (currentCoin == -1)
@@ -71,8 +80,6 @@ public class UICoinChangeButton: MonoBehaviour
         // Animate the featherCoinText value change
         int startValue = currentCoin;
         int endValue = currentCoin + amount;
-
-        
         
         // Create a sequence for the parabolic motion
         Sequence sequence = DOTween.Sequence();

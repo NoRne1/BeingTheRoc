@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public class SpringMechanism : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -10,22 +12,25 @@ public class SpringMechanism : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public float minStretch = 0.5f; // 最小拉伸长度
     public float returnSpeed = 5f; // 弹簧恢复的速度
     public Transform springJointPos;
-    public SpringJoint2D springJoint; // SpringJoint2D 用于物理弹簧模拟
-    public Rigidbody2D ballRigidbody;
-    public Transform ball;
+    public List<Rigidbody2D> ballRigidbodys;
     public Transform launchArea;
     private Vector3 dragStartPosition; // 鼠标按下时的屏幕坐标
     private bool poleButtonClicked;
     private float initialSpringHeight;
     private Vector3 springJointInitialPos;
+    private List<Vector3> ballInitialPos = new List<Vector3>();
 
     void Start()
     {
         initialSpringHeight = springRectTransform.sizeDelta.y; // 获取弹簧杆的初始高度
         springJointInitialPos = springJointPos.position;
-        ballRigidbody.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-        // 确保一开始不受弹簧力影响
-        springJoint.enabled = false;
+        foreach(var ball in ballRigidbodys)
+        {
+            ball.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+            // 确保一开始不受弹簧力影响
+            ball.GetComponent<SpringJoint2D>().enabled = false;
+            ballInitialPos.Add(ball.transform.position);
+        }
     }
 
     // 按下弹簧杆按钮时触发
@@ -86,21 +91,36 @@ public class SpringMechanism : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     private IEnumerator ReturnSpringJointToBase()
     {
-        if (GameUtil.Instance.IsPointInsideGameObject(launchArea.gameObject, Camera.main.WorldToScreenPoint(ball.position)))
+        foreach(var ball in ballRigidbodys)
         {
-            springJoint.enabled = true;
-            bool springRebounded = false;
-            while (!springRebounded)
+            if (GameUtil.Instance.IsPointInsideGameObject(launchArea.gameObject, Camera.main.WorldToScreenPoint(ball.position)))
             {
-                // 判断是否恢复到初始高度
-                if (Vector3.Distance(ball.position, springJointPos.position) <= springJoint.distance)
+                var springJoint = ball.GetComponent<SpringJoint2D>();
+                springJoint.enabled = true;
+                bool springRebounded = false;
+                while (!springRebounded)
                 {
-                    springRebounded = true;
+                    // 判断是否恢复到初始高度
+                    if (Vector3.Distance(ball.transform.position, springJointPos.position) <= springJoint.distance)
+                    {
+                        springRebounded = true;
+                    }
+                    yield return null;
                 }
-                yield return null;
+                springJoint.enabled = false;
             }
-            springJoint.enabled = false;
         }
         springJointPos.position = springJointInitialPos;
+    }
+
+    public void ResetBalls()
+    {
+        foreach(var index in Enumerable.Range(0, ballRigidbodys.Count))
+        {
+            ballRigidbodys[index].collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+            // 确保一开始不受弹簧力影响
+            ballRigidbodys[index].GetComponent<SpringJoint2D>().enabled = false;
+            ballRigidbodys[index].transform.position = ballInitialPos[index];
+        }
     }
 }
