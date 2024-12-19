@@ -19,6 +19,7 @@ public class SpringMechanism : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private float initialSpringHeight;
     private Vector3 springJointInitialPos;
     private List<Vector3> ballInitialPos = new List<Vector3>();
+    public bool enable = false;
 
     void Start()
     {
@@ -44,7 +45,6 @@ public class SpringMechanism : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public void OnPointerUp(PointerEventData eventData)
     {
         poleButtonClicked = false;
-
         // 弹簧恢复到原始长度
         StartCoroutine(ReturnSpringToBase());
         // 虚拟弹簧恢复到原始位置
@@ -54,7 +54,7 @@ public class SpringMechanism : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     void Update()
     {
         // 如果正在拉伸并且鼠标按下
-        if (poleButtonClicked && Input.GetMouseButton(0))
+        if (enable && poleButtonClicked && Input.GetMouseButton(0))
         {
             Vector3 currentDragPosition = Input.mousePosition; // 获取当前的鼠标屏幕坐标
 

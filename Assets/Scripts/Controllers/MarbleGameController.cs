@@ -17,7 +17,9 @@ public class MarbleGameController : MonoBehaviour
     public Button inputButton;
     public Button outputButton;
     public UICoinChangeButton scoreArea;
+    public UIEnterTriggle enterTriggle;
     public UIExitTriggle exitTriggle;
+    public UIFruitLuckyControl luckyControl;
     
     private List<UIBarrierPoint> uIBarrierPoints;
 
@@ -28,6 +30,7 @@ public class MarbleGameController : MonoBehaviour
     private Dictionary<FruitType, UIFruitResultBase> uiFruitResultDic = new Dictionary<FruitType, UIFruitResultBase>();
     
     private BehaviorSubject<int> remainLaunchCount = new BehaviorSubject<int>(0);
+    private BehaviorSubject<List<int>> gamingBallInstanceIDsSubject = new BehaviorSubject<List<int>>(new List<int>());
 
     private void Awake() {
         startButton.gameObject.SetActive(true);
@@ -46,7 +49,9 @@ public class MarbleGameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        exitTriggle.SetSubject(remainLaunchCount);
+        luckyControl.ToggleControl(true);
+        enterTriggle.SetSubject(gamingBallInstanceIDsSubject);
+        exitTriggle.SetSubject(gamingBallInstanceIDsSubject);
         foreach(var point in uIBarrierPoints)
         {
             point.SetSubject(barrierPointSubject);
@@ -59,6 +64,11 @@ public class MarbleGameController : MonoBehaviour
         }).AddTo(this);
         resetButton.OnClickAsObservable().Subscribe(_=>{
             springMechanism.ResetBalls();
+            //只是重启小球位置，已经经过起点的小球也应该计入
+            var tempCount = remainLaunchCount.Value;
+            tempCount -= gamingBallInstanceIDsSubject.Value.Count;
+            remainLaunchCount.OnNext(tempCount);
+            gamingBallInstanceIDsSubject.OnNext(new List<int>());
         }).AddTo(this);
         restartButton.OnClickAsObservable().Subscribe(_=>{
             GameOver();
@@ -84,6 +94,23 @@ public class MarbleGameController : MonoBehaviour
                 GameOver();
             }
         }).AddTo(this);
+        gamingBallInstanceIDsSubject.Pairwise()
+            .Subscribe(pair =>
+            {
+                var tempCount = remainLaunchCount.Value;
+                //多少个小球曾经过起点，现在经过了终点
+                tempCount -= pair.Previous.Except(pair.Current).ToList().Count;
+                remainLaunchCount.OnNext(tempCount);
+            }).AddTo(this);
+        gamingBallInstanceIDsSubject.CombineLatest(remainLaunchCount, (ids, remainCount)=>(ids, remainCount)).Subscribe(pair =>
+            {
+                if (pair.ids.Count < pair.remainCount)
+                {
+                    springMechanism.enable = true;
+                } else {
+                    springMechanism.enable = false;
+                }
+            }).AddTo(this);
     }
 
     public void StartGame()
@@ -106,6 +133,8 @@ public class MarbleGameController : MonoBehaviour
             //new game
             remainLaunchCount.OnNext(6);
             startButton.gameObject.SetActive(false);
+
+            luckyControl.ToggleControl(false);
         }
     }
 
@@ -178,7 +207,7 @@ public class MarbleGameController : MonoBehaviour
                     if (resultPair.Value == 3)
                     {
                         score += GlobalAccess.GetFruitTypePoint(resultPair.Key);
-                    } else if (resultPair.Value == 4){
+                    } else if (resultPair.Value >= 4){
                         score += GlobalAccess.GetFruitTypePoint(resultPair.Key) * 2;
                     }
                     break;
@@ -209,5 +238,7 @@ public class MarbleGameController : MonoBehaviour
         springMechanism.ResetBalls();
         SettleResult();
         startButton.gameObject.SetActive(true);
+        gamingBallInstanceIDsSubject.OnNext(new List<int>());
+        luckyControl.ToggleControl(true);
     }
 }
