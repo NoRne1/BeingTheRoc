@@ -22,14 +22,6 @@ public class UIBarPage : MonoBehaviour
     private IDisposable collectCharacterTextDisposable;
 
     private int dayLeft = -1;
-    // void OnEnable() 
-    // {
-    //     var temp = (int)(GameManager.Instance.timeLeft.Value / 3);
-    //     if (temp != dayLeft)
-    //     {
-    //         RefreshChairItems();
-    //     }
-    // }
 
     // Start is called before the first frame update
     void Start()
@@ -90,8 +82,8 @@ public class UIBarPage : MonoBehaviour
                 ClickChairItem(item);
             }).AddTo(this);
         }
-        GameManager.Instance.timeLeft.Select(timeleft=>(int)(timeleft / 3)).DistinctUntilChanged().Subscribe(_=>{
-            RefreshChairItems();
+        GameManager.Instance.timeLeft.DistinctUntilChanged().Subscribe(timeLeft=>{
+            RefreshChairItems(timeLeft);
         }).AddTo(this);
     }
 
@@ -161,19 +153,28 @@ public class UIBarPage : MonoBehaviour
         StartCoroutine(collectCharacterLayer.Close());
     }
 
-    public void RefreshChairItems()
+    public void RefreshChairItems(int timeLeft)
     {
-        foreach(var index in Enumerable.Range(0, chairItems.Count))
+        if (timeLeft % 3 == 0)
         {
-            var result = DataManager.Instance.GetRandomCharacter(info.greenRate, info.blueRate, info.redRate);
-            if (result.Item1) 
+            foreach(var index in Enumerable.Range(0, chairItems.Count))
             {
-                //随机到角色了
-                chairItems[index].Setup(new CharacterModel(result.Item2));
-                chairItems[index].gameObject.SetActive(true);
+                var result = DataManager.Instance.GetRandomCharacter(info.greenRate, info.blueRate, info.redRate);
+                if (result.Item1) 
+                {
+                    //随机到角色了
+                    chairItems[index].Setup(new CharacterModel(result.Item2));
+                    chairItems[index].gameObject.SetActive(true);
+                }
+                else {
+                    chairItems[index].gameObject.SetActive(false);
+                }
             }
-            else {
-                chairItems[index].gameObject.SetActive(false);
+        } else 
+        {
+            foreach(var item in chairItems)
+            {
+                item.gameObject.SetActive(false);
             }
         }
     }

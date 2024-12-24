@@ -12,12 +12,12 @@ public class GameUtil : Singleton<GameUtil>
 {
     public bool GetRandomRate(float rate)
     {
-        return UnityEngine.Random.Range(0, 100) < rate;
+        return UnityEngine.Random.Range(0, 100.0f) < rate;
     }
 
     public bool GetRandomRate_affected(float rate)
     {
-        return UnityEngine.Random.Range(0, 100) < rate;
+        return UnityEngine.Random.Range(0, 100.0f) < rate;
     }
 
     public void DetachChildren(Transform nodeFather) {

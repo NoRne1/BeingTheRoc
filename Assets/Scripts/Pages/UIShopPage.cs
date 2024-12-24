@@ -3,28 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using System.Linq;
+using Unity.Mathematics;
 
 public class UIShopPage : MonoBehaviour
 {
     public List<StoreItemDefine> sellableItems;
     public List<UIShopItem> shopItems;
-    private List<int> lastSelectedItemIDs = new List<int>();
-    private int timeLeft = -1;
+    private TownShopInfoModel shopInfo;
+    private System.IDisposable itemsDispose;
+
     // Start is called before the first frame update
+    private void Awake() {
+        this.sellableItems= DataManager.Instance.StoreItems.Values.Where(item => item.sellType == SellType.shop).ToList();
+    }
+
     void Start()
     {
-        this.sellableItems= DataManager.Instance.StoreItems.Values.Where(item => item.sellType == SellType.shop).ToList();
-        timeLeft = GameManager.Instance.timeLeft.Value;
-        GenerateShopItems();
-
-        GameManager.Instance.timeLeft.AsObservable().TakeUntilDestroy(this).Subscribe(time =>
+        GameManager.Instance.timeLeft.AsObservable().Subscribe(time =>
         {
-            if (timeLeft != time)
+            if (enabled)
             {
-                timeLeft = time;
-                GenerateShopItems();
+                TimeRefresh();
             }
-        });
+        }).AddTo(this);
     }
     // Update is called once per frame
     void Update()
@@ -34,52 +35,120 @@ public class UIShopPage : MonoBehaviour
 
     void OnEnable()
     {
-        if(timeLeft != -1 && timeLeft != GameManager.Instance.timeLeft.Value)
+        itemsDispose.IfNotNull(dispose => { dispose.Dispose(); });
+        if (MapManager.Instance.CurrentTownNode.shopInfo == null)
         {
-            timeLeft = GameManager.Instance.timeLeft.Value;
-            GenerateShopItems();
+            MapManager.Instance.CurrentTownNode.shopInfo = new TownShopInfoModel();
+            this.shopInfo = MapManager.Instance.CurrentTownNode.shopInfo;
+            TimeRefresh();
+            itemsDispose = shopInfo.sellingItems.AsObservable().Subscribe(items =>
+            {
+                if (enabled)
+                {
+                    Setup(items);
+                }
+            }).AddTo(this);
+        } else 
+        {
+            this.shopInfo = MapManager.Instance.CurrentTownNode.shopInfo;
+            TimeRefresh();
+            itemsDispose = shopInfo.sellingItems.AsObservable().Subscribe(items =>
+            {
+                if (enabled)
+                {
+                    Setup(items);
+                }
+            }).AddTo(this);
         }
     }
 
-    public void GenerateShopItems()
+    private void Setup(List<StoreItemModel> items)
     {
-        var itemList = RefreshItems();
         for (int i = 0; i < shopItems.Count; i++)
         {
-            if(i < itemList.Count)
+            if(i < items.Count)
             {
-                shopItems[i].SetStoreItemInfo(itemList[i]);
+                shopItems[i].SetStoreItemInfo(items[i]);
             } else
             {
                 shopItems[i].SetStoreItemInfo(null);
             }
         }
     }
-
-    public List<StoreItemDefine> RefreshItems()
+    //时间刷新
+    public void TimeRefresh()
     {
-        List<StoreItemDefine> sellableItemsCopy = new List<StoreItemDefine>(sellableItems);
-        // 随机选取 refreshCount 个物品，确保与上一次选取的物品不同
-        int refreshCount = Random.Range(3, shopItems.Count);
-        System.Random random = new System.Random();
-        List<StoreItemDefine> newSelectedItems = new List<StoreItemDefine>();
-
-        while (newSelectedItems.Count < refreshCount)
+        if (shopInfo != null)
         {
-            int index = random.Next(sellableItemsCopy.Count);
-            StoreItemDefine selectedItemDefine = sellableItemsCopy[index];
-
-            if (!lastSelectedItemIDs.Contains(selectedItemDefine.ID))
+            if (shopInfo.timeLeft != GameManager.Instance.timeLeft.Value)
             {
-                newSelectedItems.Add(selectedItemDefine);
+                var timeInterval = shopInfo.timeLeft - GameManager.Instance.timeLeft.Value;
+                if (timeInterval > 6)
+                {
+                    //超过两天没更新，直接刷新整个商店
+                    shopInfo.sellingItems.Value.Clear();
+                    AppendItems(shopInfo.sellingItems.Value);
+                } else if (timeInterval > 0)
+                {
+                    for(var i = timeInterval; i > 0; i--)
+                    {
+                        SoldItems(shopInfo.sellingItems.Value);
+                        DiscountItems(shopInfo.sellingItems.Value);
+                    }
+                    if (GameManager.Instance.timeLeft.Value / 3 != shopInfo.timeLeft / 3)
+                    {
+                        //过天补货
+                        AppendItems(shopInfo.sellingItems.Value);
+                    }
+                }
+            }
+            shopInfo.sellingItems.OnNext(shopInfo.sellingItems.Value);
+            shopInfo.timeLeft = GameManager.Instance.timeLeft.Value;
+        }
+    }
+
+    //补货刷新逻辑
+    public void AppendItems(List<StoreItemModel> items)
+    {
+        if (shopInfo != null)
+        {
+            List<StoreItemDefine> sellableItemsCopy = new List<StoreItemDefine>(sellableItems);
+            var ids = items.Select(item=>item.ID).ToList();
+            sellableItemsCopy.RemoveAll(item => ids.Contains(item.ID));
+            // 随机选取 refreshCount 个物品，确保与上一次选取的物品不同
+            int appendCount = UnityEngine.Random.Range(3, shopItems.Count) - items.Count;
+            System.Random random = new System.Random();
+
+            while (items.Count < appendCount)
+            {
+                int index = random.Next(sellableItemsCopy.Count);
+                StoreItemDefine selectedItemDefine = sellableItemsCopy[index];
+                items.Add(new StoreItemModel(selectedItemDefine));
                 sellableItemsCopy.RemoveAt(index);
             }
         }
-
-        // 更新上一次选取的物品列表
-        lastSelectedItemIDs = newSelectedItems.Select(item => item.ID).ToList();
-
-        return newSelectedItems;
+    }
+    //卖货刷新逻辑
+    public void SoldItems(List<StoreItemModel> items)
+    {
+        if (shopInfo != null)
+        {
+            items.RemoveAll(item=>GameUtil.Instance.GetRandomRate(30/item.discount));
+        }
+    }
+    //打折刷新逻辑
+    public void DiscountItems(List<StoreItemModel> items)
+    {
+        if (shopInfo != null)
+        {
+            foreach(var item in items)
+            {
+                if (item.discount > 0.3f && GameUtil.Instance.GetRandomRate(50))
+                {
+                    item.discount = Mathf.Max(0.3f, UnityEngine.Random.Range(0.3f, 0.9f) * item.discount);
+                }
+            }
+        }
     }
 
     public void BuyItem(int index)
@@ -89,7 +158,7 @@ public class UIShopPage : MonoBehaviour
             //错误请求
             UITip tip = UIManager.Instance.Show<UITip>();
             tip.UpdateGeneralTip("0002");
-        } else if (shopItems[index].info.price > GameManager.Instance.featherCoin.Value)
+        } else if (shopItems[index].info.realPrice > GameManager.Instance.featherCoin.Value)
         {
             //钱不够买
             UITip tip = UIManager.Instance.Show<UITip>();
@@ -98,8 +167,8 @@ public class UIShopPage : MonoBehaviour
         } else if (shopItems[index].info.type == ItemType.treasure) {
             //treasure不占仓库，需特殊处理
             shopItems[index].ItemSold(true);
-            GameManager.Instance.FeatherCoinChanged(-shopItems[index].info.price);
-            GameManager.Instance.treasureManager.AddTreasure(new StoreItemModel(shopItems[index].info));
+            GameManager.Instance.FeatherCoinChanged(-shopItems[index].info.realPrice);
+            GameManager.Instance.treasureManager.AddTreasure(shopItems[index].info);
         } else if (!GameManager.Instance.repository.remainOpacity)
         {
             //仓库空间不够了
@@ -109,8 +178,8 @@ public class UIShopPage : MonoBehaviour
         } else
         {
             shopItems[index].ItemSold(true);
-            GameManager.Instance.FeatherCoinChanged(-shopItems[index].info.price);
-            GameManager.Instance.repository.AddItem(new StoreItemModel(shopItems[index].info));
+            GameManager.Instance.FeatherCoinChanged(-shopItems[index].info.realPrice);
+            GameManager.Instance.repository.AddItem(shopItems[index].info);
         }
     }
 }

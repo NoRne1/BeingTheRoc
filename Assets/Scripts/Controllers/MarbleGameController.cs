@@ -31,6 +31,7 @@ public class MarbleGameController : MonoBehaviour
     
     private BehaviorSubject<int> remainLaunchCount = new BehaviorSubject<int>(0);
     private BehaviorSubject<List<int>> gamingBallInstanceIDsSubject = new BehaviorSubject<List<int>>(new List<int>());
+    public Subject<Unit> gameBeginSubject = new Subject<Unit>();
 
     private void Awake() {
         startButton.gameObject.SetActive(true);
@@ -135,6 +136,7 @@ public class MarbleGameController : MonoBehaviour
             startButton.gameObject.SetActive(false);
 
             luckyControl.ToggleControl(false);
+            gameBeginSubject.OnNext(Unit.Default);
         }
     }
 

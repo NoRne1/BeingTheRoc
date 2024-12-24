@@ -9,7 +9,8 @@ public class FoodModel
     public string title { get; set; }
     public List<FoodProperty> foodPropertys = new List<FoodProperty>();
     public int priceFloatFactor;
-
+     //for deepcopy
+    public FoodModel(){}
     public FoodModel(FoodDefine define)
     {
         this.ID = define.ID;

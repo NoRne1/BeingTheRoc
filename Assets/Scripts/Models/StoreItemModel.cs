@@ -21,6 +21,13 @@ public class StoreItemModel : StoreItemDefine
     public FoodModel foodModel;
 
     public bool equipCanUse = true;
+
+    public float discount = 1.0f;
+    public int realPrice
+    {
+        get { return (int)(price * discount); }
+    }
+
     public StoreItemModel()
     {}
     public StoreItemModel(StoreItemDefine define)

@@ -7,6 +7,8 @@ public class EquipModel : EquipDefine
 {
     public AttributeData attr;
     public List<EquipExtraEntryModel> extraEntryModels;
+    //for deepcopy
+    public EquipModel(){}
     public EquipModel(EquipDefine define)
     {
         ID = define.ID;

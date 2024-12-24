@@ -48,6 +48,7 @@ public class GameManager : MonoSingleton<GameManager>
     public BehaviorSubject<int> wheatCoin = new BehaviorSubject<int>(300);
     public BehaviorSubject<int> timeLeft = new BehaviorSubject<int>(92);
     public BehaviorSubject<TimeInterval> timeInterval = new BehaviorSubject<TimeInterval>(TimeInterval.morning);
+    public Subject<PageType> switchPageSubject = new Subject<PageType>();
     public PageType currentPageType = PageType.map;
 
     public Dictionary<string, NorneRelay<CharacterModel>> characterRelaysDic = new Dictionary<string, NorneRelay<CharacterModel>>();
@@ -141,6 +142,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void SwitchPage(PageType pageType, CoroutineAction action = null)
     {
+        switchPageSubject.OnNext(pageType);
         StartCoroutine(SwitchPageIEnumerator(pageType, action));
     }
 

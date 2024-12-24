@@ -39,14 +39,17 @@ public class UIStoreItemHint : UIHintBase
     public void Setup(StoreItemModel item)
     {
         Setup((StoreItemDefine)item);
-        foreach (var index in Enumerable.Range(0, entrys.Count))
+        if (item.equipModel != null)
         {
-            if (index < item.equipModel.extraEntryModels.Count)
+            foreach (var index in Enumerable.Range(0, entrys.Count))
             {
-                entrys[index].Setup(item.equipModel.extraEntryModels[index], false);
-                entrys[index].gameObject.SetActive(true);
-            } else {
-                entrys[index].gameObject.SetActive(false);
+                if (index < item.equipModel.extraEntryModels.Count)
+                {
+                    entrys[index].Setup(item.equipModel.extraEntryModels[index], false);
+                    entrys[index].gameObject.SetActive(true);
+                } else {
+                    entrys[index].gameObject.SetActive(false);
+                }
             }
         }
     }

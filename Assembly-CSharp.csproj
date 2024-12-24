@@ -109,6 +109,7 @@
     <Compile Include="Assets/Scripts/Component/ObjectPool.cs" />
     <Compile Include="Assets/Scripts/Utilities/ShakeEffect.cs" />
     <Compile Include="Assets/Scripts/Defines/SoundDefine.cs" />
+    <Compile Include="Assets/Scripts/UI/UIGamePage.cs" />
     <Compile Include="Assets/Scripts/Managers/MapManager.cs" />
     <Compile Include="Assets/Scripts/Component/SpringMechanism.cs" />
     <Compile Include="Assets/Scripts/Models/BuffModel.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="Assets/Scripts/Utilities/Extensions/Vector2Converter.cs" />
     <Compile Include="Assets/Scripts/UI/UICollectButton.cs" />
     <Compile Include="Assets/Scripts/UI/UIShopItem.cs" />
+    <Compile Include="Assets/Scripts/Models/TownShopInfoModel.cs" />
     <Compile Include="Assets/Scripts/Managers/BattleChessboardManager.cs" />
     <Compile Include="Assets/Scripts/Managers/LoadingManager.cs" />
     <Compile Include="Assets/Scripts/Component/NameGenerator.cs" />

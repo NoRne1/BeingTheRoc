@@ -38,8 +38,8 @@ public class BattleItemManager
     //战斗开始时初始化
     public void Init(List<string> characterIDs, TownBattleInfoModel battleInfo)
     {
-        float difficultyFactor = battleManager.difficultyExtraFactor + battleInfo.battleBaseDifficulty;
         battleManager = BattleManager.Instance;
+        float difficultyFactor = battleManager.difficultyExtraFactor + battleInfo.battleBaseDifficulty;
         ClearItem();
         id_posDic.Clear();
         pos_uibattleItemDic.Clear();

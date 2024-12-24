@@ -38,6 +38,7 @@ public class UITownNode : MonoBehaviour
     }
 
     public List<int> townActions = new List<int>();
+    public TownShopInfoModel shopInfo;
 
     public TownBattleInfoModel battleInfo;
 
@@ -67,7 +68,7 @@ public class UITownNode : MonoBehaviour
         //todo add a shop for test
         hashSet.Add(2);
         hashSet.Add(5);
-        hashSet.Add(4);
+        hashSet.Add(0);
         while (hashSet.Count < 3)
         {
             hashSet.Add(Random.Range(0,5));
