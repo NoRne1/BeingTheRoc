@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 581793946358112356}
   - component: {fileID: 1435824146569302594}
   - component: {fileID: -7727990339820208187}
+  - component: {fileID: -8160037004845697802}
   m_Layer: 5
   m_Name: town2_button
   m_TagString: Untagged
@@ -153,3 +154,16 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6d0735271eef44ef4a2fd89e19b1a6f0, type: 3}
   - {fileID: 21300000, guid: 3da4f3790eff448cb829c2271b1ba3b5, type: 3}
   townActions: 
+--- !u!114 &-8160037004845697802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7323666738239514573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f95950c49eb78405faebe8b581882360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hintObject: {fileID: 0}

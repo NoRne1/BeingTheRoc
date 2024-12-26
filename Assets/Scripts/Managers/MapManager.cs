@@ -103,6 +103,7 @@ public class MapManager : MonoSingleton<MapManager>
         UITownNode uIKingNode = kingNode.GetComponent<UITownNode>();
         uIKingNode.townID = 0;
         townList.Add(kingNode.GetComponent<UITownNode>());
+        kingNode.GetComponent<HintComponent>().Setup(uIKingNode.model);
         generateTownCircle(node_circle_3, town3Prefab, 4);
         generateTownCircle(node_circle_2, town2Prefab, 7);
         generateTownCircle(node_circle_1, town1Prefab, 10);
@@ -116,6 +117,7 @@ public class MapManager : MonoSingleton<MapManager>
         {
             GameObject townNode = Instantiate(townPrefab, node_circle[initIndex].position, Quaternion.identity, this.town_node_father);
             UITownNode uITownNode = townNode.GetComponent<UITownNode>();
+            townNode.GetComponent<HintComponent>().Setup(uITownNode.model);
             uITownNode.townID = townIdcounter;
             townIdcounter++;
             townList.Add(uITownNode);
@@ -275,7 +277,7 @@ public class MapManager : MonoSingleton<MapManager>
                     //todo StartBattle
                     GameManager.Instance.SwitchPage(PageType.battle, () =>
                     {
-                        BattleManager.Instance.StartBattle(GameManager.Instance.characterRelaysDic.Keys.ToList(), townList[currentTownId].battleInfo);
+                        BattleManager.Instance.StartBattle(GameManager.Instance.characterRelaysDic.Keys.ToList(), townList[currentTownId].model.battleInfo);
                     });
                     break;
             }                   

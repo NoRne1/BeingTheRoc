@@ -114,7 +114,7 @@ public class UIStoreItemHint : UIHintBase
         {
             AddExtraHint(DataManager.Instance.ExtraEntrys[item.ExtraEntry3]);
         }
-        StartCoroutine(InitLayoutPosition());
+        StartCoroutine(SetupComplete());
     }
 
     private void AddExtraHint(ExtraEntryDesc desc)

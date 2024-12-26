@@ -12,6 +12,7 @@ public enum HintType
     storeItem = 2,
     skill = 3,
     character = 4,
+    town = 5,
 }
 
 public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
@@ -23,6 +24,7 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private SkillDefine skill = null;
     public CharacterModel Character { get { return character; } }
     private CharacterModel character = null;
+    private TownModel townModel = null;
     public BehaviorSubject<bool> isMouseEnter = new BehaviorSubject<bool>(false);
 
     public void Start()
@@ -60,6 +62,11 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                         characterHint.Setup(character);
                         hintObject = characterHint;
                         break;
+                    case HintType.town:
+                        UITownHint townHint = UIManager.Instance.Show<UITownHint>(CanvasType.tooltip);
+                        townHint.Setup(townModel);
+                        hintObject = townHint;
+                        break;
                 }
             }
             else
@@ -79,6 +86,9 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                         break;
                     case HintType.character:
                         UIManager.Instance.Close<UICharacterHint>();
+                        break;
+                    case HintType.town:
+                        UIManager.Instance.Close<UITownHint>();
                         break;
                 }
             }
@@ -134,6 +144,12 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         type = HintType.character;
         this.character = character;
+    }
+
+    public void Setup(TownModel townModel)
+    {
+        type = HintType.town;
+        this.townModel = townModel;
     }
 }
 

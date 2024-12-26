@@ -85,6 +85,7 @@
     <Compile Include="Assets/Scripts/UI/UIEntryDesc.cs" />
     <Compile Include="Assets/Scripts/Defines/CharacterDefine.cs" />
     <Compile Include="Assets/Scripts/Pages/UIForgePage.cs" />
+    <Compile Include="Assets/Scripts/Component/TownNameGenerator.cs" />
     <Compile Include="Assets/Scripts/Models/FoodModel.cs" />
     <Compile Include="Assets/Scripts/UI/UIRepositorSlot.cs" />
     <Compile Include="Assets/Scripts/UI/UIStoreItemHint.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Assets/Scripts/Utilities/PathFinding.cs" />
     <Compile Include="Assets/Scripts/Managers/SkillManager.cs" />
     <Compile Include="Assets/Scripts/UI/UILoadingPanel.cs" />
+    <Compile Include="Assets/Scripts/UI/UITownHint.cs" />
     <Compile Include="Assets/Scripts/UI/UIBattleItemInfo.cs" />
     <Compile Include="Assets/Scripts/UI/UIPropertyChangeButton.cs" />
     <Compile Include="Assets/Scripts/Defines/FoodDefine.cs" />

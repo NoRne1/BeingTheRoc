@@ -18,34 +18,45 @@ public enum TownNodeStatus
     passed = 1
 }
 
-public class UITownNode : MonoBehaviour
+public class TownModel
 {
     public TownNodeType type;
-    public int townID;
-    public Image town_icon;
-
-    public List<Sprite> town_icon_list;
-    
-    private TownNodeStatus status = TownNodeStatus.unpassed;
-    public TownNodeStatus Status
-    {
-        get { return status; }
-        set
-        {
-            status = value;
-            town_icon.overrideSprite = town_icon_list[(int)status];
-        }
+    public NameData nameData;
+    public string Name 
+    { 
+        get 
+        { 
+            return Config.Language == 0 ? nameData.chineseName: nameData.englishName; 
+        } 
     }
+    public TownNodeStatus status = TownNodeStatus.unpassed;
 
     public List<int> townActions = new List<int>();
     public TownShopInfoModel shopInfo;
 
     public TownBattleInfoModel battleInfo;
+}
 
-    // Start is called before the first frame update
-    void Start()
+public class UITownNode : MonoBehaviour
+{
+    public TownNodeType type;
+    public int townID;
+    public Image town_icon;
+    public List<Sprite> town_icon_list;
+    public TownModel model = new TownModel();
+    public TownNodeStatus Status
     {
-        town_icon.overrideSprite = town_icon_list[(int)status];
+        get { return model.status; }
+        set
+        {
+            model.status = value;
+            town_icon.overrideSprite = town_icon_list[(int)model.status];
+        }
+    }
+    
+    void Awake()
+    {
+        town_icon.overrideSprite = town_icon_list[(int)model.status];
         Init();
     }
 
@@ -58,11 +69,14 @@ public class UITownNode : MonoBehaviour
     public void GoNextTown()
     {
         MapManager.Instance.GoNextTown(townID);
+        UIManager.Instance.Close<UITownHint>();
     }
 
     private void Init()
     {
-        townActions.Clear();
+        model.type = type;
+        model.nameData = DataManager.Instance.townNameGenerator.GetRandomTownName();
+        model.townActions.Clear();
         HashSet<int> hashSet = new HashSet<int>();
 
         //todo add a shop for test
@@ -73,7 +87,7 @@ public class UITownNode : MonoBehaviour
         {
             hashSet.Add(Random.Range(0,5));
         }
-        townActions = hashSet.ToList();
+        model.townActions = hashSet.ToList();
         //townActions = GameUtil.Instance.GenerateUniqueRandomList(0, DataManager.Instance.TownActions.Count, 3);
 
         //todo TownBattleInfoModel init
@@ -86,6 +100,6 @@ public class UITownNode : MonoBehaviour
             new Vector2(1, 1),
             new Vector2(1, 2)
         };
-        battleInfo = new TownBattleInfoModel(type, temp);
+        model.battleInfo = new TownBattleInfoModel(type, temp);
     }
 }

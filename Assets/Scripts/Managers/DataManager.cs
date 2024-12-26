@@ -35,6 +35,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, Dictionary<int, int>> mergeEquipDic = null;
 
     public NameGenerator nameGenerator = new NameGenerator();
+    public TownNameGenerator townNameGenerator = new TownNameGenerator();
     public BehaviorSubject<bool> DataLoaded = new BehaviorSubject<bool>(false);
 
     public DataManager()
@@ -46,6 +47,7 @@ public class DataManager : Singleton<DataManager>
     public void Load()
     {
         nameGenerator.LoadNameData(this.DataPath + "NameDatabase.txt");
+        townNameGenerator.LoadTownNameData(this.DataPath + "TownNameDatabase.txt");
 
         string json = File.ReadAllText(this.DataPath + "CharacterDefine.json");
         this.Characters = JsonConvert.DeserializeObject<Dictionary<int, CharacterDefine>>(json);
@@ -192,6 +194,12 @@ public class DataManager : Singleton<DataManager>
         //yield return null;
 
         DataLoaded.OnNext(true);
+    }
+
+    public void Reset()
+    {
+        nameGenerator.Reset();
+        townNameGenerator.Reset();
     }
 //#if UNITY_EDITOR
 //    public void SaveTeleporters()

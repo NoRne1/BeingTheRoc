@@ -60,5 +60,6 @@ public class UICharacterHint : UIHintBase
         }
         price = (((int)cm.Level + 1) * 500) + GameUtil.Instance.GetTrulyFloatFactor(((int)cm.Level + 1) * 100);
         priceText.text = price.ToString();
+        StartCoroutine(SetupComplete());
     }
 }

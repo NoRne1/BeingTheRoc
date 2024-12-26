@@ -23,6 +23,6 @@ public class UISkillHint : UIHintBase
     {
         title.text = skill.Title;
         desc.text = skill.Desc;
-        StartCoroutine(InitLayoutPosition());
+        StartCoroutine(SetupComplete());
     }
 }

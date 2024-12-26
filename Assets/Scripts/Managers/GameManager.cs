@@ -171,7 +171,7 @@ public class GameManager : MonoSingleton<GameManager>
             case PageType.town:
                 commonUI.setUIStyle(CommonUIStyle.town);
                 UITownPage townPage = pagesDic[PageType.town].GetComponent<UITownPage>();
-                townPage.SetActionPanels(MapManager.Instance.CurrentTownNode.townActions);
+                townPage.SetActionPanels(MapManager.Instance.CurrentTownNode.model.townActions);
                 break;
             case PageType.battle:
                 commonUI.setUIStyle(CommonUIStyle.battle);

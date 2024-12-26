@@ -3560,6 +3560,7 @@ m_ResolvedPackages:
     - 9.0.1
     - 9.0.2
     - 9.0.3
+    - 10.0.0
     compatible:
     - 8.0.2
     - 8.0.3
@@ -4015,6 +4016,7 @@ m_ResolvedPackages:
     - 4.0.1
     - 4.0.2
     - 4.1.0
+    - 4.2.1
     compatible:
     - 3.1.0
     - 3.1.1
@@ -4111,6 +4113,7 @@ m_ResolvedPackages:
     - 1.1.5
     - 1.1.6
     - 1.1.7
+    - 1.2.0
     compatible:
     - 1.0.0
     - 1.0.1

@@ -20,6 +20,6 @@ public class UIDescHint: UIHintBase
     public void Setup(string text)
     {
         desc_hint.text = text;
-        StartCoroutine(InitLayoutPosition());
+        StartCoroutine(SetupComplete());
     }
 }

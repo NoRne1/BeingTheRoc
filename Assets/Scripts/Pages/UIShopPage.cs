@@ -36,10 +36,10 @@ public class UIShopPage : MonoBehaviour
     void OnEnable()
     {
         itemsDispose.IfNotNull(dispose => { dispose.Dispose(); });
-        if (MapManager.Instance.CurrentTownNode.shopInfo == null)
+        if (MapManager.Instance.CurrentTownNode.model.shopInfo == null)
         {
-            MapManager.Instance.CurrentTownNode.shopInfo = new TownShopInfoModel();
-            this.shopInfo = MapManager.Instance.CurrentTownNode.shopInfo;
+            MapManager.Instance.CurrentTownNode.model.shopInfo = new TownShopInfoModel();
+            this.shopInfo = MapManager.Instance.CurrentTownNode.model.shopInfo;
             TimeRefresh();
             itemsDispose = shopInfo.sellingItems.AsObservable().Subscribe(items =>
             {
@@ -50,7 +50,7 @@ public class UIShopPage : MonoBehaviour
             }).AddTo(this);
         } else 
         {
-            this.shopInfo = MapManager.Instance.CurrentTownNode.shopInfo;
+            this.shopInfo = MapManager.Instance.CurrentTownNode.model.shopInfo;
             TimeRefresh();
             itemsDispose = shopInfo.sellingItems.AsObservable().Subscribe(items =>
             {
