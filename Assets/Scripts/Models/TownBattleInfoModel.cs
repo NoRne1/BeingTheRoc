@@ -11,6 +11,7 @@ public class TownBattleInfoModel
     public List<Vector2> initPlaceSlots;
     public Vector2 granaryPos;
     public Dictionary<Vector2, EnermyModel> enermys = new Dictionary<Vector2, EnermyModel>();
+    public List<EnermyModel> supportEnermys;
 
     public TownBattleInfoModel(TownNodeType type, List<Vector2> initPlaceSlots)
     {
@@ -33,13 +34,15 @@ public class TownBattleInfoModel
                 break;
         }
 
-        var models = DataManager.Instance.getEnermyModels();
-        var postions = getInitPostions(models.Count);
-        if (models.Count == postions.Count)
+        var models = DataManager.Instance.getEnermyModels(3, 2);
+        var enermyModels = models.Where(a=>!a.isSupport).ToList();
+        supportEnermys = models.Where(a=>a.isSupport).ToList();
+        var postions = getInitPostions(enermyModels.Count);
+        if (enermyModels.Count == postions.Count)
         {
-            for (int i = 0; i < models.Count; i++)
-            {
-                enermys.Add(postions[i], models[i]);
+            for (int i = 0; i < enermyModels.Count; i++)
+            { 
+                enermys.Add(postions[i], enermyModels[i]);
             }
         } else
         {
@@ -60,6 +63,17 @@ public class TownBattleInfoModel
             }
         }
         return result;
+    }
+
+    public EnermyModel PopSupportEnermy()
+    {
+        if (supportEnermys.Count > 0)
+        {
+            var enermy = supportEnermys[0];
+            supportEnermys.RemoveAt(0);
+            return enermy;
+        }
+        return null;
     }
 }
 

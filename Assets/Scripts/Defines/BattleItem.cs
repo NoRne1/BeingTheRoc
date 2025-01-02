@@ -206,6 +206,22 @@ public class BattleItem: IStorable
                 break;
         }
         this.attributes.BattleInit();
+        // invoke battleStart skill
+        foreach (var skillId in skills)
+        {
+            if (DataManager.Instance.Skills.ContainsKey(skillId))
+            {
+                var skill = DataManager.Instance.Skills[skillId];
+                if (skill.InvokeType == SkillInvokeType.battleStart)
+                {
+                    SkillManager.Instance.InvokeSkill(uuid, skill.MethodName, skill.PropertyType, skill.Value);
+                }
+            } else
+            {
+                Debug.Log("skill: " + skillId + " not found!");
+                continue;
+            }
+        }
     }
 
     public void RoundBegin()

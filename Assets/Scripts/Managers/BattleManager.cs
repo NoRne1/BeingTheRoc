@@ -33,6 +33,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public UICircleProgressButton endRoundButton;
     public UICircleProgressButton restartTodayButton;
     public bool isInBattle = false;
+    public int battleStartTimeLeft = -1;
     // Data
     public float difficultyExtraFactor = 0f;
 
@@ -71,6 +72,15 @@ public class BattleManager : MonoSingleton<BattleManager>
         restartTodayButton.onProgressCompleteAction = () => {
             Debug.Log("restartTodayButton.onProgressCompleteAction");
         };
+
+        GameManager.Instance.timeLeft.DistinctUntilChanged().Subscribe(timeleft => {
+            if (isInBattle && battleStartTimeLeft != -1 && 
+                (battleStartTimeLeft - timeleft) / 3 != 0 && (battleStartTimeLeft - timeleft) % 3 == 0)
+            {
+                //战斗中，距离战斗开始每过一天触发一次
+                EnermySupport();
+            }
+        }).AddTo(this);
     }
 
     // Update is called once per frame
@@ -154,6 +164,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public void StartBattle(List<string> characterIDs, TownBattleInfoModel battleInfo)
     {
         isInBattle = true;
+        battleStartTimeLeft = GameManager.Instance.timeLeft.Value;
         BattleInit(characterIDs, battleInfo);
         
         this.battleInfo = battleInfo;
@@ -165,6 +176,23 @@ public class BattleManager : MonoSingleton<BattleManager>
     public void RoundEnd()
     {
         roundManager.roundTime.OnNext((battleItemManager.roundBattleItemIDs[0], RoundTime.end));
+    }
+
+    public void EnermySupport()
+    {
+        if(battleItemManager.granaryItemID != "")
+        {
+            var granaryItem = GlobalAccess.GetBattleItem(battleItemManager.granaryItemID);
+            if(granaryItem.attributes != null && granaryItem.attributes.currentHP > granaryItem.attributes.MaxHP / 2)
+            {
+                //粮仓余量大于一半，则触发增援
+                var enermyModel = battleInfo.PopSupportEnermy();
+                if (enermyModel != null)
+                {
+                    battleItemManager.AddSupportEnermy(enermyModel);
+                }
+            }
+        }
     }
 
     public void MoveBarItemClicked(Button button)
@@ -278,6 +306,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public void BattleEnd(bool result)
     {
         isInBattle = false;
+        battleStartTimeLeft = -1;
         SkillManager.Instance.BattleEnd();
         battleItemManager.BattleEnd();
         if (result) 

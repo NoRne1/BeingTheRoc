@@ -215,18 +215,21 @@ public class DataManager : Singleton<DataManager>
 
 //#endif
 
-    public List<EnermyModel> getEnermyModels()
+    public List<EnermyModel> getEnermyModels(int baseNum, int supportNum)
     {
+        if (baseNum + supportNum <= 0) { return new List<EnermyModel>(); }
         List<EnermyModel> enermyModels = new List<EnermyModel>();
         //List<int> ids = GameUtil.Instance.GenerateUniqueRandomList(GlobalAccess.subCharacterStartIndex,
-        //            GlobalAccess.subCharacterStartIndex + GlobalAccess.subCharacterNum, 2);
-        List<int> ids = new List<int>() { 0, 1, 2 };
+        //            GlobalAccess.subCharacterStartIndex + GlobalAccess.subCharacterNum, baseNum + supportNum);
+        List<int> ids = new List<int>(Enumerable.Range(100, baseNum + supportNum));
         foreach (var id in ids)
         {
             //相同CID的敌人，随机选择一个
             EnemyDefine define = EnemyDefines.Values.Where(define => define.CID == id).ToList().OrderBy(x => UnityEngine.Random.Range(0, 100)).FirstOrDefault();
             if (define != null)
             {
+                //使用CharacterDefine初始化EnermyModel，使用EnemyDefine设置持有装备等
+                //属性在战斗开始时转成battleItem时，根据difficultyFactor设置
                 EnermyModel model = new EnermyModel(Characters[id]);
                 model.aiType = define.aiType;
                 if (define.equip1 != null)
@@ -251,6 +254,10 @@ public class DataManager : Singleton<DataManager>
                 }
                 enermyModels.Add(model);
             }
+        }
+        for (int i = 0; i < baseNum + supportNum; i++)
+        {
+            enermyModels[i].isSupport = i >= baseNum;
         }
         return enermyModels;
     }

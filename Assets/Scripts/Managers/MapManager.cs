@@ -50,6 +50,7 @@ public class MapManager : MonoSingleton<MapManager>
     {
         //for test
         DataManager.Instance.Load();
+        GameManager.Instance.SwitchPage(PageType.map);
 
         nextTownIdSubject.AsObservable().TakeUntilDestroy(this).Subscribe(id =>
         {

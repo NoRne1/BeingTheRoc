@@ -15,6 +15,9 @@ public class EnermyModel: IStorable
     public CharacterDefine define;
     public Attributes attributes;
 
+    //是否是支援
+    public bool isSupport = false;
+
     //BattleItem
     public string uuid;
 

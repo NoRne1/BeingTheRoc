@@ -9,6 +9,8 @@ public class BattleItemManager
 {
     private BattleManager battleManager;
 
+    private TownBattleInfoModel battleInfo;
+
     public List<string> battleItemIDs = new List<string>();
     //有行动值的battleItem
     public List<string> roundBattleItemIDs = new List<string>();
@@ -39,6 +41,7 @@ public class BattleItemManager
     public void Init(List<string> characterIDs, TownBattleInfoModel battleInfo)
     {
         battleManager = BattleManager.Instance;
+        this.battleInfo = battleInfo;
         float difficultyFactor = battleManager.difficultyExtraFactor + battleInfo.battleBaseDifficulty;
         ClearItem();
         id_posDic.Clear();
@@ -52,7 +55,8 @@ public class BattleItemManager
         //granary Item速度为0，不出现在行动条上
         var granary = new BattleItem(BattleItemType.granary);
         granary.BattleInit();
-        granary.attributes.UpdateInitMaxHP((int)MathF.Min(500, (difficultyFactor * 100)));
+        //for test
+        granary.attributes.UpdateInitMaxHP((int)MathF.Min(5000, (difficultyFactor * 1000)));
         GlobalAccess.SaveBattleItem(granary);
         AddItem(granary);
         battleManager.chessboardManager.PlaceBattleItem(granary.uuid, battleManager.chessBoard.slots[battleInfo.granaryPos]);
@@ -67,32 +71,24 @@ public class BattleItemManager
 
         foreach (var pair in battleInfo.enermys)
         {
-            var battleItem = pair.Value.ToBattleItem(battleManager.difficultyExtraFactor + battleInfo.battleBaseDifficulty);
+            var battleItem = pair.Value.ToBattleItem(difficultyFactor);
             battleItem.BattleInit();
             GlobalAccess.SaveBattleItem(battleItem);
             AddItem(battleItem);
             battleManager.chessboardManager.PlaceBattleItem(battleItem.uuid, battleManager.chessBoard.slots[pair.Key]);
         }
+    }
 
-        foreach (var id in battleItemIDs)
-        {
-            var battleItem = GlobalAccess.GetBattleItem(id);
-            foreach (var skillId in battleItem.skills)
-            {
-                if (DataManager.Instance.Skills.ContainsKey(skillId))
-                {
-                    var skill = DataManager.Instance.Skills[skillId];
-                    if (skill.InvokeType == SkillInvokeType.battleStart)
-                    {
-                        SkillManager.Instance.InvokeSkill(id, skill.MethodName, skill.PropertyType, skill.Value);
-                    }
-                } else
-                {
-                    Debug.Log("skill: " + skillId + " not found!");
-                    continue;
-                }
-            }
-        }
+    public void AddSupportEnermy(EnermyModel enermyModel)
+    {
+        float difficultyFactor = battleManager.difficultyExtraFactor + battleInfo.battleBaseDifficulty;
+        var battleItem = enermyModel.ToBattleItem(difficultyFactor);
+        battleItem.remainActingDistance = GlobalAccess.roundDistance;
+        battleItem.BattleInit();
+        GlobalAccess.SaveBattleItem(battleItem);
+        AddItem(battleItem);
+        battleManager.chessboardManager.PlaceBattleItem(battleItem.uuid, battleManager.chessboardManager.GetRandomAvailableSlot());
+        battleManager.moveBarManager.RefreshMoveBar();
     }
 
     public void ResortBattleItems()

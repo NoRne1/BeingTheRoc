@@ -138,6 +138,12 @@ public class BattleChessboardManager
         battleManager.battleItemManager.id_posDic.Add(uuid, slot.position);
     }
 
+    public UIChessboardSlot GetRandomAvailableSlot()
+    {
+        var availableSlotPosList = chessBoard.slots.Keys.Where(pos=>!battleManager.battleItemManager.pos_uibattleItemDic.Keys.Contains(pos)).ToList();
+        return chessBoard.slots[availableSlotPosList[UnityEngine.Random.Range(0, availableSlotPosList.Count)]];
+    }
+
     public void ShowMovePath(string uuid)
     {
         Vector2 pos = battleManager.battleItemManager.GetPosByUUid(uuid);
