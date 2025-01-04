@@ -69485,6 +69485,7 @@ MonoBehaviour:
   endRoundButton: {fileID: 1771521744}
   restartTodayButton: {fileID: 223777816}
   isInBattle: 0
+  battleStartTimeLeft: -1
   difficultyExtraFactor: 0
 --- !u!1 &2092421689
 GameObject:

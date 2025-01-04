@@ -525,6 +525,7 @@
 "Assets/Scripts/UI/UITeamBagPage.cs"
 "Assets/Scripts/UI/UITeamInfoPage.cs"
 "Assets/Scripts/UI/UITeamWindow.cs"
+"Assets/Scripts/UI/UITeamWindowCharacterButton.cs"
 "Assets/Scripts/UI/UITimeLeft.cs"
 "Assets/Scripts/UI/UITip.cs"
 "Assets/Scripts/UI/UITownActionPanel.cs"

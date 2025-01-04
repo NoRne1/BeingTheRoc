@@ -204,6 +204,7 @@
     <Compile Include="Assets/Scripts/Models/EquipModel.cs" />
     <Compile Include="Assets/Scripts/UI/UIChessboard.cs" />
     <Compile Include="Assets/Scripts/Models/EnemyAI.cs" />
+    <Compile Include="Assets/Scripts/UI/UITeamWindowCharacterButton.cs" />
     <Compile Include="Assets/Scripts/UI/UIEquipSlot.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/Vector2Converter.cs" />
     <Compile Include="Assets/Scripts/UI/UICollectButton.cs" />

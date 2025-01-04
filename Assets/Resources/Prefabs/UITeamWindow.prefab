@@ -500,6 +500,7 @@ GameObject:
   - component: {fileID: 3610468828535090854}
   - component: {fileID: 6219059636617400216}
   - component: {fileID: 2726345048741288436}
+  - component: {fileID: 1978424976295284030}
   m_Layer: 5
   m_Name: character_button (1)
   m_TagString: Untagged
@@ -609,7 +610,32 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6219059636617400216}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1978424976295284030}
+        m_TargetAssemblyTypeName: UITeamWindowCharacterButton, Assembly-CSharp
+        m_MethodName: OnClickAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1978424976295284030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364911691428689384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa46cb6407934c8eba79412c4fae760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterID: 
 --- !u!1 &409668891893661236
 GameObject:
   m_ObjectHideFlags: 0
@@ -2538,6 +2564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemID: 0
   hint: {fileID: 0}
 --- !u!61 &5198537023432003174
 BoxCollider2D:
@@ -3953,6 +3980,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemID: 0
   hint: {fileID: 0}
 --- !u!61 &7386317620040997000
 BoxCollider2D:
@@ -4024,6 +4052,7 @@ GameObject:
   - component: {fileID: 6075114168563025705}
   - component: {fileID: 7226935885611275135}
   - component: {fileID: 5305651309028667091}
+  - component: {fileID: 4276019592243331774}
   m_Layer: 5
   m_Name: character_button (5)
   m_TagString: Untagged
@@ -4133,7 +4162,32 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7226935885611275135}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4276019592243331774}
+        m_TargetAssemblyTypeName: UITeamWindowCharacterButton, Assembly-CSharp
+        m_MethodName: OnClickAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4276019592243331774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3241028128603635043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa46cb6407934c8eba79412c4fae760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterID: 
 --- !u!1 &3311521927071210600
 GameObject:
   m_ObjectHideFlags: 0
@@ -4146,6 +4200,7 @@ GameObject:
   - component: {fileID: 361992414421647007}
   - component: {fileID: 4839873069552419195}
   - component: {fileID: 8997387016212532428}
+  - component: {fileID: 2777641083141500555}
   m_Layer: 5
   m_Name: character_button (3)
   m_TagString: Untagged
@@ -4255,7 +4310,32 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4839873069552419195}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2777641083141500555}
+        m_TargetAssemblyTypeName: UITeamWindowCharacterButton, Assembly-CSharp
+        m_MethodName: OnClickAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2777641083141500555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3311521927071210600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa46cb6407934c8eba79412c4fae760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterID: 
 --- !u!1 &3345331928960342882
 GameObject:
   m_ObjectHideFlags: 0
@@ -4887,6 +4967,7 @@ GameObject:
   - component: {fileID: 6562017886353748969}
   - component: {fileID: 4264093701006712050}
   - component: {fileID: 5902319999594218449}
+  - component: {fileID: 6549963019743638269}
   m_Layer: 5
   m_Name: character_button
   m_TagString: Untagged
@@ -4996,7 +5077,32 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4264093701006712050}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6549963019743638269}
+        m_TargetAssemblyTypeName: UITeamWindowCharacterButton, Assembly-CSharp
+        m_MethodName: OnClickAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &6549963019743638269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3921033935790768459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa46cb6407934c8eba79412c4fae760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterID: 
 --- !u!1 &3940343245223346032
 GameObject:
   m_ObjectHideFlags: 0
@@ -5315,6 +5421,7 @@ GameObject:
   - component: {fileID: 2200292977229473912}
   - component: {fileID: 3983496891584591435}
   - component: {fileID: 5422850580279567689}
+  - component: {fileID: 5584452685026681129}
   m_Layer: 5
   m_Name: character_button (2)
   m_TagString: Untagged
@@ -5424,7 +5531,32 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3983496891584591435}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5584452685026681129}
+        m_TargetAssemblyTypeName: UITeamWindowCharacterButton, Assembly-CSharp
+        m_MethodName: OnClickAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5584452685026681129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4191054888530547917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa46cb6407934c8eba79412c4fae760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterID: 
 --- !u!1 &4236137124409996100
 GameObject:
   m_ObjectHideFlags: 0
@@ -5437,6 +5569,7 @@ GameObject:
   - component: {fileID: 7606430926857711775}
   - component: {fileID: 8191755421822918313}
   - component: {fileID: 3035392074314732878}
+  - component: {fileID: 635598062459438475}
   m_Layer: 5
   m_Name: character_button (4)
   m_TagString: Untagged
@@ -5546,7 +5679,32 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8191755421822918313}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 635598062459438475}
+        m_TargetAssemblyTypeName: UITeamWindowCharacterButton, Assembly-CSharp
+        m_MethodName: OnClickAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &635598062459438475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4236137124409996100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa46cb6407934c8eba79412c4fae760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterID: 
 --- !u!1 &4296859123785700795
 GameObject:
   m_ObjectHideFlags: 0
@@ -5683,8 +5841,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -735.78, y: 0}
-  m_SizeDelta: {x: 159.11, y: 812.25}
+  m_AnchoredPosition: {x: -735.78, y: -52.564995}
+  m_SizeDelta: {x: 159.11, y: 707.13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1999698344538833765
 MonoBehaviour:
@@ -5701,10 +5859,10 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 50
+    m_Top: 20
     m_Bottom: 0
   m_ChildAlignment: 1
-  m_Spacing: 30
+  m_Spacing: 15
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -6553,6 +6711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemID: 0
   hint: {fileID: 0}
 --- !u!61 &1082947466844945227
 BoxCollider2D:
@@ -6835,6 +6994,127 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: {x: 1, y: 0}
+--- !u!1 &5127106707245878514
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 119779907648795994}
+  - component: {fileID: 24940054550038653}
+  - component: {fileID: 4116199636714964958}
+  - component: {fileID: 1636505427115100680}
+  m_Layer: 5
+  m_Name: side_button
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &119779907648795994
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5127106707245878514}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5492995744985450480}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -735, y: 351}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &24940054550038653
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5127106707245878514}
+  m_CullTransparentMesh: 1
+--- !u!114 &4116199636714964958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5127106707245878514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: a7aca41b69ce640498c6a1cf4aa60d68, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1636505427115100680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5127106707245878514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.5283019, g: 0.51085794, b: 0.51085794, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 4116199636714964958}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5346117641501852642
 GameObject:
   m_ObjectHideFlags: 0
@@ -7490,6 +7770,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemID: 0
   hint: {fileID: 0}
 --- !u!61 &8184030277686246928
 BoxCollider2D:
@@ -7927,11 +8208,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8635054215382794986}
   - {fileID: 9103026569137266249}
   - {fileID: 5867518202192758222}
   - {fileID: 1807133220456075478}
   - {fileID: 2137733524690392475}
+  - {fileID: 8635054215382794986}
+  - {fileID: 119779907648795994}
   m_Father: {fileID: 0}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7992,12 +8274,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Root: {fileID: 5887962729954144117}
   characterButtons:
-  - {fileID: 5902319999594218449}
-  - {fileID: 2726345048741288436}
-  - {fileID: 5422850580279567689}
-  - {fileID: 8997387016212532428}
-  - {fileID: 3035392074314732878}
-  - {fileID: 5305651309028667091}
+  - {fileID: 6549963019743638269}
+  - {fileID: 1978424976295284030}
+  - {fileID: 5584452685026681129}
+  - {fileID: 2777641083141500555}
+  - {fileID: 635598062459438475}
+  - {fileID: 4276019592243331774}
+  sideButton: {fileID: 1636505427115100680}
+  friendSideSprite: {fileID: 21300000, guid: a7aca41b69ce640498c6a1cf4aa60d68, type: 3}
+  enemySideSprite: {fileID: 21300000, guid: 95fc4d737bf5443a096d9a165a1334e2, type: 3}
   infoPage: {fileID: 4793434806777251897}
   bagPage: {fileID: 8301013242094477284}
   bagButton: {fileID: 6310471168793746821}
@@ -10020,6 +10305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemID: 0
   hint: {fileID: 0}
 --- !u!61 &1579698483842417225
 BoxCollider2D:
@@ -10445,6 +10731,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemID: 0
   hint: {fileID: 0}
 --- !u!61 &4928188999860661891
 BoxCollider2D:
@@ -10641,6 +10928,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemID: 0
   hint: {fileID: 0}
 --- !u!61 &4236783936948911882
 BoxCollider2D:
@@ -10837,6 +11125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemID: 0
   hint: {fileID: 0}
 --- !u!61 &7763052712927853922
 BoxCollider2D:
@@ -11111,6 +11400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemID: 0
   hint: {fileID: 0}
 --- !u!61 &6394679658342977638
 BoxCollider2D:
@@ -11398,6 +11688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemID: 0
   hint: {fileID: 0}
 --- !u!61 &3263900214384348140
 BoxCollider2D:
@@ -11594,6 +11885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemID: 0
   hint: {fileID: 0}
 --- !u!61 &8932757772823171595
 BoxCollider2D:
@@ -11841,6 +12133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d546d349c3546a3a53a861d93e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemID: 0
   hint: {fileID: 0}
 --- !u!61 &6070526343320732706
 BoxCollider2D:
