@@ -20,6 +20,8 @@ public class BattleItemManager
     public Dictionary<Vector2, UIBattleItem> pos_uibattleItemDic = new Dictionary<Vector2, UIBattleItem>();
     public Dictionary<string, Vector2> id_posDic = new Dictionary<string, Vector2>();
 
+    public BuffDefine currentWeatherBuff;
+
     public void AddItem(BattleItem item) 
     {
         battleItemIDs.Add(item.uuid);
@@ -77,6 +79,8 @@ public class BattleItemManager
             AddItem(battleItem);
             battleManager.chessboardManager.PlaceBattleItem(battleItem.uuid, battleManager.chessBoard.slots[pair.Key]);
         }
+
+        RefreshWeatherEffect();
     }
 
     public void AddSupportEnermy(EnermyModel enermyModel)
@@ -85,6 +89,7 @@ public class BattleItemManager
         var battleItem = enermyModel.ToBattleItem(difficultyFactor);
         battleItem.remainActingDistance = GlobalAccess.roundDistance;
         battleItem.BattleInit();
+        ProcessWeatherBuff(battleItem.uuid);
         GlobalAccess.SaveBattleItem(battleItem);
         AddItem(battleItem);
         battleManager.chessboardManager.PlaceBattleItem(battleItem.uuid, battleManager.chessboardManager.GetRandomAvailableSlot());
@@ -205,6 +210,40 @@ public class BattleItemManager
         pos_uibattleItemDic.Remove(id_posDic[uuid]);
         id_posDic.Remove(uuid);
         battleManager.moveBarManager.RefreshMoveBar();
+    }
+
+    //新一天开始时触发
+    public void RefreshWeatherEffect()
+    {     
+        if (GameManager.Instance.currentWeather.effect.effectType == WeatherEffectType.battleBuff)
+        {
+            currentWeatherBuff = GameUtil.Instance.DeepCopy(DataManager.Instance.BuffDefines[GameManager.Instance.currentWeather.effect.buffID]);
+            currentWeatherBuff.Duration = -1;
+        } else {
+            currentWeatherBuff = null;
+        }
+        foreach(var battleItemID in playerItemIDs)
+        {
+            ProcessWeatherBuff(battleItemID);
+        }
+        foreach(var battleItemID in enemyItemIDs)
+        {
+            ProcessWeatherBuff(battleItemID);
+        }
+    }
+
+    //包含了删除旧的和添加新的
+    public void ProcessWeatherBuff(string battleItemID)
+    {
+        var item = GlobalAccess.GetBattleItem(battleItemID);
+        BuffModel buffModel = new BuffModel(currentWeatherBuff, battleItemID, "-1", BuffType.weather);
+        //先清除旧的
+        item.buffCenter.RemoveBuff(BuffType.weather);
+        if (currentWeatherBuff != null)
+        {
+            //不需要SaveBattleItem,因为AddBuff触发battleItemUpdate
+            item.buffCenter.AddBuff(buffModel);
+        }
     }
 
     public void BattleEnd()

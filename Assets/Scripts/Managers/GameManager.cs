@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -57,6 +56,8 @@ public class GameManager : MonoSingleton<GameManager>
     public TreasureManager treasureManager;
     public UITreasuresRect treasuresRect;
     public GameOtherProperty otherProperty = new GameOtherProperty();
+
+    public WeatherDefine currentWeather;
     // Start is called before the first frame update
     void Start()
     {
@@ -101,6 +102,10 @@ public class GameManager : MonoSingleton<GameManager>
                     model.InitInvokeSkill();
                     characterRelaysDic.Add(model.uuid, NorneStore.Instance.ObservableObject(model));
                 }
+                GameManager.Instance.timeLeft.Select(timeleft=>(int)(timeleft / 3)).DistinctUntilChanged().Subscribe(_=>{
+                    //新一天
+                    RefreshWeather();
+                }).AddTo(this);
             }
         });
         // 时段变化
@@ -307,5 +312,15 @@ public class GameManager : MonoSingleton<GameManager>
             RemoveCharacter(uuid);
         }
         GlobalAccess.SaveCharacterModel(cm, false);
+    }
+
+    public void RefreshWeather()
+    {
+        currentWeather = DataManager.Instance.weatherDefines.Values.ToList().RandomItem();
+        commonUI.weatherPanel.Setup(currentWeather);
+        if (BattleManager.Instance.isInBattle)
+        {
+            BattleManager.Instance.battleItemManager.RefreshWeatherEffect();
+        }
     }
 }

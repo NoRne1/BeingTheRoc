@@ -7,6 +7,7 @@ using TMPro;
 public class UIShowBuffItem : MonoBehaviour
 {
     public Image icon;
+    public TextMeshProUGUI title;
     public TextMeshProUGUI desc;
     public GameObject numObj;
     public TextMeshProUGUI num;
@@ -14,8 +15,9 @@ public class UIShowBuffItem : MonoBehaviour
     public void Setup(BuffModel buff)
     {
         icon.overrideSprite = Resloader.LoadSprite(buff.Resource, ConstValue.buffsPath);
+        title.text = GameUtil.Instance.GetDisplayString(buff.Name);
         desc.text = GameUtil.Instance.GetDisplayString(buff.Description);
         numObj.SetActive(buff.num > 1);
-        desc.text = buff.num.ToString();
+        num.text = buff.num.ToString();
     }
 }

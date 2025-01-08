@@ -33,6 +33,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, CollectItemDefine> collectItemDefines = null;
     public Dictionary<int, EquipExtraEntryDefine> equipExtraEntryDefines = null;
     public Dictionary<int, Dictionary<int, int>> mergeEquipDic = null;
+    public Dictionary<int, WeatherDefine> weatherDefines = null;
 
     public NameGenerator nameGenerator = new NameGenerator();
     public TownNameGenerator townNameGenerator = new TownNameGenerator();
@@ -106,6 +107,9 @@ public class DataManager : Singleton<DataManager>
         json = File.ReadAllText(this.DataPath + "MergeEquipDefine.json");
         var equipExtraEntryDefines = JsonConvert.DeserializeObject<Dictionary<int, MergeEquipDefine>>(json);
         ProcessMergeEquipDic(equipExtraEntryDefines);
+
+        json = File.ReadAllText(this.DataPath + "WeatherDefine.json");
+        this.weatherDefines = JsonConvert.DeserializeObject<Dictionary<int, WeatherDefine>>(json);
         
         DataLoaded.OnNext(true);
     }
@@ -187,6 +191,10 @@ public class DataManager : Singleton<DataManager>
         json = File.ReadAllText(this.DataPath + "MergeEquipDefine.json");
         var equipExtraEntryDefines = JsonConvert.DeserializeObject<Dictionary<int, MergeEquipDefine>>(json);
         ProcessMergeEquipDic(equipExtraEntryDefines);
+        yield return null;
+
+        json = File.ReadAllText(this.DataPath + "WeatherDefine.json");
+        this.weatherDefines = JsonConvert.DeserializeObject<Dictionary<int, WeatherDefine>>(json);
         yield return null;
         
         //json = File.ReadAllText(this.DataPath + "TeleporterDefine.json");

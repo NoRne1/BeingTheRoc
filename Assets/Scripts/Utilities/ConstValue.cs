@@ -14,6 +14,7 @@ public static class ConstValue
     public const string jobIconsPath = "JobIcons/";
     public const string collectItemIconsPath = "CollectItemIcons/";
     public const string fruitsPath = "Fruits/";
+    public const string weatherPath = "WeatherIcons/";
 
     public const string musicPath = "Music/";
     public const string soundPath = "Sound/";

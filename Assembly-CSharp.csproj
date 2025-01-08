@@ -71,6 +71,7 @@
     <Compile Include="Assets/Scripts/Defines/EquipExtraEntryDefine.cs" />
     <Compile Include="Assets/Scripts/Pages/UIBarPage.cs" />
     <Compile Include="Assets/Scripts/Layers/CollectCharacterLayer.cs" />
+    <Compile Include="Assets/Scripts/Utilities/Extensions/ListExtensions.cs" />
     <Compile Include="Assets/Scripts/UI/UIBaseInfoPanel.cs" />
     <Compile Include="Assets/Scripts/Managers/DataManager.cs" />
     <Compile Include="Assets/Scripts/Utilities/ConstValue.cs" />
@@ -176,6 +177,7 @@
     <Compile Include="Assets/Scripts/Managers/UIManager.cs" />
     <Compile Include="Assets/Scripts/UI/UIBarrierPoint.cs" />
     <Compile Include="Assets/Scripts/UI/UIDescHint.cs" />
+    <Compile Include="Assets/Scripts/Defines/WeatherDefine.cs" />
     <Compile Include="Assets/Scripts/Pages/UIRestaurantPage.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/UnityExtensions.cs" />
     <Compile Include="Assets/Scripts/UI/UIFruitLuckyResult.cs" />

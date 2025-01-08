@@ -1,0 +1,22 @@
+{
+    "0": {
+        "ID": 0,
+        "Resource": "weather_sun_icon",
+        "title": "朗朗晴天",
+        "desc": "战斗时，全体闪避率提高20",
+        "effect": {
+            "effectType": 0,
+            "buffID": 11
+        }
+    },
+    "1": {
+        "ID": 1,
+        "Resource": "weather_rain_icon",
+        "title": "小雨朦胧",
+        "desc": "战斗时，全体防御减少10",
+        "effect": {
+            "effectType": 0,
+            "buffID": 7
+        }
+    }
+}

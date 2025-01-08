@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
+
+public enum BuffType
+{
+    none = -1,
+    normal = 0,
+    weather = 1,
+}
+
 public class BuffModel: BuffDefine
 {
     public string uuId;
@@ -11,9 +19,12 @@ public class BuffModel: BuffDefine
     public BuffDefine buffDefine;
     public int num = 1;
 
-    public BuffModel(BuffDefine buffDefine, string ownerID, string casterID)
+    public BuffType buffType = BuffType.none;
+
+    public BuffModel(BuffDefine buffDefine, string ownerID, string casterID, BuffType buffType)
     {
         uuId = GameUtil.Instance.GenerateUniqueId();
+        this.buffType = buffType;
         this.ownerID = ownerID;
         this.casterID = casterID;
         this.buffDefine = buffDefine;
@@ -21,6 +32,10 @@ public class BuffModel: BuffDefine
         this.Name = buffDefine.Name;
         this.Description = buffDefine.Description;
         this.Resource = buffDefine.Resource;
+        this.Duration = buffDefine.Duration;
+        this.MethodName = buffDefine.MethodName;
+        this.PropertyType = buffDefine.PropertyType;
+        this.Value = buffDefine.Value;
         this.Duration = buffDefine.Duration;
         this.InvokeTime = buffDefine.InvokeTime;
         this.DecreaseTime = buffDefine.DecreaseTime;

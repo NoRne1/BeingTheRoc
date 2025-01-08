@@ -33,6 +33,7 @@ public class BuffManager : MonoSingleton<BuffManager>
     // for BuffInvokeTime.constant
     public void InvokeBuff(BuffModel buff, bool addOrRemove)
     {
+        Debug.Log("InvokeBuff name: " + buff.MethodName);
         var method = typeof(BuffManager).GetMethod(buff.MethodName,
     BindingFlags.NonPublic | BindingFlags.Instance);
         object[] parameters = new object[] { buff, addOrRemove };

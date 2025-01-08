@@ -1,18 +1,22 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
+using TMPro;
 
 public class UIWeatherPanel : MonoBehaviour
 {
-	// Use this for initialization
-	void Start()
-	{
+	public Image icon;
+	public TextMeshProUGUI title;
+	public TextMeshProUGUI desc;
 
-	}
+	public WeatherDefine define;
 
-	// Update is called once per frame
-	void Update()
+	public void Setup(WeatherDefine define)
 	{
-			
+		this.define = define;
+		icon.overrideSprite = Resloader.LoadSprite(define.Resource, ConstValue.weatherPath);
+		title.text = define.title;
+		desc.text = define.desc;
 	}
 }
 

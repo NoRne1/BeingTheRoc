@@ -38728,6 +38728,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fc83e23d325846878e7e3da1791be6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  icon: {fileID: 366488002}
+  title: {fileID: 1476396028}
+  desc: {fileID: 964771563}
 --- !u!224 &1119975322 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3949309623520945685, guid: 8c5754c1a544e4420bd604a40bf6033c, type: 3}
