@@ -80,7 +80,7 @@ public class UITeamWindow : UIWindow
             if (disposable != null) { disposable.Dispose(); }
             disposable = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(cid)).TakeUntilDestroy(this).Subscribe(battleItem =>
             {
-                infoPage.UpdateBattleItem(battleItem);
+                infoPage.UpdateBattleItem(battleItem, infoPage.currentPanel);
             });
         });
         for (int i = 0; i < characterButtons.Count; i++)

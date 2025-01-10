@@ -65,6 +65,9 @@ public class AttributeData
     /// </summary>
     public int AgainstDamage { get { return data[(int)AttributeType.AgainstDamage]; } set { data[(int)AttributeType.AgainstDamage] = value; } }
 
+    // just for deepcopy
+    public AttributeData(){}
+
     public void Reset()
     {
         for (int i = 0; i < (int)AttributeType.MAX; i++)

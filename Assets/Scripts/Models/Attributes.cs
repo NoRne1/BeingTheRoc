@@ -133,6 +133,9 @@ public class Attributes
 
     private Subject<Unit> updateSubject;
 
+    // just for deepcopy
+    public Attributes(){}
+
     public Attributes(Subject<Unit> subject)
     {
         updateSubject = subject;

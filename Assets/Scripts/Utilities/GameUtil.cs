@@ -477,19 +477,134 @@ public class GameUtil : Singleton<GameUtil>
         return (int)strength;
     }
 
+    // public T DeepCopy<T>(T obj)
+    // {
+    //     if (obj == null)
+    //     {
+    //         return default(T);
+    //     }
+    //     JsonSerializerSettings settings = new JsonSerializerSettings();
+    //     //后面发现这俩可以处理。但是由于dic的key存储时会被转换为字符串，然后再反序列就回不来了，所以要单独处理
+    //     // settings.Converters.Add(new Vector2Converter());
+    //     // settings.Converters.Add(new Vector2IntConverter());
+    //     settings.Converters.Add(new Vec2DictionaryConverter());
+        
+    //     string json = JsonConvert.SerializeObject(obj, settings);
+    //     var result = JsonConvert.DeserializeObject<T>(json, settings);
+    //     return result;
+    // }
+
     public T DeepCopy<T>(T obj)
     {
-        JsonSerializerSettings settings = new JsonSerializerSettings();
-        //后面发现这俩可以处理。但是由于dic的key存储时会被转换为字符串，然后再反序列就回不来了，所以要单独处理
-        // settings.Converters.Add(new Vector2Converter());
-        // settings.Converters.Add(new Vector2IntConverter());
-        settings.Converters.Add(new Vec2DictionaryConverter());
-        
-        string json = JsonConvert.SerializeObject(obj, settings);
-        Debug.Log("Serialized JSON: " + json);
-        var result = JsonConvert.DeserializeObject<T>(json, settings);
-        Debug.Log("Serialized result: " + result);
-        return result;
+        if (obj == null)
+        {
+            return default(T);
+        }
+
+        // 使用 HashSet 来避免重复拷贝相同的对象（避免死循环）
+        var visitedObjects = new HashSet<object>();
+
+        return DeepCopyInternal(obj, visitedObjects);
+    }
+
+   private T DeepCopyInternal<T>(T obj, HashSet<object> visitedObjects)
+    {
+        if (obj == null)
+            return default(T);
+
+        // 如果已经处理过该对象，直接返回该对象，避免递归
+        if (visitedObjects.Contains(obj))
+        {
+            return obj;
+        }
+
+        visitedObjects.Add(obj);
+
+        return (T)DeepCopyInternalCore(obj, typeof(T), visitedObjects);
+    }
+
+    private object DeepCopyInternalCore(object obj, Type type, HashSet<object> visitedObjects)
+    {
+        if (obj == null)
+            return null;
+
+        // 如果已经处理过该对象，直接返回该对象，避免递归
+        if (visitedObjects.Contains(obj))
+        {
+            return obj;
+        }
+
+        visitedObjects.Add(obj);
+
+        // 如果是值类型或字符串，直接返回
+        if (type.IsValueType || obj is string)
+        {
+            return obj;
+        }
+
+        // 处理字典类型
+        if (obj is IDictionary dict)
+        {
+            var newDict = (IDictionary)Activator.CreateInstance(type);
+
+            foreach (var key in dict.Keys)
+            {
+                var newKey = DeepCopyInternalCore(key, key.GetType(), visitedObjects);
+                var newValue = DeepCopyInternalCore(dict[key], dict[key].GetType(), visitedObjects);
+                newDict.Add(newKey, newValue);
+            }
+
+            return newDict;
+        }
+
+        // 处理集合类型
+        if (obj is IEnumerable list)
+        {
+            var newList = Activator.CreateInstance(type) as IList;
+
+            foreach (var item in list)
+            {
+                var newItem = DeepCopyInternalCore(item, item.GetType(), visitedObjects);
+                newList.Add(newItem);
+            }
+
+            return newList;
+        }
+
+        // 创建目标类型的实例
+        var newObject = Activator.CreateInstance(type);
+
+        // 遍历字段
+        foreach (var field in type.GetFields())
+        {
+            if (field.FieldType.IsClass && field.FieldType != typeof(string))
+            {
+                var fieldValue = field.GetValue(obj);
+                var newFieldValue = DeepCopyInternalCore(fieldValue, field.FieldType, visitedObjects);
+                field.SetValue(newObject, newFieldValue);
+            }
+            else
+            {
+                field.SetValue(newObject, field.GetValue(obj));
+            }
+        }
+
+        // 遍历属性
+        foreach (var property in type.GetProperties())
+        {
+            if (property.CanWrite && property.PropertyType.IsClass && property.PropertyType != typeof(string))
+            {
+                var propertyValue = property.GetValue(obj);
+                var newPropertyValue = DeepCopyInternalCore(propertyValue, property.PropertyType, visitedObjects);
+                property.SetValue(newObject, newPropertyValue);
+            }
+            else
+            {
+                property.SetValue(newObject, property.GetValue(obj));
+            }
+        }
+
+        return newObject;
     }
 
     public Effect BattleEffectToItemUseEffect(BattleEffect battleEffect)

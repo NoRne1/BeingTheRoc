@@ -237,6 +237,7 @@ public class BattleItemManager
     {
         var item = GlobalAccess.GetBattleItem(battleItemID);
         BuffModel buffModel = new BuffModel(currentWeatherBuff, battleItemID, "-1", BuffType.weather);
+        buffModel.DecreaseTime = BuffDecreaseTime.none;
         //先清除旧的
         item.buffCenter.RemoveBuff(BuffType.weather);
         if (currentWeatherBuff != null)

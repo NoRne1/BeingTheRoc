@@ -16,6 +16,8 @@ public class UITeamInfoPage : MonoBehaviour
     public System.IDisposable disposable;
     public CharacterModel character;
     public BattleItem battleItem;
+
+    public TogglePanelType currentPanel = TogglePanelType.Panel0;
     // Start is called before the first frame update
     void Awake()
     {
@@ -24,6 +26,7 @@ public class UITeamInfoPage : MonoBehaviour
 
     void Start() 
     {
+        panelSelector.PanelInit(TogglePanelType.Panel0);
         propertyPanel.changeButton.plusButton.OnClickAsObservable().Subscribe(_ => { 
             if (character != null)
             {
@@ -56,9 +59,11 @@ public class UITeamInfoPage : MonoBehaviour
         {
             case TogglePanelType.Panel0:
                 propertyPanel.gameObject.SetActive(obj.isOn);
+                currentPanel = TogglePanelType.Panel0;
                 break;
             case TogglePanelType.Panel1:
                 buffsPanel.gameObject.SetActive(obj.isOn);
+                currentPanel = TogglePanelType.Panel1;
                 break;
             default:
                 Debug.LogError("PanelSelector_OnToggleValueChanged unknown NorneToggle");
@@ -83,7 +88,7 @@ public class UITeamInfoPage : MonoBehaviour
         propertyPanel.Setup(character);
     }
 
-    public void UpdateBattleItem(BattleItem battleItem, TogglePanelType type = TogglePanelType.Panel0)
+    public void UpdateBattleItem(BattleItem battleItem, TogglePanelType type)
     {
         panelSelector.PanelInit(type);
         panelSelector.gameObject.SetActive(true);
