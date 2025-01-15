@@ -136,7 +136,7 @@ public class BattleRoundManager
                     case BattleItemType.neutral:
                         break;
                     case BattleItemType.time:
-                        GameManager.Instance.TimeChanged(-1);
+                        GameManager.Instance.TimeChanged(-1, true);
                         yield return new WaitForSeconds(1f);
                         roundTime.OnNext((uuid, RoundTime.end));
                         break;

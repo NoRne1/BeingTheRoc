@@ -1,0 +1,45 @@
+{
+    "0": {
+        "ID": 0,
+        "title": "鹤过星云",
+        "dialogue1": {
+            "name": "仙鹤",
+            "content": "a~a~aaa~"
+        },
+        "dialogue2": {
+            "name": "我",
+            "content": "啊，竟然是仙鹤"
+        },
+        "dialogue3": {
+            "name": "我",
+            "content": "要不要跟过去看看呢？"
+        },
+        "button1": {
+            "title": "去，仙鹤，哇酷哇酷",
+            "desc": "跟随仙鹤去神秘之地，获得仙鹤的赠礼，+100干粮",
+            "dialogue": {
+                "name": "我",
+                "content": "吃的，好多吃的，哇哈哈哈，跟着仙鹤走，干粮不用愁！"
+            },
+            "reward": {
+                "type": 0,
+                "id": -1,
+                "num": 100
+            }
+        },
+        "button2": {
+            "title": "不去了吧，吃饱了，懒的动弹",
+            "desc": "在原地呆着，看仙鹤飞过，看着看着睡着了，全队饱腹度-30",
+            "dialogue": {
+                "name": "我",
+                "content": "啊（伸懒腰）～好舒服啊，就是有点饿了，再去吃点"
+            },
+            "reward": {
+                "type": 1,
+                "id": -1,
+                "num": -30
+            }
+        },
+        "button3": null
+    }
+}

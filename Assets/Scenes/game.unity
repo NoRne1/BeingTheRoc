@@ -24628,6 +24628,7 @@ MonoBehaviour:
   taBlackPanel: {fileID: 706832162}
   currentPageType: 0
   treasuresRect: {fileID: 472869731}
+  eventNotInvokeTime: 999
 --- !u!1 &706832160
 GameObject:
   m_ObjectHideFlags: 0

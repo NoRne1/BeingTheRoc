@@ -73,6 +73,7 @@
     <Compile Include="Assets/Scripts/Layers/CollectCharacterLayer.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/ListExtensions.cs" />
     <Compile Include="Assets/Scripts/UI/UIBaseInfoPanel.cs" />
+    <Compile Include="Assets/Scripts/UI/UIEventButton.cs" />
     <Compile Include="Assets/Scripts/Managers/DataManager.cs" />
     <Compile Include="Assets/Scripts/Utilities/ConstValue.cs" />
     <Compile Include="Assets/Scripts/Component/Singleton.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Assets/Scripts/Utilities/Extensions/ObjectExtensions.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBarOtherItem.cs" />
     <Compile Include="Assets/Scripts/Managers/BattleMoveBarManager.cs" />
+    <Compile Include="Assets/Scripts/UI/UIEventDialogue.cs" />
     <Compile Include="Assets/Scripts/UI/UIEntryDesc.cs" />
     <Compile Include="Assets/Scripts/Defines/CharacterDefine.cs" />
     <Compile Include="Assets/Scripts/Pages/UIForgePage.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="Assets/Scripts/UI/UIRepositorSlot.cs" />
     <Compile Include="Assets/Scripts/UI/UIStoreItemHint.cs" />
     <Compile Include="Assets/Scripts/UI/UIWeatherPanel.cs" />
+    <Compile Include="Assets/Scripts/UI/UIEventPage.cs" />
     <Compile Include="Assets/Scripts/Utilities/GlobalAccess.cs" />
     <Compile Include="Assets/Scripts/Utilities/DragSupport.cs" />
     <Compile Include="Assets/Scripts/Utilities/Config.cs" />
@@ -149,6 +152,7 @@
     <Compile Include="Assets/Scripts/Component/FightText/FightTextComponent.cs" />
     <Compile Include="Assets/Scripts/Models/BattleOtherModel.cs" />
     <Compile Include="Assets/Scripts/UI/UITip.cs" />
+    <Compile Include="Assets/Scripts/Defines/EventDefine.cs" />
     <Compile Include="Assets/Scripts/UI/UIHintBase.cs" />
     <Compile Include="Assets/Scripts/Component/RoundImage.cs" />
     <Compile Include="Assets/Scripts/UI/UIFruitResult.cs" />

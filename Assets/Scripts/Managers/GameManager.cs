@@ -58,6 +58,8 @@ public class GameManager : MonoSingleton<GameManager>
     public GameOtherProperty otherProperty = new GameOtherProperty();
 
     public WeatherDefine currentWeather;
+    //0表示刚触发过事件，所以初始设置为999，表示当前可以触发事件
+    public int eventNotInvokeTime = 999;
     // Start is called before the first frame update
     void Start()
     {
@@ -240,7 +242,8 @@ public class GameManager : MonoSingleton<GameManager>
         wheatCoin.OnNext(wheatCoin.Value + change);
     }
 
-    public void TimeChanged(int change)
+    //只有主动点击时钟，跨越时段才可能触发事件
+    public void TimeChanged(int change, bool isPassive)
     {
         timeLeft.OnNext(timeLeft.Value + change);
         if (otherProperty.currentCollectPlanInfo.Value != null && otherProperty.collectCharacterTimer.Value > 0)
@@ -250,6 +253,17 @@ public class GameManager : MonoSingleton<GameManager>
         if (otherProperty.currentMergeTaskInfo.Value != null && otherProperty.mergeTaskTimer.Value > 0)
         {
             otherProperty.mergeTaskTimer.OnNext(Math.Max(0, otherProperty.mergeTaskTimer.Value + change));
+        }
+        eventNotInvokeTime -= change;
+        if(!isPassive && eventNotInvokeTime >= GlobalAccess.eventInvokeInterval)
+        {
+            //是主动跨跃时段且距离上一次触发时间满足间歇时间
+            if (GameUtil.Instance.GetRandomRate(GlobalAccess.eventInvokeRate))
+            {
+                var page = UIManager.Instance.Show<UIEventPage>();
+                page.Setup(DataManager.Instance.eventsDefines[0]);
+                eventNotInvokeTime = 0;
+            }
         }
         HungryChange(change);
     }

@@ -260,7 +260,7 @@ public class MapManager : MonoSingleton<MapManager>
     {
         if (path != null && path.Count > 0)
         {
-            GameManager.Instance.TimeChanged(-path.Count);
+            GameManager.Instance.TimeChanged(-path.Count, true);
             foreach (var id in path)
             {
                 MovePlayerPos(id, true);
@@ -304,7 +304,7 @@ public class MapManager : MonoSingleton<MapManager>
 
     private IEnumerator BattleFailIEnumerator()
     {
-        GameManager.Instance.TimeChanged(-1);
+        GameManager.Instance.TimeChanged(-1, true);
         yield return new WaitForSeconds(GlobalAccess.timeLeftAnimTime);
         currentTownId = beforeBattleTownId;
         GameManager.Instance.SwitchPage(PageType.map);

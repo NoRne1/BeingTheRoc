@@ -16,7 +16,7 @@ public class UIGamePage : MonoBehaviour
                 var timeChanged = gameSpentTime.Value % 10 == 0 ? -(gameSpentTime.Value / 10) : -((gameSpentTime.Value / 10) + 1);
                 if (timeChanged != 0)
                 {
-                    GameManager.Instance.TimeChanged(timeChanged);
+                    GameManager.Instance.TimeChanged(timeChanged, true);
                 }
                 gameSpentTime.OnNext(0);
             }
@@ -27,7 +27,7 @@ public class UIGamePage : MonoBehaviour
                 var timeChanged = -(time / 10);
                 if (timeChanged != 0)
                 {
-                    GameManager.Instance.TimeChanged(timeChanged);
+                    GameManager.Instance.TimeChanged(timeChanged, true);
                     gameSpentTime.OnNext(time % 10);
                 }
             }
