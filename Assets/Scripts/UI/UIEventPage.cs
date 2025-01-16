@@ -104,6 +104,8 @@ public class UIEventPage : UIWindow
         {
             AddButton(eventDefine.button3);
         }
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(buttonScrollContent.GetComponent<RectTransform>());
         nextNum = 999;
     }
 
@@ -111,7 +113,9 @@ public class UIEventPage : UIWindow
     {
         var dialogueObject = Instantiate(dialoguePrefab, dialogueScrollContent);
         dialogueObject.GetComponent<UIEventDialogue>().Setup(dialogue);
-        SetupDialogueRectSize();
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(dialogueObject.GetComponent<RectTransform>());
+        StartCoroutine(SetupDialogueRectSize());
     }
 
     private void AddButton(EventButton buttonInfo)
@@ -122,6 +126,8 @@ public class UIEventPage : UIWindow
         {
             ShowResult(buttonInfo);
         }).AddTo(this);
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(button.GetComponent<RectTransform>());
     }
 
     private void ShowResult(EventButton buttonInfo)
@@ -140,6 +146,19 @@ public class UIEventPage : UIWindow
     private void ProcessEventReward(EventReward eventReward)
     {
         BlackBarManager.Instance.AddMessage("EventReward: " + eventReward.type.ToString() + " " + eventReward.id.ToString() + " " + eventReward.num.ToString());
+        switch(eventReward.type)
+        {
+            case EventRewardType.wheat:
+                GameManager.Instance.WheatCoinChanged(eventReward.num);
+                break;
+            case EventRewardType.hungry:
+                foreach(var charID in GameManager.Instance.characterRelaysDic.Keys)
+                {
+                    var characterModel = GlobalAccess.GetCharacterModel(charID);
+                    characterModel.HungryChange(eventReward.num); //自动保存了
+                }
+                break;
+        }
         UIManager.Instance.Close<UIEventPage>();
     } 
 
@@ -147,11 +166,11 @@ public class UIEventPage : UIWindow
     {
         // 强制更新布局
         Canvas.ForceUpdateCanvases();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(gameObject.GetComponent<RectTransform>());
+        LayoutRebuilder.ForceRebuildLayoutImmediate(dialogueScrollContent.GetComponent<RectTransform>());
         // 等待布局调整完成
         yield return new WaitForEndOfFrame();
         // 获取最新尺寸
-        var dialogueScrollContentSize = dialogueScrollContent.gameObject.GetComponent<RectTransform>().sizeDelta;
+        var dialogueScrollContentSize = dialogueScrollContent.GetComponent<RectTransform>().sizeDelta;
         dialogueScrollRect.sizeDelta = new Vector2(dialogueScrollContentSize.x, Mathf.Min(700, dialogueScrollContentSize.y));
     }
 }
