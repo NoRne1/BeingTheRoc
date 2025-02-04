@@ -39,7 +39,7 @@ class GlobalAccess
     public static int forgeMergePrice = 200;
     public static int forgeEnhanceNumLimit = 3;
     public static int marbleGamePrice = 200;
-    public static int eventInvokeRate = 100;
+    public static int eventInvokeRate = 15;
     public static int eventInvokeInterval = 3;
 
     public static int subCharacterNum

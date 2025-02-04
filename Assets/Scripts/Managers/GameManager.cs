@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Sound;
 using UniRx;
 using UnityEngine;
 
@@ -136,6 +137,7 @@ public class GameManager : MonoSingleton<GameManager>
         BlackBarManager.Instance.AddMessage("游戏失败");
         yield return new WaitForSeconds(1);
         SceneManager.Instance.LoadScene("start_game");
+        SoundManager.Instance.PlayMusic(SoundDefine.Music_Login);
     }
 
     // Update is called once per frame

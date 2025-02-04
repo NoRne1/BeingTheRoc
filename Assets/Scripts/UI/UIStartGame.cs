@@ -40,6 +40,10 @@ public class UIStartGame : MonoBehaviour
 
     public void quit()
     {
-        Application.Quit();
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying=false;//在Unity编译器中结束运行
+        #else
+            Application.Quit();//在可执行程序中结束运行
+        #endif
     }
 }

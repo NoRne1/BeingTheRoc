@@ -135,6 +135,7 @@
     <Compile Include="Assets/Scripts/UI/UICollectCharacterButton.cs" />
     <Compile Include="Assets/Scripts/UI/UITreasureItem.cs" />
     <Compile Include="Assets/Scripts/Defines/BattleItem.cs" />
+    <Compile Include="Assets/Scripts/UI/UIOptionsWindow.cs" />
     <Compile Include="Assets/Scripts/Defines/EquipDefine.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/DictionaryExtensions.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBarFirstItem.cs" />

@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using Unity.Burst.Intrinsics;
 using TMPro;
 using Assets.Scripts.Sound;
 

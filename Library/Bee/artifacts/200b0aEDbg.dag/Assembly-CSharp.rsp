@@ -510,6 +510,7 @@
 "Assets/Scripts/UI/UIMoveBarFirstItem.cs"
 "Assets/Scripts/UI/UIMoveBarOtherItem.cs"
 "Assets/Scripts/UI/UIOptions.cs"
+"Assets/Scripts/UI/UIOptionsWindow.cs"
 "Assets/Scripts/UI/UIPanelSelector.cs"
 "Assets/Scripts/UI/UIPropertyChangeButton.cs"
 "Assets/Scripts/UI/UIPropertyDisplay.cs"

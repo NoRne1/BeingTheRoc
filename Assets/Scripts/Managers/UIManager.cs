@@ -42,6 +42,7 @@ public class UIManager: Singleton<UIManager>
         this.UIResources.Add(typeof(UICharacterHint), new UIElement() { Resource = "Prefabs/UICharacterHint", Cache = false });
         this.UIResources.Add(typeof(UITownHint), new UIElement() { Resource = "Prefabs/UITownHint", Cache = false });
         this.UIResources.Add(typeof(UIEventPage), new UIElement() { Resource = "Prefabs/UIEventPage", Cache = false });
+        this.UIResources.Add(typeof(UIOptionsWindow), new UIElement() { Resource = "Prefabs/UIOptionsWindow", Cache = false });
     }
 
     ~UIManager()

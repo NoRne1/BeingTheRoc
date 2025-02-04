@@ -121,6 +121,7 @@ public class DataManager : Singleton<DataManager>
     public IEnumerator LoadData()
     {
         nameGenerator.LoadNameData(this.DataPath + "NameDatabase.txt");
+        townNameGenerator.LoadTownNameData(this.DataPath + "TownNameDatabase.txt");
         yield return null;
         
         string json = File.ReadAllText(this.DataPath + "CharacterDefine.json");
@@ -184,7 +185,7 @@ public class DataManager : Singleton<DataManager>
         this.BuffDefines = JsonConvert.DeserializeObject<Dictionary<int, BuffDefine>>(json);
         yield return null;
 
-        json = File.ReadAllText(this.DataPath + "CollectItemDefines.json");
+        json = File.ReadAllText(this.DataPath + "CollectItemDefine.json");
         this.collectItemDefines = JsonConvert.DeserializeObject<Dictionary<int, CollectItemDefine>>(json);
         yield return null;
 

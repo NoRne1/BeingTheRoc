@@ -201,8 +201,14 @@ public class UICommonUI : MonoBehaviour
     {
         rightButtonGroup.SetActive(!flag);
     }
+
     public void hideTimeLeftGroup(bool flag)
     {
         timeLeftGroup.SetActive(!flag);
+    }
+
+    public void OpenOptionsMenu()
+    {
+        UIManager.Instance.Show<UIOptionsWindow>();
     }
 }
