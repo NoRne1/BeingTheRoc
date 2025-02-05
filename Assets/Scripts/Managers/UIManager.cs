@@ -1,5 +1,6 @@
 using Assets.Scripts.Sound;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -99,26 +100,25 @@ public class UIManager: Singleton<UIManager>
     }
 
     //关闭UI
-    public void Close(Type type)
-    {
-        if (this.UIResources.ContainsKey(type))
-        {
-            //存在资源就获取信息
-            UIElement info = this.UIResources[type];
-            if (info.Cache)
-            {
-                //UI是缓存的,设置不可见
-                info.Instance.SetActive(false);
-            }
-            else
-            {
-                //UI是不缓存的,销毁实例
-                GameObject.Destroy(info.Instance);
-                info.Instance = null;
-                //SoundManager.Instance.PlaySound(SoundDefine.SFX_UI_Win_Close);
-            }
-        }
-    }
+    // public void Close(Type type)
+    // {
+    //     if (this.UIResources.ContainsKey(type))
+    //     {
+    //         //存在资源就获取信息
+    //         UIElement info = this.UIResources[type];
+    //         if (info.Cache)
+    //         {
+    //             //UI是缓存的,设置不可见
+    //             info.Instance.SetActive(false);
+    //         }
+    //         else
+    //         {
+    //             //UI是不缓存的,销毁实例
+    //             GameObject.Destroy(info.Instance);
+    //             info.Instance = null;
+    //         }
+    //     }
+    // }
 
     internal void Close<T>()
     {
@@ -156,5 +156,34 @@ public class UIManager: Singleton<UIManager>
             }
         }
         return false;
+    }
+
+    public void Close(Type type)
+    {
+        if (this.UIResources.ContainsKey(type))
+        {
+            // 存在资源就获取信息
+            UIElement info = this.UIResources[type];
+            SoundManager.Instance.PlaySound(SoundDefine.SFX_UI_Click);
+            // 启动协程延迟处理
+            SceneManager.Instance.StartCoroutine(DelayedClose(info, type));
+        }
+    }
+
+    private IEnumerator DelayedClose(UIElement info, Type type)
+    {
+        // 先延迟一帧，确保 HasActiveUIWindow() 返回 true
+        yield return null;
+
+        // 视觉效果：隐藏或销毁 UI
+        if (info.Cache)
+        {
+            info.Instance.SetActive(false); // 隐藏 UI
+        }
+        else
+        {
+            GameObject.Destroy(info.Instance); // 销毁 UI 实例
+            info.Instance = null;
+        }
     }
 }

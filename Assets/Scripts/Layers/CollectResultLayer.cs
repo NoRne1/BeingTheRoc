@@ -89,7 +89,7 @@ public class CollectResultLayer : MonoBehaviour
         } else 
         {
             UITip tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateTip("队伍成员将超过上限,接收失败");
+            tip.UpdateTip(GameUtil.Instance.GetDisplayString("accept_character_beyond_limit"));
         }
     }
 
@@ -172,7 +172,7 @@ public class CollectResultLayer : MonoBehaviour
             StartCoroutine(Close());
         } else {
             UITip tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateTip("队伍成员将超过上限，请单个点击领取");
+            tip.UpdateTip(GameUtil.Instance.GetDisplayString("accept_character_beyond_limit_plural"));
         }
     }
 
