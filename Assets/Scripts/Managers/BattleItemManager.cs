@@ -96,6 +96,16 @@ public class BattleItemManager
         battleManager.moveBarManager.RefreshMoveBar();
     }
 
+    public void AddQuitTimeItem()
+    {
+        var quitTimeItem = new BattleItem(BattleItemType.quitTime);
+        quitTimeItem.BattleInit();
+        quitTimeItem.remainActingDistance = GlobalAccess.roundDistance;
+        GlobalAccess.SaveBattleItem(quitTimeItem);
+        AddItem(quitTimeItem);
+        battleManager.moveBarManager.RefreshMoveBar();
+    }
+
     public void ResortBattleItems()
     {
         var tempBattleItems = roundBattleItemIDs.Select(uuid => GlobalAccess.GetBattleItem(uuid)).ToList();

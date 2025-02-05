@@ -91,6 +91,7 @@ public class BattleRoundManager
                         });
                         break;
                     case BattleItemType.time:
+                    case BattleItemType.quitTime:
                         break;
                     case BattleItemType.sceneItem:
                         battleManager.battleItemManager.pos_uibattleItemDic.FirstOrDefault(pair => {
@@ -140,6 +141,9 @@ public class BattleRoundManager
                         yield return new WaitForSeconds(1f);
                         roundTime.OnNext((uuid, RoundTime.end));
                         break;
+                    case BattleItemType.quitTime:
+                        battleManager.BattleEnd(false);
+                        break;
                     case BattleItemType.sceneItem:
                         if (!battleItem0.canActing)
                         {
@@ -173,6 +177,7 @@ public class BattleRoundManager
                         battleManager.battleItemManager.pos_uibattleItemDic.Values.First(item => { return item.itemID == battleItem0.uuid; }).roundActive = false;
                         break;
                     case BattleItemType.time:
+                    case BattleItemType.quitTime:
                         break;
                     case BattleItemType.granary:
                         Debug.LogError("granary have no round end!");

@@ -18,6 +18,7 @@ public class UICommonUI : MonoBehaviour
     public Button backButton;
     public Button menuButton;
     public Button helpButton;
+    public Button mapButton;
     public UIWeatherPanel weatherPanel;
     public GameObject timeLeftGroup;
     public GameObject rightButtonGroup;
@@ -37,6 +38,7 @@ public class UICommonUI : MonoBehaviour
 
     public void setUIStyle(CommonUIStyle style)
     {
+        mapButton.gameObject.SetActive(true);
         switch(style)
         {
             case CommonUIStyle.map:
@@ -78,6 +80,7 @@ public class UICommonUI : MonoBehaviour
                 hideTimeLeftGroup(false);
                 weatherPanel.gameObject.SetActive(true);
                 uIPopButtonGroup.gameObject.SetActive(true);
+                mapButton.gameObject.SetActive(false);
                 setLeftRectAutoHide(true);
                 treasuresRect.gameObject.SetActive(true);
                 break;

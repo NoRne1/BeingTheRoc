@@ -187,7 +187,7 @@ GameObject:
   - component: {fileID: 1701881419619166398}
   - component: {fileID: 6654176520408058277}
   m_Layer: 5
-  m_Name: clock_icon
+  m_Name: icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -435,7 +435,7 @@ RectTransform:
   - {fileID: 7774179373782889156}
   - {fileID: 4736266430093677035}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -480,6 +480,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 941c6d51e5ace400ca938d9802652234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeIcon: {fileID: 21300000, guid: 798a7148be231459bb5b7f714e37e507, type: 3}
+  quitIcon: {fileID: 21300000, guid: 77fa8cb13fd20410bbd6d9c2121c5fa2, type: 3}
+  icon: {fileID: 6654176520408058277}
   remainActingTime: {fileID: 7582444124822561622}
 --- !u!114 &-6815385876401927905
 MonoBehaviour:

@@ -39,7 +39,7 @@ public class UIMoveBar : MonoBehaviour
         {
             var battleItem = GlobalAccess.GetBattleItem(battleItems[i]);
             if (battleItem.attributes.Speed == 0) { continue; }
-            if (i == 0 && battleItem.type != BattleItemType.time &&
+            if (i == 0 && battleItem.type != BattleItemType.time && battleItem.type != BattleItemType.quitTime &&
                 battleItem.remainActingDistance == 0)
             {
                 //有firstItem
@@ -54,6 +54,11 @@ public class UIMoveBar : MonoBehaviour
                         GameObject dayItem = dayItemPool.GetObjectFromPool();
                         dayItem.GetComponent<UIMoveBarDayItem>().Setup(battleItem);
                         dayItem.transform.SetSiblingIndex(i);
+                        break;
+                    case BattleItemType.quitTime:
+                        GameObject quitTimeItem = dayItemPool.GetObjectFromPool();
+                        quitTimeItem.GetComponent<UIMoveBarDayItem>().Setup(battleItem);
+                        quitTimeItem.transform.SetSiblingIndex(i);
                         break;
                     case BattleItemType.player:
                     case BattleItemType.enemy:

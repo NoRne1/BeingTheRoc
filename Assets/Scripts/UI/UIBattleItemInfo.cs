@@ -72,6 +72,7 @@ public class UIBattleItemInfo : MonoBehaviour
                         }
                         break;
                     case BattleItemType.time:
+                    case BattleItemType.quitTime:
                         Debug.Log("UIBattleItemInfo setup error");
                         break;
                     case BattleItemType.sceneItem:

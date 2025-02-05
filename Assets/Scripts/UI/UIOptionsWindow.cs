@@ -10,7 +10,6 @@ public class UIOptionsWindow : UIWindow
     public Button optionButton;
     public Button backMenuButton;
 
-
     public void Options()
     {
         UIManager.Instance.Show<UIOptions>();

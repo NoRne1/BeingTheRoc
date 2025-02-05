@@ -35,8 +35,8 @@ public class UIMoveBarFirstItem : MonoBehaviour
             case BattleItemType.sceneItem:
                 bg.overrideSprite = Resloader.LoadSprite("move_bar_first_grey_bg", ConstValue.moveBarPath);
                 break;
-            case BattleItemType.time:
-                Debug.LogError("UIMoveBarFirstItem BattleItemType == time error!");
+            default:
+                Debug.LogError("UIMoveBarFirstItem BattleItemType == " + item.type + " error!");
                 break;
         }
     }

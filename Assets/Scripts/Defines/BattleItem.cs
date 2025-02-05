@@ -13,6 +13,7 @@ public enum BattleItemType
     time = 8,
     sceneItem = 16,
     granary = 32,
+    quitTime = 64,
 }
 
 public class BattleItem: IStorable
@@ -109,6 +110,7 @@ public class BattleItem: IStorable
                 this.type = type;
                 break;
             case BattleItemType.time:
+            case BattleItemType.quitTime:
                 uuid = GameUtil.Instance.GenerateUniqueId();
                 this.type = type;
                 attributes = new Attributes(battleItemUpdate);
@@ -202,6 +204,7 @@ public class BattleItem: IStorable
                 break;
             case BattleItemType.sceneItem:
             case BattleItemType.time:
+            case BattleItemType.quitTime:
             case BattleItemType.granary:
                 break;
         }

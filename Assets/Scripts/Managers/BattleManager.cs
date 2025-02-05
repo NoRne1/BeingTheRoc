@@ -32,10 +32,12 @@ public class BattleManager : MonoSingleton<BattleManager>
     public TownBattleInfoModel battleInfo;
     public UICircleProgressButton endRoundButton;
     public UICircleProgressButton restartTodayButton;
+    public UICircleProgressButton quitBattleButton;
     public bool isInBattle = false;
     public int battleStartTimeLeft = -1;
     // Data
     public float difficultyExtraFactor = 0f;
+    public bool isWaitQuit = false;
 
     // Subject
     // (string, string, int, AttackStatus, bool, bool) => (casterID, targetID, damage, attackStatus, isCritical, trigger other effect)
@@ -71,6 +73,10 @@ public class BattleManager : MonoSingleton<BattleManager>
         //restartTodayButton不存在onImmediateAction
         restartTodayButton.onProgressCompleteAction = () => {
             Debug.Log("restartTodayButton.onProgressCompleteAction");
+        };
+
+        quitBattleButton.onProgressCompleteAction = () => {
+            QuitBattleButtonClick();
         };
 
         GameManager.Instance.timeLeft.DistinctUntilChanged().Subscribe(timeleft => {
@@ -242,6 +248,17 @@ public class BattleManager : MonoSingleton<BattleManager>
         uiBattleItemInfo.BlinkEnergy();
     }
 
+    public void QuitBattleButtonClick()
+    {
+        if (!isWaitQuit)
+        {
+            isWaitQuit = true;
+            battleItemManager.AddQuitTimeItem();
+        } else {
+            BlackBarManager.Instance.AddMessage("催催催，只能跑这么快啦！");
+        }
+    }
+
     public void CharacterDie(string uuid)
     {
         //清除数据
@@ -316,5 +333,6 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             MapManager.Instance.BattleFail();
         }
+        isWaitQuit = false;
     }
 }
