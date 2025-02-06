@@ -178,8 +178,7 @@ public class StoreItemModel : StoreItemDefine
                 args[i] = foodProperty.trulyValue;
             }
             
-            //todo 需要从 GameUtil.Instance.GetDisplayString 拿
-            return string.Format(desc, args).ReplaceNewLines();
+            return string.Format(GameUtil.Instance.GetDirectDisplayString(desc), args).ReplaceNewLines();
         }
         return "";
     }

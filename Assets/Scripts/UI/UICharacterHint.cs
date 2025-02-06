@@ -43,7 +43,7 @@ public class UICharacterHint : UIHintBase
     {
         selfBG.overrideSprite = bgSprite[(int)cm.Level];
         title.text = cm.Name;
-        race.text = cm.define.Race;
+        race.text = GameUtil.Instance.GetDirectDisplayString(cm.define.Race);
         jobIcon.overrideSprite = Resloader.LoadSprite(cm.Job.ToString(), ConstValue.jobIconsPath);
         
         skillButtons[0].Setup(cm.BornSkill == -1 ? null : DataManager.Instance.Skills[cm.BornSkill]);

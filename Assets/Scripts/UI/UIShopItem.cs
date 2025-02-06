@@ -38,7 +38,7 @@ public class UIShopItem : MonoBehaviour
             iconBG.color = GlobalAccess.GetLevelColor(info.level);
             icon.overrideSprite = Resloader.LoadSprite(info.iconResource, ConstValue.equipsPath);
             title.color = GlobalAccess.GetLevelColor(info.level);
-            title.text = GameUtil.Instance.GetDisplayString(info.title);
+            title.text = GameUtil.Instance.GetDirectDisplayString(info.title);
             beforeDiscountPriceObject.gameObject.SetActive(info.discount != 1.0f);
             beforeDiscountPrice.text = info.price.ToString();
             realPrice.text = info.realPrice.ToString();

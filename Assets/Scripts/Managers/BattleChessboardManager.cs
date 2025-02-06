@@ -124,7 +124,7 @@ public class BattleChessboardManager
         else
         {
             UITip tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateGeneralTip("0005");
+            tip.UpdateTip(GameUtil.Instance.GetDisplayString("place_character_wrong"));
         }
     }
 
@@ -231,15 +231,15 @@ public class BattleChessboardManager
                 resultHandler?.Invoke(false);
                 if (battleItem.isConfine)
                 {
-                    BlackBarManager.Instance.AddMessage("禁锢状态，移动失败");
+                    BlackBarManager.Instance.AddMessage(GameUtil.Instance.GetDisplayString("confine_move_failure"));
                 }
                 else if (battleItem.attributes.currentEnergy <= 0)
                 {
-                    BlackBarManager.Instance.AddMessage("能量不足，移动失败");
+                    BlackBarManager.Instance.AddMessage(GameUtil.Instance.GetDisplayString("energy_move_failure"));
                 }
                 else
                 {
-                    BlackBarManager.Instance.AddMessage("目标位置不可用，移动失败");
+                    BlackBarManager.Instance.AddMessage(GameUtil.Instance.GetDisplayString("wrong_postion_move_failure"));
                 }
             }
         }

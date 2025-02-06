@@ -27,7 +27,7 @@ public class UITownHint : UIHintBase
     public void Setup(TownModel townModel)  
     {
         this.townModel = townModel;
-        nameText.text = townModel.Name;
+        nameText.text = GameUtil.Instance.GetDirectDisplayString(townModel.Name);
         switch(townModel.type)
         {
             case TownNodeType.town1:

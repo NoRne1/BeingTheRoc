@@ -147,7 +147,7 @@ public class MarbleGameController : MonoBehaviour
             //钱不够买
             UITip tip = UIManager.Instance.Show<UITip>();
             //todo
-            tip.UpdateGeneralTip(GameUtil.Instance.GetDisplayString("game_no_money_input"));
+            tip.UpdateTip(GameUtil.Instance.GetDisplayString("game_no_money_input"));
         } else {
             GameManager.Instance.FeatherCoinChanged(-GlobalAccess.marbleGamePrice);
             ScoreChanged(GlobalAccess.marbleGamePrice);
@@ -169,7 +169,7 @@ public class MarbleGameController : MonoBehaviour
         {
             //错误请求(扣成负的了)
             UITip tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateGeneralTip(GameUtil.Instance.GetDisplayString("game_start_no_point"));
+            tip.UpdateTip(GameUtil.Instance.GetDisplayString("game_start_no_point"));
             return false;
         }
         scoreSubject.OnNext(scoreSubject.Value + change);

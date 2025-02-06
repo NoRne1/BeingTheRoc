@@ -163,7 +163,7 @@ public class UIShopPage : MonoBehaviour
             //钱不够买
             UITip tip = UIManager.Instance.Show<UITip>();
             //todo
-            tip.UpdateGeneralTip("钱不够买，todo！");
+            tip.UpdateTip(GameUtil.Instance.GetDisplayString("buy_item_no_money"));
         } else if (shopItems[index].info.type == ItemType.treasure) {
             //treasure不占仓库，需特殊处理
             shopItems[index].ItemSold(true);
@@ -174,7 +174,7 @@ public class UIShopPage : MonoBehaviour
             //仓库空间不够了
             UITip tip = UIManager.Instance.Show<UITip>();
             //todo
-            tip.UpdateGeneralTip("仓库空间不够，逻辑未处理，todo！");
+            tip.UpdateTip(GameUtil.Instance.GetDisplayString("bag_beyond_limit"));
         } else
         {
             shopItems[index].ItemSold(true);

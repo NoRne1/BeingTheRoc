@@ -24,7 +24,7 @@ public class UIEventButton : MonoBehaviour
     public void Setup(EventButton button)
     {
         buttonInfo = button;
-        title.text = button.title;
-        desc.text = button.desc;
+        title.text = GameUtil.Instance.GetDirectDisplayString(button.title);
+        desc.text = GameUtil.Instance.GetDirectDisplayString(button.desc);
     }
 }

@@ -21,8 +21,8 @@ public class UISkillHint : UIHintBase
 
     public void Setup(SkillDefine skill)
     {
-        title.text = skill.Title;
-        desc.text = skill.Desc;
+        title.text = GameUtil.Instance.GetDirectDisplayString(skill.Title);
+        desc.text = GameUtil.Instance.GetDirectDisplayString(skill.Desc);
         StartCoroutine(SetupComplete());
     }
 }

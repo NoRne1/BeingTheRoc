@@ -26,6 +26,6 @@ public class UISkillItem : MonoBehaviour
     {
         this.skill = skill;
         icon.overrideSprite = Resloader.LoadSprite(skill.Resource, ConstValue.skillsPath);
-        desc.text = skill.Desc;
+        desc.text = GameUtil.Instance.GetDirectDisplayString(skill.Desc);
     }
 }

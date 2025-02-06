@@ -15,8 +15,8 @@ public class UIShowBuffItem : MonoBehaviour
     public void Setup(BuffModel buff)
     {
         icon.overrideSprite = Resloader.LoadSprite(buff.Resource, ConstValue.buffsPath);
-        title.text = GameUtil.Instance.GetDisplayString(buff.Name);
-        desc.text = GameUtil.Instance.GetDisplayString(buff.Description);
+        title.text = GameUtil.Instance.GetDirectDisplayString(buff.Name);
+        desc.text = GameUtil.Instance.GetDirectDisplayString(buff.Description);
         numObj.SetActive(buff.num > 1);
         num.text = buff.num.ToString();
     }

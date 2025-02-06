@@ -16,9 +16,9 @@ public class UIEntryDesc : MonoBehaviour
         bg.overrideSprite = bgSprites[(int)model.level];
         if (model.effect.value == 0)
         {
-            desc.text = GameUtil.Instance.GetDisplayString(model.descString);
+            desc.text = GameUtil.Instance.GetDirectDisplayString(model.descString);
         } else {
-            desc.text = string.Format(GameUtil.Instance.GetDisplayString(model.descString), model.effect.value).ReplaceNewLines();
+            desc.text = string.Format(GameUtil.Instance.GetDirectDisplayString(model.descString), model.effect.value).ReplaceNewLines();
         }
         Color startColor = bg.color;
         startColor.a = 0;

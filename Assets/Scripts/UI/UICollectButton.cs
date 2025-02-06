@@ -16,19 +16,19 @@ public class UICollectButton : MonoBehaviour
     {
         if(index == 0)
         {
-            info = new CollectCharacterInfo(0,"普通召集",0.05f,0.1f,0.2f,0.65f,2,500);
+            info = new CollectCharacterInfo(0,GameUtil.Instance.GetDisplayString("normal_collect"),0.05f,0.1f,0.2f,0.65f,2,500);
             title.text = info.title;
             desc.text = info.GetDisplayDesc();
             price.text = info.price.ToString();
         } else if(index == 1)
         {
-            info = new CollectCharacterInfo(1,"快速召集",0.05f,0.1f,0.2f,0.65f,1,800);
+            info = new CollectCharacterInfo(1,GameUtil.Instance.GetDisplayString("quick_collect"),0.05f,0.1f,0.2f,0.65f,1,800);
             title.text = info.title;
             desc.text = info.GetDisplayDesc();
             price.text = info.price.ToString();
         } else if(index == 2)
         {
-            info = new CollectCharacterInfo(2,"特别召集",0.1f,0.2f,0.3f,0.4f,2,1200);
+            info = new CollectCharacterInfo(2,GameUtil.Instance.GetDisplayString("special_collect"),0.1f,0.2f,0.3f,0.4f,2,1200);
             title.text = info.title;
             desc.text = info.GetDisplayDesc();
             price.text = info.price.ToString();
@@ -50,7 +50,7 @@ public class CollectCharacterInfo
     public int waitTime;
     public int price;
     
-    string descFormat = "红：{0}%\\n蓝：{1}%\\n绿：{2}%\\n经典时尚：{3}%\\n等待时间：{4}d\\n";
+    string descFormat = GameUtil.Instance.GetDisplayString("collect_info_format");
     
     public CollectCharacterInfo(int ID, string title, float redRate, float blueRate, float greenRate, float whiteRate, int waitTime, int price)
     {
@@ -72,6 +72,6 @@ public class CollectCharacterInfo
         args[2] = (int)(greenRate * 100);
         args[3] = (int)(whiteRate * 100);
         args[4] = waitTime;
-        return string.Format(descFormat, args).ReplaceNewLines();;
+        return string.Format(descFormat, args);
     }
 }

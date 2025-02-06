@@ -23,7 +23,7 @@ public class UIFoodOption: MonoBehaviour
         if (itemModel.type != ItemType.food || itemModel.foodModel == null) { return; }
         this.itemModel = itemModel;
         foodIcon.overrideSprite = Resloader.LoadSprite(itemModel.iconResource, ConstValue.foodIconsPath);
-        foodName.text = itemModel.title;
+        foodName.text = GameUtil.Instance.GetDirectDisplayString(itemModel.title);
         foreach (var index in Enumerable.Range(0, uIFoodPropertys.Count))
         {
             if (index < itemModel.foodModel.foodPropertys.Count)

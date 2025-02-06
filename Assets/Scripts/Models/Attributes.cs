@@ -184,7 +184,7 @@ public class Attributes
         var ruleFactor = GlobalAccess.GetPropertyTransferRuleFactor(type);
         if (ruleFactor == -1) 
         { 
-            BlackBarManager.Instance.AddMessage("请先选择一项属性");
+            BlackBarManager.Instance.AddMessage(GameUtil.Instance.GetDisplayString("choose_property_tip"));
             return false; 
         }
         if ((change >= 0 && Mathf.Abs(ruleFactor * change) <= remainPropertyPoints) || 
@@ -197,7 +197,7 @@ public class Attributes
             return true;
         } else  
         {
-            BlackBarManager.Instance.AddMessage("加点时没有足够的可分配点数，减点时可分配点数超过最大值，或是属性不能小于0");
+            BlackBarManager.Instance.AddMessage(GameUtil.Instance.GetDisplayString("change_property_error"));
             return false;
         }
     }

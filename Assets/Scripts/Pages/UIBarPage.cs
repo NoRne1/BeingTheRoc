@@ -18,7 +18,7 @@ public class UIBarPage : MonoBehaviour
     public TextMeshProUGUI collectCharacterText;
 
     public List<HintComponent> chairItems;
-    private CollectCharacterInfo info = new CollectCharacterInfo(0,"自然召集",0.03f,0.08f,0.14f,0.75f,1,0);
+    private CollectCharacterInfo info = new CollectCharacterInfo(0,GameUtil.Instance.GetDisplayString("neutral_collect"),0.03f,0.08f,0.14f,0.75f,1,0);
     private IDisposable collectCharacterTextDisposable;
 
     private int dayLeft = -1;
@@ -26,7 +26,7 @@ public class UIBarPage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        collectCharacterText.text = GameUtil.Instance.GetDisplayString("召集");
+        collectCharacterText.text = GameUtil.Instance.GetDisplayString("collect");
         collectCharacterLayer.collectButtonSubject.AsObservable().Subscribe(info=>{
             if (GameManager.Instance.otherProperty.currentCollectPlanInfo.Value == null)
             {
@@ -42,18 +42,19 @@ public class UIBarPage : MonoBehaviour
             if (para.info == null)
             {
                 collectCharacterTextDisposable.IfNotNull(dispose => { dispose.Dispose(); });
-                collectCharacterText.text = GameUtil.Instance.GetDisplayString("召集");
+                collectCharacterText.text = GameUtil.Instance.GetDisplayString("collect");
                 collectCharacterButton.enabled = true;
             } else if (para.info != null && para.timer == 0)
             {
                 //召集任务到期了
                 collectCharacterTextDisposable.IfNotNull(dispose => { dispose.Dispose(); });
-                collectCharacterText.text = GameUtil.Instance.GetDisplayString("召集完成!");
+                collectCharacterText.text = GameUtil.Instance.GetDisplayString("collect_done");
                 collectCharacterButton.enabled = true;
             } else if (para.info != null && para.timer > 0)
             {
                 //当前有召集任务，也没到期
-                string[] displayStrings = { "召集中", "召集中.", "召集中..", "召集中..." };
+                string[] displayStrings = { GameUtil.Instance.GetDisplayString("collecting"), GameUtil.Instance.GetDisplayString("collecting")+".", 
+                    GameUtil.Instance.GetDisplayString("collecting") + "..", GameUtil.Instance.GetDisplayString("collecting") + "..." };
                 collectCharacterTextDisposable.IfNotNull(dispose => { dispose.Dispose(); });
                 // 使用 Observable.Interval 创建一个每隔一段时间发射一次的可观察序列
                 collectCharacterTextDisposable = Observable.Interval(System.TimeSpan.FromSeconds(1f))
@@ -100,7 +101,7 @@ public class UIBarPage : MonoBehaviour
             //钱不够买
             UITip tip = UIManager.Instance.Show<UITip>();
             //todo
-            tip.UpdateGeneralTip("钱不够买，todo！");
+            tip.UpdateTip(GameUtil.Instance.GetDisplayString("collect_no_money"));
         } else {
             GameManager.Instance.otherProperty.currentCollectPlanInfo.OnNext(info);
             GameManager.Instance.otherProperty.collectCharacterTimer.OnNext(info.waitTime * 3);
@@ -196,11 +197,11 @@ public class UIBarPage : MonoBehaviour
                     //钱不够买
                     UITip tip = UIManager.Instance.Show<UITip>();
                     //todo
-                    tip.UpdateGeneralTip("钱不够买，todo！");
+                    tip.UpdateTip(GameUtil.Instance.GetDisplayString("buy_character_no_money"));
                 }
             } else {
                 UITip tip = UIManager.Instance.Show<UITip>();
-                tip.UpdateTip("队伍成员将超过上限,购买失败");
+                tip.UpdateTip(GameUtil.Instance.GetDisplayString("buy_character_beyond_limit"));
             }
         } else 
         {

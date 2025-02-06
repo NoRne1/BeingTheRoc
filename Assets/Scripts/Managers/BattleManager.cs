@@ -255,7 +255,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             isWaitQuit = true;
             battleItemManager.AddQuitTimeItem();
         } else {
-            BlackBarManager.Instance.AddMessage("催催催，只能跑这么快啦！");
+            BlackBarManager.Instance.AddMessage(GameUtil.Instance.GetDisplayString("quit_battle_muti_click"));
         }
     }
 

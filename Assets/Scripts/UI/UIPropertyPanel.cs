@@ -22,7 +22,7 @@ public class UIPropertyPanel : MonoBehaviour
         foreach (var propertyDisplay in GetComponentsInChildren<UIPropertyDisplay>())
         {
             propertyDisplays.Add(propertyDisplay.attributeType, propertyDisplay);
-            propertyDisplay.SetupKey(propertyDisplay.attributeType.ToString());
+            propertyDisplay.SetupKey(propertyDisplay.attributeType.ToString().ToLower());
         }
     }
 
@@ -60,10 +60,10 @@ public class UIPropertyPanel : MonoBehaviour
             disposable = NorneStore.Instance.ObservableObject<CharacterModel>(character)
                 .AsObservable().TakeUntilDestroy(this).Subscribe(cm =>
                 {
-                    jobIcon.overrideSprite = Resloader.LoadSprite(cm.Resource, ConstValue.battleItemsPath);
+                    jobIcon.overrideSprite = Resloader.LoadSprite(cm.Job.ToString(), ConstValue.jobIconsPath);
                     raceIcon.overrideSprite = Resloader.LoadSprite(cm.Resource, ConstValue.battleItemsPath);
-                    jobDesc.text = "援御";
-                    raceDesc.text = GameUtil.Instance.GetDisplayString(cm.Desc);
+                    jobDesc.text = GameUtil.Instance.GetDirectDisplayString(cm.Job.ToString());
+                    raceDesc.text = GameUtil.Instance.GetDirectDisplayString(cm.Desc);
                     changeButton.remainPoints.text = cm.attributes.RemainPropertyPoints.ToString();
                     foreach (var propertyDisplay in propertyDisplays.Values)
                     {
@@ -85,10 +85,10 @@ public class UIPropertyPanel : MonoBehaviour
             disposable = NorneStore.Instance.ObservableObject<BattleItem>(battleItem)
                 .AsObservable().TakeUntilDestroy(this).Subscribe(bi =>
                 {
-                    jobIcon.overrideSprite = Resloader.LoadSprite(bi.Resource, ConstValue.battleItemsPath);
+                    jobIcon.overrideSprite = Resloader.LoadSprite(bi.Job.ToString(), ConstValue.jobIconsPath);
                     raceIcon.overrideSprite = Resloader.LoadSprite(bi.Resource, ConstValue.battleItemsPath);
-                    jobDesc.text = "援御";
-                    raceDesc.text = GameUtil.Instance.GetDisplayString(bi.Desc);
+                    jobDesc.text = GameUtil.Instance.GetDirectDisplayString(bi.Job.ToString());
+                    raceDesc.text = GameUtil.Instance.GetDirectDisplayString(bi.Desc);
                     foreach (var propertyDisplay in propertyDisplays.Values) 
                     {
                         propertyDisplay.SetupValue(bi.attributes.getFinalPropertyValue(propertyDisplay.attributeType).ToString());

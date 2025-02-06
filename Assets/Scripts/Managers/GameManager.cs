@@ -134,7 +134,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     private IEnumerator GameOver()
     {
-        BlackBarManager.Instance.AddMessage("游戏失败");
+        BlackBarManager.Instance.AddMessage(GameUtil.Instance.GetDisplayString("game_over"));
         yield return new WaitForSeconds(1);
         SceneManager.Instance.LoadScene("start_game");
         SoundManager.Instance.PlayMusic(SoundDefine.Music_Login);
@@ -238,7 +238,7 @@ public class GameManager : MonoSingleton<GameManager>
         {
             //错误请求(扣成负的了)
             UITip tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateGeneralTip("0003");
+            tip.UpdateGeneralTip("0004");
             return;
         }
         wheatCoin.OnNext(wheatCoin.Value + change);

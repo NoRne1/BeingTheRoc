@@ -15,8 +15,8 @@ public class UIWeatherPanel : MonoBehaviour
 	{
 		this.define = define;
 		icon.overrideSprite = Resloader.LoadSprite(define.Resource, ConstValue.weatherPath);
-		title.text = define.title;
-		desc.text = define.desc;
+		title.text = GameUtil.Instance.GetDirectDisplayString(define.title);
+		desc.text = GameUtil.Instance.GetDirectDisplayString(define.desc);
 	}
 }
 

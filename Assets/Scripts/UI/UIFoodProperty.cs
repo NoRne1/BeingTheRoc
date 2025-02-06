@@ -21,7 +21,7 @@ public class UIFoodProperty : MonoBehaviour
 
     public void Setup(PropertyType type, int value)
     {
-        keyText.text = type.ToString();
+        keyText.text = GameUtil.Instance.GetDirectDisplayString(type.ToString());
         valueText.color = value > 0 ? GameUtil.Instance.hexToColor("#CAFFBF") : GameUtil.Instance.hexToColor("#FFADAD");
         valueText.text = value.ToString();
     }

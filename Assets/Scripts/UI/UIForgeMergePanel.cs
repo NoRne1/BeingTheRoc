@@ -80,14 +80,15 @@ public class UIForgeMergePanel : MonoBehaviour
                 merge_start_panel.SetActive(false);
                 merge_ing_panel.SetActive(true);
                 collectButtonTextDisposable.IfNotNull(dispose => { dispose.Dispose(); });
-                collectButtonText.text = GameUtil.Instance.GetDisplayString("合成完毕");
+                collectButtonText.text = GameUtil.Instance.GetDisplayString("merge_done");
                 collectButton.enabled = true;
             } else if (para.info != null && para.timer > 0)
             {
                 //当前有合成任务，也没到期
                 merge_start_panel.SetActive(false);
                 merge_ing_panel.SetActive(true);
-                string[] displayStrings = { "合成中", "合成中.", "合成中..", "合成中..." };
+                string[] displayStrings = { GameUtil.Instance.GetDisplayString("merging"), GameUtil.Instance.GetDisplayString("merging") + ".", 
+                    GameUtil.Instance.GetDisplayString("merging") + "..", GameUtil.Instance.GetDisplayString("merging") + "..." };
                 collectButtonTextDisposable.IfNotNull(dispose => { dispose.Dispose(); });
                 // 使用 Observable.Interval 创建一个每隔一段时间发射一次的可观察序列
                 collectButtonTextDisposable = Observable.Interval(System.TimeSpan.FromSeconds(1f))

@@ -19,7 +19,7 @@ public class UIExtraHint : MonoBehaviour
 
     public void Setup(ExtraEntryDesc extraDesc)
     {
-        title.text = extraDesc.Title;
-        desc.text = extraDesc.Desc;
+        title.text = GameUtil.Instance.GetDirectDisplayString(extraDesc.Title);
+        desc.text = GameUtil.Instance.GetDirectDisplayString(extraDesc.Desc);
     }
 }

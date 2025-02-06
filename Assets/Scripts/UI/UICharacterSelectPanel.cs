@@ -59,7 +59,7 @@ public class UICharacterSelectPanel : MonoBehaviour
 
     public void Init()
     {
-        MaxHP_key.text = GameUtil.Instance.GetDisplayString("health");
+        MaxHP_key.text = GameUtil.Instance.GetDisplayString("maxhp");
         Strength_key.text = GameUtil.Instance.GetDisplayString("strength");
         Defense_key.text = GameUtil.Instance.GetDisplayString("defense");
         Dodge_key.text = GameUtil.Instance.GetDisplayString("dodge");

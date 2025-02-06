@@ -311,10 +311,16 @@ public class GameUtil : Singleton<GameUtil>
         return new Vector2(offsetX, offsetY);
     }
 
-    public string GetDisplayString(string text)
+    //todo muti language
+    public string GetDirectDisplayString(string text)
     {
         return text;
-        // 换成DataManager.Instance.Language[""]时,记得要.ReplaceNewLines()
+    }
+
+    public string GetDisplayString(string text)
+    {
+        // return text;
+        return DataManager.Instance.Language[text].ReplaceNewLines();
     }
 
     //既可以获取攻击范围（传入攻击者坐标），也可以获取可攻击目标的所有位置（传入目标位置）

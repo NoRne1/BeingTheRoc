@@ -64,7 +64,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                     RepoDrop(item);
                 } else 
                 {
-                    BlackBarManager.Instance.AddMessage("你要撑死这个单位嘛,吃不下啦!");
+                    BlackBarManager.Instance.AddMessage(GameUtil.Instance.GetDisplayString("over_hungry_tip"));
                 }
                 break;
             default:
@@ -458,7 +458,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                     }
                     else
                     {
-                        BlackBarManager.Instance.AddMessage("沉默状态，攻击失败");
+                        BlackBarManager.Instance.AddMessage(GameUtil.Instance.GetDisplayString("slient_attack_failure"));
                     }
                     break;
                 default:

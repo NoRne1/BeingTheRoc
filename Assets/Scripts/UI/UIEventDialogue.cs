@@ -21,7 +21,7 @@ public class UIEventDialogue : MonoBehaviour
 
     public void Setup(EventDialogue dialogue)
     {
-        nameText.text = dialogue.name;
-        content.text = dialogue.content;
+        nameText.text = GameUtil.Instance.GetDirectDisplayString(dialogue.name);
+        content.text = GameUtil.Instance.GetDirectDisplayString(dialogue.content);
     }
 }

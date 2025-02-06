@@ -43,7 +43,7 @@ public class DataManager : Singleton<DataManager>
     public DataManager()
     {
         this.DataPath = "Data/";
-        Debug.LogFormat("DataManager > DataManager()");
+        Debug.Log("DataManager > DataManager()");
     }
 
     public void Load()

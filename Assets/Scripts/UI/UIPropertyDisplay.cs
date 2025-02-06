@@ -18,7 +18,7 @@ public class UIPropertyDisplay : MonoBehaviour
     }
     public void SetupValue(string valueText) 
     {
-        value.text = GameUtil.Instance.GetDisplayString(valueText);
+        value.text = valueText;
     }
 
     public void SetToggleActive(bool active)

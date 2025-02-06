@@ -14,6 +14,7 @@ public class UICollectItemButton : MonoBehaviour
     {
         this.model = model;
         icon.overrideSprite = Resloader.LoadSprite(model.Resource, ConstValue.collectItemIconsPath);
+        //todo CollectItemModel.title muti language
         title.text = model.title + "x" + model.num.ToString();
     }
 }

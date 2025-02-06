@@ -58,7 +58,7 @@ public class UIStoreItemHint : UIHintBase
     {
         leftPlaceHolder.SetActive(!equipRange.Setup(item));
         titleBorder.color = GlobalAccess.GetLevelColor(item.level);
-        title.text = item.title;
+        title.text = GameUtil.Instance.GetDirectDisplayString(item.title);
         energyPool.ReturnAllObject();
         attackRange.gameObject.SetActive(false);
         if (item.type == ItemType.equip && DataManager.Instance.EquipDefines.ContainsKey(item.subID))
@@ -94,7 +94,7 @@ public class UIStoreItemHint : UIHintBase
         {
             desc.text = ((StoreItemModel)item).GetFoodDesc();
         } else {
-            desc.text = item.desc;
+            desc.text = GameUtil.Instance.GetDirectDisplayString(item.desc);
         }
 
         foreach (var index in Enumerable.Range(0, entrys.Count))
