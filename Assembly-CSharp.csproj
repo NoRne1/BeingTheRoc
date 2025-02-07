@@ -162,7 +162,6 @@
     <Compile Include="Assets/Scripts/Defines/TownActionDefine.cs" />
     <Compile Include="Assets/Scripts/Defines/BuffDefine.cs" />
     <Compile Include="Assets/Scripts/UI/UIScorePoint.cs" />
-    <Compile Include="Assets/Scripts/UI/UISetting.cs" />
     <Compile Include="Assets/Scripts/UI/UIExitTriggle.cs" />
     <Compile Include="Assets/Scripts/UI/UITreasuresRect.cs" />
     <Compile Include="Assets/Scripts/Managers/BattleManager.cs" />
@@ -214,6 +213,7 @@
     <Compile Include="Assets/Scripts/UI/UITeamWindowCharacterButton.cs" />
     <Compile Include="Assets/Scripts/UI/UIEquipSlot.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/Vector2Converter.cs" />
+    <Compile Include="Assets/Scripts/Defines/FeatureDefine.cs" />
     <Compile Include="Assets/Scripts/UI/UICollectButton.cs" />
     <Compile Include="Assets/Scripts/UI/UIShopItem.cs" />
     <Compile Include="Assets/Scripts/Models/TownShopInfoModel.cs" />
@@ -234,6 +234,7 @@
     <Compile Include="Assets/Scripts/UI/UIWindow.cs" />
     <Compile Include="Assets/Scripts/Managers/ItemUseManager.cs" />
     <Compile Include="Assets/Scripts/Utilities/Timer.cs" />
+    <Compile Include="Assets/Scripts/UI/UIFeatureItem.cs" />
     <Compile Include="Assets/Scripts/Defines/EnemyDefine.cs" />
     <Compile Include="Assets/Scripts/Component/DisposablePool.cs" />
     <Compile Include="Assets/Scripts/UI/UIFoodProperty.cs" />

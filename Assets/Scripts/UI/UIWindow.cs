@@ -26,16 +26,15 @@ public abstract class UIWindow: MonoBehaviour
         No
     }
     //关闭UI
-    public void Close(WindowResult result = WindowResult.None)
+    public void Close(WindowResult result = WindowResult.None, bool playSound = true)
     {
-        //SoundManager.Instance.PlaySound(SoundDefine.SFX_UI_Win_Close);
-        UIManager.Instance.Close(this.Type);
+        UIManager.Instance.Close(this.Type, playSound);
         OnCloseSubject.OnNext((this, result));
         OnCloseSubject.OnCompleted();
     }
-    public virtual void OnCloseClick()
+    public virtual void OnCloseClick(bool playSound = true)
     {
-        this.Close();
+        this.Close(WindowResult.None, playSound);
     }
     public virtual void OnYesClick()
     {

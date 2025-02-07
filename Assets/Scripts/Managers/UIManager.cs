@@ -120,9 +120,9 @@ public class UIManager: Singleton<UIManager>
     //     }
     // }
 
-    internal void Close<T>()
+    internal void Close<T>(bool playSound = true)
     {
-        this.Close(typeof(T));
+        this.Close(typeof(T), playSound);
     }
 
     public T GetUIResource<T>() where T: class
@@ -158,13 +158,16 @@ public class UIManager: Singleton<UIManager>
         return false;
     }
 
-    public void Close(Type type)
+    public void Close(Type type, bool playSound = true)
     {
         if (this.UIResources.ContainsKey(type))
         {
             // 存在资源就获取信息
             UIElement info = this.UIResources[type];
-            SoundManager.Instance.PlaySound(SoundDefine.SFX_UI_Click);
+            if (playSound)
+            {
+                SoundManager.Instance.PlaySound(SoundDefine.SFX_UI_Click);
+            }
             // 启动协程延迟处理
             SceneManager.Instance.StartCoroutine(DelayedClose(info, type));
         }

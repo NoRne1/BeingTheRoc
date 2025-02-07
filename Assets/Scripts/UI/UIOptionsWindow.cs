@@ -13,7 +13,7 @@ public class UIOptionsWindow : UIWindow
     public void Options()
     {
         UIManager.Instance.Show<UIOptions>();
-        OnCloseClick();
+        OnCloseClick(false);
     }
 
     public void BackToMainMenu()

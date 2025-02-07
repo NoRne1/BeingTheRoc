@@ -86,11 +86,10 @@ class UIOptions : UIWindow
         language_title.text = GameUtil.Instance.GetDisplayString("language");
     }
 
-    public override void OnCloseClick()
+    public override void OnCloseClick(bool playSound = true)
     {
-        SoundManager.Instance.PlaySound(SoundDefine.SFX_UI_Click);
         PlayerPrefs.Save();
-        base.OnCloseClick();
+        base.OnCloseClick(playSound);
     }
 
     private void setMusicToggle(bool on)

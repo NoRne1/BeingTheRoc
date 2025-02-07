@@ -14,6 +14,8 @@ public class CharacterModel: IStorable
     private System.IDisposable characterDisposable;
     public CharacterDefine define;
 
+    public List<FeatureDefine> features;
+
     //BattleItem
     public string uuid;
 
@@ -29,6 +31,7 @@ public class CharacterModel: IStorable
             return Config.Language == 0 ? nameData.chineseName: nameData.englishName; 
         } 
     }
+    public string Race { get; set; }
     public int MaxHungry{ get; set; }
     private int currentHungry;
     public int CurrentHungry 
@@ -66,6 +69,7 @@ public class CharacterModel: IStorable
         {
             nameData = DataManager.Instance.nameGenerator.GetRandomNameByGender(Gender.Random);
         }
+        Race = define.Race;
         Job = define.Job;
         MaxHungry = define.MaxHungry;
         currentHungry = MaxHungry;
@@ -88,6 +92,16 @@ public class CharacterModel: IStorable
         {
             ReloadEquipAttr();
         });
+
+        features = new List<FeatureDefine>();
+        var randomFeatureList = DataManager.Instance.GetRandomLevelDefine<FeatureDefine>(DataManager.Instance.levelFeatures, 0.5f, 0.35f, 0.15f, 3, false);
+        foreach(var feature in randomFeatureList)
+        {
+            if (feature.Item1)
+            {
+                features.Add(feature.Item2);
+            }
+        }
     }
 
     public string StorableCategory => "CharacterModel";
@@ -180,6 +194,7 @@ public class CharacterModel: IStorable
         item.uuid = this.uuid;
         item.type = BattleItemType.player;
         item.nameData = this.nameData;
+        item.Race = this.Race;
         item.MaxHungry = this.MaxHungry;
         item.SetHungry(this.CurrentHungry);
         item.Job = this.Job;
@@ -190,6 +205,7 @@ public class CharacterModel: IStorable
         item.Desc = this.Desc;
         item.backpack = GameUtil.Instance.DeepCopy(this.backpack);
         item.backpack.fatherUpdate = item.battleItemUpdate;
+        item.features = this.features;
         item.BornSkill = this.BornSkill;
         item.Skill1 = this.Skill1;
         item.Skill2 = this.Skill2;

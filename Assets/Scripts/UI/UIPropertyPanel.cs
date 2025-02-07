@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UniRx;
 using UniRx.Triggers;
@@ -10,8 +11,8 @@ public class UIPropertyPanel : MonoBehaviour
 {
     public Image jobIcon;
     public TextMeshProUGUI jobDesc;
-    public Image raceIcon;
-    public TextMeshProUGUI raceDesc;
+    public TextMeshProUGUI raceTitle;
+    public List<UIFeatureItem> featureItems;
     public ToggleGroup toggleGroup;
     private Dictionary<AttributeType, UIPropertyDisplay> propertyDisplays = new Dictionary<AttributeType, UIPropertyDisplay>();
     public UIPropertyChangeButton changeButton;
@@ -61,9 +62,19 @@ public class UIPropertyPanel : MonoBehaviour
                 .AsObservable().TakeUntilDestroy(this).Subscribe(cm =>
                 {
                     jobIcon.overrideSprite = Resloader.LoadSprite(cm.Job.ToString(), ConstValue.jobIconsPath);
-                    raceIcon.overrideSprite = Resloader.LoadSprite(cm.Resource, ConstValue.battleItemsPath);
                     jobDesc.text = GameUtil.Instance.GetDirectDisplayString(cm.Job.ToString());
-                    raceDesc.text = GameUtil.Instance.GetDirectDisplayString(cm.Desc);
+                    raceTitle.text = GameUtil.Instance.GetDirectDisplayString(cm.Race.ToString());
+                    foreach(var index in Enumerable.Range(0, featureItems.Count))
+                    {
+                        if (index < cm.features.Count)
+                        {
+                            featureItems[index].Setup(cm.features[index]);
+                            featureItems[index].gameObject.SetActive(true);
+                        } else 
+                        {
+                            featureItems[index].gameObject.SetActive(false);
+                        }
+                    }
                     changeButton.remainPoints.text = cm.attributes.RemainPropertyPoints.ToString();
                     foreach (var propertyDisplay in propertyDisplays.Values)
                     {
@@ -86,9 +97,19 @@ public class UIPropertyPanel : MonoBehaviour
                 .AsObservable().TakeUntilDestroy(this).Subscribe(bi =>
                 {
                     jobIcon.overrideSprite = Resloader.LoadSprite(bi.Job.ToString(), ConstValue.jobIconsPath);
-                    raceIcon.overrideSprite = Resloader.LoadSprite(bi.Resource, ConstValue.battleItemsPath);
                     jobDesc.text = GameUtil.Instance.GetDirectDisplayString(bi.Job.ToString());
-                    raceDesc.text = GameUtil.Instance.GetDirectDisplayString(bi.Desc);
+                    raceTitle.text = GameUtil.Instance.GetDirectDisplayString(bi.Race.ToString());
+                    foreach(var index in Enumerable.Range(0, featureItems.Count))
+                    {
+                        if (index < bi.features.Count)
+                        {
+                            featureItems[index].Setup(bi.features[index]);
+                            featureItems[index].gameObject.SetActive(true);
+                        } else 
+                        {
+                            featureItems[index].gameObject.SetActive(false);
+                        }
+                    }
                     foreach (var propertyDisplay in propertyDisplays.Values) 
                     {
                         propertyDisplay.SetupValue(bi.attributes.getFinalPropertyValue(propertyDisplay.attributeType).ToString());

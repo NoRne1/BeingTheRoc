@@ -40,9 +40,10 @@ public class CollectResultLayer : MonoBehaviour
         collectItemButtons.Clear();
         GameUtil.Instance.DetachChildren(resultButtons);
 
-        foreach(var index in Enumerable.Range(0, 5))
-        {
-            var result = DataManager.Instance.GetRandomCharacter(info.greenRate, info.blueRate, info.redRate);
+        
+        var resultList = DataManager.Instance.GetRandomLevelDefine<CharacterDefine>(DataManager.Instance.levelCharacters, info.greenRate, info.blueRate, info.redRate, 5, true);
+        foreach(var result in resultList)
+        {    
             if (result.Item1) 
             {
                 //随机到角色了

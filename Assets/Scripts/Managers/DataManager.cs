@@ -12,6 +12,7 @@ public class DataManager : Singleton<DataManager>
     public string DataPath;
     public Dictionary<int, CharacterDefine> Characters = null;
     public Dictionary<GeneralLevel, List<CharacterDefine>> levelCharacters = null;
+    public Dictionary<GeneralLevel, List<FeatureDefine>> levelFeatures = null;
 
     public Dictionary<String, String> Language = null;
 
@@ -35,6 +36,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, Dictionary<int, int>> mergeEquipDic = null;
     public Dictionary<int, WeatherDefine> weatherDefines = null;
     public Dictionary<int, EventDefine> eventsDefines = null;
+    public Dictionary<int, FeatureDefine> featureDefines = null;
 
     public NameGenerator nameGenerator = new NameGenerator();
     public TownNameGenerator townNameGenerator = new TownNameGenerator();
@@ -114,7 +116,14 @@ public class DataManager : Singleton<DataManager>
 
         json = File.ReadAllText(this.DataPath + "EventDefine.json");
         this.eventsDefines = JsonConvert.DeserializeObject<Dictionary<int, EventDefine>>(json);
-        
+
+        json = File.ReadAllText(this.DataPath + "FeatureDefine.json");
+        this.featureDefines = JsonConvert.DeserializeObject<Dictionary<int, FeatureDefine>>(json);
+        this.levelFeatures = new Dictionary<GeneralLevel, List<FeatureDefine>>();
+        this.levelFeatures.Add(GeneralLevel.green, this.featureDefines.Values.Where(c=>c.Level == GeneralLevel.green).ToList());
+        this.levelFeatures.Add(GeneralLevel.blue, this.featureDefines.Values.Where(c=>c.Level == GeneralLevel.blue).ToList());
+        this.levelFeatures.Add(GeneralLevel.red, this.featureDefines.Values.Where(c=>c.Level == GeneralLevel.red).ToList());
+
         DataLoaded.OnNext(true);
     }
 
@@ -129,7 +138,8 @@ public class DataManager : Singleton<DataManager>
         this.levelCharacters = new Dictionary<GeneralLevel, List<CharacterDefine>>();
         this.levelCharacters.Add(GeneralLevel.green, this.Characters.Values.Where(c=>c.Level == GeneralLevel.green).ToList());
         this.levelCharacters.Add(GeneralLevel.blue, this.Characters.Values.Where(c=>c.Level == GeneralLevel.blue).ToList());
-        this.levelCharacters.Add(GeneralLevel.red, this.Characters.Values.Where(c=>c.Level == GeneralLevel.red).ToList());
+        //主角总是红色，所以需要在红色中过滤掉主角
+        this.levelCharacters.Add(GeneralLevel.red, this.Characters.Values.Where(c=>c.ID >= GlobalAccess.subCharacterStartIndex && c.Level == GeneralLevel.red).ToList());
         yield return null;
 
         json = File.ReadAllText(this.DataPath + "MutiLanguage.json");
@@ -204,6 +214,14 @@ public class DataManager : Singleton<DataManager>
 
         json = File.ReadAllText(this.DataPath + "EventDefine.json");
         this.eventsDefines = JsonConvert.DeserializeObject<Dictionary<int, EventDefine>>(json);
+        yield return null;
+
+        json = File.ReadAllText(this.DataPath + "FeatureDefine.json");
+        this.featureDefines = JsonConvert.DeserializeObject<Dictionary<int, FeatureDefine>>(json);
+        this.levelFeatures = new Dictionary<GeneralLevel, List<FeatureDefine>>();
+        this.levelFeatures.Add(GeneralLevel.green, this.featureDefines.Values.Where(c=>c.Level == GeneralLevel.green).ToList());
+        this.levelFeatures.Add(GeneralLevel.blue, this.featureDefines.Values.Where(c=>c.Level == GeneralLevel.blue).ToList());
+        this.levelFeatures.Add(GeneralLevel.red, this.featureDefines.Values.Where(c=>c.Level == GeneralLevel.red).ToList());
         yield return null;
         
         //json = File.ReadAllText(this.DataPath + "TeleporterDefine.json");
@@ -335,46 +353,67 @@ public class DataManager : Singleton<DataManager>
         }
     }
 
-    public (bool, CharacterDefine) GetRandomCharacter(float greenRate, float blueRate, float redRate)
+    public List<(bool, T)> GetRandomLevelDefine<T>(Dictionary<GeneralLevel, List<T>> levelDefinesDic, float greenRate, float blueRate, float redRate, int getNum, bool allowDup) where T : new()
     {
-        float randomValue = UnityEngine.Random.value; // 生成一个到1之间的随机数
-        GeneralLevel selectedLevel;
+        List<(bool, T)> result = new List<(bool, T)>();
+        List<T> selectedDefines = new List<T>();
+        for(int i = 0; i < getNum; i++)
+        {
+            float randomValue = UnityEngine.Random.value; // 生成一个到1之间的随机数
+            GeneralLevel selectedLevel;
 
-        // 根据概率选择对应的等级
-        if (randomValue < greenRate)
-        {
-            selectedLevel = GeneralLevel.green;
-        }
-        else if (randomValue < greenRate + blueRate)
-        {
-            selectedLevel = GeneralLevel.blue;
-        }
-        else if (randomValue < greenRate + blueRate + redRate)
-        {
-            selectedLevel = GeneralLevel.red;
-        } else 
-        {
-            return (false, new CharacterDefine());
-        }
-
-        // 获取对应等级的所有角色
-        if (levelCharacters.TryGetValue(selectedLevel, out List<CharacterDefine> characterList))
-        {
-            if (characterList.Count > 0)
+            // 根据概率选择对应的等级
+            if (randomValue < greenRate)
             {
-                // 随机选择一个角色
-                return (true, characterList[UnityEngine.Random.Range(0, characterList.Count)]);
+                selectedLevel = GeneralLevel.green;
+            }
+            else if (randomValue < greenRate + blueRate)
+            {
+                selectedLevel = GeneralLevel.blue;
+            }
+            else if (randomValue < greenRate + blueRate + redRate)
+            {
+                selectedLevel = GeneralLevel.red;
+            } else 
+            {
+                result.Add((false, new T()));
+                continue;
+            }
+
+            // 获取对应等级的所有define
+            if (levelDefinesDic.TryGetValue(selectedLevel, out List<T> levelDefinesList))
+            {
+                if (levelDefinesList.Count > 0)
+                {
+                    // 随机选择一个define
+                    if (allowDup) 
+                    { 
+                        result.Add((true, levelDefinesList[UnityEngine.Random.Range(0, levelDefinesList.Count)]));
+                        continue;
+                    } else 
+                    {
+                        T selectedDefine;
+                        do {
+                            selectedDefine = levelDefinesList[UnityEngine.Random.Range(0, levelDefinesList.Count)];
+                        } while(selectedDefines.Contains(selectedDefine));
+                        result.Add((true, selectedDefine));
+                        selectedDefines.Add(selectedDefine);
+                        continue;
+                    }
+                    
+                }
+                else
+                {
+                    Debug.LogWarning($"No characters found for level {selectedLevel}.");
+                }
             }
             else
             {
-                Debug.LogWarning($"No characters found for level {selectedLevel}.");
+                Debug.LogWarning($"Level {selectedLevel} does not exist.");
             }
-        }
-        else
-        {
-            Debug.LogWarning($"Level {selectedLevel} does not exist.");
-        }
 
-        return (false, new CharacterDefine()); // 若未找到角色，则返回 null
+            result.Add((false, new T())); // 若未找到角色，则返回 null
+        }
+        return result;
     }
 }

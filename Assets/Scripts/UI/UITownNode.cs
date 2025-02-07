@@ -69,7 +69,7 @@ public class UITownNode : MonoBehaviour
     public void GoNextTown()
     {
         MapManager.Instance.GoNextTown(townID);
-        UIManager.Instance.Close<UITownHint>();
+        UIManager.Instance.Close<UITownHint>(false);
     }
 
     private void Init()

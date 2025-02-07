@@ -158,13 +158,14 @@ public class UIBarPage : MonoBehaviour
     {
         if (timeLeft % 3 == 0)
         {
+            
+            var resultList = DataManager.Instance.GetRandomLevelDefine<CharacterDefine>(DataManager.Instance.levelCharacters,info.greenRate, info.blueRate, info.redRate, chairItems.Count, true);
             foreach(var index in Enumerable.Range(0, chairItems.Count))
-            {
-                var result = DataManager.Instance.GetRandomCharacter(info.greenRate, info.blueRate, info.redRate);
-                if (result.Item1) 
+            {    
+                if (resultList[index].Item1) 
                 {
                     //随机到角色了
-                    chairItems[index].Setup(new CharacterModel(result.Item2));
+                    chairItems[index].Setup(new CharacterModel(resultList[index].Item2));
                     chairItems[index].gameObject.SetActive(true);
                 }
                 else {

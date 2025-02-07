@@ -27,6 +27,7 @@ public class BattleItem: IStorable
             return Config.Language == 0 ? nameData.chineseName: nameData.englishName; 
         } 
     }
+    public string Race { get; set; }
     public int MaxHungry{ get; set; }
     private int currentHungry;
     public int CurrentHungry 
@@ -51,6 +52,8 @@ public class BattleItem: IStorable
     public int Skill1 { get; set; }
     public int Skill2 { get; set; }
     public int Skill3 { get; set; }
+
+    public List<FeatureDefine> features;
 
     public int moveAdvancedDistance;
     //public bool isInExtraRound = false;

@@ -76,19 +76,19 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                     case HintType.none:
                         break;
                     case HintType.normal:
-                        UIManager.Instance.Close<UIDescHint>();
+                        UIManager.Instance.Close<UIDescHint>(false);
                         break;
                     case HintType.storeItem:
-                        UIManager.Instance.Close<UIStoreItemHint>();
+                        UIManager.Instance.Close<UIStoreItemHint>(false);
                         break;
                     case HintType.skill:
-                        UIManager.Instance.Close<UISkillHint>();
+                        UIManager.Instance.Close<UISkillHint>(false);
                         break;
                     case HintType.character:
-                        UIManager.Instance.Close<UICharacterHint>();
+                        UIManager.Instance.Close<UICharacterHint>(false);
                         break;
                     case HintType.town:
-                        UIManager.Instance.Close<UITownHint>();
+                        UIManager.Instance.Close<UITownHint>(false);
                         break;
                 }
             }
