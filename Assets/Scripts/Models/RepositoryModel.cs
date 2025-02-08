@@ -21,7 +21,7 @@ public class RepositoryModel
 		{
             //错误请求
             UITip tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateTip(GameUtil.Instance.GetDisplayString("bag_beyond_limit"));
+            tip.UpdateTip("bag_beyond_limit");
 			return;
         }
         itemsRelay.Value.Add(item);

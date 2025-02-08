@@ -124,7 +124,7 @@ public class BattleChessboardManager
         else
         {
             UITip tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateTip(GameUtil.Instance.GetDisplayString("place_character_wrong"));
+            tip.UpdateTip("place_character_wrong");
         }
     }
 

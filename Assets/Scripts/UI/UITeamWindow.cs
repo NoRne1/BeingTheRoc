@@ -142,7 +142,7 @@ public class UITeamWindow : UIWindow
         else
         {
             var tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateTip("在战斗中渡劫升级乃是兵家大忌");
+            tip.UpdateTip("level_up_in_battle");
         }
     }
 

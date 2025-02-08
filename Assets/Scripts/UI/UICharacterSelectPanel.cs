@@ -96,7 +96,7 @@ public class UICharacterSelectPanel : MonoBehaviour
         } else
         {
             UITip tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateTip(GameUtil.Instance.GetDisplayString("wrong_character_selected_tip"));
+            tip.UpdateTip("wrong_character_selected_tip");
         }
         
     }
@@ -106,14 +106,14 @@ public class UICharacterSelectPanel : MonoBehaviour
         if (SelectedCharacterId == -1)
         {
             UITip tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateTip(GameUtil.Instance.GetDisplayString("no_character_selected_tip"));
+            tip.UpdateTip("no_character_selected_tip");
         } else if (DataManager.Instance.Characters.Keys.ToList().Contains(SelectedCharacterId))
         {
             GlobalAccess.CurrentCharacterId = SelectedCharacterId;
             SceneManager.Instance.LoadScene("game");
         } else {
             UITip tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateTip(GameUtil.Instance.GetDisplayString("wrong_character_selected_tip"));
+            tip.UpdateTip("wrong_character_selected_tip");
         }
 
     }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ public class UICharacterHint : UIHintBase
     public TextMeshProUGUI title;
     public TextMeshProUGUI race;
     public Image jobIcon;
+    public List<UIFeatureItem> featureItems;
     public List<UISkillButton> skillButtons;
     private Dictionary<AttributeType, UIPropertyIconDisplay> propertyDisplays = new Dictionary<AttributeType, UIPropertyIconDisplay>();
     
@@ -46,6 +48,18 @@ public class UICharacterHint : UIHintBase
         race.text = GameUtil.Instance.GetDirectDisplayString(cm.define.Race);
         jobIcon.overrideSprite = Resloader.LoadSprite(cm.Job.ToString(), ConstValue.jobIconsPath);
         
+        foreach(var index in Enumerable.Range(0, featureItems.Count))
+        {
+            if (index < cm.features.Count)
+            {
+                featureItems[index].Setup(cm.features[index]);
+                featureItems[index].gameObject.SetActive(true);
+            } else 
+            {
+                featureItems[index].gameObject.SetActive(false);
+            }
+        }
+
         skillButtons[0].Setup(cm.BornSkill == -1 ? null : DataManager.Instance.Skills[cm.BornSkill]);
         skillButtons[1].Setup(cm.Skill1 == -1 ? null : DataManager.Instance.Skills[cm.Skill1]);
         skillButtons[2].Setup(cm.Skill2 == -1 ? null : DataManager.Instance.Skills[cm.Skill2]);

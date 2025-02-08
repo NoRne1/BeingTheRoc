@@ -28,7 +28,7 @@ public class BlackBarManager : MonoSingleton<BlackBarManager>
     // 外部调用的方法，用于添加新消息到队列中
     public void AddMessage(string message)
     {
-        messageQueue.Enqueue(message);
+        messageQueue.Enqueue(GameUtil.Instance.GetDirectDisplayString(message));
     }
 
     private IEnumerator DisplayNextMessage()

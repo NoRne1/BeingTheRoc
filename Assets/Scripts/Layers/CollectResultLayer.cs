@@ -90,7 +90,7 @@ public class CollectResultLayer : MonoBehaviour
         } else 
         {
             UITip tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateTip(GameUtil.Instance.GetDisplayString("accept_character_beyond_limit"));
+            tip.UpdateTip("accept_character_beyond_limit");
         }
     }
 
@@ -173,7 +173,7 @@ public class CollectResultLayer : MonoBehaviour
             StartCoroutine(Close());
         } else {
             UITip tip = UIManager.Instance.Show<UITip>();
-            tip.UpdateTip(GameUtil.Instance.GetDisplayString("accept_character_beyond_limit_plural"));
+            tip.UpdateTip("accept_character_beyond_limit_plural");
         }
     }
 

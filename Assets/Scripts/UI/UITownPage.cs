@@ -50,7 +50,7 @@ public class UITownPage : MonoBehaviour
 		else
 		{
 			UITip tip = UIManager.Instance.Show<UITip>();
-			tip.UpdateTip(GameUtil.Instance.GetDisplayString("town_action_init_error"));
+			tip.UpdateTip("town_action_init_error");
 		}
 	}
 }

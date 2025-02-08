@@ -19,6 +19,6 @@ public class UIConfirmWindow : UIWindow
 
     public void UpdateTip(string text)
     {
-        confirmText.text = GameUtil.Instance.GetDisplayString(text);
+        confirmText.text = GameUtil.Instance.GetDirectDisplayString(text);
     }
 }

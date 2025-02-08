@@ -59,7 +59,7 @@ public class UIBarPage : MonoBehaviour
                 // 使用 Observable.Interval 创建一个每隔一段时间发射一次的可观察序列
                 collectCharacterTextDisposable = Observable.Interval(System.TimeSpan.FromSeconds(1f))
                     .Select(index => displayStrings[index % displayStrings.Length]) // 根据当前索引选择字符串
-                    .Subscribe(text => collectCharacterText.text = GameUtil.Instance.GetDisplayString(text)) // 更新文本
+                    .Subscribe(text => collectCharacterText.text = text) // 更新文本
                     .AddTo(this); // 确保在对象销毁时取消订阅
                 collectCharacterButton.enabled = false;
             }
@@ -101,7 +101,7 @@ public class UIBarPage : MonoBehaviour
             //钱不够买
             UITip tip = UIManager.Instance.Show<UITip>();
             //todo
-            tip.UpdateTip(GameUtil.Instance.GetDisplayString("collect_no_money"));
+            tip.UpdateTip("collect_no_money");
         } else {
             GameManager.Instance.otherProperty.currentCollectPlanInfo.OnNext(info);
             GameManager.Instance.otherProperty.collectCharacterTimer.OnNext(info.waitTime * 3);
@@ -198,11 +198,11 @@ public class UIBarPage : MonoBehaviour
                     //钱不够买
                     UITip tip = UIManager.Instance.Show<UITip>();
                     //todo
-                    tip.UpdateTip(GameUtil.Instance.GetDisplayString("buy_character_no_money"));
+                    tip.UpdateTip("buy_character_no_money");
                 }
             } else {
                 UITip tip = UIManager.Instance.Show<UITip>();
-                tip.UpdateTip(GameUtil.Instance.GetDisplayString("buy_character_beyond_limit"));
+                tip.UpdateTip("buy_character_beyond_limit");
             }
         } else 
         {

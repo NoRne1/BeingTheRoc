@@ -13,6 +13,7 @@ public enum HintType
     skill = 3,
     character = 4,
     town = 5,
+    feature = 6,
 }
 
 public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
@@ -25,6 +26,7 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public CharacterModel Character { get { return character; } }
     private CharacterModel character = null;
     private TownModel townModel = null;
+    private FeatureDefine featureDefine = null;
     public BehaviorSubject<bool> isMouseEnter = new BehaviorSubject<bool>(false);
 
     public void Start()
@@ -67,6 +69,11 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                         townHint.Setup(townModel);
                         hintObject = townHint;
                         break;
+                    case HintType.feature:
+                        UIDescHint featureHint = UIManager.Instance.Show<UIDescHint>(CanvasType.tooltip);
+                        featureHint.Setup(GameUtil.Instance.GetDirectDisplayString(featureDefine.Desc));
+                        hintObject = featureHint;
+                        break;
                 }
             }
             else
@@ -89,6 +96,9 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                         break;
                     case HintType.town:
                         UIManager.Instance.Close<UITownHint>(false);
+                        break;
+                    case HintType.feature:
+                        UIManager.Instance.Close<UIDescHint>(false);
                         break;
                 }
             }
@@ -125,7 +135,7 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void Setup(string text)
     {
         type = HintType.normal;
-        hint_text = GameUtil.Instance.GetDisplayString(text);
+        hint_text = GameUtil.Instance.GetDirectDisplayString(text);
     }
 
     public void Setup(StoreItemDefine storeItem)
@@ -150,6 +160,12 @@ public class HintComponent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         type = HintType.town;
         this.townModel = townModel;
+    }
+
+    public void Setup(FeatureDefine featureDefine)
+    {
+        type = HintType.feature;
+        this.featureDefine = featureDefine;
     }
 }
 

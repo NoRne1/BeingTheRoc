@@ -60,13 +60,13 @@ public class UIForgeEnhancePanel : MonoBehaviour
                 //超过每日上限
                 UITip tip = UIManager.Instance.Show<UITip>();
                 //todo
-                tip.UpdateTip(GameUtil.Instance.GetDisplayString("今天铁匠已经累啦，明天再说吧"));
+                tip.UpdateTip("enhance_equip_beyond_num");
             } else if (GlobalAccess.forgeEnhancePrice > GameManager.Instance.featherCoin.Value)
             {
                 //钱不够买
                 UITip tip = UIManager.Instance.Show<UITip>();
                 //todo
-                tip.UpdateTip(GameUtil.Instance.GetDisplayString("钱不够啦"));
+                tip.UpdateTip("enhance_equip_no_money");
             } else {
                 enhanceNumToday += 1;
                 GameManager.Instance.FeatherCoinChanged(-GlobalAccess.forgeEnhancePrice);
