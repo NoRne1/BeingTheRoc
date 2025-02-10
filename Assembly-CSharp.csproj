@@ -153,6 +153,7 @@
     <Compile Include="Assets/Scripts/Component/FightText/FightTextComponent.cs" />
     <Compile Include="Assets/Scripts/Models/BattleOtherModel.cs" />
     <Compile Include="Assets/Scripts/UI/UITip.cs" />
+    <Compile Include="Assets/Scripts/UI/UICloud.cs" />
     <Compile Include="Assets/Scripts/Defines/EventDefine.cs" />
     <Compile Include="Assets/Scripts/UI/UIHintBase.cs" />
     <Compile Include="Assets/Scripts/Component/RoundImage.cs" />

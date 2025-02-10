@@ -45,6 +45,76 @@ public class GameUtil : Singleton<GameUtil>
         return Screen.safeArea.Contains(Camera.main.WorldToScreenPoint(position));
     }
 
+    public bool InScreen(Transform a)
+    {
+        // 尝试通过Renderer获取边界
+        Renderer renderer = a.GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            // 如果有Renderer，使用Renderer.bounds
+            return IsWithinScreenBounds(renderer.bounds);
+        }
+
+        // 如果没有Renderer，尝试使用Collider获取边界
+        Collider collider = a.GetComponent<Collider>();
+        if (collider != null)
+        {
+            // 如果有Collider，使用Collider.bounds
+            return IsWithinScreenBounds(collider.bounds);
+        }
+
+        // 如果没有Renderer和Collider，尝试使用RectTransform获取边界
+        RectTransform rectTransform = a.GetComponent<RectTransform>();
+        if (rectTransform != null)
+        {
+            // 如果有RectTransform，使用sizeDelta和localPosition计算边界
+            return IsWithinScreenBounds(rectTransform);
+        }
+
+        // 如果没有Renderer、Collider和RectTransform，返回false
+        return false;
+    }
+
+    // 辅助方法：判断物体的Bounds是否在屏幕内
+    private bool IsWithinScreenBounds(Bounds bounds)
+    {
+        Vector3[] objectCorners = new Vector3[4];
+        objectCorners[0] = Camera.main.WorldToScreenPoint(bounds.min); // 左下角
+        objectCorners[1] = Camera.main.WorldToScreenPoint(new Vector3(bounds.min.x, bounds.max.y, bounds.min.z)); // 左上角
+        objectCorners[2] = Camera.main.WorldToScreenPoint(bounds.max); // 右上角
+        objectCorners[3] = Camera.main.WorldToScreenPoint(new Vector3(bounds.max.x, bounds.min.y, bounds.min.z)); // 右下角
+
+        // 判断所有角是否都在屏幕内
+        foreach (var corner in objectCorners)
+        {
+            if (Screen.safeArea.Contains(corner))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // 使用RectTransform来计算边界
+    private bool IsWithinScreenBounds(RectTransform rectTransform)
+    {
+        // 获取UI元素的四个角
+        Vector3[] objectCorners = new Vector3[4];
+        rectTransform.GetWorldCorners(objectCorners);
+
+        // 判断所有角是否都在屏幕内
+        foreach (var corner in objectCorners)
+        {
+            if (Screen.safeArea.Contains(Camera.main.WorldToScreenPoint(corner)))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public bool IsPointInsideGameObject(GameObject gameObject, Vector3 screenPoint)
     {
         Vector2 localPoint;
