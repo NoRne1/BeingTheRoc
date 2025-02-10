@@ -138,6 +138,14 @@ public class SoundManager : MonoSingleton<SoundManager>
         musicAudioSource.Play();
     }
 
+    public void StopMusic()
+    {
+        if (musicAudioSource.isPlaying)
+        {
+            musicAudioSource.Stop();
+        }
+    }
+
     float lastPlay = 0;
     //每当调整完滑块,播放一次声音
     private void PlayTestSound()

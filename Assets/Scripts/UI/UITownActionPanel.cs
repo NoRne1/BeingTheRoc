@@ -27,8 +27,6 @@ public static class TownActionTypeExtensions
                 return PageType.forge;
             case TownActionType.shop:
                 return PageType.shop;
-            case TownActionType.train:
-                return PageType.train;
             case TownActionType.game:
                 return PageType.game;
             case TownActionType.restaurant:

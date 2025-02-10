@@ -41,7 +41,7 @@ public class LoadingManager : MonoSingleton<LoadingManager>
 
         SoundManager.Instance.Init();
         //第一次播放音乐
-        SoundManager.Instance.PlayMusic(SoundDefine.Music_Login);
+        SoundManager.Instance.PlayMusic(SoundDefine.Music_Main_Menu);
         //在此处初始化用户的自定义音量(不知道为什么,在播放音乐之前)
 
 

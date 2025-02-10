@@ -19,6 +19,6 @@ public class UIOptionsWindow : UIWindow
     public void BackToMainMenu()
     {
         SceneManager.Instance.LoadScene("start_game");
-        SoundManager.Instance.PlayMusic(SoundDefine.Music_Login);
+        SoundManager.Instance.PlayMusic(SoundDefine.Music_Main_Menu);
     }
 }

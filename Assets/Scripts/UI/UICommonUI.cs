@@ -172,7 +172,6 @@ public class UICommonUI : MonoBehaviour
             case PageType.bar:
             case PageType.forge:
             case PageType.shop:
-            case PageType.train:
             case PageType.game:
             case PageType.restaurant:
                 GameManager.Instance.TimeChanged(-1, false);

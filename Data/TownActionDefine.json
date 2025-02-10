@@ -23,20 +23,13 @@
     "3": {
         "ID": 3,
         "townActionType": 3,
-        "iconResource": "town_train_action_icon",
-        "titleIndex": "train_title",
-        "descIndex": "train_desc"
-    },
-    "4": {
-        "ID": 4,
-        "townActionType": 4,
         "iconResource": "town_game_action_icon",
         "titleIndex": "game_title",
         "descIndex": "game_desc"
     },
-    "5": {
-        "ID": 5,
-        "townActionType": 5,
+    "4": {
+        "ID": 4,
+        "townActionType": 4,
         "iconResource": "town_restaurant_action_icon",
         "titleIndex": "restaurant_title",
         "descIndex": "restaurant_desc"

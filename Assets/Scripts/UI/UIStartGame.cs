@@ -24,13 +24,13 @@ public class UIStartGame : MonoBehaviour
     public void startNewGame()
     {
         this.ani.SetTrigger("startGame");
-        SoundManager.Instance.PlayMusic(SoundDefine.Music_Select);
+        SoundManager.Instance.PlayMusic(SoundDefine.Music_Character_Select);
     }
 
     public void backToMainMenu()
     {
         this.ani.SetTrigger("backToMainMenu");
-        SoundManager.Instance.PlayMusic(SoundDefine.Music_Login);
+        SoundManager.Instance.PlayMusic(SoundDefine.Music_Main_Menu);
     }
 
     public void options()

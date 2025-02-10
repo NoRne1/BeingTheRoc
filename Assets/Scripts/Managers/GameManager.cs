@@ -14,9 +14,8 @@ public enum PageType
     bar = 3,
     forge = 4,
     shop = 5,
-    train = 6,
-    game = 7,
-    restaurant = 8,
+    game = 6,
+    restaurant = 7,
 }
 
 public enum TimeInterval
@@ -137,7 +136,7 @@ public class GameManager : MonoSingleton<GameManager>
         BlackBarManager.Instance.AddMessage(GameUtil.Instance.GetDisplayString("game_over"));
         yield return new WaitForSeconds(1);
         SceneManager.Instance.LoadScene("start_game");
-        SoundManager.Instance.PlayMusic(SoundDefine.Music_Login);
+        SoundManager.Instance.PlayMusic(SoundDefine.Music_Main_Menu);
     }
 
     // Update is called once per frame
@@ -176,32 +175,41 @@ public class GameManager : MonoSingleton<GameManager>
         {
             case PageType.map:
                 commonUI.setUIStyle(CommonUIStyle.map);
+                SoundManager.Instance.PlayMusic(SoundDefine.Music_Map_Page);
                 break;
             case PageType.town:
                 commonUI.setUIStyle(CommonUIStyle.town);
                 UITownPage townPage = pagesDic[PageType.town].GetComponent<UITownPage>();
                 townPage.SetActionPanels(MapManager.Instance.CurrentTownNode.model.townActions);
+                SoundManager.Instance.PlayMusic(SoundDefine.Music_Town_Page);
                 break;
             case PageType.battle:
                 commonUI.setUIStyle(CommonUIStyle.battle);
+                SoundManager.Instance.PlayMusic(SoundDefine.Music_Normal_Battle);
                 break;
             case PageType.bar:
                 commonUI.setUIStyle(CommonUIStyle.bar);
+                SoundManager.Instance.PlayMusic(SoundDefine.Music_Bar_Page);
                 break;
             case PageType.forge:
                 commonUI.setUIStyle(CommonUIStyle.actionPage);
+                SoundManager.Instance.PlayMusic(SoundDefine.Music_Forge_Page);
                 break;
             case PageType.shop:
                 commonUI.setUIStyle(CommonUIStyle.actionPage);
-                break;
-            case PageType.train:
-                commonUI.setUIStyle(CommonUIStyle.actionPage);
+                SoundManager.Instance.PlayMusic(SoundDefine.Music_Shop_Page);
                 break;
             case PageType.game:
                 commonUI.setUIStyle(CommonUIStyle.game);
+                SoundManager.Instance.PlayMusic(SoundDefine.Music_Game_Page);
                 break;
             case PageType.restaurant:
                 commonUI.setUIStyle(CommonUIStyle.restaurant);
+                SoundManager.Instance.PlayMusic(SoundDefine.Music_Restaurant_Page);
+                break;
+            default:
+                commonUI.setUIStyle(CommonUIStyle.actionPage);
+                SoundManager.Instance.StopMusic();
                 break;
         }
 
