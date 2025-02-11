@@ -235,6 +235,7 @@ public class GameUtil : Singleton<GameUtil>
         return id >= 0 && id < GlobalAccess.mainCharacterNum;
     }
 
+    //[begin,end)
     public List<int> GenerateUniqueRandomList(int begin, int end, int num)
     {
         if (num > (end - begin) || begin > end)

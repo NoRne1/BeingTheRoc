@@ -77,18 +77,13 @@ public class UITownNode : MonoBehaviour
         model.type = type;
         model.nameData = DataManager.Instance.townNameGenerator.GetRandomTownName();
         model.townActions.Clear();
-        HashSet<int> hashSet = new HashSet<int>();
-
-        //todo add a shop for test
-        hashSet.Add(2);
-        hashSet.Add(5);
-        hashSet.Add(0);
-        while (hashSet.Count < 3)
-        {
-            hashSet.Add(Random.Range(0,5));
-        }
-        model.townActions = hashSet.ToList();
-        //townActions = GameUtil.Instance.GenerateUniqueRandomList(0, DataManager.Instance.TownActions.Count, 3);
+        // HashSet<int> hashSet = new HashSet<int>();
+        // while (hashSet.Count < 3)
+        // {
+        //     hashSet.Add(Random.Range(0, DataManager.Instance.TownActions.Count));
+        // }
+        // model.townActions = hashSet.ToList();
+        model.townActions = GameUtil.Instance.GenerateUniqueRandomList(0, DataManager.Instance.TownActions.Count, 3);
 
         //todo TownBattleInfoModel init
         List<Vector2> temp = new List<Vector2>

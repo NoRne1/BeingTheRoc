@@ -10,9 +10,8 @@ public enum TownActionType
     bar = 0,
     forge = 1,
     shop = 2,
-    train = 3,
-    game = 4,
-    restaurant = 5,
+    game = 3,
+    restaurant = 4,
 }
 
 public static class TownActionTypeExtensions
