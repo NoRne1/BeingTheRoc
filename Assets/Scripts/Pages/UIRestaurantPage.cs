@@ -96,7 +96,7 @@ public class UIRestaurantPage : MonoBehaviour
 
     public void BuyItem(int index)
     {
-        var actualPrice = foodOptions[index].itemModel.price + foodOptions[index].itemModel.foodModel.priceFloatFactor;
+        var actualPrice = foodOptions[index].itemModel.realPrice;
         if (actualPrice > GameManager.Instance.featherCoin.Value)
         {
             //钱不够买

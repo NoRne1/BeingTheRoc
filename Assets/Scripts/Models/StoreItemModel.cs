@@ -23,9 +23,15 @@ public class StoreItemModel : StoreItemDefine
     public bool equipCanUse = true;
 
     public float discount = 1.0f;
+
+    public int noDiscountPrice
+    {
+        get { return (int)(price + priceFloatFactor); }
+    }
+
     public int realPrice
     {
-        get { return (int)(price * discount); }
+        get { return (int)((price + priceFloatFactor) * discount); }
     }
 
     public StoreItemModel()
@@ -39,6 +45,7 @@ public class StoreItemModel : StoreItemDefine
         title = define.title;
         level = define.level;
         price = define.price;
+        priceFloatFactor = GameUtil.Instance.GetTrulyFloatFactor(define.priceFloatFactor);
         iconResource = define.iconResource;
         desc = define.desc;
         ExtraEntry1 = define.ExtraEntry1;

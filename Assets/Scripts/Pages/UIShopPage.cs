@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UniRx;
 using System.Linq;
-using Unity.Mathematics;
+using UnityEditor.UI;
+using TMPro;
 
 public class UIShopPage : MonoBehaviour
 {
+    public Button shoperButton;
+    public GameObject wheatPurchasePanel;
+    public Button wheatPurchaseCloseButton;
+    public TMP_InputField wheatPurchaseInputField;
     public List<StoreItemDefine> sellableItems;
     public List<UIShopItem> shopItems;
     private TownShopInfoModel shopInfo;
@@ -26,6 +32,13 @@ public class UIShopPage : MonoBehaviour
                 TimeRefresh();
             }
         }).AddTo(this);
+
+        // 绑定按钮点击事件
+        shoperButton.onClick.AddListener(OnShopButtonClicked);
+        wheatPurchaseCloseButton.onClick.AddListener(OnPurchaseCloseButtonClicked);
+
+        // 绑定输入框的回车事件
+        wheatPurchaseInputField.onEndEdit.AddListener(OnInputFieldEndEdit);
     }
     // Update is called once per frame
     void Update()
@@ -143,9 +156,9 @@ public class UIShopPage : MonoBehaviour
         {
             foreach(var item in items)
             {
-                if (item.discount > 0.3f && GameUtil.Instance.GetRandomRate(50))
+                if (item.discount > 0.5f && GameUtil.Instance.GetRandomRate(50))
                 {
-                    item.discount = Mathf.Max(0.3f, UnityEngine.Random.Range(0.3f, 0.9f) * item.discount);
+                    item.discount = Mathf.Max(0.5f, UnityEngine.Random.Range(0.6f, 0.9f) * item.discount);
                 }
             }
         }
@@ -180,6 +193,71 @@ public class UIShopPage : MonoBehaviour
             shopItems[index].ItemSold(true);
             GameManager.Instance.FeatherCoinChanged(-shopItems[index].info.realPrice);
             GameManager.Instance.repository.AddItem(shopItems[index].info);
+        }
+    }
+
+    void OnShopButtonClicked()
+    {
+        // 显示输入框
+        wheatPurchasePanel.gameObject.SetActive(true);
+        wheatPurchaseInputField.Select(); // 让输入框自动获取焦点
+    }
+
+    void OnPurchaseCloseButtonClicked()
+    {
+        wheatPurchasePanel.gameObject.SetActive(false);
+    }
+
+    void OnInputFieldEndEdit(string input)
+    {
+        // 检查是否按下了回车键
+        if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter))
+        {
+            // 尝试将输入转换为整数
+            if (int.TryParse(input, out int number))
+            {
+                // 调用现有的函数
+                ProcessPurchaseWheat(number);
+            }
+            else
+            {
+                Debug.Log("请输入有效的数字！");
+            }
+
+            // 隐藏输入框
+            wheatPurchasePanel.gameObject.SetActive(false);
+        }
+    }
+
+    void ProcessPurchaseWheat(int amount)
+    {
+        if (amount > 0)
+        {
+            //买粮食
+            if (amount * GlobalAccess.wheatPrice > GameManager.Instance.featherCoin.Value)
+            {
+                //钱不够买
+                UITip tip = UIManager.Instance.Show<UITip>();
+                //todo
+                tip.UpdateTip("buy_item_no_money");
+            } else
+            {
+                GameManager.Instance.FeatherCoinChanged(-amount * GlobalAccess.wheatPrice);
+                GameManager.Instance.WheatCoinChanged(amount);
+            }
+        } else if (amount < 0) {
+            //卖粮食
+            if (-amount > GameManager.Instance.wheatCoin.Value)
+            {
+                //钱不够买
+                UITip tip = UIManager.Instance.Show<UITip>();
+                //todo
+                tip.UpdateTip("sell_wheat_no_wheat");
+            } else
+            {
+                GameManager.Instance.FeatherCoinChanged(-amount * GlobalAccess.wheatSellPrice);
+                GameManager.Instance.WheatCoinChanged(amount);
+            }
         }
     }
 }

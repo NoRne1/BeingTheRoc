@@ -95,6 +95,7 @@
     <Compile Include="Assets/Scripts/UI/UIWeatherPanel.cs" />
     <Compile Include="Assets/Scripts/UI/UIEventPage.cs" />
     <Compile Include="Assets/Scripts/Utilities/GlobalAccess.cs" />
+    <Compile Include="Assets/Scripts/UI/UICharacterAddExpItem.cs" />
     <Compile Include="Assets/Scripts/Utilities/DragSupport.cs" />
     <Compile Include="Assets/Scripts/Utilities/Config.cs" />
     <Compile Include="Assets/Scripts/Defines/MergeEquipDefine.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Assets/Scripts/UI/UIPropertyChangeButton.cs" />
     <Compile Include="Assets/Scripts/Defines/FoodDefine.cs" />
     <Compile Include="Assets/Scripts/UI/UIBagView.cs" />
+    <Compile Include="Assets/Scripts/UI/UIBattleEndPanel.cs" />
     <Compile Include="Assets/Scripts/Component/FightText/FightTextInfo.cs" />
     <Compile Include="Assets/Scripts/Component/HintComponent.cs" />
     <Compile Include="Assets/Scripts/Models/Backpack.cs" />

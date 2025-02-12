@@ -40,7 +40,7 @@ public class UIShopItem : MonoBehaviour
             title.color = GlobalAccess.GetLevelColor(info.level);
             title.text = GameUtil.Instance.GetDirectDisplayString(info.title);
             beforeDiscountPriceObject.gameObject.SetActive(info.discount != 1.0f);
-            beforeDiscountPrice.text = info.price.ToString();
+            beforeDiscountPrice.text = info.noDiscountPrice.ToString();
             realPrice.text = info.realPrice.ToString();
             realPrice.color = info.discount != 1.0f ? Color.red : GameUtil.Instance.hexToColor("#824E11");
             hintComponent.Setup(info);

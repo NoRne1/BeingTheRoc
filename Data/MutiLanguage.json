@@ -99,7 +99,8 @@
         "enhance_equip_beyond_num": "今天铁匠已经累啦，明天再说吧",
         "enhance_equip_no_money": "强化装备可是个体力活，没钱俺可不干",
         "merge_equip_no_money": "合成装备是个时间活，时间就是金钱，朋友",
-        "level_up_in_battle": "在战斗中渡劫升级乃是兵家大忌"
+        "level_up_in_battle": "在战斗中渡劫升级乃是兵家大忌",
+        "sell_wheat_no_wheat": "地主家都没余粮了，你在卖神魔"
     },
     "1": {
         "ID": 1,
@@ -201,6 +202,7 @@
         "enhance_equip_beyond_num": null,
         "enhance_equip_no_money": null,
         "merge_equip_no_money": null,
-        "level_up_in_battle": null
+        "level_up_in_battle": null,
+        "sell_wheat_no_wheat": null
     }
 }

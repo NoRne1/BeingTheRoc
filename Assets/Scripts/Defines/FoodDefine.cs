@@ -22,5 +22,4 @@ public class FoodDefine
     public FoodProperty property2 { get; set; }
     public FoodProperty property3 { get; set; }
     public FoodProperty property4 { get; set; }
-    public int priceFloatFactor;
 }

@@ -119,6 +119,7 @@ public class StoreItemDefine
     public string title { get; set; }
     public GeneralLevel level { get; set; }
     public int price { get; set; }
+    public int priceFloatFactor { get; set; }
     public string iconResource { get; set; }
     public string desc { get; set; }
     public int ExtraEntry1 { get; set; }

@@ -37,6 +37,7 @@ public class UITeamBagPage : MonoBehaviour
 
         // 添加丢弃按钮的点击事件
         equipButtons.dropButton.onClick.AddListener(OnDropButtonClick);
+        equipButtons.sellButton.onClick.AddListener(OnSellButtonClick);
         equipButtons.useButton.onClick.AddListener(OnUseButtonClick);
     }
 
@@ -125,6 +126,7 @@ public class UITeamBagPage : MonoBehaviour
                     useOrDropItem = currentItem.item;
                     Vector3 tempPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(5, -5, 0));
                     equipButtons.gameObject.SetActive(true);
+                    equipButtons.sellButton.gameObject.SetActive(GameManager.Instance.currentPageType == PageType.shop);
                     equipButtons.useButton.gameObject.SetActive(useOrDropItem.CanBagUse());
                     equipButtons.transform.position = new Vector3(tempPosition.x, tempPosition.y, 0);
                 }
@@ -204,6 +206,33 @@ public class UITeamBagPage : MonoBehaviour
     {
         equipButtons.gameObject.SetActive(false);
         StartCoroutine(ItemUseManager.Instance.Use(character.uuid, useOrDropItem));
+    }
+
+    // 回收按钮点击事件
+    void OnSellButtonClick()
+    {
+        equipButtons.gameObject.SetActive(false);
+        if (GameManager.Instance.currentPageType == PageType.shop)
+        {
+            UIConfirmWindow confirmWindow = UIManager.Instance.Show<UIConfirmWindow>();
+            confirmWindow.UpdateTip("确认要回收这件物品吗？");
+            confirmWindow.OnCloseSubject.Subscribe(closeInfo => {
+                switch (closeInfo.Item2) 
+                {
+                    case UIWindow.WindowResult.Yes:
+                        //回收价格50%
+                        GameManager.Instance.FeatherCoinChanged((int)(useOrDropItem.noDiscountPrice * 0.5f));
+                        ItemUseManager.Instance.RepoDrop(useOrDropItem);
+                        break;
+                    case UIWindow.WindowResult.No:
+                    case UIWindow.WindowResult.None:
+                        break;
+                }
+            });
+        } else {
+            UITip tip = UIManager.Instance.Show<UITip>();
+            tip.UpdateGeneralTip("0006");
+        }
     }
 
     // 丢弃按钮点击事件

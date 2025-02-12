@@ -8,7 +8,6 @@ public class FoodModel
     public int ID { get; set; }
     public string title { get; set; }
     public List<FoodProperty> foodPropertys = new List<FoodProperty>();
-    public int priceFloatFactor;
      //for deepcopy
     public FoodModel(){}
     public FoodModel(FoodDefine define)
@@ -19,7 +18,6 @@ public class FoodModel
         ProcessFoodProperty(define.property2);
         ProcessFoodProperty(define.property3);
         ProcessFoodProperty(define.property4);
-        this.priceFloatFactor = GameUtil.Instance.GetTrulyFloatFactor(define.priceFloatFactor);
     }
 
     public void ProcessFoodProperty(FoodProperty foodProperty)

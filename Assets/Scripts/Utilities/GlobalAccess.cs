@@ -41,6 +41,8 @@ class GlobalAccess
     public static int marbleGamePrice = 200;
     public static int eventInvokeRate = 15;
     public static int eventInvokeInterval = 3;
+    public static int wheatPrice = 2;
+    public static int wheatSellPrice = 1;
 
     public static int subCharacterNum
     {

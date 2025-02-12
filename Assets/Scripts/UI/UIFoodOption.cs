@@ -36,7 +36,7 @@ public class UIFoodOption: MonoBehaviour
                 uIFoodPropertys[index].gameObject.SetActive(false);
             }
         }
-        priceText.text = (itemModel.price + itemModel.foodModel.priceFloatFactor).ToString();
+        priceText.text = (itemModel.realPrice).ToString();
         ItemSold(false);
         Canvas.ForceUpdateCanvases();
         LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);

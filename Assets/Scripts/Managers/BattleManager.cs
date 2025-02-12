@@ -33,6 +33,9 @@ public class BattleManager : MonoSingleton<BattleManager>
     public UICircleProgressButton endRoundButton;
     public UICircleProgressButton restartTodayButton;
     public UICircleProgressButton quitBattleButton;
+
+    public UIBattleEndPanel battleEndPanel;
+
     public bool isInBattle = false;
     public int battleStartTimeLeft = -1;
     // Data
@@ -286,12 +289,12 @@ public class BattleManager : MonoSingleton<BattleManager>
         var diedItem = GlobalAccess.GetBattleItem(uuid);
         if (diedItem.type == BattleItemType.granary) 
         {
-            BattleEnd(true);
+            ShowBattleEndPanel();
             return;
         }
         if (battleItemManager.enemyItemIDs.Count == 0) 
         {
-            BattleEnd(true);
+            ShowBattleEndPanel();
             return;
         }
         if (battleItemManager.playerItemIDs.Count == 0) 
@@ -318,6 +321,12 @@ public class BattleManager : MonoSingleton<BattleManager>
             Destroy(pair.Value.gameObject);
             battleItemManager.pos_uibattleItemDic.Remove(pair.Key);
         }
+    }
+
+    public void ShowBattleEndPanel()
+    {
+        battleEndPanel.Setup(battleItemManager.playerItemIDs);
+        battleEndPanel.gameObject.SetActive(true);
     }
 
     public void BattleEnd(bool result)
