@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets/Scripts/UI/UIEnterTriggle.cs" />
+    <Compile Include="Assets/Scripts/UI/UISelectBattleItemsPanel.cs" />
     <Compile Include="Assets/Scripts/UI/UITownNode.cs" />
     <Compile Include="Assets/Scripts/Defines/SpecialItemDefine.cs" />
     <Compile Include="Assets/Scripts/UI/UIForgeEnhancePanel.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Assets/Scripts/Component/FightText/FightTextInfo.cs" />
     <Compile Include="Assets/Scripts/Component/HintComponent.cs" />
     <Compile Include="Assets/Scripts/Models/Backpack.cs" />
+    <Compile Include="Assets/Scripts/Component/MultiSelectToggleGroup.cs" />
     <Compile Include="Assets/Scripts/UI/UIChessboardSlot.cs" />
     <Compile Include="Assets/Scripts/UI/UIFoodOption.cs" />
     <Compile Include="Assets/Scripts/Utilities/Resloader.cs" />
@@ -140,6 +142,7 @@
     <Compile Include="Assets/Scripts/UI/UIOptionsWindow.cs" />
     <Compile Include="Assets/Scripts/Defines/EquipDefine.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/DictionaryExtensions.cs" />
+    <Compile Include="Assets/Scripts/UI/UICharacterItem.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBarFirstItem.cs" />
     <Compile Include="Assets/Scripts/Utilities/BattleCommonMethods.cs" />
     <Compile Include="Assets/Scripts/Managers/BuffCenter.cs" />

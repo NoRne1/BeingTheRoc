@@ -13,6 +13,7 @@ public class EnermyModel: IStorable
     private System.IDisposable equipDisposable;
     private System.IDisposable enermyDisposable;
     public CharacterDefine define;
+    public List<FeatureDefine> features;
     public Attributes attributes;
 
     //是否是支援
@@ -24,6 +25,7 @@ public class EnermyModel: IStorable
     //Define
     public int ID { get; set; }
     public JobType Job { get; set; }
+    public string Race { get; set; }
     public GeneralLevel Level { get; set; }
     public NameData nameData;
     public string Name 
@@ -56,6 +58,7 @@ public class EnermyModel: IStorable
         this.define = define;
         ID = define.ID;
         Job = define.Job;
+        Race = define.Race;
         nameData = DataManager.Instance.nameGenerator.GetRandomNameByGender(Gender.Random);
         Level = define.Level;
         attributes = new Attributes(enermyUpdate);
@@ -76,6 +79,16 @@ public class EnermyModel: IStorable
         {
             ReloadEquipAttr();
         });
+
+        features = new List<FeatureDefine>();
+        var randomFeatureList = DataManager.Instance.GetRandomLevelDefine<FeatureDefine>(DataManager.Instance.levelFeatures, 0.5f, 0.35f, 0.15f, 3, false);
+        foreach(var feature in randomFeatureList)
+        {
+            if (feature.Item1)
+            {
+                features.Add(feature.Item2);
+            }
+        }
     }
 
     public string StorableCategory => "EnermyModel";
@@ -108,6 +121,7 @@ public class EnermyModel: IStorable
         item.type = BattleItemType.enemy;
         item.nameData = this.nameData;
         item.Job = this.Job;
+        item.Race = this.Race;
         item.Level = this.Level;
         item.attributes = GameUtil.Instance.DeepCopy(this.attributes);
         item.attributes.SetUpdateSubject(item.battleItemUpdate);
@@ -120,6 +134,7 @@ public class EnermyModel: IStorable
         item.Desc = this.Desc;
         item.backpack = GameUtil.Instance.DeepCopy(this.backpack);
         item.backpack.fatherUpdate = item.battleItemUpdate;
+        item.features = this.features;
         item.BornSkill = this.BornSkill;
         item.Skill1 = difficulty > 1.5 ? define.Skill1 : -1;
         item.Skill2 = difficulty > 2.5 ? define.Skill2 : -1;

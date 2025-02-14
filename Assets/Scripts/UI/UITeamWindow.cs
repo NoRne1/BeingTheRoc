@@ -85,7 +85,7 @@ public class UITeamWindow : UIWindow
         });
         for (int i = 0; i < characterButtons.Count; i++)
         {
-            if (i < GameManager.Instance.characterRelaysDic.Count)
+            if (i < battleItems.Count)
             {
                 string characterID = battleItems[i].uuid;
                 characterButtons[i].characterID = characterID;

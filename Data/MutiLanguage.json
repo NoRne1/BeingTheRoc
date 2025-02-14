@@ -100,7 +100,8 @@
         "enhance_equip_no_money": "强化装备可是个体力活，没钱俺可不干",
         "merge_equip_no_money": "合成装备是个时间活，时间就是金钱，朋友",
         "level_up_in_battle": "在战斗中渡劫升级乃是兵家大忌",
-        "sell_wheat_no_wheat": "地主家都没余粮了，你在卖神魔"
+        "sell_wheat_no_wheat": "地主家都没余粮了，你在卖神魔",
+        "start_battle_char_num_invalid": "你必须选择一到三个角色以进入战斗"
     },
     "1": {
         "ID": 1,
@@ -203,6 +204,7 @@
         "enhance_equip_no_money": null,
         "merge_equip_no_money": null,
         "level_up_in_battle": null,
-        "sell_wheat_no_wheat": null
+        "sell_wheat_no_wheat": null,
+        "start_battle_char_num_invalid": "You must select between 1 and 3 items to start the battle."
     }
 }
