@@ -33,8 +33,8 @@ public class UIBattleItem : MonoBehaviour
     }
 
     private Coroutine hpChangeCoroutine;
-    private Coroutine dodgeCoroutine;
-    private Vector3 dodgeStartPosition;
+    // private Coroutine dodgeCoroutine;
+    // private Vector3 dodgeStartPosition;
     private Coroutine hittedCoroutine;
     private Vector3 hittedStartPosition;
 
@@ -98,10 +98,10 @@ public class UIBattleItem : MonoBehaviour
             case AttackStatus.errorTarget:
                 Debug.LogError("UIBattleItem Damage Error Target");
                 return;
-            case AttackStatus.miss:
-                DodgeAni();
-                return;
-            case AttackStatus.critical:
+            // case AttackStatus.miss:
+            //     DodgeAni();
+            //     return;
+            // case AttackStatus.critical:
             case AttackStatus.normal:
                 HittedAni();
                 //伤害溢出时，血量允许被扣成负数
@@ -128,7 +128,7 @@ public class UIBattleItem : MonoBehaviour
                     item.avoidDeathFunc(itemID);
                 } else
                 {
-                    HPChange(tempHP - item.attributes.currentHP, attackResult.attackStatus == AttackStatus.critical);
+                    HPChange(tempHP - item.attributes.currentHP);
                 }
                 GlobalAccess.SaveBattleItem(item);
 
@@ -150,11 +150,11 @@ public class UIBattleItem : MonoBehaviour
         currentDisplayResult = null;
     }
 
-    public void HPChange(int change, bool isCritical)
+    public void HPChange(int change)
     {
         var item = GlobalAccess.GetBattleItem(itemID);
         item.attributes.currentHP = Mathf.Max(Mathf.Min(item.attributes.MaxHP, item.attributes.currentHP + change), 0);
-        fightTextManager.CreatFightText((change >= 0 ? "+" : "") + change.ToString(), TextAnimationType.Burst, TextMoveType.RightParabola, transform, isCritical);
+        fightTextManager.CreatFightText((change >= 0 ? "+" : "") + change.ToString(), TextAnimationType.Burst, TextMoveType.RightParabola, transform);
         SetHpAni(item.attributes.currentHP);
         GlobalAccess.SaveBattleItem(item);
     }
@@ -201,35 +201,35 @@ public class UIBattleItem : MonoBehaviour
     }
 
     
-    public void DodgeAni()
-    {
-        // 如果有正在进行的闪避动画，先停止它，初始位置保持原来的
-        if (dodgeCoroutine != null)
-        {
-            StopCoroutine(dodgeCoroutine);
-        } else 
-        {
-            dodgeStartPosition = transform.position;
-        }
+    // public void DodgeAni()
+    // {
+    //     // 如果有正在进行的闪避动画，先停止它，初始位置保持原来的
+    //     if (dodgeCoroutine != null)
+    //     {
+    //         StopCoroutine(dodgeCoroutine);
+    //     } else 
+    //     {
+    //         dodgeStartPosition = transform.position;
+    //     }
 
-        // 启动新的闪避动画
-        dodgeCoroutine = StartCoroutine(DodgeCoroutine());
-    }
+    //     // 启动新的闪避动画
+    //     dodgeCoroutine = StartCoroutine(DodgeCoroutine());
+    // }
 
-    private IEnumerator DodgeCoroutine()
-    {
-        // 计算闪避后的目标位置
-        Vector3 dodgePosition = GameUtil.Instance.GetMovedWorldPosition(dodgeStartPosition, new Vector3(45, -45, 0));// 向右下移动
-        // 使用 DOTween 移动角色到目标位置
-        Tween moveOut = transform.DOMove(dodgePosition, 0.25f);
-        yield return moveOut.WaitForCompletion();
+    // private IEnumerator DodgeCoroutine()
+    // {
+    //     // 计算闪避后的目标位置
+    //     Vector3 dodgePosition = GameUtil.Instance.GetMovedWorldPosition(dodgeStartPosition, new Vector3(45, -45, 0));// 向右下移动
+    //     // 使用 DOTween 移动角色到目标位置
+    //     Tween moveOut = transform.DOMove(dodgePosition, 0.25f);
+    //     yield return moveOut.WaitForCompletion();
 
-        // 闪避完成后，返回原位置
-        Tween moveBack = transform.DOMove(dodgeStartPosition, 0.25f);
-        yield return moveBack.WaitForCompletion();
+    //     // 闪避完成后，返回原位置
+    //     Tween moveBack = transform.DOMove(dodgeStartPosition, 0.25f);
+    //     yield return moveBack.WaitForCompletion();
 
-        dodgeCoroutine = null; // 动画结束后清空引用
-    }
+    //     dodgeCoroutine = null; // 动画结束后清空引用
+    // }
 
     public void HittedAni() 
     {

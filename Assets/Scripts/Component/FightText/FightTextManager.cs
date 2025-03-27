@@ -295,14 +295,14 @@ public class FightTextManager: MonoBehaviour
         waitDestoryGroup.Clear();
     }
     public void CreatFightText(string content, TextAnimationType textAnimationType, TextMoveType textMoveType,
-        Transform targetTranform, bool isCritical)
+        Transform targetTranform)
     {
         CreatFightText(content, textAnimationType, textMoveType, this.delayMoveTime,
             this.initializedVerticalPositionOffset, this.initializedHorizontalPositionOffset,
-            targetTranform, isCritical);
+            targetTranform);
     }
     public void CreatFightText(string content, TextAnimationType textAnimationType, TextMoveType textMoveType, float delayMoveTime, float initializedVerticalPositionOffset,
-        float initializedHorizontalPositionOffset, Transform tempTransform, bool isCritical)
+        float initializedHorizontalPositionOffset, Transform tempTransform)
     {
         FightTextInfo fightTextInfo = new FightTextInfo();
         fightTextInfo.content = content;
@@ -312,7 +312,6 @@ public class FightTextManager: MonoBehaviour
         fightTextInfo.initializedVerticalPositionOffset = initializedVerticalPositionOffset;
         fightTextInfo.initializedHorizontalPositionOffset = initializedHorizontalPositionOffset;
         fightTextInfo.cacheTranform = tempTransform;
-        fightTextInfo.isCritical = isCritical;
 
         CreatFightText(fightTextInfo);
     }

@@ -9,61 +9,33 @@ public enum AttributeType
     /// </summary>
     MaxHP = 0,
     /// <summary>
+    /// 饥饿度
+    /// </summary>
+    MaxHungry = 1,
+    /// <summary>
     /// 力量
     /// </summary>
-    Strength = 1,
+    Strength = 2,
     /// <summary>
-    /// 防御
+    /// 法力
     /// </summary>
-    Defense = 2,
-    /// <summary>
-    /// 闪避
-    /// </summary>
-    Dodge = 3,
-    /// <summary>
-    /// 命中
-    /// </summary>
-    Accuracy = 4,
+    Magic = 3,
     /// <summary>
     /// 角色行动速度
     /// </summary>
-    Speed = 5,
+    Speed = 4,
     /// <summary>
     /// 行动力
     /// </summary>
-    Mobility = 6,
+    Mobility = 5,
     /// <summary>
     /// 精力
     /// </summary>
-    Energy = 7,
-    /// <summary>
-    /// 幸运
-    /// </summary>
-    Lucky = 8,
-    /// <summary>
-    /// 减伤
-    /// </summary>
-    Protection = 9,
-    /// <summary>
-    /// 增伤
-    /// </summary>
-    EnchanceDamage = 10,
+    Energy = 6,
     /// <summary>
     /// 嘲讽值
     /// </summary>
-    Taunt = 11,
-    /// <summary>
-    /// 吸血
-    /// </summary>
-    Hematophagia = 12,
-    /// <summary>
-    /// 距离增伤
-    /// </summary>
-    DistanceDamage = 13,
-    /// <summary>
-    /// 反伤
-    /// </summary>
-    AgainstDamage = 14,
+    Taunt = 7,
     MAX
 }
 

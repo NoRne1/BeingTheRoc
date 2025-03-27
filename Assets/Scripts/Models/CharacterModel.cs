@@ -32,15 +32,6 @@ public class CharacterModel: IStorable
         } 
     }
     public string Race { get; set; }
-    public int MaxHungry{ get; set; }
-    private int currentHungry;
-    public int CurrentHungry 
-    { 
-        get
-        {
-            return currentHungry;
-        }
-    }
     public string Resource { get; set; }
     public string Desc { get; set; }
     public int BornSkill { get; set; }
@@ -71,8 +62,6 @@ public class CharacterModel: IStorable
         }
         Race = define.Race;
         Job = define.Job;
-        MaxHungry = define.MaxHungry;
-        currentHungry = MaxHungry;
         Level = define.Level;
         attributes = new Attributes(characterUpdate);
         attributes.Init(define);
@@ -155,12 +144,12 @@ public class CharacterModel: IStorable
         {
             //减饱腹度
             var wheatCoin = GameManager.Instance.wheatCoin.Value;
-            if (currentHungry >= Mathf.Abs(change))
+            if (attributes.currentHungry >= Mathf.Abs(change))
             {
-                currentHungry += change;
+                attributes.currentHungry += change;
             } else {
-                var remainConsume = Mathf.Abs(change) - currentHungry;
-                currentHungry = 0;
+                var remainConsume = Mathf.Abs(change) - attributes.currentHungry;
+                attributes.currentHungry = 0;
                 if (wheatCoin >= remainConsume)
                 {
                     GameManager.Instance.WheatCoinChanged(-remainConsume);
@@ -173,14 +162,9 @@ public class CharacterModel: IStorable
         } else 
         {
             //超出最大值（由前置条件去拦截，战斗效果允许），也不报错
-            currentHungry = Mathf.Min(MaxHungry, currentHungry + change);
+            attributes.currentHungry = Mathf.Min(attributes.MaxHungry, attributes.currentHungry + change);
         }
         GlobalAccess.SaveCharacterModel(this, false);
-    }
-
-    public void SetHungry(int hungry)
-    {
-        currentHungry = Mathf.Max(0, Mathf.Min(MaxHungry, hungry));
     }
 
     public void ReloadEquipAttr()
@@ -195,8 +179,6 @@ public class CharacterModel: IStorable
         item.type = BattleItemType.player;
         item.nameData = this.nameData;
         item.Race = this.Race;
-        item.MaxHungry = this.MaxHungry;
-        item.SetHungry(this.CurrentHungry);
         item.Job = this.Job;
         item.Level = this.Level;
         item.attributes = GameUtil.Instance.DeepCopy(this.attributes);

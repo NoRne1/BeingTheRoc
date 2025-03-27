@@ -56,6 +56,7 @@ public class UISelectBattleItemsPanel : MonoBehaviour
                     BattleManager.Instance.StartBattle(toggleGroup.GetActiveToggles().ToList()
                         .Select(toggle => toggle.GetComponent<UICharacterItem>().id).ToList()
                         , MapManager.Instance.CurrentTownNode.model.battleInfo);
+                     this.gameObject.SetActive(false);
                 });
             }));
         }

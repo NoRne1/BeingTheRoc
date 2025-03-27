@@ -28,15 +28,6 @@ public class BattleItem: IStorable
         } 
     }
     public string Race { get; set; }
-    public int MaxHungry{ get; set; }
-    private int currentHungry;
-    public int CurrentHungry 
-    { 
-        get
-        {
-            return currentHungry;
-        }
-    }
     public JobType Job { get; set; }
     public GeneralLevel Level { get; set; }
     public string Resource { get; set; }
@@ -154,12 +145,12 @@ public class BattleItem: IStorable
         if(change < 0)
         {
             var wheatCoin = GameManager.Instance.wheatCoin.Value;
-            if (currentHungry >= Mathf.Abs(change))
+            if (attributes.currentHungry >= Mathf.Abs(change))
             {
-                currentHungry += change;
+                attributes.currentHungry += change;
             } else {
-                var remainConsume = Mathf.Abs(change) - currentHungry;
-                currentHungry = 0;
+                var remainConsume = Mathf.Abs(change) - attributes.currentHungry;
+                attributes.currentHungry = 0;
                 switch (type)
                 {
                     case BattleItemType.player:
@@ -186,14 +177,9 @@ public class BattleItem: IStorable
         } else 
         {
             //超出最大值（由前置条件去拦截，战斗效果允许），也不报错
-            currentHungry = Mathf.Min(MaxHungry, currentHungry + change);
+            attributes.currentHungry = Mathf.Min(attributes.MaxHungry, attributes.currentHungry + change);
         }
         GlobalAccess.SaveBattleItem(this, false);
-    }
-
-    public void SetHungry(int hungry)
-    {
-        currentHungry = Mathf.Max(0, Mathf.Min(MaxHungry, hungry));
     }
 
     public void BattleInit()
@@ -263,7 +249,7 @@ public class BattleItem: IStorable
         {
             case BattleItemType.player:
                 var cm = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(uuid)).Value;
-                cm.SetHungry(this.CurrentHungry);
+                cm.attributes.currentHungry = this.attributes.currentHungry;
                 cm.attributes.currentHP = this.attributes.currentHP;
                 NorneStore.Instance.Update(cm, true);
                 break;

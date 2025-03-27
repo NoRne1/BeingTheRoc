@@ -66,31 +66,34 @@ public class BattleChessboardManager
 
         clickedSlot.AsObservable().TakeUntilDestroy(battleManager).Subscribe(slot =>
         {
-            switch (clickSlotReason)
+            if (battleManager.isInBattle)
             {
-                case ClickSlotReason.none:
-                    break;
-                case ClickSlotReason.placeCharacter:
-                    PlaceCharacter(slot);
-                    break;
-                case ClickSlotReason.viewBattleItem:
-                    if (battleManager.battleItemManager.HasBattleItem(slot))
-                    {
-                        SelectItem(slot.position);
-                    }
-                    break;
-                case ClickSlotReason.move:
-                    battleManager.StartCoroutine(ClickItemMove(slot));
-                    break;
-                case ClickSlotReason.selectTargets:
-                    TargetItemsSelected(slot);
-                    break;
-                case ClickSlotReason.selectPosition:
-                    TargetPositionSelected(slot);
-                    break;
-                default:
-                    Debug.LogError("clickSlotReason unknown type");
-                    break;
+                switch (clickSlotReason)
+                {
+                    case ClickSlotReason.none:
+                        break;
+                    case ClickSlotReason.placeCharacter:
+                        PlaceCharacter(slot);
+                        break;
+                    case ClickSlotReason.viewBattleItem:
+                        if (battleManager.battleItemManager.HasBattleItem(slot))
+                        {
+                            SelectItem(slot.position);
+                        }
+                        break;
+                    case ClickSlotReason.move:
+                        battleManager.StartCoroutine(ClickItemMove(slot));
+                        break;
+                    case ClickSlotReason.selectTargets:
+                        TargetItemsSelected(slot);
+                        break;
+                    case ClickSlotReason.selectPosition:
+                        TargetPositionSelected(slot);
+                        break;
+                    default:
+                        Debug.LogError("clickSlotReason unknown type");
+                        break;
+                }
             }
         });
     }

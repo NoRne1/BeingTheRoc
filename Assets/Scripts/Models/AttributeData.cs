@@ -9,21 +9,17 @@ public class AttributeData
     /// </summary>
     public int MaxHP { get { return data[(int)AttributeType.MaxHP]; } set { data[(int)AttributeType.MaxHP] = value; } }
     /// <summary>
+    /// 饥饿度
+    /// </summary>
+    public int MaxHungry { get { return data[(int)AttributeType.MaxHungry]; } set { data[(int)AttributeType.MaxHungry] = value; } }
+    /// <summary>
     /// 力量
     /// </summary>
     public int Strength { get { return data[(int)AttributeType.Strength]; } set { data[(int)AttributeType.Strength] = value; } }
     /// <summary>
-    /// 防御
+    /// 法力
     /// </summary>
-    public int Defense { get { return data[(int)AttributeType.Defense]; } set { data[(int)AttributeType.Defense] = value; } }
-    /// <summary>
-    /// 闪避
-    /// </summary>
-    public int Dodge { get { return data[(int)AttributeType.Dodge]; } set { data[(int)AttributeType.Dodge] = value; } }
-    /// <summary>
-    /// 命中
-    /// </summary>
-    public int Accuracy { get { return data[(int)AttributeType.Accuracy]; } set { data[(int)AttributeType.Accuracy] = value; } }
+    public int Magic { get { return data[(int)AttributeType.Magic]; } set { data[(int)AttributeType.Magic] = value; } }
     /// <summary>
     /// 角色行动速度
     /// </summary>
@@ -37,33 +33,9 @@ public class AttributeData
     /// </summary>
     public int Energy { get { return data[(int)AttributeType.Energy]; } set { data[(int)AttributeType.Energy] = value; } }
     /// <summary>
-    /// 幸运
-    /// </summary>
-    public int Lucky { get { return data[(int)AttributeType.Lucky]; } set { data[(int)AttributeType.Lucky] = value; } }
-    /// <summary>
-    /// 减伤
-    /// </summary>
-    public int Protection { get { return data[(int)AttributeType.Protection]; } set { data[(int)AttributeType.Protection] = value; } }
-    /// <summary>
-    /// 增伤
-    /// </summary>
-    public int EnchanceDamage { get { return data[(int)AttributeType.EnchanceDamage]; } set { data[(int)AttributeType.EnchanceDamage] = value; } }
-    /// <summary>
     /// 嘲讽值
     /// </summary>
     public int Taunt { get { return data[(int)AttributeType.Taunt]; } set { data[(int)AttributeType.Taunt] = value; } }
-    /// <summary>
-    /// 吸血
-    /// </summary>
-    public int Hematophagia { get { return data[(int)AttributeType.Hematophagia]; } set { data[(int)AttributeType.Hematophagia] = value; } }
-    /// <summary>
-    /// 距离增伤
-    /// </summary>
-    public int DistanceDamage { get { return data[(int)AttributeType.DistanceDamage]; } set { data[(int)AttributeType.DistanceDamage] = value; } }
-    /// <summary>
-    /// 反伤
-    /// </summary>
-    public int AgainstDamage { get { return data[(int)AttributeType.AgainstDamage]; } set { data[(int)AttributeType.AgainstDamage] = value; } }
 
     // just for deepcopy
     public AttributeData(){}

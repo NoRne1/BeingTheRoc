@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
+using System;
 
 public class Attributes
 {
@@ -30,7 +31,7 @@ public class Attributes
     public AttributeData Final = new AttributeData();
     //等级
     //动态属性(HP,MP)
-    private AttributeDynamic dynamicAttr = new AttributeDynamic(-1, -1, -1, -1);
+    private AttributeDynamic dynamicAttr = new AttributeDynamic(-1, -1, -1, -1, -1);
 
     public Subject<int> hpChangeSubject = new Subject<int>();
     public Subject<Unit> deadSubject = new Subject<Unit>();
@@ -55,6 +56,18 @@ public class Attributes
                 deadSubject.OnNext(Unit.Default);
             }
             hpChangeSubject.OnNext(change);
+        }
+    }
+
+    public int currentHungry
+    {
+        get 
+        { 
+            return dynamicAttr.currentHungry; 
+        }
+        set 
+        {
+            dynamicAttr.currentHP = Math.Max(0, Math.Min(MaxHP, value));
         }
     }
     public int currentShield
@@ -83,21 +96,17 @@ public class Attributes
     /// </summary>
     public int MaxHP { get { return this.Final.MaxHP; } }
     /// <summary>
+    /// 饥饿度
+    /// </summary>
+    public int MaxHungry { get { return this.Final.MaxHungry; } }
+    /// <summary>
     /// 力量
     /// </summary>
     public int Strength { get { return this.Final.Strength; } }
     /// <summary>
-    /// 防御
+    /// 法力
     /// </summary>
-    public int Defense { get { return this.Final.Defense; } }
-    /// <summary>
-    /// 闪避
-    /// </summary>
-    public int Dodge { get { return this.Final.Dodge; } }
-    /// <summary>
-    /// 命中
-    /// </summary>
-    public int Accuracy { get { return this.Final.Accuracy; } }
+    public int Magic { get { return this.Final.Magic; } }
     /// <summary>
     /// 角色行动速度
     /// </summary>
@@ -111,25 +120,9 @@ public class Attributes
     /// </summary>
     public int Energy { get { return this.Final.Energy; } }
     /// <summary>
-    /// 幸运
-    /// </summary>
-    public int Lucky { get { return this.Final.Lucky; } }
-    /// <summary>
-    /// 减伤
-    /// </summary>
-    public int Protection { get { return this.Final.Protection; } }
-    /// <summary>
-    /// 增伤
-    /// </summary>
-    public int EnchanceDamage { get { return this.Final.EnchanceDamage; } }
-    /// <summary>
     /// 嘲讽
     /// </summary>
     public int Taunt { get { return this.Final.Taunt; } }
-    /// <summary>
-    /// 吸血
-    /// </summary>
-    public int Hematophagia { get { return this.Final.Hematophagia; }}
 
     private Subject<Unit> updateSubject;
 
@@ -148,6 +141,7 @@ public class Attributes
         this.level = 0;
         this.LoadFinalAttributes();
         dynamicAttr.currentHP = MaxHP;
+        dynamicAttr.currentHungry = MaxHungry;
     }
     //初始化预制的角色
     public void Init(CharacterDefine define, int level)
@@ -157,6 +151,7 @@ public class Attributes
         this.LoadGrowthAttribute(this.Growth, define.Job, level, false);
         this.LoadFinalAttributes();
         dynamicAttr.currentHP = MaxHP;
+        dynamicAttr.currentHungry = MaxHungry;
     }
 
     public void SetUpdateSubject(Subject<Unit> subject)
@@ -166,7 +161,6 @@ public class Attributes
 
     public void BattleInit()
     {
-        // dynamicAttr.currentHP = MaxHP;
         dynamicAttr.currentShield = 0;
         dynamicAttr.currentEnergy = 0;
         dynamicAttr.lostHP = 0;
@@ -208,30 +202,20 @@ public class Attributes
         {
             case AttributeType.MaxHP:
                 return MaxHP;
+            case AttributeType.MaxHungry:
+                return MaxHungry;
             case AttributeType.Strength:
                 return Strength;
-            case AttributeType.Defense:
-                return Defense;
-            case AttributeType.Dodge:
-                return Dodge;
-            case AttributeType.Accuracy:
-                return Accuracy;
+            case AttributeType.Magic:
+                return Magic;
             case AttributeType.Speed:
                 return Speed;
             case AttributeType.Mobility:
                 return Mobility;
             case AttributeType.Energy:
                 return Energy;
-            case AttributeType.Lucky:
-                return Lucky;
-            case AttributeType.Protection:
-                return Protection;
-            case AttributeType.EnchanceDamage:
-                return EnchanceDamage;
             case AttributeType.Taunt:
                 return Taunt;
-            case AttributeType.Hematophagia:
-                return Hematophagia;
             default:
                 Debug.LogError("unknown AttributeType!");
                 return -1;
@@ -257,13 +241,10 @@ public class Attributes
     {
         attr.MaxHP = define.MaxHP + GameUtil.Instance.GetTrulyFloatFactor(define.MaxHPFloat);
         attr.Strength = define.Strength + GameUtil.Instance.GetTrulyFloatFactor(define.StrengthFloat);
-        attr.Defense = define.Defense + GameUtil.Instance.GetTrulyFloatFactor(define.DefenseFloat);
-        attr.Dodge = define.Dodge;
-        attr.Accuracy = define.Accuracy;
+        attr.Magic = define.Magic + GameUtil.Instance.GetTrulyFloatFactor(define.MagicFloat);
         attr.Speed = define.Speed + GameUtil.Instance.GetTrulyFloatFactor(define.SpeedFloat);
         attr.Mobility = define.Mobility;
         attr.Energy = define.Energy;
-        attr.Lucky = define.Lucky;
         attr.Taunt = GlobalAccess.GetTauntForJob(define.Job);
         // 默认就为0，所以不用赋值0
         //attr.Protection = 0;

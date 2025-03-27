@@ -13,9 +13,7 @@ public class UICharacterSelectPanel : MonoBehaviour
 
     public TextMeshProUGUI MaxHP_key;
     public TextMeshProUGUI Strength_key;
-    public TextMeshProUGUI Defense_key;
-    public TextMeshProUGUI Dodge_key;
-    public TextMeshProUGUI Accuracy_key;
+    public TextMeshProUGUI Magic_key;
     public TextMeshProUGUI Speed_key;
     public TextMeshProUGUI Mobility_key;
     public TextMeshProUGUI Energy_key;
@@ -25,9 +23,7 @@ public class UICharacterSelectPanel : MonoBehaviour
     public Image Character_icon;
     public TextMeshProUGUI MaxHP;
     public TextMeshProUGUI Strength;
-    public TextMeshProUGUI Defense;
-    public TextMeshProUGUI Dodge;
-    public TextMeshProUGUI Accuracy;
+    public TextMeshProUGUI Magic;
     public TextMeshProUGUI Speed;
     public TextMeshProUGUI Mobility;
     public TextMeshProUGUI Energy;
@@ -61,9 +57,7 @@ public class UICharacterSelectPanel : MonoBehaviour
     {
         MaxHP_key.text = GameUtil.Instance.GetDisplayString("maxhp");
         Strength_key.text = GameUtil.Instance.GetDisplayString("strength");
-        Defense_key.text = GameUtil.Instance.GetDisplayString("defense");
-        Dodge_key.text = GameUtil.Instance.GetDisplayString("dodge");
-        Accuracy_key.text = GameUtil.Instance.GetDisplayString("accuracy");
+        Magic_key.text = GameUtil.Instance.GetDisplayString("magic");
         Speed_key.text = GameUtil.Instance.GetDisplayString("speed");
         Mobility_key.text = GameUtil.Instance.GetDisplayString("mobility");
         Energy_key.text = GameUtil.Instance.GetDisplayString("energy");
@@ -78,9 +72,7 @@ public class UICharacterSelectPanel : MonoBehaviour
             CharacterDefine cd = DataManager.Instance.Characters[id];
             MaxHP.text = cd.MaxHP.ToString();
             Strength.text = cd.Strength.ToString();
-            Defense.text = cd.Defense.ToString();
-            Dodge.text = cd.Dodge.ToString();
-            Accuracy.text = cd.Accuracy.ToString();
+            Magic.text = cd.Magic.ToString();
             Speed.text = cd.Speed.ToString();
             Mobility.text = cd.Mobility.ToString();
             Energy.text = cd.Energy.ToString();

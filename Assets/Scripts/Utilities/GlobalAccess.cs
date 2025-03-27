@@ -110,20 +110,18 @@ class GlobalAccess
         {
             case AttributeType.MaxHP:
                 return 1;
+            case AttributeType.MaxHungry:
+                return 2;  
             case AttributeType.Strength:
                 return 1;
-            case AttributeType.Defense:
-                return 2;
-            case AttributeType.Dodge:
-                return 3;
-            case AttributeType.Accuracy:
-                return 3;
+            case AttributeType.Magic:
+                return 1;
             case AttributeType.Speed:
                 return 5;
             case AttributeType.Mobility:
-                return 15;
-            case AttributeType.Energy:
                 return 20;
+            case AttributeType.Energy:
+                return 30;
             case AttributeType.None:
                 return -1;
             default:
@@ -137,21 +135,13 @@ class GlobalAccess
         switch(type)
         {
             case PropertyType.MaxHP:
+            case PropertyType.MaxHungry:
             case PropertyType.Strength:
-            case PropertyType.Defense: 
-            case PropertyType.Dodge: 
-            case PropertyType.Accuracy: 
+            case PropertyType.Magic: 
             case PropertyType.Speed: 
             case PropertyType.Mobility:
             case PropertyType.Energy:
-            case PropertyType.Lucky:
                 return (AttributeType)type;
-            case PropertyType.Protection:
-            case PropertyType.EnchanceDamage:
-            case PropertyType.Hematophagia:
-            case PropertyType.DistanceDamage:
-            case PropertyType.AgainstDamage:
-                return (AttributeType)((int)type - 3);
             default:
                 Debug.LogError("PropertyTypeToAttributeType convert fail");
                 return AttributeType.None;

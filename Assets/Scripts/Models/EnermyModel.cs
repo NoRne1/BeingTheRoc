@@ -128,7 +128,7 @@ public class EnermyModel: IStorable
 
         item.attributes.Difficulty.MaxHP = (int)(this.attributes.MaxHP * (difficulty - 1));
         item.attributes.Difficulty.Strength = (int)(this.attributes.Strength * (difficulty - 1));
-        item.attributes.Difficulty.Defense = (int)(this.attributes.Defense * (difficulty - 1));
+        item.attributes.Difficulty.Magic = (int)(this.attributes.Magic * (difficulty - 1));
 
         item.Resource = this.Resource;
         item.Desc = this.Desc;

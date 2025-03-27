@@ -160,7 +160,7 @@ public class BuffManager : MonoSingleton<BuffManager>
                 battleItem.attributes.LoadFinalAttributes();
                 break;
             case PropertyType.Health:
-                //加血不存在返还
+                //加血不存在回退
                 if (addOrRemove)
                 {
                     BattleCommonMethods.ProcessNormalHealth(buff.casterID, new List<string> { buff.ownerID }, buff.Value);
@@ -170,16 +170,8 @@ public class BuffManager : MonoSingleton<BuffManager>
                 battleItem.attributes.Buff.Strength += addOrRemove ? buff.Value : -buff.Value;
                 battleItem.attributes.LoadFinalAttributes();
                 break;
-            case PropertyType.Defense:
-                battleItem.attributes.Buff.Defense += addOrRemove ? buff.Value : -buff.Value;
-                battleItem.attributes.LoadFinalAttributes();
-                break;
-            case PropertyType.Dodge:
-                battleItem.attributes.Buff.Dodge += addOrRemove ? buff.Value : -buff.Value;
-                battleItem.attributes.LoadFinalAttributes();
-                break;
-            case PropertyType.Accuracy:
-                battleItem.attributes.Buff.Accuracy += addOrRemove ? buff.Value : -buff.Value;
+            case PropertyType.Magic:
+                battleItem.attributes.Buff.Magic += addOrRemove ? buff.Value : -buff.Value;
                 battleItem.attributes.LoadFinalAttributes();
                 break;
             case PropertyType.Speed:
@@ -199,10 +191,6 @@ public class BuffManager : MonoSingleton<BuffManager>
                     battleItem.attributes.currentEnergy += buff.Value;
                 }
                 break;
-            case PropertyType.Lucky:
-                battleItem.attributes.Buff.Lucky += addOrRemove ? buff.Value : -buff.Value;
-                battleItem.attributes.LoadFinalAttributes();
-                break;
             case PropertyType.Exp:
                 // 当前经验只加不减
                 if (addOrRemove)
@@ -211,19 +199,26 @@ public class BuffManager : MonoSingleton<BuffManager>
                 }
                 break;
             case PropertyType.Shield:
-                // 当前护盾只加不减
+                // 当前护盾只加不回退
                 if (addOrRemove)
                 {
                     battleItem.attributes.currentShield += buff.Value;
                 }
                 break;
-            case PropertyType.Protection:
-                battleItem.attributes.Buff.Protection += addOrRemove ? buff.Value : -buff.Value;
-                battleItem.attributes.LoadFinalAttributes();
+
+            case PropertyType.HealthPercent:
+                // 当前血量百分比只加不回退
+                if (addOrRemove)
+                {
+                    battleItem.attributes.currentHP += (int)(battleItem.attributes.MaxHP * buff.Value / 100.0f);
+                }
                 break;
-            case PropertyType.EnchanceDamage:
-                battleItem.attributes.Buff.EnchanceDamage += addOrRemove ? buff.Value : -buff.Value;
-                battleItem.attributes.LoadFinalAttributes();
+            case PropertyType.hungry:  
+                // 当前饥饿度只加不回退
+                if (addOrRemove)
+                {
+                    battleItem.HungryChange(buff.Value);
+                }
                 break;
             default:
                 Debug.Log("unknown propertyType");

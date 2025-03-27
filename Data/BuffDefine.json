@@ -1,19 +1,6 @@
 {
     "0": {
         "ID": 0,
-        "Name": "虚无",
-        "MethodName": "Nothingness",
-        "PropertyType": -1,
-        "Value": -1,
-        "Duration": -1,
-        "InvokeTime": 1,
-        "DecreaseTime": -1,
-        "MergeType": 3,
-        "Resource": "buff_nothingness_icon",
-        "Description": "每当拥有虚无状态的角色回合结束，叠加一层，当叠加至五层时，立即堕入虚无（生命值归零）,对精英敌人则造成一次真实伤害"
-    },
-    "1": {
-        "ID": 1,
         "Name": "隐身",
         "MethodName": "Invisible",
         "PropertyType": -1,
@@ -25,8 +12,8 @@
         "Resource": "buff_invisible_icon",
         "Description": "隐身状态下，敌方无法选中你作为目标，持续时间结束或自身攻击后退出隐身状态"
     },
-    "2": {
-        "ID": 2,
+    "1": {
+        "ID": 1,
         "Name": "外伤",
         "MethodName": "Trauma",
         "PropertyType": -1,
@@ -38,8 +25,8 @@
         "Resource": "buff_Trauma_icon",
         "Description": "拥有外伤状态的角色受到伤害时，额外受到外伤层数的伤害"
     },
-    "3": {
-        "ID": 3,
+    "2": {
+        "ID": 2,
         "Name": "念力",
         "MethodName": "MentalPower",
         "PropertyType": -1,
@@ -51,8 +38,8 @@
         "Resource": "buff_mentalPower_icon",
         "Description": "拥有念力的角色在进行攻击时，额外造成念力层数的伤害"
     },
-    "4": {
-        "ID": 4,
+    "3": {
+        "ID": 3,
         "Name": "腐蚀",
         "MethodName": "Corrosion",
         "PropertyType": -1,
@@ -64,8 +51,8 @@
         "Resource": "buff_corrosion_icon",
         "Description": "拥有腐蚀状态的角色回合开始时受到一次腐蚀层数的伤害"
     },
-    "5": {
-        "ID": 5,
+    "4": {
+        "ID": 4,
         "Name": "眩晕",
         "MethodName": "Dizzy",
         "PropertyType": -1,
@@ -77,8 +64,8 @@
         "Resource": "buff_dizzy_icon",
         "Description": "眩晕的角色行动时会跳过自身回合，然后眩晕层数减1"
     },
-    "6": {
-        "ID": 6,
+    "5": {
+        "ID": 5,
         "Name": "灼伤",
         "MethodName": "Burning",
         "PropertyType": -1,
@@ -90,21 +77,8 @@
         "Resource": "buff_burning_icon",
         "Description": "灼伤在角色回合开始时，造成一次伤害（受施加者属性影响）"
     },
-    "7": {
-        "ID": 7,
-        "Name": "减防",
-        "MethodName": "ChangeProperty",
-        "PropertyType": 2,
-        "Value": -10,
-        "Duration": 2,
-        "InvokeTime": 2,
-        "DecreaseTime": 1,
-        "MergeType": 1,
-        "Resource": "buff_decreaseDefense_icon",
-        "Description": "防御降低"
-    },
-    "8": {
-        "ID": 8,
+    "6": {
+        "ID": 6,
         "Name": "流血",
         "MethodName": "Bleeding",
         "PropertyType": -1,
@@ -116,21 +90,8 @@
         "Resource": "buff_bleeding_icon",
         "Description": "拥有流血状态的角色移动时，受到流血层数*移动步数的伤害"
     },
-    "9": {
-        "ID": 9,
-        "Name": "减伤",
-        "MethodName": "ChangeProperty",
-        "PropertyType": 12,
-        "Value": 10,
-        "Duration": 2,
-        "InvokeTime": 2,
-        "DecreaseTime": 1,
-        "MergeType": 1,
-        "Resource": "buff_protection_icon",
-        "Description": "伤害减免"
-    },
-    "10": {
-        "ID": 10,
+    "7": {
+        "ID": 7,
         "Name": "无敌",
         "MethodName": "Invincible",
         "PropertyType": -1,
@@ -142,8 +103,8 @@
         "Resource": "buff_invincible_icon",
         "Description": "免疫所有伤害"
     },
-    "11": {
-        "ID": 11,
+    "8": {
+        "ID": 8,
         "Name": "闪避",
         "MethodName": "ChangeProperty",
         "PropertyType": 3,
@@ -155,8 +116,8 @@
         "Resource": "buff_dodge_icon",
         "Description": "增加闪避率"
     },
-    "12": {
-        "ID": 12,
+    "9": {
+        "ID": 9,
         "Name": "沉默",
         "MethodName": "Silent",
         "PropertyType": -1,
@@ -168,8 +129,8 @@
         "Resource": "buff_silent_icon",
         "Description": "沉默的单位无法进行攻击"
     },
-    "13": {
-        "ID": 13,
+    "10": {
+        "ID": 10,
         "Name": "禁锢",
         "MethodName": "Confine",
         "PropertyType": -1,
@@ -180,5 +141,70 @@
         "MergeType": 0,
         "Resource": "buff_confine_icon",
         "Description": "禁锢的单位无法移动"
+    },
+    "11": {
+        "ID": 11,
+        "Name": "力竭",
+        "MethodName": "Exhaustion",
+        "PropertyType": -1,
+        "Value": -1,
+        "Duration": 1,
+        "InvokeTime": 2,
+        "DecreaseTime": 1,
+        "MergeType": 0,
+        "Resource": "buff_confine_icon",
+        "Description": "力竭"
+    },
+    "12": {
+        "ID": 12,
+        "Name": "虚弱",
+        "MethodName": "Weakness",
+        "PropertyType": -1,
+        "Value": -1,
+        "Duration": 1,
+        "InvokeTime": 2,
+        "DecreaseTime": 1,
+        "MergeType": 0,
+        "Resource": "buff_confine_icon",
+        "Description": "虚弱"
+    },
+    "13": {
+        "ID": 13,
+        "Name": "破绽",
+        "MethodName": "Flaw",
+        "PropertyType": -1,
+        "Value": -1,
+        "Duration": 1,
+        "InvokeTime": 2,
+        "DecreaseTime": 1,
+        "MergeType": 0,
+        "Resource": "buff_confine_icon",
+        "Description": "破绽"
+    },
+    "14": {
+        "ID": 14,
+        "Name": "连击",
+        "MethodName": "Batter",
+        "PropertyType": -1,
+        "Value": -1,
+        "Duration": 1,
+        "InvokeTime": 2,
+        "DecreaseTime": 1,
+        "MergeType": 0,
+        "Resource": "buff_confine_icon",
+        "Description": "反击"
+    },
+    "15": {
+        "ID": 15,
+        "Name": "锋锐",
+        "MethodName": "Sharp",
+        "PropertyType": -1,
+        "Value": -1,
+        "Duration": 1,
+        "InvokeTime": 2,
+        "DecreaseTime": 1,
+        "MergeType": 0,
+        "Resource": "buff_confine_icon",
+        "Description": "锋锐"
     }
 }

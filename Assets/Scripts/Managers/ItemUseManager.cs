@@ -58,7 +58,7 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                 break;
             case ItemType.food:
                 var target = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(casterID)).Value;
-                if(item.foodModel.foodPropertys.FirstOrDefault(property => property.type == PropertyType.hungry).trulyValue + target.CurrentHungry <= target.MaxHungry)
+                if(item.foodModel.foodPropertys.FirstOrDefault(property => property.type == PropertyType.hungry).trulyValue + target.attributes.currentHungry <= target.attributes.MaxHungry)
                 {
                     yield return StartCoroutine(InvokeEffect(EffectInvokeType.useInstant, casterID, new List<string>{casterID}, Vector2.negativeInfinity, item));
                     RepoDrop(item);
@@ -257,16 +257,8 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                         target.attributes.ItemEffect.Strength += effect.Value;
                         target.attributes.LoadFinalAttributes();
                         break;
-                    case PropertyType.Defense:
-                        target.attributes.ItemEffect.Defense += effect.Value;
-                        target.attributes.LoadFinalAttributes();
-                        break;
-                    case PropertyType.Dodge:
-                        target.attributes.ItemEffect.Dodge += effect.Value;
-                        target.attributes.LoadFinalAttributes();
-                        break;
-                    case PropertyType.Accuracy:
-                        target.attributes.ItemEffect.Accuracy += effect.Value;
+                    case PropertyType.Magic:
+                        target.attributes.ItemEffect.Magic += effect.Value;
                         target.attributes.LoadFinalAttributes();
                         break;
                     case PropertyType.Speed:
@@ -281,12 +273,8 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                         target.attributes.ItemEffect.Energy += effect.Value;
                         target.attributes.LoadFinalAttributes();
                         break;
-                    case PropertyType.Lucky:
-                        target.attributes.ItemEffect.Lucky += effect.Value;
-                        target.attributes.LoadFinalAttributes();
-                        break;
                     case PropertyType.Health:
-                        Debug.Log("CharacterModel can not add currentHP");
+                        target.attributes.currentHP += effect.Value;
                         break;
                     case PropertyType.Exp:
                         target.attributes.exp += effect.Value;
@@ -294,19 +282,8 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                     case PropertyType.Shield:
                         Debug.Log("CharacterModel no shield");
                         break;
-                    case PropertyType.Protection:
-                        Debug.Log("CharacterModel can not add Protection");
-                        break;
-                    case PropertyType.EnchanceDamage:
-                        Debug.Log("CharacterModel can not add EnchanceDamage");
-                        break;
-                    case PropertyType.Hematophagia:
-                        target.attributes.ItemEffect.Hematophagia += effect.Value;
-                        target.attributes.LoadFinalAttributes();
-                        break;
                     case PropertyType.HealthPercent:
-                        target.attributes.ItemEffect.Hematophagia += effect.Value;
-                        target.attributes.LoadFinalAttributes();
+                        target.attributes.currentHP += (int)(target.attributes.MaxHP * effect.Value / 100.0f);
                         break;
                     case PropertyType.hungry:
                         target.HungryChange(effect.Value);
@@ -377,16 +354,8 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                                 target.attributes.InBattle.Strength += effect.Value;
                                 target.attributes.LoadFinalAttributes();
                                 break;
-                            case PropertyType.Defense:
-                                target.attributes.InBattle.Defense += effect.Value;
-                                target.attributes.LoadFinalAttributes();
-                                break;
-                            case PropertyType.Dodge:
-                                target.attributes.InBattle.Dodge += effect.Value;
-                                target.attributes.LoadFinalAttributes();
-                                break;
-                            case PropertyType.Accuracy:
-                                target.attributes.InBattle.Accuracy += effect.Value;
+                            case PropertyType.Magic:
+                                target.attributes.InBattle.Magic += effect.Value;
                                 target.attributes.LoadFinalAttributes();
                                 break;
                             case PropertyType.Speed:
@@ -400,30 +369,14 @@ public class ItemUseManager : MonoSingleton<ItemUseManager>
                             case PropertyType.Energy:
                                 target.attributes.currentEnergy += effect.Value;
                                 break;
-                            case PropertyType.Lucky:
-                                target.attributes.InBattle.Lucky += effect.Value;
-                                target.attributes.LoadFinalAttributes();
-                                break;
                             case PropertyType.Exp:
                                 target.attributes.exp += effect.Value;
                                 break;
                             case PropertyType.Shield:
                                 target.attributes.currentShield += effect.Value;
                                 break;
-                            case PropertyType.Protection:
-                                target.attributes.InBattle.Protection += effect.Value;
-                                target.attributes.LoadFinalAttributes();
-                                break;
-                            case PropertyType.EnchanceDamage:
-                                target.attributes.InBattle.EnchanceDamage += effect.Value;
-                                target.attributes.LoadFinalAttributes();
-                                break;
-                            case PropertyType.Hematophagia:
-                                target.attributes.InBattle.Hematophagia += effect.Value;
-                                target.attributes.LoadFinalAttributes();
-                                break;
                             case PropertyType.HealthPercent:
-                                BattleCommonMethods.ProcessNormalHealth(casterID, new List<string>{targetID}, (int)(target.attributes.MaxHP / 100.0f * effect.Value));
+                                BattleCommonMethods.ProcessNormalHealth(casterID, new List<string>{targetID}, (int)(target.attributes.MaxHP * effect.Value / 100.0f));
                                 break;
                             case PropertyType.hungry:
                                 target.HungryChange(effect.Value);

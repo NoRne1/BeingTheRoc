@@ -301,37 +301,20 @@ public static class BattleCommonMethods
                 GameManager.Instance.treasureManager.equipClassEffect[equipClass] : 0;
             for (int index = 0; index < attackTime; index++)
             {
-                bool hitFlag = GameUtil.Instance.GetRandomRate(baseAccuracy *
-                    (1 - target.attributes.Dodge / 100.0f) *
-                    (1 + (self.attributes.Accuracy + Data[(int)EquipClass.arch]) / 100.0f)
-                );
-                bool criticalFlag = GameUtil.Instance.GetRandomRate(self.attributes.Lucky);
                 int damage = (int)((value + Data[(int)EquipClass.sword])
-                    * (1 + self.attributes.Strength / 100.0f) //力量乘区
-                    * (1 - target.attributes.Defense / (target.attributes.Defense + 100.0f)) //防御乘区
-                    * (hitFlag ? 1 : 0) //命中乘区
-                    * (criticalFlag ? 2 : 1) //暴击乘区
-                    * (1 - (self.attributes.Protection / 100.0f)) //减伤乘区
-                    * (1 + (self.attributes.EnchanceDamage / 100.0f))); //增伤乘区
+                    * (1 + self.attributes.Strength / 100.0f)); //力量乘区
 
                 var targetItem = battleItemManager.pos_uibattleItemDic.Values.Where((item) => item.itemID == targetID).ToList().FirstOrDefault();
 
-                int hemato = (int)(damage * (self.attributes.Hematophagia / 100.0f));
                 AttackStatus status;
                 if (!battleItemManager.HasBattleItem(targetID))
                 {
                     status = AttackStatus.errorTarget;
-                } else if (!hitFlag)
-                {
-                    status = AttackStatus.miss;  
-                } else if (criticalFlag)
-                {
-                    status = AttackStatus.critical;  
                 } else
                 {
                     status = AttackStatus.normal;  
                 } 
-                var tempResult = new AttackDisplayResult(result.attackIdentifier, index, casterID, targetID, status, damage, hemato, true, itemModel);
+                var tempResult = new AttackDisplayResult(result.attackIdentifier, index, casterID, targetID, status, damage, 0, true, itemModel);
                 result.displayResults.Add(tempResult);
             }
         }
@@ -372,13 +355,11 @@ public static class BattleCommonMethods
         foreach (var id in targetIDs)
         {
             var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(id)).Value;
-            bool criticalFlag = UnityEngine.Random.Range(0, 100) < (self.attributes != null ? self.attributes.Lucky : 0);
             int healthHp = (int)(value
-                * (1 + (self.attributes != null ? self.attributes.Strength : 0) / 100.0f)
-                * (criticalFlag ? 1 : 2));
+                * (1 + (self.attributes != null ? self.attributes.Strength : 0) / 100.0f));
             if (battleItemManager.HasBattleItem(id))
             {
-                battleItemManager.pos_uibattleItemDic[battleItemManager.id_posDic[id]].HPChange(healthHp, criticalFlag);
+                battleItemManager.pos_uibattleItemDic[battleItemManager.id_posDic[id]].HPChange(healthHp);
             }
         }
     }
@@ -392,7 +373,7 @@ public static class BattleCommonMethods
         var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(targetID)).Value;
         if (battleItemManager.HasBattleItem(targetID))
         {
-            battleItemManager.pos_uibattleItemDic[battleItemManager.id_posDic[targetID]].HPChange(value, false);
+            battleItemManager.pos_uibattleItemDic[battleItemManager.id_posDic[targetID]].HPChange(value);
         }
     }
 }

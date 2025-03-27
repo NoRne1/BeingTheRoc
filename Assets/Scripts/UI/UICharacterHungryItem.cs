@@ -17,8 +17,8 @@ public class UICharacterHungryItem : MonoBehaviour
         disposable = NorneStore.Instance.ObservableObject<CharacterModel>(character)
                 .AsObservable().TakeUntilDestroy(this).Subscribe(cm =>
                 {
-                    hungryCircleBar.fillAmount = character.CurrentHungry * 1.0f / character.MaxHungry;
-                    hungryText.text = character.CurrentHungry + "/" + character.MaxHungry;
+                    hungryCircleBar.fillAmount = character.attributes.currentHungry * 1.0f / character.attributes.MaxHungry;
+                    hungryText.text = character.attributes.currentHungry + "/" + character.attributes.MaxHungry;
                 });
     }
 

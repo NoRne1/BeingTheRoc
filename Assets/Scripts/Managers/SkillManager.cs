@@ -6,6 +6,7 @@ using UnityEngine;
 using System.Linq;
 using System.Reflection;
 using System.Collections;
+using Unity.Mathematics;
 
 public class SkillManager : MonoSingleton<SkillManager>
 {
@@ -114,7 +115,7 @@ public class SkillManager : MonoSingleton<SkillManager>
             Effect effect = new Effect();
             effect.effectType = EffectType.property;
             effect.invokeType = EffectInvokeType.toDeath;
-            effect.propertyType = PropertyType.Lucky;
+            effect.propertyType = PropertyType.Strength;
             effect.Value = 1;
             hunyuanSword.effects.Add(effect);
         }
@@ -199,25 +200,26 @@ public class SkillManager : MonoSingleton<SkillManager>
         }));
     }
 
+    //todo StrongBone
     private void StrongBone(string casterID, PropertyType type, int value)
     {
-        var battleItem = GlobalAccess.GetBattleItem(casterID);
-        // 虽然这里是技能赋予的，也没有独立buff，但是是战斗开始赋予，结束时需要清除，所以算到buff里
-        battleItem.attributes.Buff.Protection += 20;
-        GlobalAccess.SaveBattleItem(battleItem);
-        disposablePool.SaveDisposable(casterID + "StrongBone", battleItem.moveSubject.AsObservable().Subscribe(vect =>
-        {
-            var targetIDs = BattleManager.Instance.battleItemManager.GetBattleItemsByRange(vect, TargetRange.range_1, BattleItemType.player);
-            foreach (var targetID in targetIDs)
-            {
-                var battleItem = GlobalAccess.GetBattleItem(casterID);
-                var buffCopy = DataManager.Instance.BuffDefines[1].Copy();
-                buffCopy.Value = 10;
-                buffCopy.Duration = 2;
-                battleItem.buffCenter.AddBuff(buffCopy, casterID);
-                GlobalAccess.SaveBattleItem(battleItem);
-            }
-        }));
+        // var battleItem = GlobalAccess.GetBattleItem(casterID);
+        // // 虽然这里是技能赋予的，也没有独立buff，但是是战斗开始赋予，结束时需要清除，所以算到buff里
+        // battleItem.attributes.Buff.Protection += 20;
+        // GlobalAccess.SaveBattleItem(battleItem);
+        // disposablePool.SaveDisposable(casterID + "StrongBone", battleItem.moveSubject.AsObservable().Subscribe(vect =>
+        // {
+        //     var targetIDs = BattleManager.Instance.battleItemManager.GetBattleItemsByRange(vect, TargetRange.range_1, BattleItemType.player);
+        //     foreach (var targetID in targetIDs)
+        //     {
+        //         var battleItem = GlobalAccess.GetBattleItem(casterID);
+        //         var buffCopy = DataManager.Instance.BuffDefines[1].Copy();
+        //         buffCopy.Value = 10;
+        //         buffCopy.Duration = 2;
+        //         battleItem.buffCenter.AddBuff(buffCopy, casterID);
+        //         GlobalAccess.SaveBattleItem(battleItem);
+        //     }
+        // }));
     }
 
     private void UnstoppableAspiration(string casterID, PropertyType type, int value)
@@ -352,11 +354,9 @@ public class SkillManager : MonoSingleton<SkillManager>
             .Where(pair => {
                 switch(pair.attackStatus)
                 {
-                    case AttackStatus.miss:
                     case AttackStatus.errorTarget:
                         return false;
                     case AttackStatus.normal:
-                    case AttackStatus.critical:
                         return pair.casterID == casterID;
                     default:
                         throw new InvalidOperationException($"Unhandled enum value: {pair.attackStatus}");
@@ -367,31 +367,33 @@ public class SkillManager : MonoSingleton<SkillManager>
             }));
     }
 
+    //todo GoForward
     private void GoForward(string casterID, PropertyType type, int value)
     {
-        disposablePool.SaveDisposable(casterID + "GoForward", BattleManager.Instance.battleItemDamageSubject.AsObservable()
-            .Where(pair => {
-                //自己被攻击并闪避
-                return pair.targetID == casterID && pair.attackStatus == AttackStatus.miss;
-            }).Subscribe(pair =>
-            {
-                BattleCommonMethods.ProcessDirectAttack(pair.targetID, pair.casterID, value);
-            }));
+        // disposablePool.SaveDisposable(casterID + "GoForward", BattleManager.Instance.battleItemDamageSubject.AsObservable()
+        //     .Where(pair => {
+        //         //自己被攻击并闪避
+        //         return pair.targetID == casterID && pair.attackStatus == AttackStatus.miss;
+        //     }).Subscribe(pair =>
+        //     {
+        //         BattleCommonMethods.ProcessDirectAttack(pair.targetID, pair.casterID, value);
+        //     }));
     }
 
+    //todo BeforeDawn
     private void BeforeDawn(string casterID, PropertyType type, int value)
     {
-        timer.CreateTimer(TimerType.round, casterID + "BeforeDawn", 2);
-        disposablePool.SaveDisposable(casterID + "BeforeDawn", BattleManager.Instance.battleItemDamageSubject.AsObservable()
-            .Where(pair => {
-                //自己的攻击暴击，且技能冷却完毕
-                return pair.casterID == casterID && pair.attackStatus == AttackStatus.critical && timer.TimerNext(casterID + "BeforeDawn");
-            }).Subscribe(pair =>
-            {
-                var battleItem = GlobalAccess.GetBattleItem(casterID);
-                battleItem.attributes.currentEnergy += 1;
-                GlobalAccess.SaveBattleItem(battleItem);
-            }));
+        // timer.CreateTimer(TimerType.round, casterID + "BeforeDawn", 2);
+        // disposablePool.SaveDisposable(casterID + "BeforeDawn", BattleManager.Instance.battleItemDamageSubject.AsObservable()
+        //     .Where(pair => {
+        //         //自己的攻击暴击，且技能冷却完毕
+        //         return pair.casterID == casterID && pair.attackStatus == AttackStatus.critical && timer.TimerNext(casterID + "BeforeDawn");
+        //     }).Subscribe(pair =>
+        //     {
+        //         var battleItem = GlobalAccess.GetBattleItem(casterID);
+        //         battleItem.attributes.currentEnergy += 1;
+        //         GlobalAccess.SaveBattleItem(battleItem);
+        //     }));
     }
 
     private void ExtremeOperation(string casterID, PropertyType type, int value)
@@ -429,17 +431,16 @@ public class SkillManager : MonoSingleton<SkillManager>
         GlobalAccess.SaveBattleItem(battleItem);
     }
 
+    //todo VeryHeavy
     private void VeryHeavy(string casterID, PropertyType type, int value)
     {
-        var battleItem = GlobalAccess.GetBattleItem(casterID);
-        battleItem.attributes.Skill.MaxHP += 50;
-        battleItem.attributes.Skill.Defense += 50;
-        battleItem.attributes.Skill.Strength -= 20;
-        battleItem.attributes.Skill.Dodge -= 10;
-        battleItem.attributes.Skill.Accuracy -= 10;
-        battleItem.attributes.Skill.Speed -= 20;
-        battleItem.attributes.LoadFinalAttributes();
-        GlobalAccess.SaveBattleItem(battleItem);
+        // var battleItem = GlobalAccess.GetBattleItem(casterID);
+        // battleItem.attributes.Skill.MaxHP += 50;
+        // battleItem.attributes.Skill.Defense += 50;
+        // battleItem.attributes.Skill.Strength -= 20;
+        // battleItem.attributes.Skill.Speed -= 20;
+        // battleItem.attributes.LoadFinalAttributes();
+        // GlobalAccess.SaveBattleItem(battleItem);
     }
 
     private void ReinforceDefense(string casterID, PropertyType type, int value)
@@ -505,16 +506,8 @@ public class SkillManager : MonoSingleton<SkillManager>
                 characterModel.attributes.Skill.Strength += value;
                 characterModel.attributes.LoadFinalAttributes();
                 break;
-            case PropertyType.Defense:
-                characterModel.attributes.Skill.Defense += value;
-                characterModel.attributes.LoadFinalAttributes();
-                break;
-            case PropertyType.Dodge:
-                characterModel.attributes.Skill.Dodge += value;
-                characterModel.attributes.LoadFinalAttributes();
-                break;
-            case PropertyType.Accuracy:
-                characterModel.attributes.Skill.Accuracy += value;
+            case PropertyType.Magic:
+                characterModel.attributes.Skill.Magic += value;
                 characterModel.attributes.LoadFinalAttributes();
                 break;
             case PropertyType.Speed:
@@ -529,35 +522,17 @@ public class SkillManager : MonoSingleton<SkillManager>
                 characterModel.attributes.Skill.Energy += value;
                 characterModel.attributes.LoadFinalAttributes();
                 break;
-            case PropertyType.Lucky:
-                characterModel.attributes.Skill.Lucky += value;
-                characterModel.attributes.LoadFinalAttributes();
-                break;
             case PropertyType.Exp:
                 characterModel.attributes.exp += value;
                 break;
             case PropertyType.Shield:
                 Debug.Log("skill will not change Shield");
                 break;
-            case PropertyType.Protection:
-                characterModel.attributes.Skill.Protection += value;
-                characterModel.attributes.LoadFinalAttributes();
+            case PropertyType.HealthPercent:
+                characterModel.attributes.currentHP += (int)(characterModel.attributes.MaxHP * value / 100.0f);
                 break;
-            case PropertyType.EnchanceDamage:
-                characterModel.attributes.Skill.EnchanceDamage += value;
-                characterModel.attributes.LoadFinalAttributes();
-                break;
-            case PropertyType.Hematophagia:
-                characterModel.attributes.Skill.Hematophagia += value;
-                characterModel.attributes.LoadFinalAttributes();
-                break;
-            case PropertyType.DistanceDamage:
-                characterModel.attributes.Skill.DistanceDamage += value;
-                characterModel.attributes.LoadFinalAttributes();
-                break;
-            case PropertyType.AgainstDamage:
-                characterModel.attributes.Skill.AgainstDamage += value;
-                characterModel.attributes.LoadFinalAttributes();
+            case PropertyType.hungry:
+                characterModel.HungryChange(value);
                 break;
             default:
                 Debug.Log("unknown propertyType");

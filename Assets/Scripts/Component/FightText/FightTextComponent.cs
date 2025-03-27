@@ -15,7 +15,6 @@ public class FightTextComponent : MonoBehaviour
 
     public List<Vector2> sizeDeltaGroup = new List<Vector2>();
     public Bounds colliderBounds;
-    public RectTransform criticalImage;
     #region From FightTextInfo
     public string content;
     public TextAnimationType animationType;
@@ -25,7 +24,6 @@ public class FightTextComponent : MonoBehaviour
     public Transform cacheTranform;
     public double initializedVerticalPositionOffset;
     public double initializedHorizontalPositionOffset;
-    public bool isCritical;
     #endregion
 
     public double fadeCurveTime;
@@ -43,8 +41,6 @@ public class FightTextComponent : MonoBehaviour
         cacheTranform = fightTextInfo.cacheTranform;
         initializedHorizontalPositionOffset = fightTextInfo.initializedHorizontalPositionOffset;
         initializedVerticalPositionOffset = fightTextInfo.initializedVerticalPositionOffset;
-        isCritical = fightTextInfo.isCritical;
-        criticalImage.gameObject.SetActive(isCritical);
     }
     void Start()
     {
@@ -74,7 +70,6 @@ public class FightTextComponent : MonoBehaviour
         }
         RectTransform rectTransform = textFather.GetComponent<RectTransform>();
         LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
-        criticalImage.sizeDelta = rectTransform.sizeDelta;
     }
 
     public void ChangeAlpha(float alpha)

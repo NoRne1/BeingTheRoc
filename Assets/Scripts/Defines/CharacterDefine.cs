@@ -25,9 +25,7 @@ public enum JobType
      * "Name":"大红",
      * "MaxHP":300,
      * "Strength":20,
-     * "Defense":20,
-     * "Dodge":0,
-     * "Accuracy":0,
+     * "Magic":20,
      * "Speed":100,
      * "Mobility":2
      * "Energy":2
@@ -59,17 +57,9 @@ public class CharacterDefine
     /// </summary>
     public int Strength { get; set; }
     /// <summary>
-    /// 防御
+    /// 法力
     /// </summary>
-    public int Defense { get; set; }
-    /// <summary>
-    /// 闪避
-    /// </summary>
-    public int Dodge { get; set; }
-    /// <summary>
-    /// 命中
-    /// </summary>
-    public int Accuracy { get; set; }
+    public int Magic { get; set; }
     /// <summary>
     /// 角色行动速度
     /// </summary>
@@ -82,14 +72,10 @@ public class CharacterDefine
     /// 精力
     /// </summary>
     public int Energy { get; set; }
-    /// <summary>
-    /// 幸运
-    /// </summary>
-    public int Lucky { get; set; }
 
     public int MaxHPFloat { get; set; }
     public int StrengthFloat { get; set; }
-    public int DefenseFloat { get; set; }
+    public int MagicFloat { get; set; }
     public int SpeedFloat { get; set; }
 
     /// <summary>

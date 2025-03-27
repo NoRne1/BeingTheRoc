@@ -6,8 +6,6 @@ public enum AttackStatus
 {
     errorTarget = -1,
     normal = 0,
-    miss = 1,
-    critical = 2,
 }
 
 public class AttackDisplayResult 
