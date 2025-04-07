@@ -8,7 +8,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIBarPage : MonoBehaviour
+public class UIBarPage : UITownActionPage
 {
     public CollectCharacterLayer collectCharacterLayer;
     public CollectResultLayer collectResultLayer;
@@ -24,8 +24,9 @@ public class UIBarPage : MonoBehaviour
     private int dayLeft = -1;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         collectCharacterText.text = GameUtil.Instance.GetDisplayString("collect");
         collectCharacterLayer.collectButtonSubject.AsObservable().Subscribe(info=>{
             if (GameManager.Instance.otherProperty.currentCollectPlanInfo.Value == null)
@@ -106,6 +107,7 @@ public class UIBarPage : MonoBehaviour
             GameManager.Instance.otherProperty.currentCollectPlanInfo.OnNext(info);
             GameManager.Instance.otherProperty.collectCharacterTimer.OnNext(info.waitTime * 3);
             GameManager.Instance.FeatherCoinChanged(-info.price);
+            spentTime.OnNext(spentTime.Value + 1);
         }
         CloseCollectCharacterLayer();
     }
@@ -194,6 +196,7 @@ public class UIBarPage : MonoBehaviour
                     GameManager.Instance.AddCharacter(hint.Character);
                     hint.gameObject.SetActive(false);
                     UIManager.Instance.Close<UICharacterHint>();
+                    spentTime.OnNext(spentTime.Value + 1);
                 } else {
                     //钱不够买
                     UITip tip = UIManager.Instance.Show<UITip>();

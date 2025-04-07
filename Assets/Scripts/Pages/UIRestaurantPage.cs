@@ -4,15 +4,16 @@ using UnityEngine;
 using UniRx;
 using System.Linq;
 
-public class UIRestaurantPage : MonoBehaviour
+public class UIRestaurantPage : UITownActionPage
 {
     public List<StoreItemDefine> sellableItems;
     public List<UIFoodOption> foodOptions;
     public List<UICharacterHungryItem> characterHungryItems;
     private int timeLeft = -1;
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         this.sellableItems= DataManager.Instance.StoreItems.Values.Where(item => item.sellType == SellType.restaurant).ToList();
         timeLeft = GameManager.Instance.timeLeft.Value;
         foreach(var index in Enumerable.Range(0, foodOptions.Count))
@@ -50,8 +51,9 @@ public class UIRestaurantPage : MonoBehaviour
         
     }
 
-    void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         if(timeLeft != -1 && timeLeft != GameManager.Instance.timeLeft.Value)
         {
             timeLeft = GameManager.Instance.timeLeft.Value;
@@ -114,6 +116,7 @@ public class UIRestaurantPage : MonoBehaviour
             foodOptions[index].ItemSold(true);
             GameManager.Instance.FeatherCoinChanged(-actualPrice);
             GameManager.Instance.repository.AddItem(foodOptions[index].itemModel);
+            spentTime.OnNext(spentTime.Value + 1);
         }
     }
 }

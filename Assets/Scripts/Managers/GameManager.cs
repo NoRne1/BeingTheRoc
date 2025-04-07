@@ -290,7 +290,7 @@ public class GameManager : MonoSingleton<GameManager>
                 foreach (var index in Enumerable.Range(0, itemIDs.Count))
                 {
                     var battleItem = GlobalAccess.GetBattleItem(itemIDs[index]);
-                    int wheatConsume = timeChange * GlobalAccess.wheatConsumePerPeriod;
+                    int wheatConsume = timeChange * battleItem.attributes.hungryConsume;
                     battleItem.HungryChange(wheatConsume);
                 }
             } else 
@@ -299,7 +299,7 @@ public class GameManager : MonoSingleton<GameManager>
                 foreach (var index in Enumerable.Range(0, characterRelays.Count))
                 {
                     var cm = characterRelays[index].Value;
-                    int wheatConsume = timeChange * GlobalAccess.wheatConsumePerPeriod;
+                    int wheatConsume = timeChange * cm.attributes.hungryConsume;
                     cm.HungryChange(wheatConsume);
                 }
             }

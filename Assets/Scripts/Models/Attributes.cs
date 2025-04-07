@@ -10,6 +10,7 @@ public class Attributes
     public int remainExp { get { return exp - GlobalAccess.levelUpExp * level; } }
     public int exp = 0;
     public int maxPropertyPoints = 0;
+    public int hungryConsume = 25;
     private int remainPropertyPoints = 0;
     //初始值
     AttributeData Initial = new AttributeData();
@@ -67,7 +68,7 @@ public class Attributes
         }
         set 
         {
-            dynamicAttr.currentHP = Math.Max(0, Math.Min(MaxHP, value));
+            dynamicAttr.currentHungry = Math.Max(0, Math.Min(MaxHP, value));
         }
     }
     public int currentShield

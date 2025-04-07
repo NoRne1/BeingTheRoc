@@ -2,13 +2,61 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
+using System;
 
+public enum FiveElementsType
+{
+    None = -1,
+    Metal = 0,
+    Wood = 1,
+    Water = 2,
+    Fire = 3,
+    Earth = 4,
+    Multiple = 5,//混元
+}
+
+public class FiveElements
+{
+    public Dictionary<FiveElementsType, int> baseFiveElements = new Dictionary<FiveElementsType, int>();
+    public int multipleValue {
+        get
+        {
+            // 检查所有五个元素是否存在
+            if (!baseFiveElements.ContainsKey(FiveElementsType.Metal) ||
+                !baseFiveElements.ContainsKey(FiveElementsType.Wood) ||
+                !baseFiveElements.ContainsKey(FiveElementsType.Water) ||
+                !baseFiveElements.ContainsKey(FiveElementsType.Fire) ||
+                !baseFiveElements.ContainsKey(FiveElementsType.Earth))
+            {
+                return -1; // 如果有任何一个不存在，返回 -1
+            }
+
+            // 如果全部存在，计算最小值
+            int min = baseFiveElements[FiveElementsType.Metal];
+            min = Math.Min(min, baseFiveElements[FiveElementsType.Wood]);
+            min = Math.Min(min, baseFiveElements[FiveElementsType.Water]);
+            min = Math.Min(min, baseFiveElements[FiveElementsType.Fire]);
+            min = Math.Min(min, baseFiveElements[FiveElementsType.Earth]);
+
+            return min;
+        }
+    }
+    public FiveElements(){}
+    public FiveElements(int metal, int wood, int water, int fire, int earth)
+    {
+        baseFiveElements.Add(FiveElementsType.Metal, metal);
+        baseFiveElements.Add(FiveElementsType.Wood, wood);
+        baseFiveElements.Add(FiveElementsType.Water, water);
+        baseFiveElements.Add(FiveElementsType.Fire, fire);
+        baseFiveElements.Add(FiveElementsType.Earth, earth);
+    }
+}
 
 public class CharacterModel: IStorable
 {
     public Backpack backpack;
+    public FiveElements fiveElements;
     public Attributes attributes;
-
     public Subject<Unit> characterUpdate = new Subject<Unit>();
     private System.IDisposable equipDisposable;
     private System.IDisposable characterDisposable;
@@ -63,6 +111,7 @@ public class CharacterModel: IStorable
         Race = define.Race;
         Job = define.Job;
         Level = define.Level;
+        fiveElements = GameUtil.Instance.GetFiveElements();
         attributes = new Attributes(characterUpdate);
         attributes.Init(define);
         Resource = define.Resource;

@@ -32,8 +32,6 @@ class GlobalAccess
     public static float switchPageTime = 0.85f;
 
     public static int knockbackDirectDamage = 20;
-
-    public static int wheatConsumePerPeriod = 40;
     public static int hurtPerRemainConsume = 1;
     public static int forgeEnhancePrice = 200;
     public static int forgeMergePrice = 200;

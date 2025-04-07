@@ -2,6 +2,7 @@
     "0": {
         "ID": 0,
         "title": "wood_sword",
+        "elementsType": 1,
         "equipType": 2,
         "invokeType": 1,
         "equipClass": 0,
@@ -26,6 +27,7 @@
     "1": {
         "ID": 1,
         "title": "iron_sword",
+        "elementsType": 2,
         "equipType": 2,
         "invokeType": 1,
         "equipClass": 0,
@@ -50,6 +52,7 @@
     "2": {
         "ID": 2,
         "title": "magic_sword",
+        "elementsType": 3,
         "equipType": 3,
         "invokeType": 1,
         "equipClass": 0,
@@ -74,6 +77,7 @@
     "3": {
         "ID": 3,
         "title": "fast_shoes",
+        "elementsType": 4,
         "equipType": 1,
         "invokeType": 0,
         "equipClass": -1,
@@ -98,6 +102,7 @@
     "4": {
         "ID": 4,
         "title": "stab_shield",
+        "elementsType": 1,
         "equipType": 4,
         "invokeType": 0,
         "equipClass": -1,
@@ -122,6 +127,7 @@
     "5": {
         "ID": 5,
         "title": "arm_shield",
+        "elementsType": 1,
         "equipType": 4,
         "invokeType": 0,
         "equipClass": -1,
@@ -146,6 +152,7 @@
     "6": {
         "ID": 6,
         "title": "wood_shield",
+        "elementsType": 2,
         "equipType": 4,
         "invokeType": 0,
         "equipClass": -1,
@@ -170,6 +177,7 @@
     "7": {
         "ID": 7,
         "title": "long_arch",
+        "elementsType": 3,
         "equipType": 3,
         "invokeType": 1,
         "equipClass": -1,
@@ -194,6 +202,7 @@
     "8": {
         "ID": 8,
         "title": "wood_arch",
+        "elementsType": 4,
         "equipType": 2,
         "invokeType": 1,
         "equipClass": -1,
@@ -218,6 +227,7 @@
     "9": {
         "ID": 9,
         "title": "zhuge_bow",
+        "elementsType": 2,
         "equipType": 4,
         "invokeType": 1,
         "equipClass": -1,
@@ -242,6 +252,7 @@
     "10": {
         "ID": 10,
         "title": "multi_bow",
+        "elementsType": 3,
         "equipType": 1,
         "invokeType": 1,
         "equipClass": -1,
@@ -266,6 +277,7 @@
     "11": {
         "ID": 11,
         "title": "hand_bow",
+        "elementsType": 4,
         "equipType": 0,
         "invokeType": 1,
         "equipClass": -1,
@@ -290,6 +302,7 @@
     "12": {
         "ID": 12,
         "title": "shadow_charm",
+        "elementsType": -1,
         "equipType": 0,
         "invokeType": 0,
         "equipClass": -1,
@@ -314,6 +327,7 @@
     "13": {
         "ID": 13,
         "title": "exchange_charm",
+        "elementsType": -1,
         "equipType": 0,
         "invokeType": 1,
         "equipClass": -1,
@@ -338,6 +352,7 @@
     "14": {
         "ID": 14,
         "title": "silent_charm",
+        "elementsType": -1,
         "equipType": 0,
         "invokeType": 1,
         "equipClass": -1,
@@ -362,6 +377,7 @@
     "15": {
         "ID": 15,
         "title": "confine_charm",
+        "elementsType": -1,
         "equipType": 0,
         "invokeType": 1,
         "equipClass": -1,
@@ -386,6 +402,7 @@
     "16": {
         "ID": 16,
         "title": "thunder_charm",
+        "elementsType": -1,
         "equipType": 0,
         "invokeType": 1,
         "equipClass": -1,
@@ -410,6 +427,7 @@
     "17": {
         "ID": 17,
         "title": "energy_potion",
+        "elementsType": -1,
         "equipType": 0,
         "invokeType": 0,
         "equipClass": -1,
@@ -434,6 +452,7 @@
     "18": {
         "ID": 18,
         "title": "angry_potion",
+        "elementsType": -1,
         "equipType": 0,
         "invokeType": 0,
         "equipClass": -1,
@@ -458,6 +477,7 @@
     "19": {
         "ID": 19,
         "title": "混元剑坯",
+        "elementsType": 1,
         "equipType": 2,
         "invokeType": 1,
         "equipClass": 0,

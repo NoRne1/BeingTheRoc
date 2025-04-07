@@ -7,7 +7,7 @@ using System.Linq;
 using UnityEditor.UI;
 using TMPro;
 
-public class UIShopPage : MonoBehaviour
+public class UIShopPage : UITownActionPage
 {
     public Button shoperButton;
     public GameObject wheatPurchasePanel;
@@ -23,8 +23,9 @@ public class UIShopPage : MonoBehaviour
         this.sellableItems= DataManager.Instance.StoreItems.Values.Where(item => item.sellType == SellType.shop).ToList();
     }
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         GameManager.Instance.timeLeft.AsObservable().Subscribe(time =>
         {
             if (enabled)
@@ -46,8 +47,9 @@ public class UIShopPage : MonoBehaviour
         
     }
 
-    void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         itemsDispose.IfNotNull(dispose => { dispose.Dispose(); });
         if (MapManager.Instance.CurrentTownNode.model.shopInfo == null)
         {
@@ -193,6 +195,7 @@ public class UIShopPage : MonoBehaviour
             shopItems[index].ItemSold(true);
             GameManager.Instance.FeatherCoinChanged(-shopItems[index].info.realPrice);
             GameManager.Instance.repository.AddItem(shopItems[index].info);
+            spentTime.OnNext(spentTime.Value + 1);
         }
     }
 
@@ -257,6 +260,7 @@ public class UIShopPage : MonoBehaviour
             {
                 GameManager.Instance.FeatherCoinChanged(-amount * GlobalAccess.wheatSellPrice);
                 GameManager.Instance.WheatCoinChanged(amount);
+                spentTime.OnNext(spentTime.Value + 1);
             }
         }
     }

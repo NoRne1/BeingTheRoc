@@ -10,6 +10,7 @@ using UnityEngine;
 
 public class GameUtil : Singleton<GameUtil>
 {
+    private System.Random _random = new System.Random();
     public bool GetRandomRate(float rate)
     {
         return UnityEngine.Random.Range(0, 100.0f) < rate;
@@ -732,5 +733,16 @@ public class GameUtil : Singleton<GameUtil>
     public int GetTrulyFloatFactor(int factor)
     {
         return UnityEngine.Random.Range(-factor, factor);
+    }
+
+    public FiveElements GetFiveElements()
+    {
+        return new FiveElements(
+            _random.Next(0, 6),
+            _random.Next(0, 6),
+            _random.Next(0, 6),
+            _random.Next(0, 6),
+            _random.Next(0, 6)
+        );
     }
 }

@@ -6,7 +6,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIForgePage : MonoBehaviour
+public class UIForgePage : UITownActionPage
 {
     public List<Toggle> panelToggles;
     public Sprite selectedSprite;
@@ -14,8 +14,9 @@ public class UIForgePage : MonoBehaviour
     public UIForgeEnhancePanel enhancePanel;
     public UIForgeMergePanel mergePanel;
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         foreach(var index in Enumerable.Range(0, panelToggles.Count)) 
         {
             panelToggles[index].OnValueChangedAsObservable().Subscribe(selected => {
@@ -23,6 +24,8 @@ public class UIForgePage : MonoBehaviour
                 if(selected) { SwitchPanel(index); }
             }).AddTo(this);
         }
+        enhancePanel.SetSpentTime(spentTime);
+        mergePanel.SetSpentTime(spentTime);
     }
 
     // Update is called once per frame

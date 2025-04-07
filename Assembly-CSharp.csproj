@@ -59,7 +59,7 @@
     <UnityVersion>2022.3.4f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="/Users/norne/.vscode/extensions/visualstudiotoolsforunity.vstuc-1.1.0/Analyzers/Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="/Users/norne/.vscode/extensions/visualstudiotoolsforunity.vstuc-1.1.1/Analyzers/Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="/Applications/Unity/Hub/Editor/2022.3.4f1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll" />
     <Analyzer Include="/Applications/Unity/Hub/Editor/2022.3.4f1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
@@ -68,6 +68,7 @@
     <Compile Include="Assets/Scripts/UI/UISelectBattleItemsPanel.cs" />
     <Compile Include="Assets/Scripts/UI/UITownNode.cs" />
     <Compile Include="Assets/Scripts/Defines/SpecialItemDefine.cs" />
+    <Compile Include="Assets/Scripts/Pages/UIGamePage.cs" />
     <Compile Include="Assets/Scripts/UI/UIForgeEnhancePanel.cs" />
     <Compile Include="Assets/Scripts/Defines/EquipExtraEntryDefine.cs" />
     <Compile Include="Assets/Scripts/Pages/UIBarPage.cs" />
@@ -119,7 +120,6 @@
     <Compile Include="Assets/Scripts/Component/ObjectPool.cs" />
     <Compile Include="Assets/Scripts/Utilities/ShakeEffect.cs" />
     <Compile Include="Assets/Scripts/Defines/SoundDefine.cs" />
-    <Compile Include="Assets/Scripts/UI/UIGamePage.cs" />
     <Compile Include="Assets/Scripts/Managers/MapManager.cs" />
     <Compile Include="Assets/Scripts/Component/SpringMechanism.cs" />
     <Compile Include="Assets/Scripts/Models/BuffModel.cs" />
@@ -137,12 +137,15 @@
     <Compile Include="Assets/Scripts/UI/UISkillButton.cs" />
     <Compile Include="Assets/Scripts/Defines/GoodsDefine.cs" />
     <Compile Include="Assets/Scripts/UI/UICollectCharacterButton.cs" />
+    <Compile Include="Assets/Scripts/Component/FiveElementsPropertyDisplay.cs" />
     <Compile Include="Assets/Scripts/UI/UITreasureItem.cs" />
     <Compile Include="Assets/Scripts/Defines/BattleItem.cs" />
     <Compile Include="Assets/Scripts/UI/UIOptionsWindow.cs" />
+    <Compile Include="Assets/Scripts/Component/UITownActionPage.cs" />
     <Compile Include="Assets/Scripts/Defines/EquipDefine.cs" />
     <Compile Include="Assets/Scripts/Utilities/Extensions/DictionaryExtensions.cs" />
     <Compile Include="Assets/Scripts/UI/UICharacterItem.cs" />
+    <Compile Include="Assets/Scripts/Component/FiveElementsRadarChart.cs" />
     <Compile Include="Assets/Scripts/UI/UIMoveBarFirstItem.cs" />
     <Compile Include="Assets/Scripts/Utilities/BattleCommonMethods.cs" />
     <Compile Include="Assets/Scripts/Managers/BuffCenter.cs" />

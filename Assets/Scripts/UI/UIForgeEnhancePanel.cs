@@ -32,6 +32,13 @@ public class UIForgeEnhancePanel : MonoBehaviour
     private int enhanceNumToday = 0;
 
     private Dictionary<GeneralLevel, List<EquipExtraEntryDefine>> levelItems = new Dictionary<GeneralLevel, List<EquipExtraEntryDefine>>();
+
+    private BehaviorSubject<int> spentTime;
+    public void SetSpentTime(BehaviorSubject<int> spentTime)
+    {
+        this.spentTime = spentTime;
+    }
+    
     // Start is called before the first frame update
     void Awake()
     {
@@ -72,6 +79,7 @@ public class UIForgeEnhancePanel : MonoBehaviour
                 GameManager.Instance.FeatherCoinChanged(-GlobalAccess.forgeEnhancePrice);
                 enhanceItem.equipModel.AddExtraEntrys(GetEntrys(0.05f, 0.15f, 0.25f));
                 Setup(enhanceItem);
+                spentTime.OnNext(spentTime.Value + 1);
             }
         }).AddTo(this);
     }
@@ -158,7 +166,7 @@ public class UIForgeEnhancePanel : MonoBehaviour
             }
         }
     }
-
+    
     public void Setup(StoreItemModel enhanceItem)
     {
         this.enhanceItem = enhanceItem;

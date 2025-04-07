@@ -40,6 +40,12 @@ public class UIForgeMergePanel : MonoBehaviour
     public GameObject repository;
     private IDisposable collectButtonTextDisposable;
 
+    private BehaviorSubject<int> spentTime;
+    public void SetSpentTime(BehaviorSubject<int> spentTime)
+    {
+        this.spentTime = spentTime;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -66,6 +72,7 @@ public class UIForgeMergePanel : MonoBehaviour
             GameManager.Instance.otherProperty.currentMergeTaskInfo.OnNext(new MergeEquipInfo(mergeItemLeft.ID, mergeItemRight.ID, resultID));   
             GameManager.Instance.otherProperty.mergeTaskTimer.OnNext(3);
             ResetMergeSlot();
+            spentTime.OnNext(spentTime.Value + 1);
         }).AddTo(this);
         GameManager.Instance.otherProperty.currentMergeTaskInfo.DistinctUntilChanged().AsObservable()
             .CombineLatest(GameManager.Instance.otherProperty.mergeTaskTimer.DistinctUntilChanged().AsObservable(), (info, timer)=>(info, timer))
