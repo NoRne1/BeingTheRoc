@@ -15,6 +15,7 @@ public class EnermyModel: IStorable
     public CharacterDefine define;
     public List<FeatureDefine> features;
     public Attributes attributes;
+    public FiveElements fiveElements;
 
     //是否是支援
     public bool isSupport = false;
@@ -63,6 +64,7 @@ public class EnermyModel: IStorable
         Level = define.Level;
         attributes = new Attributes(enermyUpdate);
         attributes.Init(define);
+        fiveElements = GameUtil.Instance.GetFiveElements();
         Resource = define.Resource + "_enemy";
         Desc = define.Desc;
         backpack = new Backpack(uuid, 3, 3, enermyUpdate);
@@ -125,6 +127,7 @@ public class EnermyModel: IStorable
         item.Level = this.Level;
         item.attributes = GameUtil.Instance.DeepCopy(this.attributes);
         item.attributes.SetUpdateSubject(item.battleItemUpdate);
+        item.fiveElements = GameUtil.Instance.DeepCopy(this.fiveElements);
 
         item.attributes.Difficulty.MaxHP = (int)(this.attributes.MaxHP * (difficulty - 1));
         item.attributes.Difficulty.Strength = (int)(this.attributes.Strength * (difficulty - 1));

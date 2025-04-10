@@ -10,7 +10,8 @@ using UnityEngine.UI;
 public class UIPropertyPanel : MonoBehaviour
 {
     public Image jobIcon;
-    public TextMeshProUGUI jobDesc;
+    // public TextMeshProUGUI jobDesc;
+    public UIFiveElements fiveElements;
     public TextMeshProUGUI raceTitle;
     public List<UIFeatureItem> featureItems;
     public ToggleGroup toggleGroup;
@@ -62,7 +63,8 @@ public class UIPropertyPanel : MonoBehaviour
                 .AsObservable().TakeUntilDestroy(this).Subscribe(cm =>
                 {
                     jobIcon.overrideSprite = Resloader.LoadSprite(cm.Job.ToString(), ConstValue.jobIconsPath);
-                    jobDesc.text = GameUtil.Instance.GetDirectDisplayString(cm.Job.ToString());
+                    // jobDesc.text = GameUtil.Instance.GetDirectDisplayString(cm.Job.ToString());
+                    fiveElements.Setup(cm.fiveElements);
                     raceTitle.text = GameUtil.Instance.GetDirectDisplayString(cm.Race.ToString());
                     foreach(var index in Enumerable.Range(0, featureItems.Count))
                     {
@@ -97,7 +99,8 @@ public class UIPropertyPanel : MonoBehaviour
                 .AsObservable().TakeUntilDestroy(this).Subscribe(bi =>
                 {
                     jobIcon.overrideSprite = Resloader.LoadSprite(bi.Job.ToString(), ConstValue.jobIconsPath);
-                    jobDesc.text = GameUtil.Instance.GetDirectDisplayString(bi.Job.ToString());
+                    // jobDesc.text = GameUtil.Instance.GetDirectDisplayString(bi.Job.ToString());
+                    fiveElements.Setup(bi.fiveElements);
                     raceTitle.text = GameUtil.Instance.GetDirectDisplayString(bi.Race.ToString());
                     foreach(var index in Enumerable.Range(0, featureItems.Count))
                     {

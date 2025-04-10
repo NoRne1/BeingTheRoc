@@ -18,17 +18,24 @@ public enum FiveElementsType
 public class FiveElements
 {
     public Dictionary<FiveElementsType, int> baseFiveElements = new Dictionary<FiveElementsType, int>();
+    public bool isValid {
+        get
+        {
+            // 检查所有五个元素是否存在
+            return baseFiveElements.ContainsKey(FiveElementsType.Metal) &&
+                   baseFiveElements.ContainsKey(FiveElementsType.Wood) &&
+                   baseFiveElements.ContainsKey(FiveElementsType.Water) &&
+                   baseFiveElements.ContainsKey(FiveElementsType.Fire) &&
+                   baseFiveElements.ContainsKey(FiveElementsType.Earth);
+        }
+    }
     public int multipleValue {
         get
         {
             // 检查所有五个元素是否存在
-            if (!baseFiveElements.ContainsKey(FiveElementsType.Metal) ||
-                !baseFiveElements.ContainsKey(FiveElementsType.Wood) ||
-                !baseFiveElements.ContainsKey(FiveElementsType.Water) ||
-                !baseFiveElements.ContainsKey(FiveElementsType.Fire) ||
-                !baseFiveElements.ContainsKey(FiveElementsType.Earth))
+            if (!isValid)
             {
-                return -1; // 如果有任何一个不存在，返回 -1
+                return -1;
             }
 
             // 如果全部存在，计算最小值
@@ -232,6 +239,7 @@ public class CharacterModel: IStorable
         item.Level = this.Level;
         item.attributes = GameUtil.Instance.DeepCopy(this.attributes);
         item.attributes.SetUpdateSubject(item.battleItemUpdate);
+        item.fiveElements = GameUtil.Instance.DeepCopy(this.fiveElements);
         item.Resource = this.Resource;
         item.Desc = this.Desc;
         item.backpack = GameUtil.Instance.DeepCopy(this.backpack);

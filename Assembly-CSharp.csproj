@@ -123,6 +123,7 @@
     <Compile Include="Assets/Scripts/Managers/MapManager.cs" />
     <Compile Include="Assets/Scripts/Component/SpringMechanism.cs" />
     <Compile Include="Assets/Scripts/Models/BuffModel.cs" />
+    <Compile Include="Assets/Scripts/UI/UIFiveElements.cs" />
     <Compile Include="Assets/Scripts/UI/UITownPage.cs" />
     <Compile Include="Assets/Scripts/UI/UISkillSelect.cs" />
     <Compile Include="Assets/Scripts/UI/UIBattleItem.cs" />

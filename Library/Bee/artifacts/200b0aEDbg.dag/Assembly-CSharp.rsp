@@ -504,6 +504,7 @@
 "Assets/Scripts/UI/UIExitTriggle.cs"
 "Assets/Scripts/UI/UIExtraHint.cs"
 "Assets/Scripts/UI/UIFeatureItem.cs"
+"Assets/Scripts/UI/UIFiveElements.cs"
 "Assets/Scripts/UI/UIFoodOption.cs"
 "Assets/Scripts/UI/UIFoodProperty.cs"
 "Assets/Scripts/UI/UIForgeEnhancePanel.cs"

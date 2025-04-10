@@ -1679,6 +1679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Root: {fileID: 5000005953047673834}
+  prefabSize: {x: 0, y: 0}
   mainHint: {fileID: 7013289054129886227}
   equipRange: {fileID: 1592182876462357102}
   titleBorder: {fileID: 39092471683340864}

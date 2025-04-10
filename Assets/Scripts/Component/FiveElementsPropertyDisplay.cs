@@ -17,7 +17,7 @@ public class FiveElementsPropertyDisplay : MonoBehaviour
     private CanvasRenderer radarRenderer;
     private Vector2[] vertices = new Vector2[6]; // 5顶点+闭合点
 
-    void Start()
+    void Awake()
     {
         radarRenderer = GetComponent<CanvasRenderer>();
     }

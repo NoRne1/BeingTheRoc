@@ -35,6 +35,7 @@ public class BattleItem: IStorable
     public float remainActingDistance { get; set; }
     public string Desc { get; set; }
     public Attributes attributes;
+    public FiveElements fiveElements;
     public Backpack backpack;
     public BuffCenter buffCenter;
 

@@ -27,8 +27,6 @@ public class UIMainMenu : MonoBehaviour
     const float minDistance = 5.0f; // 最小间距（世界单位）
     const float timeInterval = 1.5f;
 
-    public FiveElementsPropertyDisplay propertyDisplay;
-
     void Awake()
     {
         DataManager.Instance.DataLoaded.AsObservable().TakeUntilDestroy(this).Subscribe(loaded =>
@@ -54,8 +52,6 @@ public class UIMainMenu : MonoBehaviour
         startGame.text = GameUtil.Instance.GetDisplayString("start_game");
         options.text = GameUtil.Instance.GetDisplayString("options");
         exit.text = GameUtil.Instance.GetDisplayString("exit");
-        FiveElements data = new FiveElements(8, 5, 2, 4, 7);
-        propertyDisplay.UpdateElements(data);
     }
 
     private void OnEnable()
