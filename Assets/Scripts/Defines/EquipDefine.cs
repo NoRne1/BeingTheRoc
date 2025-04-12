@@ -38,7 +38,7 @@ public enum EquipInvokeType
 public class EquipDefine
 {
     public int ID { get; set; }
-    public FiveElementsType elementsType { get; set; }
+    public FiveElementsType fiveElementsType { get; set; }
     public EquipType equipType { get; set; }
     public EquipInvokeType invokeType { get; set; }
     public EquipClass equipClass { get; set; }

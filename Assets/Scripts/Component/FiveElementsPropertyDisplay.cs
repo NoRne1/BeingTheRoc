@@ -82,11 +82,11 @@ public class FiveElementsPropertyDisplay : MonoBehaviour
             if (elementsData.baseFiveElements.TryGetValue(type, out int value))
             {
                 elementLabels[i].text = $"{value}";
-                elementLabels[i].color = elementColors[i];
+                // elementLabels[i].color = elementColors[i];
                 
-                // 定位标签到顶点位置
-                Vector2 pos = vertices[i] * 1.2f; // 外扩20%
-                elementLabels[i].rectTransform.anchoredPosition = pos;
+                // // 定位标签到顶点位置
+                // Vector2 pos = vertices[i] * 1.2f; // 外扩20%
+                // elementLabels[i].rectTransform.anchoredPosition = pos;
             }
         }
     }

@@ -12,7 +12,7 @@ public class EquipModel : EquipDefine
     public EquipModel(EquipDefine define)
     {
         ID = define.ID;
-        elementsType = define.elementsType;
+        fiveElementsType = define.fiveElementsType;
         equipType = define.equipType;
         invokeType = define.invokeType;
         equipClass = define.equipClass;

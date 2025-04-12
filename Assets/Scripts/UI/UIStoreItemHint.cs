@@ -8,6 +8,7 @@ using System.Linq;
 public class UIStoreItemHint : UIHintBase
 {
     public RectTransform mainHint;
+    public Image fiveElementsIcon;
     public UIEquipRange equipRange;
     public Image titleBorder;
     public TextMeshProUGUI title;
@@ -41,6 +42,7 @@ public class UIStoreItemHint : UIHintBase
         Setup((StoreItemDefine)item);
         if (item.equipModel != null)
         {
+            SetFiveElements(item.equipModel.fiveElementsType);
             foreach (var index in Enumerable.Range(0, entrys.Count))
             {
                 if (index < item.equipModel.extraEntryModels.Count)
@@ -64,6 +66,7 @@ public class UIStoreItemHint : UIHintBase
         if (item.type == ItemType.equip && DataManager.Instance.EquipDefines.ContainsKey(item.subID))
         {
             EquipDefine equipDefine = DataManager.Instance.EquipDefines[item.subID];
+            SetFiveElements(equipDefine.fiveElementsType);
             if (equipDefine.takeEnergy == 0)
             {
                 energyFather.gameObject.SetActive(false);
@@ -121,6 +124,40 @@ public class UIStoreItemHint : UIHintBase
     {
         UIExtraHint extraHint = Instantiate(extraHintPrefab, extraHintFather).GetComponent<UIExtraHint>();
         extraHint.Setup(desc);
+    }
+
+    public void SetFiveElements(FiveElementsType elementsType)
+    {
+        switch (elementsType)
+        {
+            case FiveElementsType.None:
+                fiveElementsIcon.gameObject.SetActive(false);
+                break;
+            case FiveElementsType.Fire:
+                fiveElementsIcon.sprite = Resloader.LoadSprite("fire_element_icon", ConstValue.equipFiveElementsPath);
+                fiveElementsIcon.gameObject.SetActive(true);
+                break;
+            case FiveElementsType.Water:
+                fiveElementsIcon.sprite = Resloader.LoadSprite("water_element_icon", ConstValue.equipFiveElementsPath);
+                fiveElementsIcon.gameObject.SetActive(true);
+                break;
+            case FiveElementsType.Earth:
+                fiveElementsIcon.sprite = Resloader.LoadSprite("earth_element_icon", ConstValue.equipFiveElementsPath);
+                fiveElementsIcon.gameObject.SetActive(true);
+                break;
+            case FiveElementsType.Metal:
+                fiveElementsIcon.sprite = Resloader.LoadSprite("metal_element_icon", ConstValue.equipFiveElementsPath);
+                fiveElementsIcon.gameObject.SetActive(true);
+                break;
+            case FiveElementsType.Wood:
+                fiveElementsIcon.sprite = Resloader.LoadSprite("wood_element_icon", ConstValue.equipFiveElementsPath);
+                fiveElementsIcon.gameObject.SetActive(true);
+                break;
+            case FiveElementsType.Multiple:
+                fiveElementsIcon.sprite = Resloader.LoadSprite("multiple_element_icon", ConstValue.equipFiveElementsPath);
+                fiveElementsIcon.gameObject.SetActive(true);
+                break;
+        }
     }
 }
 
