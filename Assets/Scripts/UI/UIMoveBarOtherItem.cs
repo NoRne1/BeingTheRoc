@@ -29,11 +29,14 @@ public class UIMoveBarOtherItem : MonoBehaviour
         remainActingTime.text = Mathf.CeilToInt(item.remainActingDistance / item.attributes.Speed).ToString();
         switch (item.type)
         {
-            case BattleItemType.player:
-                bg.overrideSprite = Resloader.LoadSprite("move_bar_other_blue_bg", ConstValue.moveBarPath);
-                break;
-            case BattleItemType.enemy:
-                bg.overrideSprite = Resloader.LoadSprite("move_bar_other_red_bg", ConstValue.moveBarPath);
+            case BattleItemType.character:
+                if (item.isPlayer)
+                {
+                    bg.overrideSprite = Resloader.LoadSprite("move_bar_other_blue_bg", ConstValue.moveBarPath);
+                } else if (item.isEnemy)
+                {
+                    bg.overrideSprite = Resloader.LoadSprite("move_bar_other_red_bg", ConstValue.moveBarPath);
+                }
                 break;
             case BattleItemType.sceneItem:
                 bg.overrideSprite = Resloader.LoadSprite("move_bar_other_grey_bg", ConstValue.moveBarPath);

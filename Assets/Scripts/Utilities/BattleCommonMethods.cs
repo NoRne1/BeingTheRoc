@@ -288,32 +288,21 @@ public static class BattleCommonMethods
     // 常规攻击（受属性影响，会暴击，触发特效)
     public static NormalAttackResult CalcNormalAttack(string casterID, List<string> targetIDs, StoreItemModel itemModel, int value, int attackTime = 1)
     {
-        int baseAccuracy = itemModel == null ? 100 : itemModel.equipModel.baseAccuracy;
-        EquipClass equipClass = itemModel == null ?  EquipClass.none : itemModel.equipModel.equipClass;
         var result = new NormalAttackResult(attackTime);
+        if (itemModel==null || itemModel.equipModel == null) { return result; }
+        EquipClass equipClass = itemModel.equipModel.equipClass;
         var battleItemManager = BattleManager.Instance.battleItemManager;
-        var self = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
+        var caster = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(casterID)).Value;
+        int property = itemModel.equipModel == null ? -1 : caster.GetFiveElementValue(itemModel.equipModel.fiveElementsType);
         foreach (var targetID in targetIDs)
         {
             var target = NorneStore.Instance.ObservableObject<BattleItem>(new BattleItem(targetID)).Value;
-            int[] Data = new int[(int)EquipClass.MAX];
-            Data[(int)equipClass] = GameManager.Instance.treasureManager.equipClassEffect.ContainsKey(equipClass) ?
-                GameManager.Instance.treasureManager.equipClassEffect[equipClass] : 0;
+            
             for (int index = 0; index < attackTime; index++)
             {
-                int damage = (int)((value + Data[(int)EquipClass.sword])
-                    * (1 + self.attributes.Strength / 100.0f)); //力量乘区
-
+                int damage = BattleCommonMethods.CalcDamage(value, caster.attributes.Strength, caster.attributes.Magic, itemModel.equipModel.fiveElementsType, property);
                 var targetItem = battleItemManager.pos_uibattleItemDic.Values.Where((item) => item.itemID == targetID).ToList().FirstOrDefault();
-
-                AttackStatus status;
-                if (!battleItemManager.HasBattleItem(targetID))
-                {
-                    status = AttackStatus.errorTarget;
-                } else
-                {
-                    status = AttackStatus.normal;  
-                } 
+                AttackStatus status = battleItemManager.HasBattleItem(targetID) ? AttackStatus.normal : AttackStatus.errorTarget;
                 var tempResult = new AttackDisplayResult(result.attackIdentifier, index, casterID, targetID, status, damage, 0, true, itemModel);
                 result.displayResults.Add(tempResult);
             }
@@ -374,6 +363,28 @@ public static class BattleCommonMethods
         if (battleItemManager.HasBattleItem(targetID))
         {
             battleItemManager.pos_uibattleItemDic[battleItemManager.id_posDic[targetID]].HPChange(value);
+        }
+    }
+
+    public static int CalcDamage(int baseDamage, int strength, int magic, FiveElementsType fiveElementsType, int property)
+    {
+        switch (fiveElementsType)
+        {
+            case FiveElementsType.Metal:
+            case FiveElementsType.Wood:
+            case FiveElementsType.Water:
+            case FiveElementsType.Fire:
+            case FiveElementsType.Earth:
+                return (int)(baseDamage
+                    * (1 + strength / 100.0f)
+                    * ((property / 20.0f + 0.7) * (1 + magic / 100.0f)));
+            case FiveElementsType.Multiple:
+                return (int)(baseDamage
+                    * (1 + strength / 100.0f)
+                    * ((property / 16.0f + 0.75) * (1 + magic / 100.0f)));
+            default:
+                return (int)(baseDamage
+                    * (1 + strength / 100.0f));
         }
     }
 }

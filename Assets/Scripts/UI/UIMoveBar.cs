@@ -60,8 +60,7 @@ public class UIMoveBar : MonoBehaviour
                         quitTimeItem.GetComponent<UIMoveBarDayItem>().Setup(battleItem);
                         quitTimeItem.transform.SetSiblingIndex(i);
                         break;
-                    case BattleItemType.player:
-                    case BattleItemType.enemy:
+                    case BattleItemType.character:
                     case BattleItemType.sceneItem:
                         GameObject otherItem = otherItemPool.GetObjectFromPool();
                         otherItem.GetComponent<UIMoveBarOtherItem>().Setup(battleItem);

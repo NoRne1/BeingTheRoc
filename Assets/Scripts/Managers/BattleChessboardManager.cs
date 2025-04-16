@@ -48,8 +48,20 @@ public class BattleChessboardManager
 
         currentPlaceIndex.AsObservable().TakeUntilDestroy(battleManager).Subscribe(index =>
         {
-            if (index < 0) { return; }
-            if (index >= battleManager.battleItemManager.playerItemIDs.Count)
+            if (index < 0) 
+            { 
+                return; 
+            } else if (index == 0)
+            {
+                //放置粮仓
+                placeBox.Setup(GlobalAccess.GetBattleItem(battleManager.battleItemManager.playerGranaryID).Resource);
+                placeBox.gameObject.SetActive(true);
+            } else if (index > 0 && index <= battleManager.battleItemManager.playerItemIDs.Count)
+            {
+                //放置参战角色
+                placeBox.Setup(GlobalAccess.GetBattleItem(battleManager.battleItemManager.playerItemIDs[currentPlaceIndex.Value-1]).Resource);
+                placeBox.gameObject.SetActive(true);
+            } else if (index > battleManager.battleItemManager.playerItemIDs.Count)
             {
                 //放置完成，回合正式开始
                 //需要手动把placebox隐藏
@@ -58,10 +70,7 @@ public class BattleChessboardManager
                 clickSlotReason = ClickSlotReason.viewBattleItem;
                 battleManager.roundManager.roundTime.OnNext((null, RoundTime.end));
                 currentPlaceIndex.OnNext(-1);
-                return;
             }
-            placeBox.Setup(GlobalAccess.GetBattleItem(battleManager.battleItemManager.playerItemIDs[currentPlaceIndex.Value]).Resource);
-            placeBox.gameObject.SetActive(true);
         });
 
         clickedSlot.AsObservable().TakeUntilDestroy(battleManager).Subscribe(slot =>
@@ -73,7 +82,7 @@ public class BattleChessboardManager
                     case ClickSlotReason.none:
                         break;
                     case ClickSlotReason.placeCharacter:
-                        PlaceCharacter(slot);
+                        PlaceBattleItem(slot);
                         break;
                     case ClickSlotReason.viewBattleItem:
                         if (battleManager.battleItemManager.HasBattleItem(slot))
@@ -109,15 +118,23 @@ public class BattleChessboardManager
         lastSelectedPos = Vector2.positiveInfinity;
     }
 
-    public void PlaceCharacter(UIChessboardSlot slot)
+    public void PlaceBattleItem(UIChessboardSlot slot)
     {
         if (battleManager.battleInfo.initPlaceSlots.Contains(slot.position))
         {
             if (!battleManager.battleItemManager.HasBattleItem(slot))
             {
-                //放置成功
-                PlaceBattleItem(battleManager.battleItemManager.playerItemIDs[currentPlaceIndex.Value], slot);
-                currentPlaceIndex.OnNext(currentPlaceIndex.Value + 1);
+                if(currentPlaceIndex.Value == 0)
+                {
+                    //放置成功
+                    PlaceBattleItem(battleManager.battleItemManager.playerGranaryID, slot);
+                    currentPlaceIndex.OnNext(currentPlaceIndex.Value + 1);
+                } else if (currentPlaceIndex.Value > 0 && currentPlaceIndex.Value <= battleManager.battleItemManager.playerItemIDs.Count)
+                {
+                    //放置成功
+                    PlaceBattleItem(battleManager.battleItemManager.playerItemIDs[currentPlaceIndex.Value - 1], slot);
+                    currentPlaceIndex.OnNext(currentPlaceIndex.Value + 1);
+                }
             }
             else
             {

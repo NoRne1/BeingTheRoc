@@ -12,7 +12,7 @@ public class TreasureManager
     private Timer timer;
     //item.ID not item.subID
     private Dictionary<int, (StoreItemModel, int)> treasures = new Dictionary<int, (StoreItemModel, int)>();
-    public Dictionary<EquipClass, int> equipClassEffect = new Dictionary<EquipClass, int>();
+    // public Dictionary<EquipClass, int> equipClassEffect = new Dictionary<EquipClass, int>();
 
     public Subject<Unit> treasuresUpdate = new Subject<Unit>();
 
@@ -48,7 +48,7 @@ public class TreasureManager
     {
         battleDisposablePool.CleanDisposables();
         timer.Clean();
-        equipClassEffect.Clear();
+        // equipClassEffect.Clear();
     }
 
 
@@ -155,13 +155,13 @@ public class TreasureManager
     }
 
 
-    private void KingArrow(StoreItemModel item, int num, int value)
-    {
-        if (!equipClassEffect.ContainsKey(EquipClass.arch))
-        {
-            equipClassEffect.Add(EquipClass.arch, num * value);
-        }
-    }
+    // private void KingArrow(StoreItemModel item, int num, int value)
+    // {
+    //     if (!equipClassEffect.ContainsKey(EquipClass.arch))
+    //     {
+    //         equipClassEffect.Add(EquipClass.arch, num * value);
+    //     }
+    // }
 
     private void TreasureBowl(StoreItemModel item, int num, int value)
     {
@@ -183,7 +183,7 @@ public class TreasureManager
             .Where(round => {
                     var battleItem = GlobalAccess.GetBattleItem(round.Item1);
                     return round.Item2 == RoundTime.begin && BattleManager.Instance.roundManager.extraRound == 0 &&
-                    battleItem.type == BattleItemType.player;
+                    battleItem.isPlayer;
                 })
             .Subscribe(round =>
             {
@@ -193,11 +193,11 @@ public class TreasureManager
             }));
     }
 
-    private void SwordStone(StoreItemModel item, int num, int value)
-    {
-        if (!equipClassEffect.ContainsKey(EquipClass.sword))
-        {
-            equipClassEffect.Add(EquipClass.sword, num * value);
-        }
-    }
+    // private void SwordStone(StoreItemModel item, int num, int value)
+    // {
+    //     if (!equipClassEffect.ContainsKey(EquipClass.sword))
+    //     {
+    //         equipClassEffect.Add(EquipClass.sword, num * value);
+    //     }
+    // }
 }

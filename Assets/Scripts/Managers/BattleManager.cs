@@ -61,11 +61,11 @@ public class BattleManager : MonoSingleton<BattleManager>
         
         endRoundButton.buttonCheck = () => { 
             var currentBattleItem = GlobalAccess.GetBattleItem(battleItemManager.roundBattleItemIDs[0]);
-            return currentBattleItem.type == BattleItemType.player;
+            return currentBattleItem.isPlayer;
         };
-        endRoundButton.progressCheck = () => { 
+        endRoundButton.progressCheck = () => {
             var currentBattleItem = GlobalAccess.GetBattleItem(battleItemManager.roundBattleItemIDs[0]);
-            return (currentBattleItem.type == BattleItemType.player && currentBattleItem.attributes.currentEnergy > 0);
+            return (currentBattleItem.isPlayer && currentBattleItem.attributes.currentEnergy > 0);
         };
         endRoundButton.onProgressCompleteAction = () => {
             RoundEnd();
@@ -161,20 +161,20 @@ public class BattleManager : MonoSingleton<BattleManager>
         
     }
 
-    private void BattleInit(List<string> characterIDs, TownBattleInfoModel battleInfo)
+    private void BattleInit(int granaryOpacity, List<string> characterIDs, TownBattleInfoModel battleInfo)
     {
         GameUtil.Instance.DetachChildren(battleItemFather);
         roundManager.Init();
         moveBarManager.Init();
         chessboardManager.Init();
-        battleItemManager.Init(characterIDs, battleInfo);
+        battleItemManager.Init(granaryOpacity, characterIDs, battleInfo);
     }
 
-    public void StartBattle(List<string> characterIDs, TownBattleInfoModel battleInfo)
+    public void StartBattle(int granaryOpacity, List<string> characterIDs, TownBattleInfoModel battleInfo)
     {
         isInBattle = true;
         battleStartTimeLeft = GameManager.Instance.timeLeft.Value;
-        BattleInit(characterIDs, battleInfo);
+        BattleInit(granaryOpacity, characterIDs, battleInfo);
         
         this.battleInfo = battleInfo;
         
@@ -189,9 +189,9 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public void EnermySupport()
     {
-        if(battleItemManager.granaryItemID != "")
+        if(battleItemManager.enemyGranaryID != "")
         {
-            var granaryItem = GlobalAccess.GetBattleItem(battleItemManager.granaryItemID);
+            var granaryItem = GlobalAccess.GetBattleItem(battleItemManager.enemyGranaryID);
             if(granaryItem.attributes != null && granaryItem.attributes.currentHP > granaryItem.attributes.MaxHP / 2)
             {
                 //粮仓余量大于一半，则触发增援
@@ -234,7 +234,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public void EquipClicked(string uuid, UIEquipItem equipItem) {
         var battleItem0 = GlobalAccess.GetBattleItem(battleItemManager.roundBattleItemIDs[0]);
-        if (uuid == battleItem0.uuid && battleItem0.type == BattleItemType.player)
+        if (uuid == battleItem0.uuid && battleItem0.isPlayer)
         {
             //只处理正在行动的玩家角色的装备点击
             StartCoroutine(ItemUseManager.Instance.Use(uuid, equipItem.storeItem));
@@ -287,14 +287,21 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         //判断战斗结束
         var diedItem = GlobalAccess.GetBattleItem(uuid);
-        if (diedItem.type == BattleItemType.granary) 
+        if (diedItem.type == BattleItemType.granary && diedItem.side == BattleItemSide.enemy) 
         {
+            //敌方粮仓死亡，我方胜利
             ShowBattleEndPanel();
             return;
         }
         if (battleItemManager.enemyItemIDs.Count == 0) 
         {
             ShowBattleEndPanel();
+            return;
+        }
+        if (diedItem.type == BattleItemType.granary && diedItem.side == BattleItemSide.player) 
+        {
+            //我方粮仓死亡，敌方胜利
+            BattleEnd(false);
             return;
         }
         if (battleItemManager.playerItemIDs.Count == 0) 

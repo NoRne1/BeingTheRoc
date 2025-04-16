@@ -47,9 +47,7 @@ public class UIBattleItemInfo : MonoBehaviour
             {
                 switch (item.type)
                 {
-                    case BattleItemType.enemy:
-                    case BattleItemType.player:
-                    case BattleItemType.neutral:
+                    case BattleItemType.character:
                         hpSlider.maxValue = item.attributes.MaxHP;
                         shieldSlider.maxValue = item.attributes.MaxHP;
                         icon.overrideSprite = Resloader.LoadSprite(item.Resource, ConstValue.battleItemsPath);

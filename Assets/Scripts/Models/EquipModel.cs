@@ -21,7 +21,6 @@ public class EquipModel : EquipDefine
         takeEnergy = define.takeEnergy;
         equipResource = define.equipResource;
         // just for attack
-        baseAccuracy = define.baseAccuracy;
         effect1 = define.effect1;
         effect2 = define.effect2;
         effect3 = define.effect3;

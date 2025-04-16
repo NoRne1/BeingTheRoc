@@ -55,8 +55,8 @@ public class EnemyAI
         Debug.Log("TankAI TurnOnceAction");
         var selfItem = GlobalAccess.GetBattleItem(uuid);
         var selfPos = battleManager.battleItemManager.id_posDic[uuid];
-        var players = getBattleItems(BattleItemType.player);
-        var enemys = getBattleItems(BattleItemType.enemy);
+        var players = getBattleItems(BattleItemSide.player ,BattleItemType.character);
+        var enemys = getBattleItems(BattleItemSide.enemy ,BattleItemType.character);
         //totalThreatenDict
         Dictionary<Vector2, int> totalThreatenDict = new Dictionary<Vector2, int>();
         foreach (var player in players)
@@ -208,13 +208,13 @@ public class EnemyAI
         yield return null;
     }
 
-    public List<(Vector2, BattleItem)> getBattleItems(BattleItemType type)
+    public List<(Vector2, BattleItem)> getBattleItems(BattleItemSide side, BattleItemType type)
     {
         List<(Vector2, BattleItem)> playerItems = new List<(Vector2, BattleItem)>();
         battleManager.battleItemManager.battleItemIDs.ForEach(id =>
         {
             var battleItem = GlobalAccess.GetBattleItem(id);
-            if (battleItem.type == type && battleManager.battleItemManager.id_posDic.ContainsKey(id)) 
+            if (battleItem.side == side && battleItem.type == type && battleManager.battleItemManager.id_posDic.ContainsKey(id)) 
             {
                 playerItems.Add((battleManager.battleItemManager.id_posDic[id], battleItem));
             }

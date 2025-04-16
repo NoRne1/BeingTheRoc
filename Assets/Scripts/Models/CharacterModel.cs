@@ -232,7 +232,8 @@ public class CharacterModel: IStorable
     {
         BattleItem item = new BattleItem();
         item.uuid = this.uuid;
-        item.type = BattleItemType.player;
+        item.side = BattleItemSide.player;
+        item.type = BattleItemType.character;
         item.nameData = this.nameData;
         item.Race = this.Race;
         item.Job = this.Job;

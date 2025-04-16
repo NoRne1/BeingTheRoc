@@ -47,7 +47,6 @@ public class EquipDefine
     public int takeEnergy { get; set; }
     public string equipResource { get; set; }
     // just for attack
-    public int baseAccuracy { get; set; }
     public Effect effect1 { get; set; }
     public Effect effect2 { get; set; }
     public Effect effect3 { get; set; }

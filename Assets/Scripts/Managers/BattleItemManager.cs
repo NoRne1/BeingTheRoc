@@ -16,7 +16,8 @@ public class BattleItemManager
     public List<string> roundBattleItemIDs = new List<string>();
     public List<string> playerItemIDs = new List<string>();
     public List<string> enemyItemIDs = new List<string>();
-    public string granaryItemID = "";
+    public string playerGranaryID = "";
+    public string enemyGranaryID = "";
     public Dictionary<Vector2, UIBattleItem> pos_uibattleItemDic = new Dictionary<Vector2, UIBattleItem>();
     public Dictionary<string, Vector2> id_posDic = new Dictionary<string, Vector2>();
 
@@ -26,9 +27,10 @@ public class BattleItemManager
     {
         battleItemIDs.Add(item.uuid);
         if (item.attributes.Speed > 0) { roundBattleItemIDs.Add(item.uuid); }
-        if (item.type == BattleItemType.player) { playerItemIDs.Add(item.uuid); }
-        if (item.type == BattleItemType.enemy) { enemyItemIDs.Add(item.uuid); }
-        if (item.type == BattleItemType.granary) { granaryItemID = item.uuid; }
+        if (item.isPlayer) { playerItemIDs.Add(item.uuid); }
+        if (item.isEnemy) { enemyItemIDs.Add(item.uuid); }
+        if (item.type == BattleItemType.granary && item.side == BattleItemSide.player) { playerGranaryID = item.uuid; }
+        if (item.type == BattleItemType.granary && item.side == BattleItemSide.enemy) { enemyGranaryID = item.uuid; }
     }
 
     public void ClearItem() 
@@ -37,10 +39,10 @@ public class BattleItemManager
         roundBattleItemIDs.Clear();
         playerItemIDs.Clear();
         enemyItemIDs.Clear();
-        granaryItemID = "";
+        enemyGranaryID = "";
     }
     //战斗开始时初始化
-    public void Init(List<string> characterIDs, TownBattleInfoModel battleInfo)
+    public void Init(int granaryOpacity, List<string> characterIDs, TownBattleInfoModel battleInfo)
     {
         battleManager = BattleManager.Instance;
         this.battleInfo = battleInfo;
@@ -55,13 +57,21 @@ public class BattleItemManager
         GlobalAccess.SaveBattleItem(timeItem);
         AddItem(timeItem);
         //granary Item速度为0，不出现在行动条上
-        var granary = new BattleItem(BattleItemType.granary);
-        granary.BattleInit();
+        var playerGranary = new BattleItem(BattleItemType.granary);
+        playerGranary.side = BattleItemSide.player;
+        playerGranary.BattleInit();
+        playerGranary.attributes.UpdateInitMaxHP(granaryOpacity);
+        GlobalAccess.SaveBattleItem(playerGranary);
+        AddItem(playerGranary);
+
+        var enemyGranary = new BattleItem(BattleItemType.granary);
+        enemyGranary.side = BattleItemSide.enemy;
+        enemyGranary.BattleInit();
         //for test
-        granary.attributes.UpdateInitMaxHP((int)MathF.Min(5000, (difficultyFactor * 1000)));
-        GlobalAccess.SaveBattleItem(granary);
-        AddItem(granary);
-        battleManager.chessboardManager.PlaceBattleItem(granary.uuid, battleManager.chessBoard.slots[battleInfo.granaryPos]);
+        enemyGranary.attributes.UpdateInitMaxHP((int)MathF.Min(5000, (difficultyFactor * 1000)));
+        GlobalAccess.SaveBattleItem(enemyGranary);
+        AddItem(enemyGranary);
+        battleManager.chessboardManager.PlaceBattleItem(enemyGranary.uuid, battleManager.chessBoard.slots[battleInfo.granaryPos]);
 
         for (int i = 0; i < characterIDs.Count; i++)
         {

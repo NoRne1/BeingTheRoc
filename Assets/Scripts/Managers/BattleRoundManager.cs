@@ -71,24 +71,27 @@ public class BattleRoundManager
 
                 switch (battleItem0.type)
                 {
-                    case BattleItemType.player:
-                        battleManager.battleItemManager.pos_uibattleItemDic.FirstOrDefault(pair => {
-                            return pair.Value.itemID == battleItem0.uuid;
-                        }).IfNotNull(pair =>
+                    case BattleItemType.character:
+                        if (battleItem0.isPlayer)
                         {
-                            pair.Value.roundActive = true;
-                            // auto viewCharacter
-                            battleManager.chessboardManager.clickSlotReason = ClickSlotReason.viewBattleItem;
-                            battleManager.chessboardManager.clickedSlot.OnNext(battleManager.chessBoard.slots[pair.Key]);
-                        });
-                        break;
-                    case BattleItemType.enemy:
-                        battleManager.battleItemManager.pos_uibattleItemDic.FirstOrDefault(pair => {
-                            return pair.Value.itemID == battleItem0.uuid;
-                        }).IfNotNull(pair =>
+                            battleManager.battleItemManager.pos_uibattleItemDic.FirstOrDefault(pair => {
+                                return pair.Value.itemID == battleItem0.uuid;
+                            }).IfNotNull(pair =>
+                            {
+                                pair.Value.roundActive = true;
+                                // auto viewCharacter
+                                battleManager.chessboardManager.clickSlotReason = ClickSlotReason.viewBattleItem;
+                                battleManager.chessboardManager.clickedSlot.OnNext(battleManager.chessBoard.slots[pair.Key]);
+                            });
+                        } else if (battleItem0.isEnemy)
                         {
-                            pair.Value.roundActive = true;
-                        });
+                            battleManager.battleItemManager.pos_uibattleItemDic.FirstOrDefault(pair => {
+                                return pair.Value.itemID == battleItem0.uuid;
+                            }).IfNotNull(pair =>
+                            {
+                                pair.Value.roundActive = true;
+                            });
+                        }
                         break;
                     case BattleItemType.time:
                     case BattleItemType.quitTime:
@@ -113,28 +116,28 @@ public class BattleRoundManager
                 //battleItem0.buffCenter.TurnActing();
                 switch (battleItem0.type)
                 {
-                    case BattleItemType.player:
-                        if (!battleItem0.canActing)
+                    case BattleItemType.character:
+                        if (battleItem0.isPlayer)
                         {
-                            roundTime.OnNext((uuid, RoundTime.end));
-                            battleItem0.canActing = true;
-                            GlobalAccess.SaveBattleItem(battleItem0);
-                        }
-                        break;
-                    case BattleItemType.enemy:
-                        if (!battleItem0.canActing)
+                            if (!battleItem0.canActing)
+                            {
+                                roundTime.OnNext((uuid, RoundTime.end));
+                                battleItem0.canActing = true;
+                                GlobalAccess.SaveBattleItem(battleItem0);
+                            }
+                        } else if (battleItem0.isEnemy)
                         {
-                            roundTime.OnNext((uuid, RoundTime.end));
-                            battleItem0.canActing = true;
-                            GlobalAccess.SaveBattleItem(battleItem0);
+                            if (!battleItem0.canActing)
+                            {
+                                roundTime.OnNext((uuid, RoundTime.end));
+                                battleItem0.canActing = true;
+                                GlobalAccess.SaveBattleItem(battleItem0);
+                            }
+                            else
+                            {
+                                yield return battleManager.StartCoroutine(battleItem0.enemyAI.TurnAction(battleItem0.uuid));
+                            }
                         }
-                        else
-                        {
-                            yield return battleManager.StartCoroutine(battleItem0.enemyAI.TurnAction(battleItem0.uuid));
-                        }
-                        break;
-                    // todo BattleItemType.neutral RoundTime.acting
-                    case BattleItemType.neutral:
                         break;
                     case BattleItemType.time:
                         GameManager.Instance.TimeChanged(-1, true);
@@ -170,9 +173,7 @@ public class BattleRoundManager
 
                 switch (battleItem0.type)
                 {
-                    case BattleItemType.player:
-                    case BattleItemType.enemy:
-                    case BattleItemType.neutral:
+                    case BattleItemType.character:
                     case BattleItemType.sceneItem:
                         battleManager.battleItemManager.pos_uibattleItemDic.Values.First(item => { return item.itemID == battleItem0.uuid; }).roundActive = false;
                         break;

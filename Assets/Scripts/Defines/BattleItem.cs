@@ -4,16 +4,21 @@ using UniRx;
 using UnityEngine;
 using System.Linq;
 
-[Flags]
-public enum BattleItemType
+public enum BattleItemSide
 {
+    none = 0,
     player = 1,
     enemy = 2,
-    neutral = 4,
-    time = 8,
-    sceneItem = 16,
-    granary = 32,
-    quitTime = 64,
+    neutral = 3,
+}
+
+public enum BattleItemType
+{
+    character = 1,
+    granary = 2,
+    time = 3,
+    sceneItem = 4,
+    quitTime = 5,
 }
 
 public class BattleItem: IStorable
@@ -31,6 +36,7 @@ public class BattleItem: IStorable
     public JobType Job { get; set; }
     public GeneralLevel Level { get; set; }
     public string Resource { get; set; }
+    public BattleItemSide side { get; set; }
     public BattleItemType type { get; set; }
     public float remainActingDistance { get; set; }
     public string Desc { get; set; }
@@ -74,6 +80,25 @@ public class BattleItem: IStorable
     public Subject<Vector2> moveSubject = new Subject<Vector2>();
     public Subject<Unit> lastEnergyAttackSubject = new Subject<Unit>();
 
+    public bool isPlayer {
+        get
+        {
+            return type == BattleItemType.character && side == BattleItemSide.player;
+        }
+    }
+    public bool isEnemy {
+        get
+        {
+            return type == BattleItemType.character && side == BattleItemSide.enemy;
+        }
+    }
+    public bool isNeutral {
+        get
+        {
+            return type == BattleItemType.character && side == BattleItemSide.neutral;
+        }
+    }
+
     public BattleItem()
     {
         updateDisposable = battleItemUpdate.AsObservable().Subscribe(_ =>
@@ -92,21 +117,22 @@ public class BattleItem: IStorable
     {
         switch (type)
         {
-            case BattleItemType.player:
-            case BattleItemType.enemy:
-            case BattleItemType.neutral:
+            case BattleItemType.character:
                 updateDisposable = battleItemUpdate.AsObservable().Subscribe(_ =>
                 {
                     NorneStore.Instance.Update<BattleItem>(this, isFull: true);
                 });
+                this.side = BattleItemSide.none;
                 this.type = type;
                 break;
             case BattleItemType.sceneItem:
+                this.side = BattleItemSide.neutral;
                 this.type = type;
                 break;
             case BattleItemType.time:
             case BattleItemType.quitTime:
                 uuid = GameUtil.Instance.GenerateUniqueId();
+                this.side = BattleItemSide.none;
                 this.type = type;
                 attributes = new Attributes(battleItemUpdate);
                 attributes.UpdateInitSpeed(100);
@@ -115,6 +141,7 @@ public class BattleItem: IStorable
                 uuid = GameUtil.Instance.GenerateUniqueId();
                 this.nameData = new NameData(-1, "粮仓", "Granary", Gender.None);
                 this.Resource = "granary_icon";
+                this.side = BattleItemSide.none;
                 this.type = type;
                 attributes = new Attributes(battleItemUpdate);
                 attributes.UpdateInitSpeed(0);
@@ -152,9 +179,9 @@ public class BattleItem: IStorable
             } else {
                 var remainConsume = Mathf.Abs(change) - attributes.currentHungry;
                 attributes.currentHungry = 0;
-                switch (type)
+                switch (side)
                 {
-                    case BattleItemType.player:
+                    case BattleItemSide.player:
                         if (wheatCoin >= remainConsume)
                         {
                             GameManager.Instance.WheatCoinChanged(-remainConsume);
@@ -166,8 +193,8 @@ public class BattleItem: IStorable
                                 remainConsume2 * GlobalAccess.hurtPerRemainConsume);
                         }
                         break;
-                    case BattleItemType.enemy:
-                        BattleCommonMethods.ProcessDirectAttack("GOD", BattleManager.Instance.battleItemManager.granaryItemID, 
+                    case BattleItemSide.enemy:
+                        BattleCommonMethods.ProcessDirectAttack("GOD", BattleManager.Instance.battleItemManager.enemyGranaryID, 
                             remainConsume * GlobalAccess.hurtPerRemainConsume);
                         break;
                     default:
@@ -187,15 +214,10 @@ public class BattleItem: IStorable
     {
         switch (type)
         {
-            case BattleItemType.player:
-            case BattleItemType.enemy:
-            case BattleItemType.neutral:
+            case BattleItemType.character:
                 buffCenter = new BuffCenter(this.uuid, battleItemUpdate);
                 break;
-            case BattleItemType.sceneItem:
-            case BattleItemType.time:
-            case BattleItemType.quitTime:
-            case BattleItemType.granary:
+            default:
                 break;
         }
         this.attributes.BattleInit();
@@ -246,16 +268,30 @@ public class BattleItem: IStorable
     {
         this.attributes.Buff.Reset();
         this.attributes.LoadFinalAttributes();
-        switch (type) 
+        if (isPlayer)
         {
-            case BattleItemType.player:
-                var cm = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(uuid)).Value;
-                cm.attributes.currentHungry = this.attributes.currentHungry;
-                cm.attributes.currentHP = this.attributes.currentHP;
-                NorneStore.Instance.Update(cm, true);
-                break;
+            var cm = NorneStore.Instance.ObservableObject<CharacterModel>(new CharacterModel(uuid)).Value;
+            cm.attributes.currentHungry = this.attributes.currentHungry;
+            cm.attributes.currentHP = this.attributes.currentHP;
+            NorneStore.Instance.Update(cm, true);
+        }
+    }
+
+    public int GetFiveElementValue(FiveElementsType type)
+    {
+        switch(type)
+        {
+            case FiveElementsType.Metal:
+            case FiveElementsType.Wood:
+            case FiveElementsType.Water:
+            case FiveElementsType.Fire:
+            case FiveElementsType.Earth:
+                return fiveElements.baseFiveElements[type];
+            case FiveElementsType.Multiple:
+                return fiveElements.multipleValue;
             default:
-                break;
+                Debug.LogError("Five Element Type Error");
+                return 0;
         }
     }
 }

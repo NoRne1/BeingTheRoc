@@ -42,6 +42,8 @@ class GlobalAccess
     public static int wheatPrice = 2;
     public static int wheatSellPrice = 1;
 
+    public static int battleGranaryOpacity = 200;
+
     public static int subCharacterNum
     {
         get { return DataManager.Instance.Characters.Count - mainCharacterNum; }

@@ -101,7 +101,10 @@
         "merge_equip_no_money": "合成装备是个时间活，时间就是金钱，朋友",
         "level_up_in_battle": "在战斗中渡劫升级乃是兵家大忌",
         "sell_wheat_no_wheat": "地主家都没余粮了，你在卖神魔",
-        "start_battle_char_num_invalid": "你必须选择一到三个角色以进入战斗"
+        "start_battle_char_num_invalid": "你必须选择一到三个角色以进入战斗",
+        "battle_prepare_wheat_title": "带点路上吃",
+        "battle_prepare_character_title": "就决定是你们了！",
+        "start_battle_wheat_num_invalid": "你必须带点粮草以进入战斗"
     },
     "1": {
         "ID": 1,
@@ -205,6 +208,9 @@
         "merge_equip_no_money": null,
         "level_up_in_battle": null,
         "sell_wheat_no_wheat": null,
-        "start_battle_char_num_invalid": "You must select between 1 and 3 items to start the battle."
+        "start_battle_char_num_invalid": "You must select between 1 and 3 items to start the battle.",
+        "battle_prepare_wheat_title": null,
+        "battle_prepare_character_title": null,
+        "start_battle_wheat_num_invalid": "You must take some wheat to start the battle."
     }
 }
